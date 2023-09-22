@@ -1,0 +1,266 @@
+import React, { useEffect, useState } from 'react';
+import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
+import { auth, db } from '../firebase';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { Link, useNavigate } from 'react-router-dom';
+import '../styles/form.css';
+
+function Form1() {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [name, setName] = useState('');
+  const [department, setDepartment] = useState('');
+  const [designation, setDesignation] = useState('');
+  const [DOLpromotion, setDOLpromotion] = useState('');
+  const [address, setAddress] = useState('');
+  const [contact, setContact] = useState('');
+  const [email, setEmail] = useState('');
+  const [freshQualification, setFreshQualification] = useState('');
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        navigate('/login');
+      }
+    });
+    setLoading(false);
+    return unsubscribe;
+  }, []);
+
+  const fetchData = async (uid) => {
+    const docRef = doc(db, 'partA', uid);
+    getDoc(docRef)
+      .then((docSnap) => {
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setName(data.name);
+          setDepartment(data.department);
+          setDesignation(data.designation);
+          setDOLpromotion(data.DOLpromotion);
+          setAddress(data.address);
+          setContact(data.contact);
+          setEmail(data.email);
+          setFreshQualification(data.freshQualification);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    if (user) {
+      fetchData(user.uid);
+    }
+  }, [user]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const docRef = doc(db, 'partA', user.uid);
+    const data = {
+      name,
+      department,
+      designation,
+      DOLpromotion,
+      address,
+      contact,
+      email,
+      freshQualification,
+    };
+    await setDoc(docRef, data, { merge: true });
+    //navigate('/form2');
+  };
+
+  if (loading) {
+    return (
+      <Container>
+        <Row>
+          <Col md={{ span: 6, offset: 3 }}>
+            <h1>Loading...</h1>
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
+  if (error) {
+    return (
+      <Container>
+        <Row>
+          <Col md={{ span: 6, offset: 3 }}>
+            <Alert variant="danger">{error}</Alert>
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
+
+  return (
+    <Container>
+      <Row>
+      <Col md={3} className="form-navigation">
+    <h3>Form Navigation</h3>
+    <ul>
+      <li>
+        <Link to="/">Form 1</Link>
+      </li>
+      <li>
+        <span className="form2-subsection">Form 2</span>
+        <ul className="form2-subsection-list">
+          <li>
+            <Link to="/form2a" className="form2-subsection-link">Category A</Link>
+          </li>
+          <li>
+            <Link to="/form2b" className="form2-subsection-link">Category B</Link>
+          </li>
+          <li>
+            <Link to="/form2c" className="form2-subsection-link">Category C</Link>
+          </li>
+        </ul>
+      </li>
+      {/* Add more form links as needed */}
+    </ul>
+  </Col>
+        <Col md={6}>
+          <h1>Part A: General Information</h1>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3" controlId="name">
+            <Row>
+          <Col md={3} className="form-label">
+            <Form.Label>Name</Form.Label>
+          </Col>
+          <Col md={9}>
+            <Form.Control
+              type="text"
+              placeholder="Enter Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </Col>
+        </Row>
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="department">
+              <Row>
+                <Col md={3} className="form-label">
+              <Form.Label>Department</Form.Label>
+              </Col>
+              <Col md={9}>
+              <Form.Control
+                as="select"
+                value={department}
+                onChange={(e) => setDepartment(e.target.value)}
+              >
+                <option value="comps">Computer Engineering</option>
+                <option value="aids">Artificial Intelligence & Data Science</option>
+                <option value="it">Information Technology</option>
+                <option value="extc">Electronics & Telecommunication Engineering</option>
+              </Form.Control>
+              </Col>
+              </Row>
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="designation">
+            <Row>
+                <Col md={3} className="form-label">
+              <Form.Label>Designation</Form.Label>
+              </Col>
+              <Col md={9}>
+              <Form.Control
+                type="text"
+                placeholder="Enter designation"
+                value={designation}
+                onChange={(e) => setDesignation(e.target.value)}
+              />
+              </Col>
+              </Row>
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="DOLpromotion">
+            <Row>
+                <Col md={3} className="form-label">
+              <Form.Label>Date of last promotion</Form.Label>
+              </Col>
+              <Col md={9}>
+              <Form.Control
+                type="date"
+                placeholder="Enter date of last promotion"
+                value={DOLpromotion}
+                onChange={(e) => setDOLpromotion(e.target.value)}
+              />
+              </Col>
+              </Row>
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="address">
+            <Row>
+                <Col md={3} className="form-label">
+              <Form.Label>Address</Form.Label>
+              </Col>
+              <Col md={9}>
+              <Form.Control
+                type="text"
+                placeholder="Enter address"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+              />
+              </Col>
+              </Row>
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="contact">
+            <Row>
+                <Col md={3} className="form-label">
+              <Form.Label>Contact</Form.Label>
+              </Col>
+              <Col md={9}>
+              <Form.Control
+                type="text"
+                placeholder="Enter contact"
+                value={contact}
+                onChange={(e) => setContact(e.target.value)}
+              />
+              </Col>
+              </Row>
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="email">
+            <Row>
+                <Col md={3} className="form-label">
+              <Form.Label>Email</Form.Label>
+              </Col>
+              <Col md={9}>
+              <Form.Control
+                type="email"
+                placeholder="Enter email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              </Col>
+              </Row>
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="freshQualification">
+            <Row>
+                <Col md={3} className="form-label">
+              <Form.Label>Fresh Qualification</Form.Label>
+              </Col>
+              <Col md={9}>
+              <Form.Control
+                type="text"
+                placeholder="Enter fresh qualification"
+                value={freshQualification}
+                onChange={(e) => setFreshQualification(e.target.value)}
+              />
+              </Col>
+              </Row>
+            </Form.Group>
+            <Button variant="primary" type="submit">
+              <Link to="/form2a" className="text-decoration-none text-white">
+                Next
+              </Link>
+            </Button>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
+  );
+}
+
+export default Form1;

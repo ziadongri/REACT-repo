@@ -5,6 +5,10 @@ import LoginScreen from './screens/LoginScreen'
 import {auth} from './firebase'
 import {signOut } from 'firebase/auth'
 import HomeScreen from './screens/HomeScreen'
+import Form1 from './screens/Form1'
+import Form2A from './screens/Form2A'
+import Form2B from './screens/Form2B'
+import Form2C from './screens/Form2C'
 
 function App() {
   const [isAuth, setIsAuth] = useState(false)
@@ -59,8 +63,11 @@ function App() {
         </Container>
       </Navbar>
       <Routes>
-        <Route path="/" element={<HomeScreen />} />
+        <Route path="/" element={<Form1 />} />
         <Route path="/login" element={<LoginScreen setIsAuth={setIsAuth} />} />
+        <Route path="/form2a" element={<Form2A />} />
+        <Route path="/form2b" element={<Form2B />} />
+        <Route path="/form2c" element={<Form2C />} />
       </Routes>
     </Router>
 
