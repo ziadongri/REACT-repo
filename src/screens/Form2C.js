@@ -213,10 +213,35 @@ useEffect(() => {
     }
 
     return(
-      <div>
+      
+         <Container fluid>
+      <Row>
+      <Col md={2} className="form-navigation">
+    <h3>Form Navigation</h3>
+    <ul>
+      <li>
+        <Link to="/">Part A</Link>
+      </li>
+      <li>
+        <span className="form2-subsection">Part B</span>
+        <ul className="form2-subsection-list">
+          <li>
+            <Link to="/form2a" className="form2-subsection-link">Category A</Link>
+          </li>
+          <li>
+            <Link to="/form2b" className="form2-subsection-link">Category B</Link>
+          </li>
+          <li>
+            <Link to="/form2c" className="form2-subsection-link">Category C</Link>
+          </li>
+        </ul>
+      </li>
+      {/* Add more form links as needed */}
+    </ul>
+  </Col>
+  <Col md={9}>
 
-        <h1>Category 3</h1>
-        <h4>Assessment must be based on evidence produced by the teacher such as: copy of publications, project sanction letter, utilization and completion certificates issued by the University and acknowledgements for patent filing and approval letters, students’ Ph.D. award letter, etc.</h4>
+        <h1>Category III: (Assessment must be based on evidence produced by the teacher such as: copy of publications, project sanction letter, utilization and completion certificates issued by the University and acknowledgements for patent filing and approval letters, students’ Ph.D. award letter, etc.)</h1>
         <Form onSubmit={handleSubmit}></Form>
 
         <Table striped bordered hover>
@@ -303,16 +328,18 @@ useEffect(() => {
 
             <tr>
               <td></td>
-              <td>Evaluation Criteria:
-              1.	Refereed Journals
-              •	SCI –- 40 / publication
-              •	ESCI –- 30 / publication
-              •	SCOPUS–- 20 / publication
-              •	UGC CARE –- 15/ publication
-              2.	Non-refereed but recognized and reputable journals and periodicals, having ISBN/ISSN numbers –-- 10 / publication
-              3.	Conference proceedings as full papers, etc. (Abstracts not to be included) –- 10/publication
-              4.	Guide or mentor of the faculty gets 40% of the total points
+              <td colspan="2"><Col>Evaluation Criteria:</Col>
+              <Col>1. Refereed Journals</Col>
+              <Col>   • SCI –- 40 / publication</Col>
+              <Col>   • ESCI –- 30 / publication</Col>
+              <Col>   • SCOPUS –- 20 / publication</Col>
+              <Col>   • UGC CARE –- 15 / publication</Col>
+
+              <Col>2. Non-refereed but recognized and reputable journals and periodicals, having ISBN/ISSN numbers –- 10 / publication</Col>
+              <Col>3. Conference proceedings as full papers, etc. (Abstracts not to be included) –- 10 / publication</Col>
+              <Col>4. Guide or mentor of the faculty gets 40% of the total points</Col>
               </td>
+              
             </tr>
             </tbody>
         </Table>
@@ -415,24 +442,30 @@ useEffect(() => {
       }
       <tr>
             <td></td>
-              <td>Evaluation Criteria:
-            1.	Text or Reference Books Published by International Publishers with an established peer review system---
-            -50 /sole author; 10 /chapter in an edited book
-            2.	Subjects Books by National level publishers/State and Central Govt. Publications with	ISBN/ISSN numbers --25 /sole author, and 5/ chapter in edited books
-            3.	Subject Books by Other local publishers with ISBN/ISSN numbers --15 / sole author, and 3 / chapter inedited book
-            4.	Chapters in knowledge based volumes by Indian/National level publishers within/ISSN	numbers & with numbers of national &international directories-- 5 / Chapter
-            5.	Chapters contributed to edited knowledge based volumes published by International Publishers
-            ----10 /Chapter
-            6.	Chapters in knowledge based volumes by Indian/National level publishers with ISBN/ISSN numbers and with numbers of national and international directories --- 5 / Chapter
-            **API for joint publications is as follows:
-            5.	Guide or mentor of the faculty gets 40% of the total points
-            6.	Proceedings of conferences not considered as book (example springer conference series). Also one publication is considered only under a single category.
+              <td colspan="5">Evaluation Criteria:
+              <Col>1. Text or Reference Books Published by International Publishers with an established peer review system---- 50 /sole author; 10 /chapter in an edited book</Col>
+<Col>2. Subjects Books by National level publishers/State and Central Govt. Publications with ISBN/ISSN numbers ---25 /sole author, and 5/ chapter in edited books</Col>
+<Col>3. Subject Books by Other local publishers with ISBN/ISSN numbers --- 15 / sole author, and 3 / chapter in edited book</Col>
+<Col>4. Chapters in knowledge based volumes by Indian/National level publishers within/ISSN numbers & with numbers of national & international directories--- 5 / Chapter</Col>
+<Col>5. Chapters contributed to edited knowledge based volumes published by International Publishers
+- 10 /Chapter</Col>
+<Col>6. Chapters in knowledge based volumes by Indian/National level publishers with ISBN/ISSN numbers and with numbers of national and international directories ----5 / Chapter</Col>
+<Col>**API for joint publications is as follows:</Col>
+<Col>5. Guide or mentor of the faculty gets 40% of the total points</Col>
+<Col>6. Proceedings of conferences not considered as a book (example springer conference series). Also one publication is considered only under a single category.</Col>
+
               </td>
       </tr>
-      <Button variant="primary" onClick={handleAddResearchArticle}>
-                Add Research Article
-              </Button>
       </Table>
+      <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Button variant="primary" onClick={handleAddResearchArticle}>
+            <Link className="text-decoration-none text-white">Add Research Article</Link>
+          </Button>
+          </Col>
+          </Row>
+          </div>
 
       <Table striped bordered hover>
         <thead>
@@ -514,21 +547,29 @@ useEffect(() => {
       }
       <tr>
         <td></td>
-        <td>Evaluation Criteria:  
-        a) Major Projects amount mobilized with grants above 20.0 lakhs 30points
-        a)	Major Projects amount mobilized with grants above 5.0 lakhs 20points
-        b)	Major Projects Amount mobilized with minimum of Rs. 3.00 lakhs up toRs. 5.00 lakhs 15points
-        c)	Minor Projects (Amount mobilized with grants above Rs. 25,000 up to Rs. 3 lakh 10 points d) Consultancy Projects amount mobilized with grants above 2.0 lakhs 10points
-        e)	Consultancy Projects completed-Major above 5 lakhs (Acceptance from funding agency) 20points
-        f)	Consultancy Projects completed- Minor below 3 lakhs (Acceptance from funding agency) 20points
-        g)	Projects Outcome /Outputs in the form of Patent/Technology transfer/ Product/Process 30 points at National and 50 at international level
-        h)	Need based projects of the college 10 point
+        <td colSpan="4"><Col>Evaluation Criteria:</Col>
+          <Col>a) Major Projects amount mobilized with grants above 20.0 lakhs 30 points</Col>
+<Col>a) Major Projects amount mobilized with grants above 5.0 lakhs 20 points</Col>
+<Col>b) Major Projects Amount mobilized with a minimum of Rs. 3.00 lakhs up to Rs. 5.00 lakhs 15 points</Col>
+<Col>c) Minor Projects (Amount mobilized with grants above Rs. 25,000 up to Rs. 3 lakh 10 points</Col>
+<Col>d) Consultancy Projects amount mobilized with grants above 2.0 lakhs 10 points</Col>
+<Col>e) Consultancy Projects completed-Major above 5 lakhs (Acceptance from the funding agency) 20 points</Col>
+<Col>f) Consultancy Projects completed- Minor below 3 lakhs (Acceptance from the funding agency) 20 points</Col>
+<Col>g) Projects Outcome /Outputs in the form of Patent/Technology transfer/ Product/Process 30 points at the National level and 50 at the international level</Col>
+<Col>h) Need-based projects of the college 10 points</Col>
+
       </td>
       </tr>
-      <Button variant="primary" onClick={handleAddResearchProjectON}>
-                Add Research Project (Ongoing)
-              </Button>
       </Table>
+      <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Button variant="primary" onClick={handleAddResearchProjectON}>
+            <Link className="text-decoration-none text-white">Add Research Project(Ongoing)</Link>
+          </Button>
+          </Col>
+          </Row>
+          </div>
 
       <Table striped bordered hover>
         <thead>
@@ -610,21 +651,28 @@ useEffect(() => {
       }
       <tr>
         <td></td>
-        <td>Evaluation Criteria:  
-        a) Major Projects amount mobilized with grants above 20.0 lakhs 30points
-        a)	Major Projects amount mobilized with grants above 5.0 lakhs 20points
-        b)	Major Projects Amount mobilized with minimum of Rs. 3.00 lakhs up toRs. 5.00 lakhs 15points
-        c)	Minor Projects (Amount mobilized with grants above Rs. 25,000 up to Rs. 3 lakh 10 points d) Consultancy Projects amount mobilized with grants above 2.0 lakhs 10points
-        e)	Consultancy Projects completed-Major above 5 lakhs (Acceptance from funding agency) 20points
-        f)	Consultancy Projects completed- Minor below 3 lakhs (Acceptance from funding agency) 20points
-        g)	Projects Outcome /Outputs in the form of Patent/Technology transfer/ Product/Process 30 points at National and 50 at international level
-        h)	Need based projects of the college 10 point
+        <td colSpan="4"><Col>Evaluation Criteria:</Col>
+          <Col>a) Major Projects amount mobilized with grants above 20.0 lakhs 30 points</Col>
+<Col>a) Major Projects amount mobilized with grants above 5.0 lakhs 20 points</Col>
+<Col>b) Major Projects Amount mobilized with a minimum of Rs. 3.00 lakhs up to Rs. 5.00 lakhs 15 points</Col>
+<Col>c) Minor Projects (Amount mobilized with grants above Rs. 25,000 up to Rs. 3 lakh 10 points</Col>
+<Col>d) Consultancy Projects amount mobilized with grants above 2.0 lakhs 10 points</Col>
+<Col>e) Consultancy Projects completed-Major above 5 lakhs (Acceptance from the funding agency) 20 points</Col>
+<Col>f) Consultancy Projects completed- Minor below 3 lakhs (Acceptance from the funding agency) 20 points</Col>
+<Col>g) Projects Outcome /Outputs in the form of Patent/Technology transfer/ Product/Process 30 points at the National level and 50 at the international level</Col>
+<Col>h) Need-based projects of the college 10 points</Col>
       </td>
       </tr>
-      <Button variant="primary" onClick={handleAddResearchProjectCOMP}>
-                Add Research Project (Completed)
-              </Button>
       </Table>
+      <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Button variant="primary" onClick={handleAddResearchProjectCOMP}>
+            <Link className="text-decoration-none text-white">Add Research Project (Completed) </Link>
+          </Button>
+          </Col>
+          </Row>
+          </div>
 
       <Table striped bordered hover>
         <thead>
@@ -693,17 +741,25 @@ useEffect(() => {
       }
       <tr>
         <td></td>
-        <td>Evaluation Criteria
-        M. Phil /ME	Degree awarded	–-5 /each candidate
-        Thesis submitted –-2 /each candidate
+        <td><Col>Evaluation Criteria:</Col>
+          <Col>M. Phil /ME     <Col>Degree awarded–5 /each candidate</Col>
+                               <Col>Thesis submitted–2 /each candidate</Col></Col>
 
-        PhD		Degree awarded	–-10 /each candidate Thesis submitted –-7 /each candidate
+          <Col>PhD              <Col>Degree awarded	–10 /each candidate</Col> 
+                                 <Col>Thesis submitted–7 /each candidate</Col></Col>
+
         </td>
       </tr>
-      <Button variant="primary" onClick={handleAddResearchGuidance}>
-                Add Research Guidance
-              </Button>
       </Table>
+      <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Button variant="primary" onClick={handleAddResearchGuidance}>
+            <Link className="text-decoration-none text-white">Add Research Guidance</Link>
+          </Button>
+          </Col>
+          </Row>
+          </div>
 
       <Table striped bordered hover>
         <thead>
@@ -768,17 +824,24 @@ useEffect(() => {
       }
       <tr>
         <td></td>
-        <td>Evaluation Criteria:
-        a.	courses (not less than three Weeks)/Workshops of not less than one week	20 /each event
-        b.	International conference/Seminar / Symposia	20 / each event
-        c.	National conference/Seminar / Symposia	10 / each event
-        d.	State level / university / college level conference/Seminar / Symposia	5 / each event
-        e.	Online courses of a four weeks duration or more	20pts (proof of successful completion to be submitted)</td>
+        <td><Col>Evaluation Criteria:</Col>
+          <Col>a. courses (not less than three Weeks)/Workshops of not less than one week 20 / each event</Col>
+<Col>b. International conference/Seminar / Symposia 20 / each event</Col>
+<Col>c. National conference/Seminar / Symposia	10 / each event</Col>
+<Col>d. State level / university / college level conference/Seminar / Symposia	5 / each event</Col>
+<Col>e. Online courses of a four weeks duration or more	20pts (proof of successful completion to be submitted)</Col>
+</td>
       </tr>
-      <Button variant="primary" onClick={handleAddTrainingCourse}>
-                Add Training Course
-              </Button>
       </Table>
+      <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Button variant="primary" onClick={handleAddTrainingCourse}>
+            <Link className="text-decoration-none text-white">Add Training Course</Link>
+          </Button>
+          </Col>
+          </Row>
+          </div>
 
       <Table striped bordered hover>
         <thead>
@@ -856,19 +919,25 @@ useEffect(() => {
     }
     <tr>
       <td></td>
-      <td>*Level – write I for International, N for National, S for state, R for regional, C for college or University
-      Evaluation Criteria:
-      Participation and Presentation of research papers (oral/poster) in
-      a)	International / Foreign conference etc.,---10/ each
-      b)	National	–-7.5 / each
-      c)	Regional/State level	–-5/ each
-      d)	Local – University/College level	3/each
-      one publication is considered only under a single categor</td>
+      <td colSpan="4"><Col>*Level – write I for International, N for National, S for state, R for regional, C for college or University</Col>
+      <Col>Evaluation Criteria:</Col>
+      <Col>Participation and Presentation of research papers (oral/poster) in</Col>
+      <Col>a)	International / Foreign conference etc.,---10/ each</Col>
+      <Col>b)	National	–-7.5 / each</Col>
+      <Col>c)	Regional/State level	–-5/ each</Col>
+      <Col>d)	Local – University/College level	3/each</Col>
+      <Col>one publication is considered only under a single categor</Col></td>
     </tr>
-    <Button variant="primary" onClick={handleAddPaperPresentConference}>
-                Add Paper Present Conference
-              </Button>
     </Table>
+    <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Button variant="primary" onClick={handleAddPaperPresentConference}>
+            <Link className="text-decoration-none text-white">Add Paper Present Conference</Link>
+          </Button>
+          </Col>
+          </Row>
+          </div>
  
     <Table striped bordered hover>
         <thead>
@@ -946,16 +1015,22 @@ useEffect(() => {
       }
       <tr>
         <td></td>
-        <td>Evaluation Criteria:
-        a)	International / Foreign conference etc.,---10/ each
-        b)	National	–-7.5 / each
-        c)	Regional/State level/local	–-5/ each
+        <td><Col>Evaluation Criteria:</Col>
+        <Col>a)	International / Foreign conference etc.,---10/ each</Col>
+        <Col>b)	National	–-7.5 / each</Col>
+        <Col>c)	Regional/State level/local	–-5/ each</Col>
 </td>
       </tr>
-      <Button variant="primary" onClick={handleAddInvitedLecture}>
-                Add Invited Lecture
-              </Button>
       </Table>
+      <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Button variant="primary" onClick={handleAddInvitedLecture}>
+            <Link className="text-decoration-none text-white">Add Invited Lecture</Link>
+          </Button>
+          </Col>
+          </Row>
+          </div>
 
       <Table striped bordered hover>
         <thead>
@@ -1033,39 +1108,54 @@ useEffect(() => {
       }
       <tr>
         <td></td>
-        <td>Evaluation Criteria:
-        Discipline specific Awards:
-        1.	Awards by Foreign Universities,AccreditedInternational Bodies-	--50 /each
-        2.
-        3.	By national bodies like by UGC,CSIR, DST, DBT, ICAR & other Government bodies and Professional Academies like Bhatnagar Award etc.	–- 50 /each
-        4.	State level/university level	–-	20 /eachd) Regional / local		–- 10 /each
-        Honours/ Recognitions
-        a.	Foreign countries Governments and International bodies like UNESCO etc. –--50 /each
-        b.	National like Padma Sri etc.	–-- 50 /each
-        c.	State level/university level	–-- 20 /each
-        d.	Regional / local by GO/NGOs/Rotary/Lions etc.,	5 /each
-        e.	Professional Subject Based associations	–-- 5 /each
-        Fellowship Titles
-        a.	Foreign universities/bodies like FRCP, FRCS etc.,	50 /each
-        b.	Indian Science and other Academies like Fellow of Indian National Science Academy FNA, FNASC, FAMS etc.,	50 /each
-        c.	Discipline specific National level Associations	10 /each
-        Post-doctoral degrees
-        d.	D.Sc from an university based on post-doctoral thesis	50 /each</td>
+        <td><Col>Evaluation Criteria:</Col>
+        <Col>Discipline specific Awards:</Col>
+        <Col>1.	Awards by Foreign Universities,AccreditedInternational Bodies-	--50 /each</Col>
+        
+        <Col>2.	By national bodies like by UGC,CSIR, DST, DBT, ICAR & other Government bodies and Professional Academies like Bhatnagar Award etc.	–- 50 /each</Col>
+        <Col>3.	State level/university level	–-	20 /eachd) Regional / local		–- 10 /each</Col>
+        <br/>
+        <Col>Honours/ Recognitions</Col>
+        <Col>a.	Foreign countries Governments and International bodies like UNESCO etc. –--50 /each</Col>
+        <Col>b.	National like Padma Sri etc.	–-- 50 /each</Col>
+        <Col>c.	State level/university level	–-- 20 /each</Col>
+        <Col>d.	Regional / local by GO/NGOs/Rotary/Lions etc.,	5 /each</Col>
+        <Col>e.	Professional Subject Based associations	–-- 5 /each</Col>
+        <br/>
+        <Col>Fellowship Titles</Col>
+        <Col>a.	Foreign universities/bodies like FRCP, FRCS etc.,	50 /each</Col>
+        <Col>b.	Indian Science and other Academies like Fellow of Indian National Science Academy FNA, FNASC, FAMS etc.,	50 /each</Col>
+        <Col>c.	Discipline specific National level Associations	10 /each</Col>
+        <Col>Post-doctoral degrees</Col>
+        <Col>d.	D.Sc from an university based on post-doctoral thesis	50 /each</Col></td>
       </tr>
-      <Button variant="primary" onClick={handleAddAward}>
-                Add Award
-              </Button>
       </Table>
+      <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Button variant="primary" onClick={handleAddAward}>
+            <Link className="text-decoration-none text-white">Add Award</Link>
+          </Button>
+          </Col>
+          </Row>
+          </div>
 
       <p>*If a paper presented in Conference/Seminar is published in the form of Proceedings, the points would accrue for the publication (III(a) and not under presentation (III(e)(ii)).</p>
        
-      <div className='text-center'>
+      <div className='text-center mb-4'>
         <Row>
           
           <Col>
             <Button variant="primary" >
             <Link to="/form2b" className="text-decoration-none text-white">
                 Previous
+              </Link>
+            </Button>
+          </Col>
+          <Col>
+            <Button variant="primary" type="submit" onClick={handleSubmit}>
+              <Link className="text-decoration-none text-white">
+                Save
               </Link>
             </Button>
           </Col>
@@ -1079,8 +1169,9 @@ useEffect(() => {
         </Row>
           </div>
           {/* <Link to="/form2" className="btn btn-primary ms-2">Next</Link> */}
-        
-      </div>
+        </Col>
+      </Row>
+    </Container>
     )}
 
 export default Form2C

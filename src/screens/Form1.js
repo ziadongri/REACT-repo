@@ -99,16 +99,16 @@ function Form1() {
   }
 
   return (
-    <Container>
+    <Container fluid>
       <Row>
-      <Col md={3} className="form-navigation">
+      <Col md={2} className="form-navigation">
     <h3>Form Navigation</h3>
     <ul>
       <li>
-        <Link to="/">Form 1</Link>
+        <Link to="/">Part A</Link>
       </li>
       <li>
-        <span className="form2-subsection">Form 2</span>
+        <span className="form2-subsection">Part B</span>
         <ul className="form2-subsection-list">
           <li>
             <Link to="/form2a" className="form2-subsection-link">Category A</Link>
@@ -127,7 +127,7 @@ function Form1() {
         <Col md={6}>
           <h1>Part A: General Information</h1>
           <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="name">
+            <Form.Group className="mb-3 align-item-center" controlId="name">
             <Row>
           <Col md={3} className="form-label">
             <Form.Label>Name</Form.Label>
@@ -213,10 +213,13 @@ function Form1() {
               </Col>
               <Col md={9}>
               <Form.Control
-                type="text"
+                type="tel"
                 placeholder="Enter contact"
                 value={contact}
                 onChange={(e) => setContact(e.target.value)}
+                pattern='[0-9]{10}'
+                minLength={10}
+                maxLength={10}
               />
               </Col>
               </Row>
@@ -251,12 +254,30 @@ function Form1() {
               </Col>
               </Row>
             </Form.Group>
-            <Button variant="primary" type="submit">
+            {/* <Button variant="primary" type="submit">
               <Link to="/form2a" className="text-decoration-none text-white">
                 Next
               </Link>
-            </Button>
+            </Button> */}
           </Form>
+          <div className="text-center">
+            <Row>
+            <Col>
+            <Button variant="primary" type="submit" onClick={handleSubmit}>
+              <Link className="text-decoration-none text-white">
+                Save
+              </Link>
+            </Button>
+          </Col>
+              <Col>
+                <Button variant="primary" type="submit">
+                  <Link to="/form2a" className="text-decoration-none text-white">
+                    Next
+                  </Link>
+                </Button>
+              </Col>
+            </Row>
+            </div>
         </Col>
       </Row>
     </Container>

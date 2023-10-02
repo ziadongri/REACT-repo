@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {Link, HashRouter as Router, Route, Routes} from 'react-router-dom'
-import { Container, Nav, Navbar } from 'react-bootstrap'
+import { Container, Nav, Navbar, Row, Col } from 'react-bootstrap'
 import LoginScreen from './screens/LoginScreen'
 import {auth} from './firebase'
 import {signOut } from 'firebase/auth'
@@ -9,6 +9,7 @@ import Form1 from './screens/Form1'
 import Form2A from './screens/Form2A'
 import Form2B from './screens/Form2B'
 import Form2C from './screens/Form2C'
+import Wave from 'react-wavify'
 
 function App() {
   const [isAuth, setIsAuth] = useState(false)
@@ -62,6 +63,22 @@ function App() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      <Wave fill='#A02929'
+        paused={false}
+        options={{
+          height: 20,
+          amplitude: 20,
+          speed: 0.15,
+          points: 3
+        }}
+      />
+      <Container>
+      <Row>
+        <Col>
+         <h1 className="text-center"> Performa for Annual Self-Assessment of Faculty based on Performance Based Appraisal System Year 2022 to 2023 </h1>
+        </Col>
+      </Row>
+      </Container>
       <Routes>
         <Route path="/" element={<Form1 />} />
         <Route path="/login" element={<LoginScreen setIsAuth={setIsAuth} />} />

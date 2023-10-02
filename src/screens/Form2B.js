@@ -84,16 +84,16 @@ function Form2B() {
   };
 
   return (
-    <Container>
+    <Container fluid>
       <Row>
-      <Col md={3} className="form-navigation">
+      <Col md={2} className="form-navigation">
     <h3>Form Navigation</h3>
     <ul>
       <li>
-        <Link to="/">Form 1</Link>
+        <Link to="/">Part A</Link>
       </li>
       <li>
-        <span className="form2-subsection">Form 2</span>
+        <span className="form2-subsection">Part B</span>
         <ul className="form2-subsection-list">
           <li>
             <Link to="/form2a" className="form2-subsection-link">Category A</Link>
@@ -110,8 +110,9 @@ function Form2B() {
     </ul>
   </Col>
         <Col md={9}>
-          <h1>Category 2</h1>
-          <h4>CO-CURRICULAR, EXTENSION AND PROFESSION RELATED ACTIVITIES</h4>
+        <h1>Part B: Academic Performance Indicators</h1>
+          
+          <h4>Category II: Co-Curricular, Extension and Profession related activities</h4>
 
           <Form onSubmit={handleSubmit}>
             <Table striped bordered hover>
@@ -128,19 +129,18 @@ function Form2B() {
                   <td>a.</td>
                   <td>
                     <Col>
-                      1. Contribution to Corporate life and management of
-                      Institution
-                      List yearly or semester-wise responsibilities
-                      1. Collaboration with Human Ventures Pvt. Ltd for project
-                      2. Collaboration with Schaeffler Technology Solution Ltd.
-                      for projects
-                      3. Collaboration with Matoshree NGO for projects
-                      4. Collaboration with SATCOM India Pvt. Ltd for Placements
-                      5. Reviewer for ICAST -22
-                      6. HoD(EXTC)
-                      7. Convener(one week FDP on Cyber Security & Forensics)
+                    <Col>Contribution to Corporate life and management of Institution- </Col>
+                    <Col>List yearly or semester-wise responsibilities</Col>
+                    <Col>1.Collaboration with Human Ventures Pvt. Ltd for project</Col>
+                    <Col>2.Collaboration with Schaeffler Technology Solution Ltd. for projects</Col>
+                    <Col>3.Collaboration with Matoshree NGO for projects</Col>
+                    <Col>4.Collaboration with SATCOM India Pvt. Ltd for Placements</Col>
+                    <Col>5.Reviewer for ICAST -22</Col>
+                    <Col>6.HoD(EXTC)</Col>
+                    <Col>7.Convener(one week FDP on Cyber Security & Forensics)</Col>
                     </Col>
                   </td>
+              
                   <td>
                     <Form.Control
                       type="text"
@@ -159,32 +159,54 @@ function Form2B() {
                   </td>
                 </tr>
                 <tr>
+                  <td></td>
+                <td colSpan={3}>
+                  <Col>Evaluation Criteria:</Col>
+                <Col>a) Contribution to corporate life in colleges and universities through meetings/popular lectures/subject-related events/articles in college magazines and university volumes - 3 pts each</Col>
+                <Col>Institutional governance responsibilities like Vice-Principal, Deans, HOD, Director, IQAC Coordinator/T&P officer, Exam cell in charge, Admission cell in charge maximum of 25 points (or any other equivalent responsibility)</Col>
+                <Col>b) Organized conference/workshop/seminar/FDP/STTP etc.(Max two events to be considered)</Col>
+                <Col>1. Conference - 15 points</Col>
+                <Col>2. Workshop FDP/STTP/certification programs</Col>
+                <Col><Col>1. One week or more - 10 points</Col></Col>
+                <Col><Col>2. Less than a week but greater than two days - 5 points</Col></Col>
+                <Col><Col>3. One to two days - 3 points</Col></Col>
+                <Col><Col>4. Committee member of ICAST - ( )</Col></Col>
+                <Col><Col>5. Seminars - 1 point</Col></Col>
+                <Col>3. Delivering Lecture/conducting workshop (not paper presentation)</Col>
+                <Col><Col>1. At college level for faculty - 3 points</Col></Col>
+                <Col><Col>2. During STTP - 10 points</Col></Col>
+                <Col><Col>3. International - 15 points</Col></Col>
+                <Col>Establishing labs with the help of industry/industry/another organization</Col>
+                <Col>Max 5 per individual if a group is involved - 10 if only 1 person is involved</Col>
+
+                      </td>
+                </tr>
+                <tr>
                   <td>b.</td>
                   <td>
                     <Col>
-                      Extension, Co-curricular and field based activities
-                      a) Field studies /Educational Tour (other than subject
-                      related in 1.d)
-                      b) Placement activity (for coordinators 15 marks)
-                      c) Community Service, Social Orientation other (10 marks)
-                      d) IQAC members/DQC/PAC (10 marks)
-                      e) IIC members (10 marks)
-                      f) Alumni committee members (10 marks)
-                      g) Admission cell members (15 marks)
-                      h) ATF Coordinators Member& dept supports (5)
-                      i) NSS/NCC/NSO/other (15 marks)
-                      j) Exam coordinator (10)
-                      k) Time Table coordinator (10)
-                      l) Project Coordinators (5)
-                      m) Class teacher (10 marks for 1 semester)
-                      n) Proctor coordinator /NPTEL coordinator (max 3 marks)
-                      o) Project Competition Coordinators (5)
-                      p) IIIC Coordinators, IV Coordinators(5)
-                      q) Any other coordinators (marks based on activeness max 5
-                      provided in the same is not repeated elsewhere)
-                      All members have to take sign of coordinators of respective
+                    <Col>Extension, Co-curricular and field based activities </Col>
+                    <Col>a) Field studies / Educational Tour (other than subject related in 1.d)</Col>
+                    <Col>b) Placement activity (for coordinators 15 marks)</Col>
+                    <Col>c) Community Service, Social Orientation other (10 marks)</Col>
+                    <Col>d) IQAC members / DQC / PAC (10 marks)</Col>
+                    <Col>e) IIC members (10 marks)</Col>
+                    <Col>f) Alumni committee members (10 marks)</Col>
+                    <Col>g) Admission cell members (15 marks)</Col>
+                    <Col>h) ATF Coordinators Member & dept supports (5)</Col>
+                    <Col>i) NSS / NCC / NSO / other (15 marks)</Col>
+                    <Col>j) Exam coordinator (10)</Col>
+                    <Col>k) Time Table coordinator (10)</Col>
+                    <Col>l) Project Coordinators (5)</Col>
+                    <Col>m) Class teacher (10 marks for 1 semester)</Col>
+                    <Col>n) Proctor coordinator / NPTEL coordinator (max 3 marks)</Col>
+                    <Col>o) Project Competition Coordinators (5)</Col>
+                    <Col>p) IIIC Coordinators, IV Coordinators (5)</Col>
+                    <Col>q) Any other coordinators (marks based on activeness max 5 provided in the same is not repeated elsewhere)</Col>
+                    <br/>
+                    <Col>All members have to take sign of coordinators of respective
                       committee to validate description of job done. Marks
-                      allotted are based on involvement in work.
+                      allotted are based on involvement in work.</Col>
                     </Col>
                   </td>
                   <td>
@@ -208,14 +230,10 @@ function Form2B() {
                   <td>c.</td>
                   <td>
                     <Col>
-                      Students and Staff Related Socio Cultural and Sports
-                      Programs (intra/interdepartmental and intercollegiate)
-                      1. In charge for Score/Oscillations/Surge/Intech etc
-                      (Judge for project competition in Intech)
-                      2. Coordinators of different events based on complexity-
-                      (as recommended by in-charge)
-                      (coordinated Placement in 5 different companies and
-                      coordinated for collaboration with industries)
+                      <Col>Students and Staff Related Socio Cultural and Sports Programs (intra/interdepartmental and intercollegiate)</Col>
+                      <Col>1. In charge for Score/Oscillations/Surge/Intech etc (Judge for project competition in Intech)</Col>
+                      <Col>2. Coordinators of different events based on complexity- (as recommended by in-charge) (coordinated Placement in 5 different companies and coordinated for collaboration with industries)</Col>
+
                     </Col>
                   </td>
                   <td>
@@ -239,23 +257,16 @@ function Form2B() {
                   <td>d.</td>
                   <td>
                     <Col>
-                      4 Professional Development Activities
-                      coordinator of student chapters IEEE/IETE/IET/CSI/ISTE
-                      etc (5 points)
-                      Media participation in profession related talks/debates etc
-                      (5 points.)
-                      Membership in profession related committees at state and
-                      national level (max 3)
-                      Participation in subject associations, conferences, seminars
-                      without paper presentation (1 marks each subject to max 3)
-                      Participation in short term training courses less than
-                      one-week duration
-                      1. IIT /NIT/Govt college/ TEQIP (10 each for external 8
-                      for local)
-                      2. Industry related (max 10 for outside Mumbai 5 in
-                      Mumbai)
-                      3. not belonging to above (5 for external 4 for local)
-                      Boards of Studies, editorial committees of journals– (5pts)
+                    <Col>Professional Development Activities:</Col>
+                    <Col>  Coordinator of student chapters IEEE/IETE/IET/CSI/ISTE (5 points)</Col>
+                    <Col>- Media participation in profession-related talks/debates, etc (5 points)</Col>
+                    <Col>- Membership in profession-related committees at state and national levels (max 3)</Col>
+                    <Col>- Participation in subject associations, conferences, seminars without paper presentation (1 mark each, subject to a max of 3)</Col>
+                    <Col>- Participation in short-term training courses less than one-week duration:</Col>
+                    <Col>  <Col> 1. IIT/NIT/Govt college/TEQIP (10 each for external, 8 for local)</Col></Col>
+                    <Col>  <Col> 2. Industry-related (max 10 for outside Mumbai, 5 in Mumbai)</Col></Col>
+                    <Col>  <Col> 3. Not belonging to the above (5 for external, 4 for local)</Col></Col>
+                    <Col>- Boards of Studies, editorial committees of journals (5 points)</Col>
                     </Col>
                   </td>
                   <td>
@@ -277,7 +288,7 @@ function Form2B() {
                 </tr>
                 <tr>
                   <td></td>
-                  <td>Total of II</td>
+                  <td>Total of Category II</td>
                   <td></td>
                   <td>
                     <Form.Control
@@ -290,7 +301,7 @@ function Form2B() {
               </tbody>
             </Table>
             <p>*list may be attached for above activities</p>
-            <div className="text-center">
+            <div className="text-center mb-4" >
               <Row>
                 <Col>
                   <Button variant="primary">
@@ -302,6 +313,13 @@ function Form2B() {
                     </Link>
                   </Button>
                 </Col>
+                <Col>
+            <Button variant="primary" type="submit" onClick={handleSubmit}>
+              <Link className="text-decoration-none text-white">
+                Save
+              </Link>
+            </Button>
+          </Col>
                 <Col>
                   <Button
                     variant="primary"

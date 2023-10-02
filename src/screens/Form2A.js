@@ -112,10 +112,18 @@ function Form2A() {
   };
 
   useEffect(() => {
-    IOddsem.map((oddsem, index) => {
+  IOddsem.map((oddsem, index) => {
       calculateoddpercentage(index);
     });
   }, [IOddsem]);
+
+
+
+  // useEffect(() => {
+  //   IOddsem.map((oddsem, index) => {
+  //     calculateoddpercentage(index);
+  //   });
+  // }, [IOddsem]);
 
   const handleAddIOddsem = () => {
     setIOddsem((prevIOddsem) => [
@@ -141,11 +149,15 @@ function Form2A() {
     setIEvensem(newIEvensem);
   };
 
+  // useEffect(() => {
+  //   calculateevenpercentage();
+  // }, [IEvensem]);
+  
   useEffect(() => {
     IEvensem.map((evensem, index) => {
       calculateevenpercentage(index);
     });
-  }, [IOddsem]);
+  }, [IEvensem]);
 
   const handleAddIEvensem = () => {
     setIEvensem((prevIEvensem) => [
@@ -164,19 +176,19 @@ function Form2A() {
     setIOddsem((prevIEvensem) =>
       prevIEvensem.filter((evensem, i) => i !== index)
     );
-  };
+  }
 
   return (
-    <Container>
+    <Container fluid>
       <Row>
-      <Col md={3} className="form-navigation">
+      <Col md={2} className="form-navigation">
     <h3>Form Navigation</h3>
     <ul>
       <li>
-        <Link to="/">Form 1</Link>
+        <Link to="/">Part A</Link>
       </li>
       <li>
-        <span className="form2-subsection">Form 2</span>
+        <span className="form2-subsection">Part B</span>
         <ul className="form2-subsection-list">
           <li>
             <Link to="/form2a" className="form2-subsection-link">Category A</Link>
@@ -194,11 +206,11 @@ function Form2A() {
   </Col>
         <Col md={9}>
       <h1>Part B: Academic Performance Indicators</h1>
-      <h4>CATEGORY I: TEACHING, LEARNING AND EVALUATION RELATED ACTIVITIES</h4>
-      <h4>
+      <h4 className="fw-lighter">Category I: Teaching, Learning and Evaluation related activities</h4>
+      <p>
         *proof to be submitted for all claims and to be verified by HOD's in
         presence of respective faculty
-      </h4>
+      </p>
       <Form onSubmit={handleSubmit}>
         <Table striped bordered hover>
           <thead>
@@ -282,10 +294,17 @@ function Form2A() {
               </tr>
             </tbody>
           ))}
-          <Button variant="primary" onClick={handleAddIOddsem}>
-            Add Odd semester
-          </Button>
+          
         </Table>
+        <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Button variant="primary" onClick={handleAddIOddsem}>
+            <Link className="text-decoration-none text-white">Add Odd semester</Link>
+          </Button>
+          </Col>
+          </Row>
+          </div>
 
         <Table striped bordered hover>
           <thead>
@@ -368,10 +387,17 @@ function Form2A() {
               </tr>
             </tbody>
           ))}
-          <Button variant="primary" onClick={handleAddIEvensem}>
-            Add Even semester
-          </Button>
+          
         </Table>
+        <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Button variant="primary" onClick={handleAddIEvensem}>
+            <Link className="text-decoration-none text-white">Add Even semester</Link>
+          </Button>
+          </Col>
+          </Row>
+          </div>
 
         <Table striped bordered hover>
           <thead>
@@ -515,21 +541,20 @@ function Form2A() {
               <td>g.</td>
               <td>
                 <Col>
-                  Examination duties (invigilation; Question paper setting,
-                  evaluation/ assessment of answer scripts) as per allotment.
+                  Examination duties (invigilation; Question paper setting, evaluation/ assessment of answer scripts) as per allotment.
                 </Col>
                 <Col>
                   1. Invigilation (flying squad duties/Joint CC/any exam related
                   duties) (max 5 points)
                 </Col>
                 <Col>
-                  100% compliance: 5 ,80% compliance 3,less than 80% no score
+                  100% compliance: 5, 80% compliance: 3, less than 80%: no score
                 </Col>
                 <Col>
                   2. Evaluation of answer script, preparation of result list on
                   time as specified by Examination Section (max 10 points)
                 </Col>
-                <Col>100% compliance: 5, less than 100% no score.</Col>
+                <Col>100% compliance: 5, less than 100%: no score.</Col>
                 <Col>Question paper setting (5 each, max score 10)</Col>
               </td>
               <td>
@@ -544,7 +569,7 @@ function Form2A() {
 
             <tr>
               <td></td>
-              <td>Total of I</td>
+              <td>Total of Category I</td>
               <td>
                 <Form.Control type="text" placeholder="" value={IActTotal} />
               </td>
@@ -570,17 +595,30 @@ function Form2A() {
           {/* <Link to="/form2" className="btn btn-primary ms-2">Next</Link> */}
         </Table>
       </Form>
-      <div className="d-flex justify-content-between">
+      <div className="text-center mb-4" >
+        <Row>
+          <Col>
             <Button variant="primary" type="submit">
-              <Link to="/" className="btn btn-primary ms-2">
+              <Link to="/" className="text-decoration-none text-white">
                 Previous
               </Link>
             </Button>
+          </Col>
+          <Col>
             <Button variant="primary" type="submit" onClick={handleSubmit}>
-              <Link to="/form2b" className="btn btn-primary ms-2">
+              <Link className="text-decoration-none text-white">
+                Save
+              </Link>
+            </Button>
+          </Col>
+          <Col>
+            <Button variant="primary" type="submit" onClick={handleSubmit}>
+              <Link to="/form2b" className="text-decoration-none text-white">
                 Next
               </Link>
             </Button>
+          </Col>
+          </Row>
           </div>
       </Col>
       </Row>
