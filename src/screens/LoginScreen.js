@@ -1,52 +1,66 @@
-import React, {useState} from 'react'
-import { Container, Form, Button, Row, Col, Alert, Card } from 'react-bootstrap'
+import React, {useState, useEffect} from 'react'
+import { Container, Button, Row, Col} from 'react-bootstrap'
 import { Link, useNavigate} from 'react-router-dom'
 import {auth, provider} from '../firebase'
 import {signInWithPopup, GoogleAuthProvider} from 'firebase/auth'
+import Wave from 'react-wavify'
 
 function LoginScreen({setIsAuth}) {
     const [error, setError] = useState(null)
     let navigate = useNavigate()
 
-    const handleSignIn = () => {
-        signInWithPopup(auth, provider)
-        .then((result) => {
-            const credential = GoogleAuthProvider.credentialFromResult(result)
-            const token = credential.accessToken
-            const user = result.user
-            localStorage.setItem('isAuth', true)
-            setIsAuth(true)
-            navigate('/')
-        })
-        .catch((error) => {
-            setError(error.message)
-        })
+    const handleFacultySignIn = () => {
+        navigate('/loginfaculty')
     }
+
+    const handleHODSignIn = () => {
+        navigate('/loginhod')
+    }
+
+    const handlePrincipalSignIn = () => {
+        navigate('/loginprincipal')
+    }
+
 
     const handleAlertDismiss = () => {
         setError(null)
     }
 
+    useEffect(() => {   
+        if(localStorage.getItem('isAuth')) {
+            setIsAuth(true)
+        }
+    }
+    , [])
+
+
   return (
     <Container>
         <Row className="justify-content-md-center">
             <Col xs={12} md={6}>
-                <Card className="p-3 mt-5">
-                    <h1 className="text-center">Login</h1>
-                    {error && (
-                        <Alert variant="danger" dismissible onClose={handleAlertDismiss}>
-                            {error}
-                        </Alert>
-                    )}
-                    <Form>
-                        <Button variant="primary" onClick={handleSignIn} className="w-100 mt-3">Sign In with Google</Button>
-                    </Form>
-                    <p className="mt-3">
-                        Don't have an account? <Link to="/register">Register</Link>
-                    </p>
-                </Card>
+                <Button variant="primary" onClick={handleFacultySignIn} className="w-100 mt-3">Login As Faculty</Button>
+                <Button variant="primary" onClick={handleHODSignIn} className="w-100 mt-3">Login As HOD</Button>
+                <Button variant="primary" onClick={handlePrincipalSignIn} className="w-100 mt-3">Login As Principal</Button>
             </Col>
         </Row>
+        <Wave fill='#A02929'
+        paused={false}
+        options={{
+          height: 20,
+          amplitude: 20,
+          speed: 0.15,
+          points: 3,
+          
+        }}
+        style={{
+          position: 'fixed',
+            bottom: 0,
+            left: 0,
+            // width: '100%',
+            zIndex: -1
+        }}
+            
+      />
     </Container>
     
   )

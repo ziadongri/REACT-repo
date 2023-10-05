@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {Link, HashRouter as Router, Route, Routes} from 'react-router-dom'
 import { Container, Nav, Navbar, Row, Col } from 'react-bootstrap'
-import LoginScreen from './screens/LoginScreen'
+import LoginFaculty from './screens/LoginFaculty'
 import {auth} from './firebase'
 import {signOut } from 'firebase/auth'
 import HomeScreen from './screens/HomeScreen'
@@ -10,6 +10,11 @@ import Form2A from './screens/Form2A'
 import Form2B from './screens/Form2B'
 import Form2C from './screens/Form2C'
 import Wave from 'react-wavify'
+import Header from './assets/header.png'
+import FormSubmission from './screens/FormSubmission'
+import LoginHOD from './screens/LoginHOD'
+import LoginScreen from './screens/LoginScreen'
+import LoginPrincipal from './screens/LoginPrincipal'
 
 function App() {
   const [isAuth, setIsAuth] = useState(false)
@@ -26,8 +31,6 @@ function App() {
     })
   }
   
-
-
   useEffect(() => {
     const storedAuth = localStorage.getItem('isAuth')
     if (storedAuth) {
@@ -37,22 +40,24 @@ function App() {
 
   return (
     <Router>
-      <Navbar bg="dark" variant="dark" expand="lg">
-        <Container>
+      <Navbar  variant="dark" className="ms-auto" style={{backgroundColor: '#A02929', padding: 20}}>
+        {/* <Container> */}
           <Navbar.Brand >
-            <Link to="/facultyform" className="text-decoration-none text-white">
+            <img src={Header} alt="header" style={{width: '400px', height: '80px'}} />
+            
+            {/* <Link to="/facultyform" className="text-decoration-none text-white">
               Faculty Form
-            </Link>
+            </Link> */}
           </Navbar.Brand>
 
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             {isAuth ? (
-              <Nav className="mr-auto">
+              <Nav className="ml-auto">
                 <Nav.Link onClick={handleSignOut}>Sign Out</Nav.Link>
               </Nav>
             ) : (
-              <Nav className="mr-auto">
+              <Nav className="ml-auto" >
                 <Nav.Link>
                   <Link to="/" className="text-decoration-none text-white">
                     Login
@@ -61,17 +66,9 @@ function App() {
               </Nav>
             )}
           </Navbar.Collapse>
-        </Container>
+        {/* </Container> */}
       </Navbar>
-      <Wave fill='#A02929'
-        paused={false}
-        options={{
-          height: 20,
-          amplitude: 20,
-          speed: 0.15,
-          points: 3
-        }}
-      />
+      
       <Container>
       <Row>
         <Col>
@@ -80,16 +77,18 @@ function App() {
       </Row>
       </Container>
       <Routes>
-        <Route path="/" element={<Form1 />} />
-        <Route path="/login" element={<LoginScreen setIsAuth={setIsAuth} />} />
+        <Route path="/" element={<LoginScreen setIsAuth={setIsAuth} />} />
+        <Route path="/form1" element={<Form1 />} />
+
+        <Route path="/loginfaculty" element={<LoginFaculty setIsAuth={setIsAuth} />} />
+        <Route path="/loginhod" element={<LoginHOD setIsAuth={setIsAuth} />} />
+        <Route path="/loginprincipal" element={<LoginPrincipal setIsAuth={setIsAuth} />} />
         <Route path="/form2a" element={<Form2A />} />
         <Route path="/form2b" element={<Form2B />} />
         <Route path="/form2c" element={<Form2C />} />
+        <Route path="/formsubmission" element={<FormSubmission />} />
       </Routes>
     </Router>
-
-
-
 
   )
 }

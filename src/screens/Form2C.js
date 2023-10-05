@@ -97,6 +97,7 @@ useEffect(() => {
         // } else {
         //   setError('User not found');
         }
+        navigate('/FormSubmission');
       } catch (error) {
         console.log(error);
       }

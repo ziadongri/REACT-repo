@@ -179,7 +179,7 @@ function Form2A() {
   }
 
   return (
-    <Container fluid>
+    <Container fluid >
       <Row>
       <Col md={2} className="form-navigation">
     <h3>Form Navigation</h3>
