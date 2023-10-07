@@ -5,8 +5,8 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/form.css';
 
-function Form1() {
-  const [user, setUser] = useState(null);
+function Form1AHOD() {
+    const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [name, setName] = useState('');
@@ -99,8 +99,8 @@ function Form1() {
     );
   }
 
-  return (
-    <Container fluid>
+    return (
+        <Container fluid>
       <Row>
       <Col md={2} className="form-navigation">
     <h3>Form Navigation</h3>
@@ -282,7 +282,7 @@ function Form1() {
         </Col>
       </Row>
     </Container>
-  );
+    )
 }
 
-export default Form1;
+export default Form1AHOD

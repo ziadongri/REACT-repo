@@ -8,9 +8,10 @@ import {
   Alert,
   Table,
 } from "react-bootstrap";
-import { auth, db } from "../firebase";
+import { auth, db, storage } from "../firebase";
 import { doc, collection, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 function Form2A() {
   const [user, setUser] = useState(null);
@@ -28,8 +29,16 @@ function Form2A() {
   const [IEvensem, setIEvensem] = useState([]);
   const [IActTotal, setIActTotal] = useState("");
   const [email, setEmail] = useState("");
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const [documentAURL, setDocumentAURL] = useState("");
 
   const navigate = useNavigate();
+
+  const handleUpload = (e) => {
+    const file = e.target.files[0];
+    setUploadedFile(file);
+  };
+  
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -72,7 +81,33 @@ function Form2A() {
       IOddsem,
       IEvensem,
       IActTotal,
+      documentAURL,
     };
+
+    if (uploadedFile) {
+      const storageRef = ref(storage, `documents/${uploadedFile.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, uploadedFile);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            console.log(url);
+            setDocumentAURL(url);
+            data.documentURL = url;
+            setDoc(docRef, data, { merge: true });
+          });
+        }
+      );
+    }
+
     await setDoc(docRef, data, { merge: true });
     // navigate('/form2');
   };
@@ -92,6 +127,7 @@ function Form2A() {
         setIOddsem(data.IOddsem || []);
         setIEvensem(data.IEvensem || []);
         setIActTotal(data.IActTotal || "0");
+        setDocumentAURL(data.documentURL || "");
       }
     } catch (error) {
       console.log(error);
@@ -595,6 +631,16 @@ function Form2A() {
           {/* <Link to="/form2" className="btn btn-primary ms-2">Next</Link> */}
         </Table>
       </Form>
+      <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Upload supporting documents (pdf)</Form.Label>
+            <Form.Control type="file" onChange={handleUpload} />
+          </Form.Group>
+          </Col>
+          </Row>
+          </div>
       <div className="text-center mb-4" >
         <Row>
           <Col>

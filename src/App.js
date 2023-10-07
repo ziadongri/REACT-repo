@@ -15,6 +15,8 @@ import FormSubmission from './screens/FormSubmission'
 import LoginHOD from './screens/LoginHOD'
 import LoginScreen from './screens/LoginScreen'
 import LoginPrincipal from './screens/LoginPrincipal'
+import Form1AHOD from './screens/Form1AHOD'
+import Form1BHOD from './screens/Form1BHOD'
 
 function App() {
   const [isAuth, setIsAuth] = useState(false)
@@ -87,6 +89,8 @@ function App() {
         <Route path="/form2b" element={<Form2B />} />
         <Route path="/form2c" element={<Form2C />} />
         <Route path="/formsubmission" element={<FormSubmission />} />
+        <Route path="/form1ahod" element={<Form1AHOD />} />
+        <Route path="/form1bhod" element={<Form1BHOD />} />
       </Routes>
     </Router>
 

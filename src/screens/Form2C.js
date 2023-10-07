@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Row, Col, Form, Button, Alert, Table } from 'react-bootstrap'
-import {auth, db } from '../firebase'
+import {auth, db, storage } from '../firebase'
 import {doc, collection, getDoc, setDoc, updateDoc} from 'firebase/firestore'
 import {Link, useNavigate} from 'react-router-dom'
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+
 
 function Form2C(){
     const [user, setUser]= useState(null)
@@ -26,8 +28,15 @@ function Form2C(){
     const[ InvitedLecture, setInvitedLecture]= useState([])
     const [Award, setAward]= useState([])
     const [email, setEmail]= useState('')
+    const [uploadedFile, setUploadedFile] = useState(null);
+  const [documentCURL, setDocumentCURL] = useState("");
 
     const navigate = useNavigate();
+
+    const handleUpload = (e) => {
+      const file = e.target.files[0];
+      setUploadedFile(file);
+    };
 
 useEffect(() => {
   const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -67,10 +76,36 @@ useEffect(() => {
         PaperPresentConference,
         InvitedLecture,
         Award,
+        documentCURL,
       };
+      if (uploadedFile) {
+        const storageRef = ref(storage, `documents/${uploadedFile.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, uploadedFile);
+  
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          },
+          (error) => {
+            console.log(error);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+              console.log(url);
+              setDocumentCURL(url);
+              data.documentURL = url;
+              setDoc(docRef, data, { merge: true });
+            });
+          }
+        );
+      }
       await setDoc(docRef, data, { merge: true });
+      navigate('/FormSubmission');
       // navigate('/form2');
     };
+
 
     const fetchData = async (uid) => {
       const docRef = doc(db, 'partB', uid);
@@ -94,10 +129,10 @@ useEffect(() => {
           setPaperPresentConference(data.PaperPresentConference || []);
           setInvitedLecture(data.InvitedLecture || []);
           setAward(data.Award || []);
+          setDocumentCURL(data.documentCURL || '');
         // } else {
         //   setError('User not found');
         }
-        navigate('/FormSubmission');
       } catch (error) {
         console.log(error);
       }
@@ -1134,9 +1169,21 @@ useEffect(() => {
       <div className="text-center mb-3">
             <Row>
               <Col>
-          <Button variant="primary" onClick={handleAddAward}>
+              <Button variant="primary" onClick={handleAddAward}>
             <Link className="text-decoration-none text-white">Add Award</Link>
           </Button>
+          </Col>
+          </Row>
+          </div>
+      <div className="text-center mb-3">
+            <Row>
+              <Col>
+          
+          
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Upload supporting documents (pdf)</Form.Label>
+            <Form.Control type="file" onChange={handleUpload} />
+          </Form.Group>
           </Col>
           </Row>
           </div>
