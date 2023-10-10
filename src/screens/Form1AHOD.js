@@ -17,6 +17,7 @@ function Form1AHOD() {
   const [contact, setContact] = useState('');
   const [email, setEmail] = useState('');
   const [freshQualification, setFreshQualification] = useState('');
+  const [year, setYear] = useState('');
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -45,6 +46,7 @@ function Form1AHOD() {
           setContact(data.contact);
           setEmail(data.email);
           setFreshQualification(data.freshQualification);
+          setYear(data.year);
         }
       })
       .catch((error) => {
@@ -62,7 +64,7 @@ function Form1AHOD() {
     e.preventDefault();
     const docRef = doc(db, 'partA', user.uid);
     const data = {
-      role: 'faculty',
+      role: 'hod',
       name,
       department,
       designation,
@@ -71,6 +73,7 @@ function Form1AHOD() {
       contact,
       email,
       freshQualification,
+      year,
     };
     await setDoc(docRef, data, { merge: true });
     //navigate('/form2');
@@ -102,30 +105,8 @@ function Form1AHOD() {
     return (
         <Container fluid>
       <Row>
-      <Col md={2} className="form-navigation">
-    <h3>Form Navigation</h3>
-    <ul>
-      <li>
-        <Link to="/">Part A</Link>
-      </li>
-      <li>
-        <span className="form2-subsection">Part B</span>
-        <ul className="form2-subsection-list">
-          <li>
-            <Link to="/form2a" className="form2-subsection-link">Category A</Link>
-          </li>
-          <li>
-            <Link to="/form2b" className="form2-subsection-link">Category B</Link>
-          </li>
-          <li>
-            <Link to="/form2c" className="form2-subsection-link">Category C</Link>
-          </li>
-        </ul>
-      </li>
-      {/* Add more form links as needed */}
-    </ul>
-  </Col>
-        <Col md={6}>
+      
+        <Col >
           <h1>Part A: General Information</h1>
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3 align-item-center" controlId="name">
@@ -255,6 +236,35 @@ function Form1AHOD() {
               </Col>
               </Row>
             </Form.Group>
+            <Form.Group className="mb-3" controlId="year">
+            <Row>
+
+                <Col md={3} className="form-label">
+              <Form.Label>Year</Form.Label>
+              </Col>
+              <Col md={9}>
+              <Form.Control
+
+                as="select"
+                value={year}
+                onChange={(e) => setYear(e.target.value)}
+              >
+                <option value="2022-23">2022-23</option>
+                <option value="2023-24">2023-24</option>
+                <option value="2024-25">2024-25</option>
+                <option value="2025-26">2025-26</option>
+                <option value="2026-27">2026-27</option>
+                <option value="2027-28">2027-28</option>
+                <option value="2028-29">2028-29</option>
+                <option value="2029-30">2029-30</option>
+              
+              </Form.Control>
+              </Col>
+              </Row>
+            </Form.Group>
+
+
+
             {/* <Button variant="primary" type="submit">
               <Link to="/form2a" className="text-decoration-none text-white">
                 Next
@@ -272,7 +282,7 @@ function Form1AHOD() {
           </Col>
               <Col>
                 <Button variant="primary" type="submit">
-                  <Link to="/form2a" className="text-decoration-none text-white">
+                  <Link to="/form1bhod" className="text-decoration-none text-white">
                     Next
                   </Link>
                 </Button>

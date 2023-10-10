@@ -17,6 +17,10 @@ import LoginScreen from './screens/LoginScreen'
 import LoginPrincipal from './screens/LoginPrincipal'
 import Form1AHOD from './screens/Form1AHOD'
 import Form1BHOD from './screens/Form1BHOD'
+import Form2AHOD from './screens/Form2AHOD'
+import Form2BHOD from './screens/Form2BHOD'
+import Form2CHOD from './screens/Form2CHOD'
+
 
 function App() {
   const [isAuth, setIsAuth] = useState(false)
@@ -74,7 +78,7 @@ function App() {
       <Container>
       <Row>
         <Col>
-         <h1 className="text-center"> Performa for Annual Self-Assessment of Faculty based on Performance Based Appraisal System Year 2022 to 2023 </h1>
+         <h1 className="text-center"> Performa for Annual Self-Assessment of Faculty based on Performance Based Appraisal System </h1>
         </Col>
       </Row>
       </Container>
@@ -91,6 +95,10 @@ function App() {
         <Route path="/formsubmission" element={<FormSubmission />} />
         <Route path="/form1ahod" element={<Form1AHOD />} />
         <Route path="/form1bhod" element={<Form1BHOD />} />
+        <Route path="/form2ahod" element={<Form2AHOD />} />
+        <Route path="/form2bhod" element={<Form2BHOD />} />
+        <Route path="/form2chod" element={<Form2CHOD />} />
+        
       </Routes>
     </Router>
 

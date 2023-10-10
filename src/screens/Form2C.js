@@ -256,7 +256,7 @@ useEffect(() => {
     <h3>Form Navigation</h3>
     <ul>
       <li>
-        <Link to="/">Part A</Link>
+        <Link to="/form1">Part A</Link>
       </li>
       <li>
         <span className="form2-subsection">Part B</span>

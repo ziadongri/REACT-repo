@@ -17,6 +17,7 @@ function Form1() {
   const [contact, setContact] = useState('');
   const [email, setEmail] = useState('');
   const [freshQualification, setFreshQualification] = useState('');
+  const [year, setYear] = useState('');
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -45,6 +46,7 @@ function Form1() {
           setContact(data.contact);
           setEmail(data.email);
           setFreshQualification(data.freshQualification);
+          setYear(data.year);
         }
       })
       .catch((error) => {
@@ -71,6 +73,7 @@ function Form1() {
       contact,
       email,
       freshQualification,
+      year,
     };
     await setDoc(docRef, data, { merge: true });
     //navigate('/form2');
@@ -106,7 +109,7 @@ function Form1() {
     <h3>Form Navigation</h3>
     <ul>
       <li>
-        <Link to="/">Part A</Link>
+        <Link to="/form1">Part A</Link>
       </li>
       <li>
         <span className="form2-subsection">Part B</span>
@@ -260,6 +263,31 @@ function Form1() {
                 Next
               </Link>
             </Button> */}
+            <Form.Group className="mb-3" controlId="year">
+            <Row>
+                <Col md={3} className="form-label">
+              <Form.Label>Year</Form.Label>
+              </Col>
+              <Col md={9}>
+              <Form.Control
+                as="select"
+                value={year}
+                onChange={(e) => setYear(e.target.value)}
+              >
+               
+                <option value="2022-23">2022-23</option>
+                <option value="2023-24">2023-24</option>
+                <option value="2024-25">2024-25</option>
+                <option value="2025-26">2025-26</option>
+                <option value="2026-27">2026-27</option>
+                <option value="2027-28">2027-28</option>
+                <option value="2028-29">2028-29</option>
+                <option value="2029-30">2029-30</option>
+
+              </Form.Control>
+              </Col>
+              </Row>
+              </Form.Group>
           </Form>
           <div className="text-center">
             <Row>
