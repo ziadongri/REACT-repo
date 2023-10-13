@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { auth, db } from '../firebase';
-import { doc, getDoc, setDoc, query, where, getDocs } from 'firebase/firestore';
+import { doc, getDoc, collection, setDoc, query, where, getDocs } from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/form.css';
 
@@ -22,10 +22,10 @@ function Form1BHOD() {
       } else {
         navigate('/login');
       }
+      setLoading(false);
     });
-    setLoading(false);
     return unsubscribe;
-  }, []);
+  }, [navigate]);
 
   const fetchHODData = async (uid) => {
     const docRef = doc(db, 'partA', uid);
@@ -40,21 +40,24 @@ function Form1BHOD() {
     }
   };
 
-  const fetchData = async () => {
-    const facultyRef = query(
-      doc(db, 'partA'),
-      where('department', '==', HODData.department),
-      where('role', '==', 'faculty'),
-      where('year', '==', year),
-      where('name', '==', name)
-    );
+  const fetchFacultyData = async () => {
+    if (HODData.department && year && name) {
+      const facultyRef = query(
+        doc(db, 'partA'),  // Update the document path as needed
+        where('department', '==', HODData.department),
+        where('role', '==', 'faculty'),
+        where('year', '==', year),
+        where('name', '==', name)
+      );
 
-    try {
-      const querySnapshot = await getDocs(facultyRef);
-      const data = querySnapshot.docs.map((doc) => doc.data());
-      setFacultyData(data);
-    } catch (error) {
-      console.error(error);
+      try {
+        const querySnapshot = await getDocs(facultyRef);
+        const data = querySnapshot.docs.map((doc) => doc.data());
+        setFacultyData(data);
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
@@ -65,10 +68,8 @@ function Form1BHOD() {
   }, [user]);
 
   useEffect(() => {
-    if (HODData.department) {
-      fetchData();
-    }
-  }, [HODData, year, name]);
+    fetchFacultyData();
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -78,6 +79,94 @@ function Form1BHOD() {
   if (loading) {
     return <p>Loading...</p>;
   }
+
+  // useEffect(() => {
+  //   const unsubscribe = auth.onAuthStateChanged(async (user) => {
+  //     if (user) {
+  //       setUser(user);
+  //     } else {
+  //       navigate('/login');
+  //     }
+  //   });
+  //   setLoading(false);
+  //   return unsubscribe;
+  // }, []);
+
+  // const fetchHODData = async (uid) => {
+  //   const docRef = doc(db, 'partA', uid);
+  //   try {
+  //     const docSnap = await getDoc(docRef);
+  //     if (docSnap.exists()) {
+  //       const data = docSnap.data();
+  //       setHODData(data);
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  // // const fetchData = async (uid) => {
+  // //   const facultyRef = query(
+  // //     doc(db, 'partA', uid),
+  // //     where('department', '==', HODData.department),
+  // //     where('role', '==', 'faculty'),
+  // //     where('year', '==', year),
+  // //     where('name', '==', name)
+  // //   );
+
+  // //   try {
+  // //     const querySnapshot = await getDocs(facultyRef);
+  // //     const data = querySnapshot.docs.map((doc) => doc.data());
+  // //     setFacultyData(data);
+  // //   } catch (error) {
+  // //     console.error(error);
+  // //   }
+  // // };
+
+  // const fetchFacultyData = async () => {
+  //   if (HODData.department && year && name) {
+  //     const facultyRef = collection(db, 'partA');
+  //     const q = query(
+  //       facultyRef,
+  //       where('department', '==', HODData.department),
+  //       where('role', '==', 'faculty'),
+  //       where('year', '==', year),
+  //       where('name', '==', name)
+  //     );
+
+  //     try {
+  //       const querySnapshot = await getDocs(q);
+  //       const data = [];
+  //       querySnapshot.forEach((doc) => {
+  //         data.push(doc.data());
+  //       });
+  //       setFacultyData(data);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (user) {
+  //     fetchHODData(user.uid);
+  //   }
+  // }, [user]);
+
+  // useEffect(() => {
+  //   if (HODData.department) {
+  //     fetchFacultyData();
+  //   }
+  // }, [HODData, year, name]);
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   navigate('/form2AHOD');
+  // };
+
+  // if (loading) {
+  //   return <p>Loading...</p>;
+  // }
 
   return (
     <Container fluid>
@@ -121,9 +210,15 @@ function Form1BHOD() {
               onChange={(e) => setName(e.target.value)}
             >
               <option value="">Select Name</option>
+              {/* {facultyData.map((faculty) => (
+                <option value={faculty.name}>{faculty.name}</option>
+              ))} */}
+
               {facultyData.map((faculty) => (
                 <option value={faculty.name}>{faculty.name}</option>
               ))}
+
+
             </Form.Control>
             </Col>
             </Row>
