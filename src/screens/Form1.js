@@ -33,7 +33,7 @@ function Form1() {
   }, []);
 
   const fetchData = async (uid) => {
-    const docRef = doc(db, 'partA', uid);
+    const docRef = doc(db, 'faculty', uid);
     getDoc(docRef)
       .then((docSnap) => {
         if (docSnap.exists()) {
@@ -62,7 +62,7 @@ function Form1() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const docRef = doc(db, 'partA', user.uid);
+    const docRef = doc(db, 'faculty', user.uid);
     const data = {
       role: 'faculty',
       name,
@@ -157,10 +157,11 @@ function Form1() {
                 value={department}
                 onChange={(e) => setDepartment(e.target.value)}
               >
-                <option value="comps">Computer Engineering</option>
-                <option value="aids">Artificial Intelligence & Data Science</option>
-                <option value="it">Information Technology</option>
-                <option value="extc">Electronics & Telecommunication Engineering</option>
+                <option value="">Select Department</option>
+                <option value="Computer Engineering">Computer Engineering</option>
+                <option value="Artificial Intelligence & Data Science">Artificial Intelligence & Data Science</option>
+                <option value="Information Technology">Information Technology</option>
+                <option value="Electronics & Telecommunication Engineering">Electronics & Telecommunication Engineering</option>
               </Form.Control>
               </Col>
               </Row>
@@ -274,7 +275,7 @@ function Form1() {
                 value={year}
                 onChange={(e) => setYear(e.target.value)}
               >
-               
+               <option value="">Select Year</option>
                 <option value="2022-23">2022-23</option>
                 <option value="2023-24">2023-24</option>
                 <option value="2024-25">2024-25</option>

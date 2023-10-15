@@ -645,7 +645,7 @@ function Form2A() {
         <Row>
           <Col>
             <Button variant="primary" type="submit">
-              <Link to="/" className="text-decoration-none text-white">
+              <Link to="/form1" className="text-decoration-none text-white">
                 Previous
               </Link>
             </Button>
