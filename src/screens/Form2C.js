@@ -58,7 +58,8 @@ useEffect(() => {
 
     const handleSubmit = async (e) => {
       e.preventDefault();
-      const docRef = doc(db, 'partB', user.uid);
+      const facultyRef = doc(db, "faculty", user.uid);
+      const docRef = doc(facultyRef, "partB", "CategoryC");
       const data = {
         IIIaActa1,
         IIIaActa2,
@@ -108,7 +109,8 @@ useEffect(() => {
 
 
     const fetchData = async (uid) => {
-      const docRef = doc(db, 'partB', uid);
+      const facultyRef = doc(db, "faculty", uid);
+      const docRef = doc(facultyRef, "partB", "CategoryC");
       try {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {

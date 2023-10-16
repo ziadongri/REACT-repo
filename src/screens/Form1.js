@@ -74,6 +74,7 @@ function Form1() {
       email,
       freshQualification,
       year,
+      uid: user.uid,
     };
     await setDoc(docRef, data, { merge: true });
     //navigate('/form2');

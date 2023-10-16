@@ -41,7 +41,8 @@ function Form2B() {
   }, [navigate]);
 
   const fetchData = async (uid) => {
-    const docRef = doc(db, 'partB', uid);
+    const facultyRef = doc(db, "faculty", uid);
+    const docRef = doc(facultyRef, "partB", "CategoryB");
     try {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
@@ -77,7 +78,8 @@ function Form2B() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const docRef = doc(db, 'partB', user.uid);
+    const facultyRef = doc(db, "faculty", user.uid);
+    const docRef = doc(facultyRef, "partB", "CategoryB");
     const data = {
       IIActaSem,
       IIActbSem,

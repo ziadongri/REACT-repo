@@ -9,7 +9,7 @@ import {
   Table,
 } from "react-bootstrap";
 import { auth, db, storage } from "../firebase";
-import { doc, collection, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, collection, getDoc, setDoc, updateDoc, addDoc } from "firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
@@ -70,7 +70,8 @@ function Form2A() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const docRef = doc(db, "partB", user.uid);
+    const facultyRef = doc(db, "faculty", user.uid);
+    const docRef = doc(facultyRef, "partB", "CategoryA");
     const data = {
       IActa,
       IActb,
@@ -103,6 +104,15 @@ function Form2A() {
             setDocumentAURL(url);
             data.documentURL = url;
             setDoc(docRef, data, { merge: true });
+            // addDoc( collection(db, "partB"), data);
+              // .then(() => {
+              //   console.log("Document successfully written!");
+              //   navigate("/form2b");
+              // }
+              // )
+              // .catch((error) => {
+              //   console.error("Error writing document: ", error);
+              // });
           });
         }
       );
@@ -113,7 +123,9 @@ function Form2A() {
   };
 
   const fetchData = async (uid) => {
-    const docRef = doc(db, "partB", uid);
+    const facultyRef = doc(db, "faculty", uid);
+    const docRef = doc(facultyRef, "partB", "CategoryA");
+  
     try {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
@@ -130,9 +142,10 @@ function Form2A() {
         setDocumentAURL(data.documentURL || "");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
+  
 
   useEffect(() => {
     if (user) {

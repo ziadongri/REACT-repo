@@ -48,30 +48,38 @@ function Form1BHOD() {
 
   const fetchFacultyData = async () => {
     const facultyRef = collection(db, 'faculty');
-    getDocs(facultyRef)
-      .then((querySnapshot) => {
-        const data = [];
-        querySnapshot.forEach((doc) => {
-          data.push(doc.data());
+    const q = query(
+      facultyRef, 
+      where('department', '==', HODData.department),
+      where('role', '==', 'faculty'),
+    );
+    getDocs(q)
+        .then((querySnapshot) => {
+          const data = [];
+          querySnapshot.forEach((doc) => {
+            data.push(doc.data());
+          });
+          setFacultyData(data);
+          console.log(data);
+        })
+        .catch((error) => {
+          console.log(error);
         });
-        setFacultyData(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   };
 
   useEffect(() => {
-    fetchFacultyData();
-  }, []);
+    if (HODData.department) {
+      fetchFacultyData();
+    }
+  }, [HODData]);
 
   const queryData = async () => {
-    if (HODData.department && year && name) {
+    if (HODData.department && name && year) {
       const facultyRef = collection(db, 'faculty');
       const q = query(
         facultyRef,
-        where('department', '==', HODData.department),
         where('role', '==', 'faculty'),
+        where('department', '==', HODData.department),
         where('name', '==', name),
         where('year', '==', year)
       );
@@ -94,11 +102,12 @@ function Form1BHOD() {
     if (HODData.department) {
       queryData();
     }
-  }, [HODData, year, name]);
+  }, [HODData, name, year]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate('/form2AHOD');
+    navigate('/form2AHOD', { state: {facultyUID: facultyData[0].uid} });
+    console.log(facultyData[0].uid);
   };
 
   if (loading) {
@@ -134,28 +143,7 @@ function Form1BHOD() {
         <Col md={6}>
           <h1>Part A: General Information</h1>
           <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3 align-item-center" controlId="name">
-              <Row>
-                <Col md={3} className="form-label">
-                  <Form.Label>Name</Form.Label>
-                </Col>
-                <Col md={9}>
-                  <Form.Control
-                    as="select"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  >
-                    <option value="">Select Name</option>
-                    {facultyData.map((faculty, index) => (
-                      <option key={index} value={faculty.name}>
-                        {faculty.name}
-                      </option>
-                    ))}
-                  </Form.Control>
-                </Col>
-              </Row>
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="year">
+          <Form.Group className="mb-3" controlId="year">
               <Row>
                 <Col md={3} className="form-label">
                   <Form.Label>Year</Form.Label>
@@ -179,6 +167,30 @@ function Form1BHOD() {
                 </Col>
               </Row>
             </Form.Group>
+            <Form.Group className="mb-3 align-item-center" controlId="name">
+              <Row>
+                <Col md={3} className="form-label">
+                  <Form.Label>Name</Form.Label>
+                </Col>
+                <Col md={9}>
+                  <Form.Control
+                    as="select"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  >
+                    <option value="">Select Name</option>
+                    {facultyData.map((faculty, index) => {
+                      return (
+                        <option key={index} value={faculty.name}>
+                          {faculty.name}
+                        </option>
+                      );
+                    })}
+                  </Form.Control>
+                </Col>
+              </Row>
+            </Form.Group>
+            
           </Form>
           <Form onSubmit={handleSubmit}>
             {/* Display faculty data based on the selected name */}
@@ -235,7 +247,7 @@ function Form1BHOD() {
                         </Col>
                         <Col md={9}>
                           <Form.Control
-                            type="date"
+                            type="text"
                             placeholder={faculty.DOLpromotion}
                             readOnly
                           />
