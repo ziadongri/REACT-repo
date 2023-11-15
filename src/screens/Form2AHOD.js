@@ -104,6 +104,7 @@ function Form2AHOD() {
       });
     }
     navigate('/form2bhod', { state: { facultyUID: facultyUID } });
+    // console.log(facultyAUID)
   }
   
   if (loading) {

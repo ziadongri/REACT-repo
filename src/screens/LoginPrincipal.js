@@ -17,7 +17,7 @@ function LoginPrincipal({setIsAuth}) {
             const user = result.user
             localStorage.setItem('isAuth', true)
             setIsAuth(true)
-            navigate('/')
+            navigate('/form1principal')
         })
         .catch((error) => {
             setError(error.message)

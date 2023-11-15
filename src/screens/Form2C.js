@@ -12,13 +12,21 @@ function Form2C(){
     const [error, setError]= useState(null)
 
     const [ IIIaActa1, setIIIaActa1]= useState('') 
+    
     const [ IIIaActa2, setIIIaActa2]= useState('')
+    
     const [ IIIaActb1, setIIIaActb1]= useState('')
+    
     const [ IIIaActb2, setIIIaActb2]= useState('')
+   
     const [ IIIaActb3, setIIIaActb3]= useState('')
+   
     const [ IIIaActb4, setIIIaActb4]= useState('')
+    
     const [ IIIaActb5, setIIIaActb5]= useState('')
+   
     const [ IIIaActb6, setIIIaActb6]= useState('')
+    const [ IIIaActabSelf, setIIIaActabSelf]= useState('')
     const [ ResearchArticle, setResearchArticle]= useState([])
     const [ ResearchProjectON, setResearchProjectON]= useState([])
     const [ ResearchProjectCOMP, setResearchProjectCOMP]= useState([])
@@ -27,6 +35,7 @@ function Form2C(){
     const [PaperPresentConference, setPaperPresentConference]= useState([])
     const[ InvitedLecture, setInvitedLecture]= useState([])
     const [Award, setAward]= useState([])
+    const [IIISelfTotal, setIIISelfTotal] = useState(0)
     const [email, setEmail]= useState('')
     const [uploadedFile, setUploadedFile] = useState(null);
   const [documentCURL, setDocumentCURL] = useState("");
@@ -69,6 +78,7 @@ useEffect(() => {
         IIIaActb4,
         IIIaActb5,
         IIIaActb6,
+        IIIaActabSelf,
         ResearchArticle,
         ResearchProjectON,
         ResearchProjectCOMP,
@@ -77,6 +87,7 @@ useEffect(() => {
         PaperPresentConference,
         InvitedLecture,
         Award,
+        IIISelfTotal,
         documentCURL,
       };
       if (uploadedFile) {
@@ -123,6 +134,7 @@ useEffect(() => {
           setIIIaActb4(data.IIIaActb4 || '');
           setIIIaActb5(data.IIIaActb5 || '');
           setIIIaActb6(data.IIIaActb6 || '');
+          setIIIaActabSelf(data.IIIaActabSelf || '');
           setResearchArticle(data.ResearchArticle || []);
           setResearchProjectON(data.ResearchProjectON || []);
           setResearchProjectCOMP(data.ResearchProjectCOMP || []);
@@ -131,6 +143,7 @@ useEffect(() => {
           setPaperPresentConference(data.PaperPresentConference || []);
           setInvitedLecture(data.InvitedLecture || []);
           setAward(data.Award || []);
+          setIIISelfTotal(data.IIISelfTotal || '');
           setDocumentCURL(data.documentCURL || '');
         // } else {
         //   setError('User not found');
@@ -139,6 +152,24 @@ useEffect(() => {
         console.log(error);
       }
     };
+
+    const Total = () => {
+      setIIISelfTotal(
+        parseFloat(IIIaActabSelf) +
+        parseFloat(ResearchArticle.reduce((acc, curr) => acc + parseFloat(curr.selfscore), 0)) +
+        parseFloat(ResearchProjectON.reduce((acc, curr) => acc + parseFloat(curr.selfscore), 0)) +
+        parseFloat(ResearchProjectCOMP.reduce((acc, curr) => acc + parseFloat(curr.selfscore), 0)) +
+        parseFloat(ResearchGuidance.reduce((acc, curr) => acc + parseFloat(curr.selfscore), 0)) +
+        parseFloat(TrainingCourse.reduce((acc, curr) => acc + parseFloat(curr.selfscore), 0)) +
+        parseFloat(PaperPresentConference.reduce((acc, curr) => acc + parseFloat(curr.selfscore), 0)) +
+        parseFloat(InvitedLecture.reduce((acc, curr) => acc + parseFloat(curr.selfscore), 0)) +
+        parseFloat(Award.reduce((acc, curr) => acc + parseFloat(curr.selfscore), 0))
+      )
+    }
+    
+    useEffect(() => {
+      Total()
+    }, [IIIaActabSelf, ResearchArticle, ResearchProjectON, ResearchProjectCOMP, ResearchGuidance, TrainingCourse, PaperPresentConference, InvitedLecture, Award])
 
     useEffect(() => {
       if (user) {
@@ -149,7 +180,7 @@ useEffect(() => {
     const handleAddResearchArticle = () => {
       setResearchArticle((prevResearchArticle) => [
         ...prevResearchArticle,
-        { title: '', booktitle: '', isbn: '', peerreview: '', coauthor: '' },
+        { title: '', booktitle: '', isbn: '', peerreview: '', coauthor: '', selfscore: '' },
       ]);
     };
 
@@ -162,7 +193,7 @@ useEffect(() => {
     const handleAddResearchProjectON = () => {
       setResearchProjectON((prevResearchProjectON) => [
         ...prevResearchProjectON,
-        { title: '', agency: '', period: '', amount:'' },
+        { title: '', agency: '', period: '', amount:'', selfscore: ''  },
       ]);
     }
 
@@ -175,7 +206,7 @@ useEffect(() => {
     const handleAddResearchProjectCOMP = () => {
       setResearchProjectCOMP((prevResearchProjectCOMP) => [
         ...prevResearchProjectCOMP,
-        { title: '', agency: '', period: '', amount: ''},
+        { title: '', agency: '', period: '', amount: '', selfscore: '' },
       ]);
     }
 
@@ -188,7 +219,7 @@ useEffect(() => {
     const handleAddResearchGuidance = () => {
       setResearchGuidance((prevResearchGuidance) => [
         ...prevResearchGuidance,
-        { enrolled: '', thesis: '', degree: ''},
+        { enrolled: '', thesis: '', degree: '', selfscore: '' },
       ]);
     }
 
@@ -201,7 +232,7 @@ useEffect(() => {
     const handleAddTrainingCourse = () => {
       setTrainingCourse((prevTrainingCourse) => [
         ...prevTrainingCourse,
-        { programme: '', duration: '', organizedby: ''},
+        { programme: '', duration: '', organizedby: '', selfscore: '' },
       ]);
     }
 
@@ -214,7 +245,7 @@ useEffect(() => {
     const handleAddPaperPresentConference = () => {
       setPaperPresentConference((prevPaperPresentConference) => [
         ...prevPaperPresentConference,
-        { titlepaper: '', titleseminar: '', organisedby: '', level: ''},
+        { titlepaper: '', titleseminar: '', organisedby: '', level: '', selfscore: '' },
       ]);
     }
 
@@ -227,7 +258,7 @@ useEffect(() => {
     const handleAddInvitedLecture = () => {
       setInvitedLecture((prevInvitedLecture) => [
         ...prevInvitedLecture,
-        { titlelecture: '', titleconference: '', organisedby: '', level: ''},
+        { titlelecture: '', titleconference: '', organisedby: '', level: '', selfscore: '' },
       ]);
     }
 
@@ -240,7 +271,7 @@ useEffect(() => {
     const handleAddAward = () => {
       setAward((prevAward) => [
         ...prevAward,
-        { award: '', agencyinvolved: '', level: '', discipline: ''},
+        { award: '', agencyinvolved: '', level: '', discipline: '', selfscore: '' },
       ]);
     }
 
@@ -287,7 +318,7 @@ useEffect(() => {
         <tr>
           <th>III (a)</th>
           <th>Research Publication (Journals)</th>
-          <th>Max API Score allotted: No maximum score. A percentage of three
+          <th colSpan= "2">Max API Score allotted: No maximum score. A percentage of three
           years score is considered for promotion as per UGC notification Feb 2018</th>
         </tr>
       </thead>
@@ -296,11 +327,16 @@ useEffect(() => {
           <th>Sr.No</th>
           <th>Title with Journal name , Volume no. page No ISSN/ISBN No</th>
           <th>Index (indicate serial numbers against applicable)</th>
+          <th>Self appraisal score</th>
         </tr>
 
         <tbody>
-        <tr>
-          <td>a.</td>
+
+        
+      
+        <tr >
+          <td >a.</td>
+          
           <td> A Modern Approach To Conventional Silk Farming</td>
           <td>
           <Form.Label>SCI</Form.Label>
@@ -315,11 +351,18 @@ useEffect(() => {
               placeholder=""
               value={IIIaActa2}
               onChange={(e) => setIIIaActa2(e.target.value)}/></td>
-        </tr>
+              <td rowSpan="2"><Form.Label></Form.Label>
+            <Form.Control
+              type="text"
+              placeholder=""
+              value={IIIaActabSelf}
+              onChange={(e) => setIIIaActabSelf(e.target.value)}/></td>
+              </tr>
+        
 
         <tr>
         <td>b.</td>
-          <td> Bone Age Estimation System Using Deep Learning</td>
+          <td > Bone Age Estimation System Using Deep Learning</td>
           <td>
           <Form.Label>ESCI</Form.Label>
             <Form.Control
@@ -361,12 +404,11 @@ useEffect(() => {
               type="text"
               placeholder=""
               value={IIIaActb6}
-              onChange={(e) => setIIIaActb6(e.target.value)}/></td>
-            </tr>
+              onChange={(e) => setIIIaActb6(e.target.value)}/></td></tr>
 
             <tr>
               <td></td>
-              <td colspan="2"><Col>Evaluation Criteria:</Col>
+              <td colspan="3"><Col>Evaluation Criteria:</Col>
               <Col>1. Refereed Journals</Col>
               <Col>   • SCI –- 40 / publication</Col>
               <Col>   • ESCI –- 30 / publication</Col>
@@ -387,7 +429,7 @@ useEffect(() => {
         <tr>
         <th rowSpan="2">III (b)</th>
       <th colSpan="3">Research Projects</th>
-      <th colSpan="2">Max API Score allotted: 100</th>
+      <th colSpan="3">Max API Score allotted: 100</th>
     </tr>
     <tr>
       <th>Title</th>
@@ -395,6 +437,7 @@ useEffect(() => {
       <th>ISBN</th>
       <th>Peer Review</th>
       <th>Co-author</th>
+      <th>Self Appraisal Score</th>
         </tr>
       </thead>
 
@@ -463,6 +506,19 @@ useEffect(() => {
                   setResearchArticle(newResearchArticle)
                 } }/>
               </td>
+
+              <td>
+                <Form.Control
+                type="text"
+                placeholder="Enter selfscore"
+                value={researcharticle.selfscore}
+                onChange={(e) =>{
+                  const newResearchArticle = [...ResearchArticle]
+                  newResearchArticle[index].selfscore = e.target.value
+                  setResearchArticle(newResearchArticle)
+                } }/>
+
+              </td>
               
               <td>
                 <Button
@@ -480,7 +536,7 @@ useEffect(() => {
       }
       <tr>
             <td></td>
-              <td colspan="5">Evaluation Criteria:
+              <td colspan="6">Evaluation Criteria:
               <Col>1. Text or Reference Books Published by International Publishers with an established peer review system---- 50 /sole author; 10 /chapter in an edited book</Col>
 <Col>2. Subjects Books by National level publishers/State and Central Govt. Publications with ISBN/ISSN numbers ---25 /sole author, and 5/ chapter in edited books</Col>
 <Col>3. Subject Books by Other local publishers with ISBN/ISSN numbers --- 15 / sole author, and 3 / chapter in edited book</Col>
@@ -495,6 +551,7 @@ useEffect(() => {
               </td>
       </tr>
       </Table>
+
       <div className="text-center mb-3">
             <Row>
               <Col>
@@ -509,13 +566,14 @@ useEffect(() => {
         <thead>
         <tr>
         <th rowSpan="2">III (c)</th>
-      <th colSpan="4">Research Projects (Ongoing)</th>
+      <th colSpan="5">Research Projects (Ongoing)</th>
     </tr>
     <tr>
       <th>Title</th>
       <th>Agency</th>
       <th>Period</th>
       <th>Amount</th>
+      <th>Self Appraisal Score</th>
         </tr>
       </thead>
 
@@ -571,6 +629,20 @@ useEffect(() => {
                   setResearchProjectON(newResearchProjectON)
                 } }/> 
               </td>
+
+              <td>
+                <Form.Control
+                type="text"
+                placeholder="Enter selfscore"
+                value={researchprojecton.selfscore}
+                onChange={(e) =>{
+                  const newResearchProjectON = [...ResearchProjectON]
+                  newResearchProjectON[index].selfscore = e.target.value
+                  setResearchProjectON(newResearchProjectON)
+                } }/>
+
+              </td>
+
               <td>
                 <Button
                   variant="danger"
@@ -585,7 +657,7 @@ useEffect(() => {
       }
       <tr>
         <td></td>
-        <td colSpan="4"><Col>Evaluation Criteria:</Col>
+        <td colSpan="5"><Col>Evaluation Criteria:</Col>
           <Col>a) Major Projects amount mobilized with grants above 20.0 lakhs 30 points</Col>
 <Col>a) Major Projects amount mobilized with grants above 5.0 lakhs 20 points</Col>
 <Col>b) Major Projects Amount mobilized with a minimum of Rs. 3.00 lakhs up to Rs. 5.00 lakhs 15 points</Col>
@@ -613,13 +685,14 @@ useEffect(() => {
         <thead>
         <tr>
         <th rowSpan="2">III (c)</th>
-      <th colSpan="4">Research Projects (Completed)</th>
+      <th colSpan="5">Research Projects (Completed)</th>
     </tr>
     <tr>
       <th>Title</th>
       <th>Agency</th>
       <th>Period</th>
       <th>Amount</th>
+      <th>Self Appraisal Score</th>
         </tr>
       </thead>
 
@@ -675,6 +748,20 @@ useEffect(() => {
                   setResearchProjectCOMP(newResearchProjectCOMP)
                 } }/> 
               </td>
+
+              <td>
+                <Form.Control
+                type="text"
+                placeholder="Enter selfscore"
+                value={researchprojectcomp.selfscore}
+                onChange={(e) =>{
+                  const newResearchProjectCOMP = [...ResearchProjectCOMP]
+                  newResearchProjectCOMP[index].selfscore = e.target.value
+                  setResearchProjectCOMP(newResearchProjectCOMP)
+                } }/>
+
+              </td>
+
               <td>
                 <Button
                   variant="danger"
@@ -689,7 +776,7 @@ useEffect(() => {
       }
       <tr>
         <td></td>
-        <td colSpan="4"><Col>Evaluation Criteria:</Col>
+        <td colSpan="5"><Col>Evaluation Criteria:</Col>
           <Col>a) Major Projects amount mobilized with grants above 20.0 lakhs 30 points</Col>
 <Col>a) Major Projects amount mobilized with grants above 5.0 lakhs 20 points</Col>
 <Col>b) Major Projects Amount mobilized with a minimum of Rs. 3.00 lakhs up to Rs. 5.00 lakhs 15 points</Col>
@@ -716,13 +803,14 @@ useEffect(() => {
         <thead>
         <tr>
         <th rowSpan="2">III (d)</th>
-      <th colSpan="3">Research Guidance</th>
+      <th colSpan="4">Research Guidance</th>
       
     </tr>
     <tr>
       <th>Enrolled</th>
       <th>Thesis Submitted</th>
       <th>Degree Awarded</th>
+      <th>Self Appraisal Score</th>
         </tr>
       </thead>
       
@@ -766,6 +854,19 @@ useEffect(() => {
                   setResearchGuidance(newResearchGuidance)
                 } }/>
             </td>
+
+                <td>
+                <Form.Control
+                type="text"
+                placeholder="Enter selfscore"
+                value={researchguidance.selfscore}
+                onChange={(e) =>{
+                  const newResearchGuidance = [...ResearchGuidance]
+                  newResearchGuidance[index].selfscore = e.target.value
+                  setResearchGuidance(newResearchGuidance)
+                } }/>
+                </td>
+
             <td>
               <Button
                 variant="danger"
@@ -779,11 +880,11 @@ useEffect(() => {
       }
       <tr>
         <td></td>
-        <td><Col>Evaluation Criteria:</Col>
-          <Col>M. Phil /ME     <Col>Degree awarded–5 /each candidate</Col>
+        <td colSpan="4"><Col>Evaluation Criteria:</Col>
+          <Col>1) M. Phil /ME     <Col>Degree awarded–5 /each candidate</Col>
                                <Col>Thesis submitted–2 /each candidate</Col></Col>
 
-          <Col>PhD              <Col>Degree awarded	–10 /each candidate</Col> 
+          <Col>2) PhD              <Col>Degree awarded	–10 /each candidate</Col> 
                                  <Col>Thesis submitted–7 /each candidate</Col></Col>
 
         </td>
@@ -803,12 +904,13 @@ useEffect(() => {
         <thead>
         <tr>
         <th rowSpan="2">III (e-i)</th>
-      <th colSpan="3">TRAINING COURSES AND Faculty Development Programs (not less than one week) max 30pts</th>
+      <th colSpan="4">TRAINING COURSES AND Faculty Development Programs (not less than one week) max 30pts</th>
       </tr>
       <tr>
       <th>Programme</th>
       <th>Duration</th>
       <th>Organized by</th>
+      <th>Self Appraisal Score</th>
         </tr>
       </thead>
       {
@@ -849,6 +951,21 @@ useEffect(() => {
                     setTrainingCourse(newTrainingCourse)
                   } }/>
               </td>
+
+                  <td>
+                <Form.Control
+
+                  type="text"
+                  placeholder="Enter selfscore"
+                  value={trainingcourse.selfscore}
+                  onChange={(e) =>{
+                    const newTrainingCourse = [...TrainingCourse]
+                    newTrainingCourse[index].selfscore = e.target.value
+                    setTrainingCourse(newTrainingCourse)
+                  } }/>
+
+                  </td>
+
               <td>
                 <Button
                   variant="danger"
@@ -862,7 +979,7 @@ useEffect(() => {
       }
       <tr>
         <td></td>
-        <td><Col>Evaluation Criteria:</Col>
+        <td colspan="4"><Col>Evaluation Criteria:</Col>
           <Col>a. courses (not less than three Weeks)/Workshops of not less than one week 20 / each event</Col>
 <Col>b. International conference/Seminar / Symposia 20 / each event</Col>
 <Col>c. National conference/Seminar / Symposia	10 / each event</Col>
@@ -885,13 +1002,14 @@ useEffect(() => {
         <thead>
         <tr>
         <th rowSpan="2">III (e-ii)</th>
-      <th colSpan="4">PAPER PRESENTATIONS IN CONFERENCES AND SEMINARS</th>
+      <th colSpan="5">PAPER PRESENTATIONS IN CONFERENCES AND SEMINARS</th>
     </tr>
     <tr>
       <th>Title of paper</th>
       <th>Title of Seminar/Conference</th>
       <th>Organized by</th>
       <th>Level</th>
+      <th>Self Appraisal Score</th>
         </tr>
       </thead>
 
@@ -944,6 +1062,20 @@ useEffect(() => {
                   setPaperPresentConference(newPaperPresentConference)
                 } }/>
             </td>
+
+                <td>
+                <Form.Control
+                type="text"
+                placeholder="Enter selfscore"
+                value={paperpresentconference.selfscore}
+                onChange={(e) =>{
+                  const newPaperPresentConference = [...PaperPresentConference]
+                  newPaperPresentConference[index].selfscore = e.target.value
+                  setPaperPresentConference(newPaperPresentConference)
+                } }/>
+
+                </td>
+
             <td>
               <Button
                 variant="danger"
@@ -957,7 +1089,7 @@ useEffect(() => {
     }
     <tr>
       <td></td>
-      <td colSpan="4"><Col>*Level – write I for International, N for National, S for state, R for regional, C for college or University</Col>
+      <td colSpan="5"><Col>*Level – write I for International, N for National, S for state, R for regional, C for college or University</Col>
       <Col>Evaluation Criteria:</Col>
       <Col>Participation and Presentation of research papers (oral/poster) in</Col>
       <Col>a)	International / Foreign conference etc.,---10/ each</Col>
@@ -981,13 +1113,14 @@ useEffect(() => {
         <thead>
         <tr>
         <th rowSpan="2">III (e-iii)</th>
-      <th colSpan="4">INVITED LECTURES AND CHAIRMANSHIP AT NATIONAL OR INTERNATIONAL CONFERENCE/SEMINAR</th>
+      <th colSpan="5">INVITED LECTURES AND CHAIRMANSHIP AT NATIONAL OR INTERNATIONAL CONFERENCE/SEMINAR</th>
     </tr>
     <tr>
       <th>Title of Lecture</th>
       <th>Title of Seminar/Conference</th>
       <th>Organized by</th>
       <th>Level</th>
+      <th>Self Appraisal Score</th>
         </tr>
       </thead>
 
@@ -1040,6 +1173,20 @@ useEffect(() => {
                     setInvitedLecture(newInvitedLecture)
                   } }/>
               </td>
+
+                  <td>
+                <Form.Control
+                type="text"
+                placeholder="Enter selfscore"
+                value={invitedlecture.selfscore}
+                onChange={(e) =>{
+                  const newInvitedLecture = [...InvitedLecture]
+                  newInvitedLecture[index].selfscore = e.target.value
+                  setInvitedLecture(newInvitedLecture)
+                } }/>
+
+                  </td>
+
               <td>
                 <Button
                   variant="danger"
@@ -1053,7 +1200,7 @@ useEffect(() => {
       }
       <tr>
         <td></td>
-        <td><Col>Evaluation Criteria:</Col>
+        <td colspan="5"><Col>Evaluation Criteria:</Col>
         <Col>a)	International / Foreign conference etc.,---10/ each</Col>
         <Col>b)	National	–-7.5 / each</Col>
         <Col>c)	Regional/State level/local	–-5/ each</Col>
@@ -1074,13 +1221,14 @@ useEffect(() => {
         <thead>
         <tr>
         <th rowSpan="2">III (F)</th>
-      <th colSpan="4">AWARDS AND HONOURS (Maximum 50 points)</th>
+      <th colSpan="5">AWARDS AND HONOURS (Maximum 50 points)</th>
     </tr>
     <tr>
       <th>Award</th>
       <th>Agency Involved</th>
       <th>Level</th>
       <th>Discipline</th>
+      <th>Self Appraisal Score</th>
         </tr>
       </thead>
 
@@ -1133,6 +1281,21 @@ useEffect(() => {
                     setAward(newAward)
                   } }/>
               </td>
+
+                  <td>
+                <Form.Control
+                type="text"
+                placeholder="Enter selfscore"
+                value={award.selfscore}
+                onChange={(e) =>{
+                  const newAward = [...Award]
+                  newAward[index].selfscore = e.target.value
+                  setAward(newAward)
+                }
+                }/>
+
+                  </td>
+
               <td>
                 <Button
                   variant="danger"
@@ -1146,7 +1309,7 @@ useEffect(() => {
       }
       <tr>
         <td></td>
-        <td><Col>Evaluation Criteria:</Col>
+        <td colspan="5"><Col>Evaluation Criteria:</Col>
         <Col>Discipline specific Awards:</Col>
         <Col>1.	Awards by Foreign Universities,AccreditedInternational Bodies-	--50 /each</Col>
         
@@ -1177,11 +1340,24 @@ useEffect(() => {
           </Col>
           </Row>
           </div>
+
+      <Table striped bordered hover>
+        
+        <tbody>
+          <tr>
+            <td>Total of Category III</td>
+            <td>
+              <Form.Text style={{fontSize:'17px'}}>{IIISelfTotal}</Form.Text>               
+            </td>
+          </tr>
+        </tbody>
+      </Table>
+
+
+
       <div className="text-center mb-3">
             <Row>
               <Col>
-          
-          
           <Form.Group controlId="formFile" className="mb-3">
             <Form.Label>Upload supporting documents (pdf)</Form.Label>
             <Form.Control type="file" onChange={handleUpload} />
@@ -1190,7 +1366,7 @@ useEffect(() => {
           </Row>
           </div>
 
-      <p>*If a paper presented in Conference/Seminar is published in the form of Proceedings, the points would accrue for the publication (III(a) and not under presentation (III(e)(ii)).</p>
+      <p>*If a paper presented in Conference/Seminar is published in the form of Proceedings, the points would accrue for the publication (III(a) and not under presentation (III(e)(ii))).</p>
        
       <div className='text-center mb-4'>
         <Row>
@@ -1222,6 +1398,7 @@ useEffect(() => {
         </Col>
       </Row>
     </Container>
-    )}
-
-export default Form2C
+    )
+    }
+    
+export default Form2C;

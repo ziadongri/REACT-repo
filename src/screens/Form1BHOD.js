@@ -106,7 +106,7 @@ function Form1BHOD() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate('/form2AHOD', { state: {facultyUID: facultyData[0].uid} });
+    navigate('/form2ahod', { state: {facultyUID: facultyData[0].uid} });
     console.log(facultyData[0].uid);
   };
 
@@ -327,7 +327,7 @@ function Form1BHOD() {
                 </Col>
                 <Col>
                   <Button variant="primary" type="submit" onClick={handleSubmit}>
-                    <Link to="/form2AHOD" className="text-decoration-none text-white">
+                    <Link to="/form2ahod" className="text-decoration-none text-white">
                       Next
                     </Link>
                   </Button>
