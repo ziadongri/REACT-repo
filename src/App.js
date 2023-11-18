@@ -20,8 +20,13 @@ import Form1BHOD from './screens/Form1BHOD'
 import Form2AHOD from './screens/Form2AHOD'
 import Form2BHOD from './screens/Form2BHOD'
 import Form2CHOD from './screens/Form2CHOD'
+import Form3HOD from './screens/Form3HOD'
 import Form1PC from './screens/Form1PC'
 import Form2APC from './screens/Form2APC'
+import Form2BPC from './screens/Form2BPC'
+import Form2CPC from './screens/Form2CPC'
+import Form3PC from './screens/Form3PC'
+
 
 
 function App() {
@@ -100,8 +105,12 @@ function App() {
         <Route path="/form2ahod" element={<Form2AHOD />} />
         <Route path="/form2bhod" element={<Form2BHOD />} />
         <Route path="/form2chod" element={<Form2CHOD />} />
+        <Route path="/form3hod" element={<Form3HOD />} />
         <Route path="/form1principal" element={<Form1PC />} />
         <Route path="/form2aprincipal" element={<Form2APC />} />
+        <Route path="/form2bprincipal" element={<Form2BPC />} />
+        <Route path="/form2cprincipal" element={<Form2CPC />} />
+        <Route path="/form3principal" element={<Form3PC />} />
 
         
       </Routes>

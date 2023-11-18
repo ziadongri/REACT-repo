@@ -111,6 +111,22 @@ function Form2BHOD() {
             console.log("Document written with ID: ", facultyUID);
           }
 
+          const handleForm2AHODNavigation = async (e) => {
+            e.preventDefault();
+            navigate('/form2ahod', { state: { facultyUID: facultyUID } });
+          }
+
+          const handleForm2CHODNavigation = async (e) => {
+            e.preventDefault();
+            navigate('/form2chod', { state: { facultyUID: facultyUID } });
+          }
+
+          const handleForm3HODNavigation = async (e) => {
+            e.preventDefault();
+            navigate('/form3hod', { state: { facultyUID: facultyUID } });
+          }
+
+
           if (loading) {
             return <p>Loading...</p>;
           }
@@ -124,28 +140,35 @@ function Form2BHOD() {
             <Container fluid>
               <Row>
               <Col md={2} className="form-navigation">
-            <h3>Form Navigation</h3>
-            <ul>
-              <li>
-                <Link to="/form1">Part A</Link>
-              </li>
-              <li>
-                <span className="form2-subsection">Part B</span>
-                <ul className="form2-subsection-list">
-                  <li>
-                    <Link to="/form2a" className="form2-subsection-link">Category A</Link>
-                  </li>
-                  <li>
-                    <Link to="/form2b" className="form2-subsection-link">Category B</Link>
-                  </li>
-                  <li>
-                    <Link to="/form2c" className="form2-subsection-link">Category C</Link>
-                  </li>
-                </ul>
-              </li>
-              {/* Add more form links as needed */}
-            </ul>
-          </Col>
+          <h3>Form Navigation</h3>
+          <ul>
+            <li>
+              <Link to="/form1bhod">Part A</Link>
+            </li>
+            <li>
+              <span className="form2-subsection">Part B</span>
+              <ul className="form2-subsection-list">
+                <li>
+                  <Link onClick={handleForm2AHODNavigation}
+                  className="form2-subsection-link">Category A</Link>
+                </li>
+                <li>
+                  <Link 
+                  to = "/form2bhod" 
+                  className="form2-subsection-link">Category B</Link>
+                </li>
+                <li>
+                  <Link onClick={handleForm2CHODNavigation} className="form2-subsection-link">Category C</Link>
+                </li>
+              </ul>
+            </li>
+            <li>
+            <Link onClick={handleForm3HODNavigation}>Part C</Link>
+          </li>
+            {/* Add more form links as needed */}
+          </ul>
+        </Col>
+        
                 <Col md={9}>
                 <h1>Part B: Academic Performance Indicators</h1>
                   
@@ -199,7 +222,7 @@ function Form2BHOD() {
                         </tr>
                         <tr>
                           <td></td>
-                        <td colSpan={3}>
+                        <td colSpan={4}>
                           <Col>Evaluation Criteria:</Col>
                         <Col>a) Contribution to corporate life in colleges and universities through meetings/popular lectures/subject-related events/articles in college magazines and university volumes - 3 pts each</Col>
                         <Col>Institutional governance responsibilities like Vice-Principal, Deans, HOD, Director, IQAC Coordinator/T&P officer, Exam cell in charge, Admission cell in charge maximum of 25 points (or any other equivalent responsibility)</Col>
@@ -358,7 +381,7 @@ function Form2BHOD() {
                         <Col>
                           <Button variant="primary">
                             <Link
-                              to="/form2ahod"
+                              onClick={handleForm2AHODNavigation}
                               className="text-decoration-none text-white"
                             >
                               Previous
@@ -379,7 +402,7 @@ function Form2BHOD() {
                             onClick={handleSubmit}
                           >
                             <Link
-                              to="/form2chod"
+                             onClick={handleForm2CHODNavigation}
                               className="text-decoration-none text-white"
                             >
                               Next

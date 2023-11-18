@@ -104,19 +104,19 @@ function Form1PC() {
             <h3>Form Navigation</h3>
             <ul>
               <li>
-                <Link to="/form1bhod">Part A</Link>
+                <Link to="/form1principal">Part A</Link>
               </li>
               <li>
                 <span className="form2-subsection">Part B</span>
                 <ul className="form2-subsection-list">
                   <li>
-                    <Link to="/form2ahod" className="form2-subsection-link">Category A</Link>
+                    <Link to="/form2aprincipal" className="form2-subsection-link">Category A</Link>
                   </li>
                   <li>
-                    <Link to="/form2bhod" className="form2-subsection-link">Category B</Link>
+                    <Link to="/form2bprincipal" className="form2-subsection-link">Category B</Link>
                   </li>
                   <li>
-                    <Link to="/form2chod" className="form2-subsection-link">Category C</Link>
+                    <Link to="/form2cprincipal" className="form2-subsection-link">Category C</Link>
                   </li>
                 </ul>
               </li>

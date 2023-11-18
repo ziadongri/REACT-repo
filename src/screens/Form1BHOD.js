@@ -110,6 +110,8 @@ function Form1BHOD() {
     console.log(facultyData[0].uid);
   };
 
+
+  
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -127,16 +129,20 @@ function Form1BHOD() {
               <span className="form2-subsection">Part B</span>
               <ul className="form2-subsection-list">
                 <li>
-                  <Link to="/form2ahod" className="form2-subsection-link">Category A</Link>
+                  <Link onClick={() => navigate('/form2ahod', { state: {facultyUID: facultyData[0].uid} })}
+                  className="form2-subsection-link">Category A</Link>
                 </li>
                 <li>
-                  <Link to="/form2bhod" className="form2-subsection-link">Category B</Link>
+                  <Link onClick={() => navigate('/form2bhod', { state: {facultyUID: facultyData[0].uid} })} className="form2-subsection-link">Category B</Link>
                 </li>
                 <li>
-                  <Link to="/form2chod" className="form2-subsection-link">Category C</Link>
+                  <Link onClick={() => navigate('/form2chod', { state: {facultyUID: facultyData[0].uid} })} className="form2-subsection-link">Category C</Link>
                 </li>
               </ul>
             </li>
+            <li>
+            <Link onClick={() => navigate('/form3', { state: {facultyUID: facultyData[0].uid} })}>Part C</Link> 
+          </li>
             {/* Add more form links as needed */}
           </ul>
         </Col>
@@ -318,6 +324,13 @@ function Form1BHOD() {
             })}
             <div className="text-center">
               <Row>
+                <Col>
+                <Button variant="primary" >
+            <Link to="/form1ahod" className="text-decoration-none text-white">
+                Previous
+              </Link>
+            </Button>
+                </Col>
                 <Col>
                   <Button variant="primary" type="submit">
                     <Link className="text-decoration-none text-white">

@@ -106,6 +106,26 @@ function Form2AHOD() {
     navigate('/form2bhod', { state: { facultyUID: facultyUID } });
     // console.log(facultyAUID)
   }
+
+  const handleForm2BHODNavigation = async (e) => {
+    e.preventDefault();
+    navigate('/form2bhod', { state: { facultyUID: facultyUID } });
+  }
+
+  // const handleForm1BHODNavigation = async (e) => {
+  //   e.preventDefault();
+  //   navigate('/form1bhod', { state: { facultyUID: facultyUID } });
+  // }
+
+  const handleForm2CHODNavigation = async (e) => {
+    e.preventDefault();
+    navigate('/form2chod', { state: { facultyUID: facultyUID } });
+  }
+
+  const handleForm3HODNavigation = async (e) => {
+    e.preventDefault();
+    navigate('/form3hod', { state: { facultyUID: facultyUID } });
+  }
   
   if (loading) {
     return <p>Loading...</p>;
@@ -119,28 +139,34 @@ function Form2AHOD() {
     <Container fluid >
       <Row>
       <Col md={2} className="form-navigation">
-    <h3>Form Navigation</h3>
-    <ul>
-      <li>
-        <Link to="/form1bhod">Part A</Link>
-      </li>
-      <li>
-        <span className="form2-subsection">Part B</span>
-        <ul className="form2-subsection-list">
-          <li>
-            <Link to="/form2ahod" className="form2-subsection-link">Category A</Link>
+          <h3>Form Navigation</h3>
+          <ul>
+            <li>
+              <Link to="/form1bhod">Part A</Link>
+            </li>
+            <li>
+              <span className="form2-subsection">Part B</span>
+              <ul className="form2-subsection-list">
+                <li>
+                  <Link 
+                  to = "/form2ahod"
+                  className="form2-subsection-link">Category A</Link>
+                </li>
+                <li>
+                  <Link onClick={handleForm2BHODNavigation} className="form2-subsection-link">Category B</Link>
+                </li>
+                <li>
+                  <Link onClick={handleForm2CHODNavigation} className="form2-subsection-link">Category C</Link>
+                </li>
+              </ul>
+            </li>
+            <li>
+            <Link onClick={handleForm3HODNavigation}>Part C</Link>
           </li>
-          <li>
-            <Link to="/form2bhod" className="form2-subsection-link">Category B</Link>
-          </li>
-          <li>
-            <Link to="/form2chod" className="form2-subsection-link">Category C</Link>
-          </li>
-        </ul>
-      </li>
-      {/* Add more form links as needed */}
-    </ul>
-  </Col>
+            {/* Add more form links as needed */}
+          </ul>
+        </Col>
+        
         <Col md={9}>
       <h1>Part B: Academic Performance Indicators</h1>
       <h4 className="fw-lighter">Category I: Teaching, Learning and Evaluation related activities</h4>
@@ -389,7 +415,7 @@ function Form2AHOD() {
           </Col>
           <Col>
             <Button variant="primary" type="submit" onClick={handleSubmit}>
-              <Link to="/form2bhod" className="text-decoration-none text-white">
+              <Link onClick={handleForm2BHODNavigation} className="text-decoration-none text-white">
                 Next
               </Link>
             </Button>

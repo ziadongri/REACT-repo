@@ -12,6 +12,8 @@ function Form2CHOD() {
 
     const [ IIIaActabSelfHOD, setIIIaActabSelfHOD]= useState('')
     const [ ResearchArticleHOD, setResearchArticleHOD]= useState([])
+    // const [ResearchArticleHOD, setResearchArticleHOD] = useState(Array.from({ length: initialArrayLength }, () => ''));
+
     const [ ResearchProjectONHOD, setResearchProjectONHOD]= useState([])
     const [ ResearchProjectCOMPHOD, setResearchProjectCOMPHOD]= useState([])
     const [ ResearchGuidanceHOD, setResearchGuidanceHOD]= useState([])
@@ -20,6 +22,7 @@ function Form2CHOD() {
     const[ InvitedLectureHOD, setInvitedLectureHOD]= useState([])
     const [AwardHOD, setAwardHOD]= useState([])
     const [IIIActHODTotal, setIIIActHODTotal]= useState('') 
+    // const [researchArticleHOD, setResearchArticleHOD] = useState([]);
 
     const location = useLocation();
     const facultyUID = location.state.facultyUID;
@@ -83,6 +86,14 @@ function Form2CHOD() {
       fetchData();
     }, [facultyUID]);
 
+    useEffect(() => {
+      console.log('ResearchArticleHOD:', ResearchArticleHOD);
+   }, [ResearchArticleHOD]);
+
+   useEffect(() => {
+    console.log('ResearchProjectONHOD:', ResearchProjectONHOD);
+ }, [ResearchProjectONHOD]);
+
     const handleSubmit = async (e) => {
       e.preventDefault();
       const facultyRef = doc(db, "faculty", facultyUID);
@@ -116,8 +127,101 @@ function Form2CHOD() {
           AwardHOD: AwardHOD,
         });
       }
-      navigate('/formsubmission', {state: {facultyUID: facultyUID}});
+      // navigate('/form3HOD', {state: {facultyUID: facultyUID}});
     }
+
+    const handleForm2AHODNavigation = async (e) => {
+      e.preventDefault();
+      navigate('/form2ahod', { state: { facultyUID: facultyUID } });
+    }
+
+    const handleForm2BHODNavigation = async (e) => {
+      e.preventDefault();
+      navigate('/form2bhod', { state: { facultyUID: facultyUID } });
+    }
+
+    const handleForm3HODNavigation = async (e) => {
+      e.preventDefault();
+      navigate('/form3hod', { state: { facultyUID: facultyUID } });
+    }
+
+    // const handleResearchArticleInputChange = (value, index) => {
+    //   // Create a copy of the array to avoid mutating the state directly
+    //   const updatedHODArray = [...ResearchArticleHOD];
+    //   updatedHODArray[index] = value;
+    //   setResearchArticleHOD(updatedHODArray);
+    // };
+
+    const handleResearchArticleInputChange = (value, index) => {
+      if (index >= 0 && index < ResearchArticleHOD.length) {
+         const updatedHODArray = [...ResearchArticleHOD];
+         updatedHODArray[index] = value;
+         setResearchArticleHOD(updatedHODArray);
+      } else {
+         console.error('Invalid index:', index);
+      }
+   };
+
+   const handleResearchProjectONInputChange = (value, index) => {
+    if (index >= 0 && index < ResearchProjectONHOD.length) {
+       const updatedHODArray = [...ResearchProjectONHOD];
+       updatedHODArray[index] = value;
+       setResearchProjectONHOD(updatedHODArray);
+    } else {
+       console.error('Invalid index:', index);
+    }
+ };
+
+   
+
+    // const handleResearchProjectONInputChange = (value, index) => {
+    //   // Create a copy of the array to avoid mutating the state directly
+    //   const updatedHODArray = [...ResearchProjectONHOD];
+    //   updatedHODArray[index] = value;
+    //   setResearchProjectONHOD(updatedHODArray);
+    // };
+
+    const handleResearchProjectCOMPInputChange = (value, index) => {
+      // Create a copy of the array to avoid mutating the state directly
+      const updatedHODArray = [...ResearchProjectCOMPHOD];
+      updatedHODArray[index] = value;
+      setResearchProjectCOMPHOD(updatedHODArray);
+    };
+
+    const handleResearchGuidanceInputChange = (value, index) => {
+      // Create a copy of the array to avoid mutating the state directly
+      const updatedHODArray = [...ResearchGuidanceHOD];
+      updatedHODArray[index] = value;
+      setResearchGuidanceHOD(updatedHODArray);
+    };
+
+    const handleTrainingCourseInputChange = (value, index) => {
+      // Create a copy of the array to avoid mutating the state directly
+      const updatedHODArray = [...TrainingCourseHOD];
+      updatedHODArray[index] = value;
+      setTrainingCourseHOD(updatedHODArray);
+    };
+
+    const handlePaperPresentConferenceInputChange = (value, index) => {
+      // Create a copy of the array to avoid mutating the state directly
+      const updatedHODArray = [...PaperPresentConferenceHOD];
+      updatedHODArray[index] = value;
+      setPaperPresentConferenceHOD(updatedHODArray);
+    };
+
+    const handleInvitedLectureInputChange = (value, index) => {
+      // Create a copy of the array to avoid mutating the state directly
+      const updatedHODArray = [...InvitedLectureHOD];
+      updatedHODArray[index] = value;
+      setInvitedLectureHOD(updatedHODArray);
+    };
+
+    const handleAwardInputChange = (value, index) => {
+      // Create a copy of the array to avoid mutating the state directly
+      const updatedHODArray = [...AwardHOD];
+      updatedHODArray[index] = value;
+      setAwardHOD(updatedHODArray);
+    };
 
     if (loading) {
       return <h1>Loading...</h1>;
@@ -132,28 +236,35 @@ function Form2CHOD() {
     <Container fluid>
       <Row>
       <Col md={2} className="form-navigation">
-    <h3>Form Navigation</h3>
-    <ul>
-      <li>
-        <Link to="/form1">Part A</Link>
-      </li>
-      <li>
-        <span className="form2-subsection">Part B</span>
-        <ul className="form2-subsection-list">
-          <li>
-            <Link to="/form2a" className="form2-subsection-link">Category A</Link>
+          <h3>Form Navigation</h3>
+          <ul>
+            <li>
+              <Link to="/form1bhod">Part A</Link>
+            </li>
+            <li>
+              <span className="form2-subsection">Part B</span>
+              <ul className="form2-subsection-list">
+                <li>
+                  <Link onClick={handleForm2AHODNavigation}
+                  className="form2-subsection-link">Category A</Link>
+                </li>
+                <li>
+                  <Link onClick={handleForm2BHODNavigation} className="form2-subsection-link">Category B</Link>
+                </li>
+                <li>
+                  <Link 
+                  to = "/form2chod"
+                  className="form2-subsection-link">Category C</Link>
+                </li>
+              </ul>
+            </li>
+            <li>
+            <Link onClick={handleForm3HODNavigation}>Part C</Link>
           </li>
-          <li>
-            <Link to="/form2b" className="form2-subsection-link">Category B</Link>
-          </li>
-          <li>
-            <Link to="/form2c" className="form2-subsection-link">Category C</Link>
-          </li>
-        </ul>
-      </li>
-      {/* Add more form links as needed */}
-    </ul>
-  </Col>
+            {/* Add more form links as needed */}
+          </ul>
+        </Col>
+   
   <Col md={9}>
 
         <h1>Category III: (Assessment must be based on evidence produced by the teacher such as: copy of publications, project sanction letter, utilization and completion certificates issued by the University and acknowledgements for patent filing and approval letters, students’ Ph.D. award letter, etc.)</h1>
@@ -308,28 +419,38 @@ function Form2CHOD() {
         </tr>
       </thead>
 
-      {
-        facultyData.ResearchArticle.map((data,index) => (
-          <tbody key={index}>
-            <tr>
-              <td>{index + 1}</td>
-              <td>{data.title}</td>
-              <td>{data.booktitle}</td>
-              <td>{data.isbn}</td>
-              <td>{data.peerreview}</td>
-              <td>{data.coauthor}</td>
-              <td>{data.selfscore}</td>
-              <td>
-                <Form.Control
-                  type="text"
-                  placeholder=""
-                  value={ResearchArticleHOD}
-                  onChange={(e) => setResearchArticleHOD(e.target.value)}/>
-              </td>
-            </tr>          
-          </tbody>
-        ))
-      }
+      {facultyData.ResearchArticle.map((data, index) => (
+  <tbody key={index}>
+    <tr>
+      <td>{index + 1}</td>
+      <td>{data.title}</td>
+      <td>{data.booktitle}</td>
+      <td>{data.isbn}</td>
+      <td>{data.peerreview}</td>
+      <td>{data.coauthor}</td>
+      <td>{data.selfscore}</td>
+      <td>
+        {/* <Form.Control
+          type="text"
+          placeholder=""
+          value={ResearchArticleHOD[index] || ''}
+          onChange={(e) => handleResearchArticleInputChange(e.target.value, index)}
+        /> */}
+        {/* {ResearchArticleHOD[index] && ( */}
+   <Form.Control
+      type="text"
+      placeholder=""
+      value={ResearchArticleHOD[index] || ''}
+      onChange={(e) => handleResearchArticleInputChange(e.target.value, index)}
+    />
+
+  
+{/* )} */}
+      </td>
+    </tr>
+  </tbody>
+))}
+
       <tr>
             <td></td>
               <td colspan="7">Evaluation Criteria:
@@ -382,6 +503,11 @@ function Form2CHOD() {
                   placeholder=""
                   value={ResearchProjectONHOD}
                   onChange={(e) => setResearchProjectONHOD(e.target.value)}/>
+                  {/* <Form.Control
+                  type="text"
+                  placeholder=""
+                  value={ResearchProjectONHOD[index] || ''}
+                  onChange={(e) => handleResearchProjectONInputChange(e.target.value, index)}/> */}
               </td>
             </tr>
           </tbody>
@@ -435,8 +561,8 @@ function Form2CHOD() {
                 <Form.Control
                   type="text"
                   placeholder=""
-                  value={ResearchProjectCOMPHOD}
-                  onChange={(e) => setResearchProjectCOMPHOD(e.target.value)}/>
+                  value={ResearchProjectCOMPHOD[index] || ''}
+                  onChange={(e) => handleResearchProjectCOMPInputChange(e.target.value, index)}/>
               </td>
               
             </tr>
@@ -489,8 +615,8 @@ function Form2CHOD() {
               <Form.Control
                 type="text"
                 placeholder=""
-                value={ResearchGuidanceHOD}
-                onChange={(e) => setResearchGuidanceHOD(e.target.value)}/>
+                value={ResearchGuidanceHOD[index] || ''}
+                onChange={(e) => handleResearchGuidanceInputChange(e.target.value, index)}/>
             </td>
           </tr>
           </tbody>
@@ -536,8 +662,8 @@ function Form2CHOD() {
                 <Form.Control
                   type="text"
                   placeholder=""
-                  value={TrainingCourseHOD}
-                  onChange={(e) => setTrainingCourseHOD(e.target.value)}/>
+                  value={TrainingCourseHOD[index] || ''}
+                  onChange={(e) => handleTrainingCourseInputChange(e.target.value, index)}/>
               </td>
             </tr>
           </tbody>
@@ -586,8 +712,8 @@ function Form2CHOD() {
               <Form.Control
                 type="text"
                 placeholder=""
-                value={PaperPresentConferenceHOD}
-                onChange={(e) => setPaperPresentConferenceHOD(e.target.value)}/>
+                value={PaperPresentConferenceHOD[index] || ''}
+                onChange={(e) => handlePaperPresentConferenceInputChange(e.target.value, index)}/>
             </td>
           </tr>
         </tbody>
@@ -637,8 +763,8 @@ function Form2CHOD() {
                 <Form.Control
                   type="text"
                   placeholder=""
-                  value={InvitedLectureHOD}
-                  onChange={(e) => setInvitedLectureHOD(e.target.value)}/>
+                  value={InvitedLectureHOD[index] || ''}
+                  onChange={(e) => handleInvitedLectureInputChange(e.target.value, index)}/>
               </td>
             </tr>              
           </tbody>
@@ -685,8 +811,8 @@ function Form2CHOD() {
                 <Form.Control
                   type="text"
                   placeholder=""
-                  value={AwardHOD}
-                  onChange={(e) => setAwardHOD(e.target.value)}/>
+                  value={AwardHOD[index] || ''}
+                  onChange={(e) => handleAwardInputChange(e.target.value, index)}/>
                 </td>        
             </tr>           
           </tbody>
@@ -752,14 +878,14 @@ function Form2CHOD() {
         <Row>
           
           <Col>
-            <Button variant="primary" >
-            <Link to="/form2b" className="text-decoration-none text-white">
+            <Button variant="primary"  >
+            <Link onClick={handleForm2BHODNavigation} className="text-decoration-none text-white">
                 Previous
               </Link>
             </Button>
           </Col>
           <Col>
-            <Button variant="primary" type="submit" onClick={handleSubmit}>
+            <Button variant="primary"  onClick={handleSubmit}>
               <Link className="text-decoration-none text-white">
                 Save
               </Link>
@@ -767,10 +893,14 @@ function Form2CHOD() {
           </Col>
 
           <Col>
-            <Button variant="primary" type="submit" onClick={handleSubmit}>
-              Submit
+            <Button variant="primary" type="submit" onClick={handleSubmit} >
+              <Link onClick= {handleForm3HODNavigation} className="text-decoration-none text-white">
+                Next
+              </Link>
             </Button>
           </Col>
+
+          
 
         </Row>
           </div>

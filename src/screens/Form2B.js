@@ -197,7 +197,7 @@ function Form2B() {
                 </tr>
                 <tr>
                   <td></td>
-                <td colSpan={3}>
+                <td colSpan={4}>
                   <Col>Evaluation Criteria:</Col>
                 <Col>a) Contribution to corporate life in colleges and universities through meetings/popular lectures/subject-related events/articles in college magazines and university volumes - 3 pts each</Col>
                 <Col>Institutional governance responsibilities like Vice-Principal, Deans, HOD, Director, IQAC Coordinator/T&P officer, Exam cell in charge, Admission cell in charge maximum of 25 points (or any other equivalent responsibility)</Col>

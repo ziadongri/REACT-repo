@@ -193,7 +193,7 @@ useEffect(() => {
     const handleAddResearchProjectON = () => {
       setResearchProjectON((prevResearchProjectON) => [
         ...prevResearchProjectON,
-        { title: '', agency: '', period: '', amount:'', selfscore: ''  },
+        { title: '', agency: '', period: '', amount:'', selfscore: '' , ResearchProjectONHOD:'' },
       ]);
     }
 
