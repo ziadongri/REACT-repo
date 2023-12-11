@@ -111,6 +111,40 @@ function Form2BHOD() {
             console.log("Document written with ID: ", facultyUID);
           }
 
+          const handleSave = async (e) => {
+            e.preventDefault();
+            const facultyRef = doc(db, "faculty", facultyUID);
+            const docRef = doc(facultyRef, "partB", "CategoryB");
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+              await updateDoc(docRef, {
+                // IIActaSemHOD: IIActaSemHOD,
+                // IIActbSemHOD: IIActbSemHOD,
+                // IIActcSemHOD: IIActcSemHOD,
+                // IIActdSemHOD: IIActdSemHOD,
+                IIActaHOD: IIActaHOD,
+                IIActbHOD: IIActbHOD,
+                IIActcHOD: IIActcHOD,
+                IIActdHOD: IIActdHOD,
+                IIActTotalHOD: IIActTotalHOD,
+              });
+            } else {
+              await setDoc(docRef, {
+                // IIActaSemHOD: IIActaSemHOD,
+                // IIActbSemHOD: IIActbSemHOD,
+                // IIActcSemHOD: IIActcSemHOD,
+                // IIActdSemHOD: IIActdSemHOD,
+                IIActaHOD: IIActaHOD,
+                IIActbHOD: IIActbHOD,
+                IIActcHOD: IIActcHOD,
+                IIActdHOD: IIActdHOD,
+                IIActTotalHOD: IIActTotalHOD,
+              
+              });
+            }
+            alert("Data Saved");
+          }
+
           const handleForm2AHODNavigation = async (e) => {
             e.preventDefault();
             navigate('/form2ahod', { state: { facultyUID: facultyUID } });
@@ -389,12 +423,12 @@ function Form2BHOD() {
                           </Button>
                         </Col>
                         <Col>
-                    <Button variant="primary" type="submit" onClick={handleSubmit}>
-                      <Link className="text-decoration-none text-white">
-                        Save
-                      </Link>
-                    </Button>
-                  </Col>
+            <Button variant="primary" onClick={handleSave}>
+              {/* <Link className="text-decoration-none text-white"> */}
+                Save
+              {/* </Link> */}
+            </Button>
+          </Col>
                         <Col>
                           <Button
                             variant="primary"

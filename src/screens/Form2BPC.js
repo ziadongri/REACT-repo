@@ -51,8 +51,23 @@ function Form2BPC() {
      const handleSubmit = async () => {
 
             navigate('/form2cprincipal', { state: { facultyUID: facultyUID } });
-            console.log("Document written with ID: ", facultyUID);
+            // console.log("Document written with ID: ", facultyUID);
           }
+
+    const handleForm2APCNavigation = async (e) => {
+        e.preventDefault();
+        navigate('/form2aprincipal', { state: { facultyUID: facultyUID } });
+      }
+
+      const handleForm2CPCNavigation = async (e) => {
+        e.preventDefault();
+        navigate('/form2cprincipal', { state: { facultyUID: facultyUID } });
+      }
+    
+      const handleForm3PCNavigation = async (e) => {
+        e.preventDefault();
+        navigate('/form3principal', { state: { facultyUID: facultyUID } });
+      }     
 
           if (loading) {
             return <p>Loading...</p>;
@@ -76,15 +91,18 @@ function Form2BPC() {
                 <span className="form2-subsection">Part B</span>
                 <ul className="form2-subsection-list">
                   <li>
-                    <Link to="/form2aprincipal" className="form2-subsection-link">Category A</Link>
+                    <Link onClick={handleForm2APCNavigation} className="form2-subsection-link">Category A</Link>
                   </li>
                   <li>
                     <Link to="/form2bprincipal" className="form2-subsection-link">Category B</Link>
                   </li>
                   <li>
-                    <Link to="/form2cprincipal" className="form2-subsection-link">Category C</Link>
+                    <Link onClick={handleForm2CPCNavigation} className="form2-subsection-link">Category C</Link>
                   </li>
                 </ul>
+              </li>
+              <li>
+                <Link onClick={handleForm3PCNavigation}>Part C</Link>
               </li>
               {/* Add more form links as needed */}
             </ul>

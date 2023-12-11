@@ -26,6 +26,7 @@ function Form2AHOD() {
   const [IActTotalHOD, setIActTotalHOD] = useState("");
   const location = useLocation();
   const facultyUID = location.state.facultyUID;
+  console.log(facultyUID);
   let navigate = useNavigate();
  
   const Total = () => {
@@ -76,6 +77,35 @@ function Form2AHOD() {
     }
     fetchData();
   } , [facultyUID]);
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+    const facultyRef = doc(db, "faculty", facultyUID);
+    const docRef = doc(facultyRef, "partB", "CategoryA");
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      await updateDoc(docRef, {
+        IActaHOD: IActaHOD,
+        IActbHOD: IActbHOD,
+        IActcHOD: IActcHOD,
+        IActdHOD: IActdHOD,
+        IActeHOD: IActeHOD,
+        IActfHOD: IActfHOD,
+        IActTotalHOD: IActTotalHOD,
+      });
+    } else {
+      await setDoc(docRef, {
+        IActaHOD: IActaHOD,
+        IActbHOD: IActbHOD,
+        IActcHOD: IActcHOD,
+        IActdHOD: IActdHOD,
+        IActeHOD: IActeHOD,
+        IActfHOD: IActfHOD,
+        IActTotalHOD: IActTotalHOD,
+      });
+    }
+    alert("Data Saved");
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -407,10 +437,10 @@ function Form2AHOD() {
             </Button>
           </Col>
           <Col>
-            <Button variant="primary" type="submit" onClick={handleSubmit}>
-              <Link className="text-decoration-none text-white">
+            <Button variant="primary" onClick={handleSave}>
+              {/* <Link className="text-decoration-none text-white"> */}
                 Save
-              </Link>
+              {/* </Link> */}
             </Button>
           </Col>
           <Col>

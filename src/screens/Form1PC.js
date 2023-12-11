@@ -99,31 +99,9 @@ function Form1PC() {
 
     return (
       <Container fluid>
-        <Row>
-          <Col md={2} className="form-navigation">
-            <h3>Form Navigation</h3>
-            <ul>
-              <li>
-                <Link to="/form1principal">Part A</Link>
-              </li>
-              <li>
-                <span className="form2-subsection">Part B</span>
-                <ul className="form2-subsection-list">
-                  <li>
-                    <Link to="/form2aprincipal" className="form2-subsection-link">Category A</Link>
-                  </li>
-                  <li>
-                    <Link to="/form2bprincipal" className="form2-subsection-link">Category B</Link>
-                  </li>
-                  <li>
-                    <Link to="/form2cprincipal" className="form2-subsection-link">Category C</Link>
-                  </li>
-                </ul>
-              </li>
-              {/* Add more form links as needed */}
-            </ul>
-          </Col>
-          <Col md={6}>
+        {/* <Row> */}
+          
+          <Col >
             <h1>Part A: General Information</h1>
             <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="year">
@@ -478,13 +456,13 @@ function Form1PC() {
 
               <div className="text-center">
                 <Row>
-                  <Col>
+                  {/* <Col>
                     <Button variant="primary" type="submit">
                       <Link className="text-decoration-none text-white">
                         Save
                       </Link>
                     </Button>
-                  </Col>
+                  </Col> */}
                   <Col>
                     <Button variant="primary" type="submit" onClick={handleSubmit}>
                       <Link className="text-decoration-none text-white">
@@ -496,7 +474,7 @@ function Form1PC() {
               </div>
             </Form>
           </Col>
-        </Row>
+        {/* </Row> */}
       </Container>
     );
   }

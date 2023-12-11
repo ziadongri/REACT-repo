@@ -26,6 +26,7 @@ import Form2APC from './screens/Form2APC'
 import Form2BPC from './screens/Form2BPC'
 import Form2CPC from './screens/Form2CPC'
 import Form3PC from './screens/Form3PC'
+import AboutUs from './screens/aboutus'
 
 
 
@@ -72,8 +73,13 @@ function App() {
             ) : (
               <Nav className="ml-auto" >
                 <Nav.Link>
+                  <Link to="/aboutus" style={{fontSize: 15}} className="text-decoration-none text-white">
+                    ABOUT US
+                  </Link>
+                </Nav.Link>
+                <Nav.Link>
                   <Link to="/" className="text-decoration-none text-white">
-                    Login
+                    LOGIN
                   </Link>
                 </Nav.Link>
               </Nav>
@@ -111,6 +117,7 @@ function App() {
         <Route path="/form2bprincipal" element={<Form2BPC />} />
         <Route path="/form2cprincipal" element={<Form2CPC />} />
         <Route path="/form3principal" element={<Form3PC />} />
+        <Route path="/aboutus" element={<AboutUs />} />
 
         
       </Routes>

@@ -45,24 +45,22 @@ const Form3PC = () => {
       useEffect(() => {
         const fetchData = async () => {
          const facultyRef = doc(db, "faculty", facultyUID);
-         const docRef = doc(facultyRef, "part3", "part3");
+         const docRef = doc(facultyRef, "partC", "partC");
          const docSnap = await getDoc(docRef);
+
          if (docSnap.exists()) {
            setFacultyData(docSnap.data());
-           console.log("Document data:", docSnap.data());
+          //  console.log("Document data:", docSnap.data());
+          console.log("Document data:", facultyData);
          } else {
            // doc.data() will be undefined in this case
            console.log("No such document!");
          }
-  
+
          if (docSnap.exists()) {
-          
-          
           setRemarksPrincipal(docSnap.data().remarksPrincipal);
-  
           }
           console.log("Document data:", docSnap.data());
-  
         }
         fetchData();
       }, [facultyUID]);
@@ -74,13 +72,11 @@ const Form3PC = () => {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           await updateDoc(docRef, {
-            
             remarksPrincipal: remarksPrincipal
           });
           
         } else {
           await setDoc(docRef, {
-                
                 remarksPrincipal: remarksPrincipal
   
           });
@@ -235,46 +231,52 @@ const Form3PC = () => {
             <tbody>
             <tr>
               <td>Teaching</td>
-              <td>
+              <td>{facultyData && facultyData.teaching}</td>
+              {/* <td>
                 <Form.Control
                   type="text"
-                  value={facultyData.teachingData}
-                  
+                  value={facultyData.teaching}
+                  // onChange={(e) => setFacultyData(e.target.value)}                 
                 />
-              </td>
+              </td> */}
             </tr>
   
             <tr>
               <td>Extension</td>
-              <td>
+              <td>{facultyData && facultyData.extension}</td>
+              {/* <td>
                 <Form.Control
                   type="text"
-                  value={facultyData.extensionData}
+                  value={facultyData.extension || ""}
+                  // onChange={(e) => setFacultyData(e.target.value)}
                   
                 />
-              </td>
+              </td> */}
             </tr>
   
             <tr>
               <td>Research</td>
-              <td>
+              <td>{facultyData && facultyData.research}</td>
+              {/* <td>
                 <Form.Control
                   type="text"
-                  value={facultyData.researchData}
-                  
+                  value={facultyData.research || ""}
+                  // onChange={(e) => setFacultyData(e.target.value)}                  
                 />
-              </td>
+              </td> */}
             </tr>
   
             <tr>
               <td>Administration</td>
-              <td>
+              <td>{facultyData && facultyData.administration}</td>
+              {/* <td>
                 <Form.Control
                   type="text"
-                  value={facultyData.administrationData}
+                  value={facultyData && facultyData.administration}
+                  // onChange={(e) => setFacultyData(e.target.value)}
                   
                 />
-              </td>
+              </td> */}
             </tr>
   
             </tbody>
@@ -291,7 +293,8 @@ const Form3PC = () => {
             <Form.Control
               as="textarea"
               rows={3}
-              value={facultyData.justification}
+              value={facultyData && facultyData.justification}
+              // onChange={(e) => setFacultyData(e.target.value)}
               
             />
           </Form.Group>
@@ -307,7 +310,8 @@ const Form3PC = () => {
             <Form.Control
               as="textarea"
               rows={3}
-              value={facultyData.commentshod}
+              value={facultyData && facultyData.commentsHOD}
+              // onChange={(e) => setFacultyData(e.target.value)}
               
             />
           </Form.Group>
@@ -323,7 +327,8 @@ const Form3PC = () => {
             <Form.Control
               as="textarea"
               rows={3}
-              value={facultyData.suggestion}
+              value={facultyData && facultyData.suggestion}
+              // onChange={(e) => setFacultyData(e.target.value)}
               
             />
           </Form.Group>

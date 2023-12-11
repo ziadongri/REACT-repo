@@ -130,6 +130,43 @@ function Form2CHOD() {
       // navigate('/form3HOD', {state: {facultyUID: facultyUID}});
     }
 
+    const handleSave = async (e) => {
+      e.preventDefault();
+      const facultyRef = doc(db, "faculty", facultyUID);
+      const docRef = doc(facultyRef, "partB", "CategoryC");
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        await updateDoc(docRef, {
+          
+          IIIaActabSelfHOD: IIIaActabSelfHOD,
+          ResearchArticleHOD: ResearchArticleHOD,
+          ResearchProjectONHOD: ResearchProjectONHOD,
+          ResearchProjectCOMPHOD: ResearchProjectCOMPHOD,
+          ResearchGuidanceHOD: ResearchGuidanceHOD,
+          TrainingCourseHOD: TrainingCourseHOD,
+          PaperPresentConferenceHOD: PaperPresentConferenceHOD,
+          InvitedLectureHOD: InvitedLectureHOD,
+          AwardHOD: AwardHOD,
+        });
+        
+      } else {
+        await setDoc(docRef, {
+          
+          IIIaActabSelfHOD: IIIaActabSelfHOD,
+          ResearchArticleHOD: ResearchArticleHOD,
+          ResearchProjectONHOD: ResearchProjectONHOD,
+          ResearchProjectCOMPHOD: ResearchProjectCOMPHOD,
+          ResearchGuidanceHOD: ResearchGuidanceHOD,
+          TrainingCourseHOD: TrainingCourseHOD,
+          PaperPresentConferenceHOD: PaperPresentConferenceHOD,
+          InvitedLectureHOD: InvitedLectureHOD,
+          AwardHOD: AwardHOD,
+        });
+      }
+        alert("Data Saved!");
+      // navigate('/form3HOD', {state: {facultyUID: facultyUID}});
+    }
+
     const handleForm2AHODNavigation = async (e) => {
       e.preventDefault();
       navigate('/form2ahod', { state: { facultyUID: facultyUID } });
@@ -885,10 +922,10 @@ function Form2CHOD() {
             </Button>
           </Col>
           <Col>
-            <Button variant="primary"  onClick={handleSubmit}>
-              <Link className="text-decoration-none text-white">
+            <Button variant="primary" onClick={handleSave}>
+              {/* <Link className="text-decoration-none text-white"> */}
                 Save
-              </Link>
+              {/* </Link> */}
             </Button>
           </Col>
 

@@ -83,6 +83,8 @@ function Form3HOD() {
       const facultyRef = doc(db, "faculty", facultyUID);
       const docRef = doc(facultyRef, "partC", "partC");
       const docSnap = await getDoc(docRef);
+
+      if((justification.length > 100 && justification.length < 500) && (commentshod.length > 100 && commentshod.length < 500) && (suggestion.length > 50 && suggestion.length < 500)){
       if (docSnap.exists()) {
         await updateDoc(docRef, {
           teaching: teachingData,
@@ -106,8 +108,93 @@ function Form3HOD() {
 
         });
       }
+
+      
       navigate('/formsubmission', {state: {facultyUID: facultyUID}});
+    } else if(justification.length < 100 || justification.length > 500){
+      alert("Justification should be between 100 and 500 characters");
+    } else if(commentshod.length < 100 || commentshod.length > 500){
+      alert("Comments should be between 100 and 500 characters");
+    } else if(suggestion.length < 50 || suggestion.length > 500){
+      alert("Suggestions should be between 50 and 500 characters");
     }
+    }
+
+    const handleSave = async (e) => {
+      e.preventDefault();
+      const facultyRef = doc(db, "faculty", facultyUID);
+      const docRef = doc(facultyRef, "partC", "partC");
+      const docSnap = await getDoc(docRef);
+
+      if((justification.length > 100 && justification.length < 500) && (commentshod.length > 100 && commentshod.length < 500) && (suggestion.length > 50 && suggestion.length < 500)){
+      if (docSnap.exists()) {
+        await updateDoc(docRef, {
+          teaching: teachingData,
+          extension: extensionData,
+          research: researchData,
+          administration: administrationData,
+          justification: justification,
+          commentsHOD: commentshod,
+          suggestion: suggestion,
+        });
+        
+      } else {
+        await setDoc(docRef, {
+          teaching: teachingData,
+          extension: extensionData,
+          research: researchData,
+          administration: administrationData,
+          justification: justification,
+          commentsHOD: commentshod,
+          suggestion: suggestion,
+
+        });
+      }
+
+      
+      alert("Data saved successfully!");
+    } else if(justification.length < 100 || justification.length > 500){
+      alert("Justification should be between 100 and 500 characters");
+    } else if(commentshod.length < 100 || commentshod.length > 500){
+      alert("Comments should be between 100 and 500 characters");
+    } else if(suggestion.length < 50 || suggestion.length > 500){
+      alert("Suggestions should be between 50 and 500 characters");
+    }
+    }
+
+  //   const handleSave = async (e) => {
+  //     e.preventDefault();
+  //     const facultyRef = doc(db, "faculty", facultyUID);
+  //     const docRef = doc(facultyRef, "partC", "partC");
+  //     const docSnap = await getDoc(docRef);
+
+  //     if((justification.length > 100 && justification.length < 500) && (commentshod.length > 100 && commentshod.length < 500) && (suggestion.length > 50 && suggestion.length < 500)){
+  //     if (docSnap.exists()) {
+  //       await updateDoc(docRef, {
+  //         teaching: teachingData,
+  //         extension: extensionData,
+  //         research: researchData,
+  //         administration: administrationData,
+  //         justification: justification,
+  //         commentsHOD: commentshod,
+  //         suggestion: suggestion,
+  //       });
+        
+  //     } else {
+  //       await setDoc(docRef, {
+  //         teaching: teachingData,
+  //         extension: extensionData,
+  //         research: researchData,
+  //         administration: administrationData,
+  //         justification: justification,
+  //         commentsHOD: commentshod,
+  //         suggestion: suggestion,
+
+  //       });
+  //     }
+  //       alert("Data saved successfully!");
+  //   }
+  // }
 
     const handleForm2AHODNavigation = async (e) => {
       e.preventDefault();
@@ -367,10 +454,10 @@ function Form3HOD() {
             </Button>
           </Col>
           <Col>
-            <Button variant="primary" type="submit" onClick={handleSubmit}>
-              <Link className="text-decoration-none text-white">
+            <Button variant="primary" onClick={handleSave}>
+              {/* <Link className="text-decoration-none text-white"> */}
                 Save
-              </Link>
+              {/* </Link> */}
             </Button>
           </Col>
         <Col>
@@ -390,4 +477,6 @@ function Form3HOD() {
   )
 }
 
-export default Form3HOD;
+
+
+export default Form3HOD

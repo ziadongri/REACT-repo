@@ -54,6 +54,23 @@ function Form2APC() {
     navigate('/form2bprincipal', { state: { facultyUID: facultyUID } });
     // console.log(facultyAUID)
   }
+
+  const handleForm2BPCNavigation = async (e) => {  
+    e.preventDefault();
+    navigate('/form2bprincipal', { state: { facultyUID: facultyUID } });
+  }
+
+  const handleForm2CPCNavigation = async (e) => {
+    e.preventDefault();
+    navigate('/form2cprincipal', { state: { facultyUID: facultyUID } });
+  }
+
+  const handleForm3PCNavigation = async (e) => {
+    e.preventDefault();
+    navigate('/form3principal', { state: { facultyUID: facultyUID } });
+  }
+
+
   
   if (loading) {
     return <p>Loading...</p>;
@@ -79,12 +96,16 @@ function Form2APC() {
             <Link to="/form2aprincipal" className="form2-subsection-link">Category A</Link>
           </li>
           <li>
-            <Link to="/form2bprincipal" className="form2-subsection-link">Category B</Link>
+            <Link  onClick={handleForm2BPCNavigation}className="form2-subsection-link">Category B</Link>
           </li>
           <li>
-            <Link to="/form2cprincipal" className="form2-subsection-link">Category C</Link>
+            <Link onClick={handleForm2CPCNavigation} className="form2-subsection-link">Category C</Link>
           </li>
         </ul>
+      </li>
+      <li>
+        <Link onClick={handleForm3PCNavigation}>Part C</Link>
+
       </li>
       {/* Add more form links as needed */}
     </ul>
