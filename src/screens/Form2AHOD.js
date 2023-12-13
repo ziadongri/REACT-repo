@@ -11,7 +11,7 @@ import {
 import { auth, db, storage } from "../firebase";
 import { doc, collection, getDoc, setDoc, updateDoc, addDoc } from "firebase/firestore";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL, getStorage } from "firebase/storage";
 
 function Form2AHOD() {
   const [user, setUser] = useState(null);
@@ -427,6 +427,20 @@ function Form2AHOD() {
             </tr>
           </tbody>
         </Table>
+        <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Uploaded Document</Form.Label>
+            <br />
+            <a href={facultyData.documentAURL} target="_blank">
+              File
+            </a>
+
+          </Form.Group>
+          </Col>
+          </Row>
+          </div>
         <div className="text-center mb-4" >
         <Row>
           <Col>

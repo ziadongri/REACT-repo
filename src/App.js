@@ -27,11 +27,13 @@ import Form2BPC from './screens/Form2BPC'
 import Form2CPC from './screens/Form2CPC'
 import Form3PC from './screens/Form3PC'
 import AboutUs from './screens/aboutus'
-
-
+import { db, storage } from "./firebase";
+import { doc, collection, getDoc, setDoc, updateDoc, addDoc } from "firebase/firestore";
 
 function App() {
   const [isAuth, setIsAuth] = useState(false)
+  const [userData, setUserData] = useState(null)
+  const [user, setUser] = useState(null)
 
   const handleSignOut = () => {
     signOut(auth)
@@ -52,6 +54,74 @@ function App() {
     }
   }, [])
 
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUser(user)
+      } else {
+        setUser(null)
+      }
+    }
+    )
+    return unsubscribe
+  }
+  , [])
+
+  const fetchFacultyData = async (uid) => {
+    const docRef = doc(db, "faculty", uid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      setUserData(docSnap.data())
+    }
+  }
+
+  const fetchHODData = async (uid) => {
+    const docRef = doc(db, "hod", uid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      setUserData(docSnap.data())
+    }
+  }
+
+  const fetchPrincipalData = async (uid) => {
+    const docRef = doc(db, "principal", uid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      setUserData(docSnap.data())
+    }
+  }
+
+  const handleNavigation = () => {
+    if (userData) {
+      if (window.location.pathname === '/') {
+        if (userData.role === 'faculty') {
+          window.location.pathname = '/form1'
+        } else if (userData.role === 'hod') {
+          window.location.pathname = '/form1ahod'
+        }
+        else if (userData.role === 'principal') {
+          window.location.pathname = '/form1principal'
+        }
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (user) {
+      fetchFacultyData(user.uid)
+      fetchHODData(user.uid)
+      fetchPrincipalData(user.uid)
+    }
+  }
+  , [user])
+
+  useEffect(() => {
+    if (userData) {
+      handleNavigation()
+    }
+  }
+  , [userData])
+
   return (
     <Router>
       <Navbar  variant="dark" className="ms-auto" style={{backgroundColor: '#A02929', padding: 20}}>
@@ -68,6 +138,11 @@ function App() {
           <Navbar.Collapse id="basic-navbar-nav">
             {isAuth ? (
               <Nav className="ml-auto">
+                <Nav.Link>
+                <Link to="/aboutus" style={{fontSize: 15}} className="text-decoration-none text-white">
+                    ABOUT US
+                  </Link>
+                </Nav.Link>
                 <Nav.Link onClick={handleSignOut}>Sign Out</Nav.Link>
               </Nav>
             ) : (

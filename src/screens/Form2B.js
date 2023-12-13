@@ -341,7 +341,20 @@ function Form2B() {
             <Row>
               <Col>
           <Form.Group controlId="formFile" className="mb-3">
-            <Form.Label>Upload supporting documents (pdf)</Form.Label>
+            {/* <Form.Label>Upload supporting documents (pdf)</Form.Label>
+            <Form.Control type="file" onChange={handleUpload} /> */}
+            {documentBURL && (
+              <>
+              <Form.Label>Doucment uploaded successfully</Form.Label>
+              <br />
+              <a href={documentBURL} target="_blank" rel="noreferrer">
+                View Document
+              </a>
+              </>
+            )}
+            {!documentBURL && (
+              <Form.Label>Upload supporting documents (pdf)</Form.Label>
+            )}
             <Form.Control type="file" onChange={handleUpload} />
           </Form.Group>
           </Col>

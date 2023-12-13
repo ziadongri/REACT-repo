@@ -648,8 +648,22 @@ function Form2A() {
             <Row>
               <Col>
           <Form.Group controlId="formFile" className="mb-3">
-            <Form.Label>Upload supporting documents (pdf)</Form.Label>
+            {/* <Form.Label>Upload supporting documents (pdf)</Form.Label>
+            <Form.Control type="file" onChange={handleUpload} /> */}
+            {documentAURL && (
+              <>
+              <Form.Label>Doucment uploaded successfully</Form.Label>
+              <br />
+              <a href={documentAURL} target="_blank" rel="noreferrer">
+                View Document
+              </a>
+              </>
+            )}
+            {!documentAURL && (
+              <Form.Label>Upload supporting documents (pdf)</Form.Label>
+            )}
             <Form.Control type="file" onChange={handleUpload} />
+            
           </Form.Group>
           </Col>
           </Row>

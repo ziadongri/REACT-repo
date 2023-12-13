@@ -93,7 +93,7 @@ useEffect(() => {
       if (uploadedFile) {
         const storageRef = ref(storage, `documents/${uploadedFile.name}`);
         const uploadTask = uploadBytesResumable(storageRef, uploadedFile);
-  
+    
         uploadTask.on(
           "state_changed",
           (snapshot) => {
@@ -107,7 +107,7 @@ useEffect(() => {
             getDownloadURL(uploadTask.snapshot.ref).then((url) => {
               console.log(url);
               setDocumentCURL(url);
-              data.documentURL = url;
+              data.documentCURL = url;
               setDoc(docRef, data, { merge: true });
             });
           }
@@ -1359,7 +1359,20 @@ useEffect(() => {
             <Row>
               <Col>
           <Form.Group controlId="formFile" className="mb-3">
-            <Form.Label>Upload supporting documents (pdf)</Form.Label>
+            {/* <Form.Label>Upload supporting documents (pdf)</Form.Label>
+            <Form.Control type="file" onChange={handleUpload} /> */}
+            {documentCURL && (
+              <>
+              <Form.Label>Doucment uploaded successfully</Form.Label>
+              <br />
+              <a href={documentCURL} target="_blank" rel="noreferrer">
+                View Document
+              </a>
+              </>
+            )}
+            {!documentCURL && (
+              <Form.Label>Upload supporting documents (pdf)</Form.Label>
+            )}
             <Form.Control type="file" onChange={handleUpload} />
           </Form.Group>
           </Col>

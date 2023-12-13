@@ -316,6 +316,20 @@ function Form2APC() {
             </tr>
           </tbody>
         </Table>
+        <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Uploaded Document</Form.Label>
+            <br />
+            <a href={facultyData.documentAURL} target="_blank">
+              File
+            </a>
+
+          </Form.Group>
+          </Col>
+          </Row>
+          </div>
 
         <div className="text-center mb-4" >
         <Row>
