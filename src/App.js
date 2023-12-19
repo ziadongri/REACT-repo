@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {Link, BrowserRouter as Router, Route, Routes} from 'react-router-dom'
+import {Link, HashRouter as Router, Route, Routes} from 'react-router-dom'
 import { Container, Nav, Navbar, Row, Col } from 'react-bootstrap'
 import LoginFaculty from './screens/LoginFaculty'
 import {auth} from './firebase'
