@@ -16,6 +16,7 @@ function Form2B() {
   const [IIActb, setIIActb] = useState('');
   const [IIActc, setIIActc] = useState('');
   const [IIActd, setIIActd] = useState('');
+  const [responsibility, setResponsibility] = useState('');
   const [IIActTotal, setIIActTotal] = useState('');
   const [uploadedFile, setUploadedFile] = useState(null);
   const [documentBURL, setDocumentBURL] = useState("");
@@ -55,6 +56,7 @@ function Form2B() {
         setIIActb(data.IIActb || '');
         setIIActc(data.IIActc || '');
         setIIActd(data.IIActd || '');
+        
         setIIActTotal(data.IIActTotal || '');
         setDocumentBURL(data.documentBURL || '');
       }
@@ -229,6 +231,20 @@ function Form2B() {
                     
                     Contribution to Corporate life and management of Institution- 
                     <Col>List yearly or semester-wise responsibilities</Col>
+                    <p style= {{fontWeight:"bold"} }>Comments of the Head of the Department on (b) and (c) :</p>
+        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+          <Form.Text className="text-muted">
+            (Minimum characters: 100, Maximum characters: 500)
+          </Form.Text>
+          <Form.Control
+            as="textarea"
+            rows={3}
+            value={commentshod}
+            onChange={(e) => setCommentsHOD(e.target.value)}
+            minLength={100}
+            maxLength={500}
+          />
+        </Form.Group>
                     
                     
                   </td>

@@ -352,11 +352,11 @@ function Form2A() {
           <thead>
             <tr>
               <th></th>
-              <th>Courses Taught Lecture/ Practical code and name </th>
+              <th>Courses Taught Lecture / Practical code and name </th>
               <th>Class for which conducted</th>
-              <th>Target Lectures/ Practicals</th>
-              <th>Lectures/ Practicals Actually conducted</th>
-              <th>% of Classes/ Labs conducted</th>
+              <th>Target Lectures / Practicals</th>
+              <th>Lectures / Practicals Actually conducted</th>
+              <th>% of Classes / Labs conducted</th>
             </tr>
           </thead>
 
@@ -448,11 +448,11 @@ function Form2A() {
           <thead>
             <tr>
               <th></th>
-              <th>Courses Taught Lecture/ Practical code and name </th>
+              <th>Courses Taught Lecture / Practical code and name </th>
               <th>Class for which conducted</th>
-              <th>Target Lectures/ Practicals</th>
-              <th>Lectures/ Practicals Actually conducted</th>
-              <th>% of Classes/ Labs conducted</th>
+              <th>Target Lectures / Practicals</th>
+              <th>Lectures / Practicals Actually conducted</th>
+              <th>% of Classes / Labs conducted</th>
             </tr>
           </thead>
           {IEvensem.map((evensem, index) => (
@@ -543,6 +543,7 @@ function Form2A() {
               <th>Sr. No.</th>
               <th>Natural of Activity</th>
               <th>MAX API Score alloted</th>
+              <th>Self appraisal Score</th>
             </tr>
           </thead>
 
@@ -561,6 +562,9 @@ function Form2A() {
                 <Col>
                   no score if number of lectures taken is less than 70%{" "}
                 </Col>
+              </td>
+              <td>
+              <p className='text-center'>50</p>
               </td>
               <td>
                 <Form.Control
@@ -585,6 +589,9 @@ function Form2A() {
                 </Col>
               </td>
               <td>
+              <p className='text-center'>5</p>
+              </td>
+              <td>
                 <Form.Control
                   type="number"
                   placeholder=""
@@ -603,6 +610,9 @@ function Form2A() {
                   weak students (one point for each extra class in other than
                   mentioned in 1.a)
                 </Col>
+              </td>
+              <td>
+              <p className='text-center'>5</p>
               </td>
               <td>
                 <Form.Control
@@ -624,7 +634,7 @@ function Form2A() {
                 <Col>Evaluation Criteria:</Col>
                 <Form.Check
                   type="checkbox"
-                  label="Quality PPT made by self (5)"
+                  label="1. Quality PPT made by self (5)"
                   value="Quality PPT made by self (5)"
                   checked={check_d.includes("Quality PPT made by self (5)")}
                   onChange={(e) => {
@@ -637,7 +647,20 @@ function Form2A() {
                 />
                 <Form.Check
                   type="checkbox"
-                  label="Good quality video lectures available on public platforms"
+                  label="2. Animations/virtual labs/website (10)"
+                  value="Animations/virtual labs/website (10)"
+                  checked={check_d.includes("Animations/virtual labs/website (10)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_d([...check_d, e.target.value]);
+                    } else {
+                      setCheck_d(check_d.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="3. Good quality video lectures available on public platforms (recorded online lectures not to be considered) (10)"
                   value="Good quality video lectures available on public platforms"
                   checked={check_d.includes("Good quality video lectures available on public platforms")}
                   onChange={(e) => {
@@ -648,21 +671,78 @@ function Form2A() {
                     }
                   }}
                 />
+                <Form.Check
+                  type="checkbox"
+                  label="Arranged guest lecture (2 points per lecture. The guest
+                    should be external faculty from reputed institute or industry)"
+                  value="Arranged guest lecture (2 points per lecture. The guest
+                    should be external faculty from reputed institute or industry)"
+                  checked={check_d.includes("Arranged guest lecture (2 points per lecture. The guest should be external faculty from reputed institute or industry)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_d([...check_d, e.target.value]);
+                    } else {
+                      setCheck_d(check_d.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="5. Arranged subject related Industrial Visit (2 pts)"
+                  value="Arranged subject related Industrial Visit (2 pts)"
+                  checked={check_d.includes("Arranged subject related Industrial Visit (2 pts)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_d([...check_d, e.target.value]);
+                    } else {
+                      setCheck_d(check_d.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="6. Use of ICT (max 2)"
+                  value="Use of ICT (max 2)"
+                  checked={check_d.includes("Use of ICT (max 2)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_d([...check_d, e.target.value]);
+                    } else {
+                      setCheck_d(check_d.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+                
+                <Form.Check
+                  type="checkbox"
+                  label="7. Innovative pedagogy (max 2)"
+                  value="Innovative pedagogy (max 2)"
+                  checked={check_d.includes("Innovative pedagogy (max 2)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_d([...check_d, e.target.value]);
+                    } else {
+                      setCheck_d(check_d.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="8. Content beyond syllabus(max 2)"
+                  value="Content beyond syllabus(max 2)"
+                  checked={check_d.includes("Content beyond syllabus(max 2)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_d([...check_d, e.target.value]);
+                    } else {
+                      setCheck_d(check_d.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
 
-                {/* <Col>1. Quality PPT made by self (5)</Col>
-                <Col>2. Animations/virtual labs/website (10)</Col>
-                <Col>
-                  3. Good quality video lectures available on public platforms
-                  (recorded online lectures not to be considered) (10)
-                </Col>
-                <Col>
-                  4. Arranged guest lecture (2 points per lecture. The guest
-                  should be external faculty from reputed institute or industry)
-                </Col>
-                <Col>5. Arranged subject related Industrial Visit (2 pts)</Col>
-                <Col>6. Use of ICT (max 2)</Col>
-                <Col>7. Innovative pedagogy (max 2)</Col>
-                <Col>8. Content beyond syllabus(max 2)</Col>{" "} */}
+              </td>
+              <td>
+              <p className='text-center'>40</p>
               </td>
               <td>
                 <Form.Control
@@ -678,19 +758,117 @@ function Form2A() {
               <td>e.</td>
               <td>
                 <Col>Updating of subject content course improvement etc</Col>
-                <Col>
-                  <Col>1. Updated lecture notes (max 3)</Col>
-                  <Col>2. Updated lab manual (max 3)</Col>
-                  <Col>3. Question bank (2 marks)</Col>
+                <Form.Check
+                  type="checkbox"
+                  label="1. Updated lecture notes (max 3)"
+                  value="Updated lecture notes (max 3)"
+                  checked={check_d.includes("Updated lecture notes (max 3)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_d([...check_d, e.target.value]);
+                    } else {
+                      setCheck_d(check_d.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="2. Updated lab manual (max 3)"
+                  value="Updated lab manual (max 3)"
+                  checked={check_d.includes("Updated lab manual (max 3)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_d([...check_d, e.target.value]);
+                    } else {
+                      setCheck_d(check_d.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="3. Question bank (2 marks)"
+                  value="Question bank (2 marks)"
+                  checked={check_d.includes("Question bank (2 marks)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_d([...check_d, e.target.value]);
+                    } else {
+                      setCheck_d(check_d.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />  
+                  <Form.Check
+                  type="checkbox"
+                  label="4. Question Paper solution"
+                  value="Question Paper solution"
+                  checked={check_d.includes("Question Paper solution")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_d([...check_d, e.target.value]);
+                    } else {
+                      setCheck_d(check_d.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />                 
                   <Col>
-                    4. Question Paper solution
-                    <Col>1. Term Test (1 each max 2)</Col>
-                    <Col>2. Model University solution (5)</Col>
+                  <Form.Check
+                  type="checkbox"
+                  label="1. Term Test (1 each max 2)"
+                  value="Term Test (1 each max 2)"
+                  checked={check_d.includes("Term Test (1 each max 2)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_d([...check_d, e.target.value]);
+                    } else {
+                      setCheck_d(check_d.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="2. Model University solution (5)"
+                  value="Model University solution (5)"
+                  checked={check_d.includes("Model University solution (5)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_d([...check_d, e.target.value]);
+                    } else {
+                      setCheck_d(check_d.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
                   </Col>
-                  <Col>5. Assignment solution (1 each max 2)</Col>
-                  <Col>6. Syllabus setting (5 marks each)(max 2)</Col>
-                </Col>
+                <Form.Check
+                  type="checkbox"
+                  label="5. Assignment solution (1 each max 2)"
+                  value="Assignment solution (1 each max 2)"
+                  checked={check_d.includes("Assignment solution (1 each max 2)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_d([...check_d, e.target.value]);
+                    } else {
+                      setCheck_d(check_d.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="6. Syllabus setting (5 marks each)(max 2)"
+                  value="Syllabus setting (5 marks each)(max 2)"
+                  checked={check_d.includes("Syllabus setting (5 marks each)(max 2)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_d([...check_d, e.target.value]);
+                    } else {
+                      setCheck_d(check_d.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+                
                 <Col>*quality of notes/solution to be considered</Col>
+              </td>
+              <td>
+              <p className='text-center'>25</p>
               </td>
               <td>
                 <Form.Control
@@ -708,19 +886,56 @@ function Form2A() {
                 <Col>
                   Examination duties (invigilation; Question paper setting, evaluation/ assessment of answer scripts) as per allotment.
                 </Col>
-                <Col>
-                  1. Invigilation (flying squad duties/Joint CC/any exam related
-                  duties) (max 5 points)
-                </Col>
+                <Form.Check
+                  type="checkbox"
+                  label="1. Invigilation (flying squad duties/Joint CC/any exam related
+                  duties) (max 5 points)"
+                  value="Invigilation (flying squad duties/Joint CC/any exam related
+                  duties) (max 5 points)"
+                  checked={check_d.includes("Invigilation (flying squad duties/Joint CC/any exam related duties) (max 5 points)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_d([...check_d, e.target.value]);
+                    } else {
+                      setCheck_d(check_d.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />               
                 <Col>
                   100% compliance: 5, 80% compliance: 3, less than 80%: no score
                 </Col>
-                <Col>
-                  2. Evaluation of answer script, preparation of result list on
-                  time as specified by Examination Section (max 10 points)
-                </Col>
+                <Form.Check
+                  type="checkbox"
+                  label="2. Evaluation of answer script, preparation of result list on
+                  time as specified by Examination Section (max 10 points)"
+                  value="Evaluation of answer script, preparation of result list on
+                  time as specified by Examination Section (max 10 points)"
+                  checked={check_d.includes("Evaluation of answer script, preparation of result list on time as specified by Examination Section (max 10 points)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_d([...check_d, e.target.value]);
+                    } else {
+                      setCheck_d(check_d.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
                 <Col>100% compliance: 5, less than 100%: no score.</Col>
-                <Col>Question paper setting (5 each, max score 10)</Col>
+                <Form.Check
+                  type="checkbox"
+                  label="3. Question paper setting (5 each, max score 10)"
+                  value="Question paper setting (5 each, max score 10)"
+                  checked={check_d.includes("Question paper setting (5 each, max score 10)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_d([...check_d, e.target.value]);
+                    } else {
+                      setCheck_d(check_d.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+              </td>
+              <td>
+              <p className='text-center'>25</p>
               </td>
               <td>
                 <Form.Control
@@ -735,6 +950,9 @@ function Form2A() {
             <tr>
               <td></td>
               <td>Total of Category I</td>
+              <td>
+              <p className='text-center'>150</p>
+              </td>
               <td>
                 <Form.Control type="text" placeholder="" value={IActTotal} />
               </td>
