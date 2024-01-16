@@ -76,6 +76,58 @@ function Form2B() {
     Total();
   }, [IIActa, IIActb, IIActc, IIActd]);
 
+  const handleSave = async (e) => {
+    e.preventDefault();
+    const facultyRef = doc(db, "faculty", user.uid);
+    const docRef = doc(facultyRef, "partB", "CategoryB");
+    const data = {
+      IIActaSem,
+      IIActbSem,
+      IIActcSem,
+      IIActdSem,
+      IIActa,
+      IIActb,
+      IIActc,
+      IIActd,
+      IIActTotal,
+      documentBURL,
+    };
+    if (uploadedFile) {
+      const storageRef = ref(storage, `documents/${uploadedFile.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, uploadedFile);
+  
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            console.log(url);
+            setDocumentBURL(url);
+            data.documentURL = url;
+            setDoc(docRef, data, { merge: true });
+          });
+        }
+      );
+    }
+    if (IIActaSem === "" && IIActbSem === "" && IIActcSem === "" && IIActdSem === "" && IIActa === "" && IIActb === "" && IIActc === "" && IIActd === "" && IIActTotal === "") {
+      alert("Enter data in the form");
+    } else if (IIActaSem < 0 || IIActbSem < 0 || IIActcSem < 0 || IIActdSem < 0 || IIActa < 0 || IIActb < 0 || IIActc < 0 || IIActd < 0 || IIActTotal < 0) {
+      alert("Negative values not allowed");
+    } else if (documentBURL === "") {
+      alert("Upload supporting documents");
+    }
+    else {
+    await setDoc(docRef, data, { merge: true });
+    }
+    // navigate('/form2c');
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const facultyRef = doc(db, "faculty", user.uid);
@@ -115,8 +167,17 @@ function Form2B() {
         }
       );
     }
+    if (IIActaSem === "" || IIActbSem === "" || IIActcSem === "" || IIActdSem === "" || IIActa === "" || IIActb === "" || IIActc === "" || IIActd === "" || IIActTotal === "") {
+      alert("Enter data in the form");
+    } else if (IIActaSem < 0 || IIActbSem < 0 || IIActcSem < 0 || IIActdSem < 0 || IIActa < 0 || IIActb < 0 || IIActc < 0 || IIActd < 0 || IIActTotal < 0) {
+      alert("Negative values not allowed");
+    } else if (documentBURL === "") {
+      alert("Upload supporting documents");
+    }
+    else {
     await setDoc(docRef, data, { merge: true });
-    // navigate('/form2c');
+    navigate('/form2c');
+    }
   };
 
 
@@ -165,22 +226,16 @@ function Form2B() {
                 <tr>
                   <td>a.</td>
                   <td>
-                    <Col>
-                    <Col>Contribution to Corporate life and management of Institution- </Col>
+                    
+                    Contribution to Corporate life and management of Institution- 
                     <Col>List yearly or semester-wise responsibilities</Col>
-                    <Col>1.Collaboration with Human Ventures Pvt. Ltd for project</Col>
-                    <Col>2.Collaboration with Schaeffler Technology Solution Ltd. for projects</Col>
-                    <Col>3.Collaboration with Matoshree NGO for projects</Col>
-                    <Col>4.Collaboration with SATCOM India Pvt. Ltd for Placements</Col>
-                    <Col>5.Reviewer for ICAST -22</Col>
-                    <Col>6.HoD(EXTC)</Col>
-                    <Col>7.Convener(one week FDP on Cyber Security & Forensics)</Col>
-                    </Col>
+                    
+                    
                   </td>
               
                   <td>
                     <Form.Control
-                      type="text"
+                      type="number"
                       placeholder=""
                       value={IIActaSem}
                       onChange={(e) => setIIActaSem(e.target.value)}
@@ -188,7 +243,7 @@ function Form2B() {
                   </td>
                   <td>
                     <Form.Control
-                      type="text"
+                      type="number"
                       placeholder=""
                       value={IIActa}
                       onChange={(e) => setIIActa(e.target.value)}
@@ -198,9 +253,10 @@ function Form2B() {
                 <tr>
                   <td></td>
                 <td colSpan={4}>
-                  <Col>Evaluation Criteria:</Col>
+                  Evaluation Criteria:
                 <Col>a) Contribution to corporate life in colleges and universities through meetings/popular lectures/subject-related events/articles in college magazines and university volumes - 3 pts each</Col>
                 <Col>Institutional governance responsibilities like Vice-Principal, Deans, HOD, Director, IQAC Coordinator/T&P officer, Exam cell in charge, Admission cell in charge maximum of 25 points (or any other equivalent responsibility)</Col>
+               <p></p>
                 <Col>b) Organized conference/workshop/seminar/FDP/STTP etc.(Max two events to be considered)</Col>
                 <Col>1. Conference - 15 points</Col>
                 <Col>2. Workshop FDP/STTP/certification programs</Col>
@@ -221,8 +277,8 @@ function Form2B() {
                 <tr>
                   <td>b.</td>
                   <td>
-                    <Col>
-                    <Col>Extension, Co-curricular and field based activities </Col>
+                    
+                    Extension, Co-curricular and field based activities 
                     <Col>a) Field studies / Educational Tour (other than subject related in 1.d)</Col>
                     <Col>b) Placement activity (for coordinators 15 marks)</Col>
                     <Col>c) Community Service, Social Orientation other (10 marks)</Col>
@@ -240,15 +296,15 @@ function Form2B() {
                     <Col>o) Project Competition Coordinators (5)</Col>
                     <Col>p) IIIC Coordinators, IV Coordinators (5)</Col>
                     <Col>q) Any other coordinators (marks based on activeness max 5 provided in the same is not repeated elsewhere)</Col>
-                    <br/>
-                    <Col>All members have to take sign of coordinators of respective
+                    <p></p>
+                    All members have to take sign of coordinators of respective
                       committee to validate description of job done. Marks
-                      allotted are based on involvement in work.</Col>
-                    </Col>
+                      allotted are based on involvement in work.
+                    
                   </td>
                   <td>
                     <Form.Control
-                      type="text"
+                      type="number"
                       placeholder=""
                       value={IIActbSem}
                       onChange={(e) => setIIActbSem(e.target.value)}
@@ -256,7 +312,7 @@ function Form2B() {
                   </td>
                   <td>
                     <Form.Control
-                      type="text"
+                      type="number"
                       placeholder=""
                       value={IIActb}
                       onChange={(e) => setIIActb(e.target.value)}
@@ -266,16 +322,16 @@ function Form2B() {
                 <tr>
                   <td>c.</td>
                   <td>
-                    <Col>
-                      <Col>Students and Staff Related Socio Cultural and Sports Programs (intra/interdepartmental and intercollegiate)</Col>
+                    
+                      Students and Staff Related Socio Cultural and Sports Programs (intra/interdepartmental and intercollegiate)
                       <Col>1. In charge for Score/Oscillations/Surge/Intech etc (Judge for project competition in Intech)</Col>
                       <Col>2. Coordinators of different events based on complexity- (as recommended by in-charge) (coordinated Placement in 5 different companies and coordinated for collaboration with industries)</Col>
 
-                    </Col>
+                    
                   </td>
                   <td>
                     <Form.Control
-                      type="text"
+                      type="number"
                       placeholder=""
                       value={IIActcSem}
                       onChange={(e) => setIIActcSem(e.target.value)}
@@ -283,7 +339,7 @@ function Form2B() {
                   </td>
                   <td>
                     <Form.Control
-                      type="text"
+                      type="number"
                       placeholder=""
                       value={IIActc}
                       onChange={(e) => setIIActc(e.target.value)}
@@ -293,9 +349,10 @@ function Form2B() {
                 <tr>
                   <td>d.</td>
                   <td>
-                    <Col>
-                    <Col>Professional Development Activities:</Col>
-                    <Col>  Coordinator of student chapters IEEE/IETE/IET/CSI/ISTE (5 points)</Col>
+                    
+                    Professional Development Activities:
+                    <p></p>
+                     Coordinator of student chapters IEEE/IETE/IET/CSI/ISTE (5 points)
                     <Col>- Media participation in profession-related talks/debates, etc (5 points)</Col>
                     <Col>- Membership in profession-related committees at state and national levels (max 3)</Col>
                     <Col>- Participation in subject associations, conferences, seminars without paper presentation (1 mark each, subject to a max of 3)</Col>
@@ -304,11 +361,11 @@ function Form2B() {
                     <Col>  <Col> 2. Industry-related (max 10 for outside Mumbai, 5 in Mumbai)</Col></Col>
                     <Col>  <Col> 3. Not belonging to the above (5 for external, 4 for local)</Col></Col>
                     <Col>- Boards of Studies, editorial committees of journals (5 points)</Col>
-                    </Col>
+                   
                   </td>
                   <td>
                     <Form.Control
-                      type="text"
+                      type="number"
                       placeholder=""
                       value={IIActdSem}
                       onChange={(e) => setIIActdSem(e.target.value)}
@@ -316,7 +373,7 @@ function Form2B() {
                   </td>
                   <td>
                     <Form.Control
-                      type="text"
+                      type="number"
                       placeholder=""
                       value={IIActd}
                       onChange={(e) => setIIActd(e.target.value)}
@@ -360,7 +417,9 @@ function Form2B() {
           </Col>
           </Row>
           </div>
-            <p>*list may be attached for above activities</p>
+          <p className='text-center'>
+        *Upload document for above activities. To change the document, upload new document again.
+      </p>
             <div className="text-center mb-4" >
               <Row>
                 <Col>
@@ -374,7 +433,7 @@ function Form2B() {
                   </Button>
                 </Col>
                 <Col>
-            <Button variant="primary" type="submit" onClick={handleSubmit}>
+            <Button variant="primary" type="submit" onClick={handleSave}>
               <Link className="text-decoration-none text-white">
                 Save
               </Link>
@@ -387,7 +446,6 @@ function Form2B() {
                     onClick={handleSubmit}
                   >
                     <Link
-                      to="/form2c"
                       className="text-decoration-none text-white"
                     >
                       Next

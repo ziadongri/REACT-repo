@@ -65,6 +65,79 @@ useEffect(() => {
     //   Total()
     // }, [IIActa, IIActb, IIActc, IIActd])
 
+    const handleSave = async (e) => {
+      e.preventDefault();
+      const facultyRef = doc(db, "faculty", user.uid);
+      const docRef = doc(facultyRef, "partB", "CategoryC");
+      const data = {
+        IIIaActa1,
+        IIIaActa2,
+        IIIaActb1,
+        IIIaActb2,
+        IIIaActb3,
+        IIIaActb4,
+        IIIaActb5,
+        IIIaActb6,
+        IIIaActabSelf,
+        ResearchArticle,
+        ResearchProjectON,
+        ResearchProjectCOMP,
+        ResearchGuidance,
+        TrainingCourse,
+        PaperPresentConference,
+        InvitedLecture,
+        Award,
+        IIISelfTotal,
+        documentCURL,
+      };
+      if (uploadedFile) {
+        const storageRef = ref(storage, `documents/${uploadedFile.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, uploadedFile);
+    
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          },
+          (error) => {
+            console.log(error);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+              console.log(url);
+              setDocumentCURL(url);
+              data.documentCURL = url;
+              setDoc(docRef, data, { merge: true });
+            });
+          }
+        );
+      }
+      if (
+        [
+          IIIaActa1, IIIaActa2, IIIaActb1, IIIaActb2, IIIaActb3, IIIaActb4, IIIaActb5, IIIaActb6, IIIaActabSelf,
+          ResearchArticle, ResearchProjectON, ResearchProjectCOMP, ResearchGuidance, TrainingCourse,
+          PaperPresentConference, InvitedLecture, Award, IIISelfTotal, documentCURL
+        ].some(field => field === '' || (Array.isArray(field) && field.some(item => item === '')))
+      ) {
+        alert('Please fill in all the fields!');
+        return;
+      }
+      else if (IIIaActa1 < 0 || IIIaActa2 < 0 || IIIaActb1 < 0 || IIIaActb2 < 0 || IIIaActb3 < 0 || IIIaActb4 < 0 || IIIaActb5 < 0 || IIIaActb6 < 0 || IIIaActabSelf < 0 || ResearchArticle < 0 || ResearchProjectON < 0 || ResearchProjectCOMP < 0 || ResearchGuidance < 0 || TrainingCourse < 0 || PaperPresentConference < 0 || InvitedLecture < 0 || Award < 0 || IIISelfTotal < 0) {
+        alert('Please fill in all the fields with positive values only!');
+        return;
+      }
+      else if (documentCURL === '') {
+        alert('Please upload the required documents!');
+        return;
+      }
+      else {
+      await setDoc(docRef, data, { merge: true });
+      // navigate('/FormSubmission');
+      }
+      // navigate('/form2');
+    };
+
     const handleSubmit = async (e) => {
       e.preventDefault();
       const facultyRef = doc(db, "faculty", user.uid);
@@ -113,8 +186,22 @@ useEffect(() => {
           }
         );
       }
+      if (IIIaActa1 === '' || IIIaActa2 === '' || IIIaActb1 === '' || IIIaActb2 === '' || IIIaActb3 === '' || IIIaActb4 === '' || IIIaActb5 === '' || IIIaActb6 === '' || IIIaActabSelf === '' || ResearchArticle === '' || ResearchProjectON === '' || ResearchProjectCOMP === '' || ResearchGuidance === '' || TrainingCourse === '' || PaperPresentConference === '' || InvitedLecture === '' || Award === '' || IIISelfTotal === '' || documentCURL === '') {
+        alert('Please fill in all the fields!');
+        return;
+      }
+      else if (IIIaActa1 < 0 || IIIaActa2 < 0 || IIIaActb1 < 0 || IIIaActb2 < 0 || IIIaActb3 < 0 || IIIaActb4 < 0 || IIIaActb5 < 0 || IIIaActb6 < 0 || IIIaActabSelf < 0 || ResearchArticle < 0 || ResearchProjectON < 0 || ResearchProjectCOMP < 0 || ResearchGuidance < 0 || TrainingCourse < 0 || PaperPresentConference < 0 || InvitedLecture < 0 || Award < 0 || IIISelfTotal < 0) {
+        alert('Please fill in all the fields with positive values only!');
+        return;
+      }
+      else if (documentCURL === '') {
+        alert('Please upload the required documents!');
+        return;
+      }
+      else {
       await setDoc(docRef, data, { merge: true });
       navigate('/FormSubmission');
+      }
       // navigate('/form2');
     };
 
@@ -455,7 +542,8 @@ useEffect(() => {
                     const newResearchArticle = [...ResearchArticle]
                     newResearchArticle[index].title = e.target.value
                     setResearchArticle(newResearchArticle)
-                  } }/>
+                  } }
+                  required/>
               </td>
               <td>
               
@@ -509,14 +597,15 @@ useEffect(() => {
 
               <td>
                 <Form.Control
-                type="text"
+                type="number"
                 placeholder="Enter selfscore"
                 value={researcharticle.selfscore}
                 onChange={(e) =>{
                   const newResearchArticle = [...ResearchArticle]
                   newResearchArticle[index].selfscore = e.target.value
                   setResearchArticle(newResearchArticle)
-                } }/>
+                } }
+                required/>
 
               </td>
               
@@ -1392,7 +1481,7 @@ useEffect(() => {
             </Button>
           </Col>
           <Col>
-            <Button variant="primary" type="submit" onClick={handleSubmit}>
+            <Button variant="primary" type="submit" onClick={handleSave}>
               <Link className="text-decoration-none text-white">
                 Save
               </Link>

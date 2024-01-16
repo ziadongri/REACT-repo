@@ -31,6 +31,8 @@ function Form2A() {
   const [email, setEmail] = useState("");
   const [uploadedFile, setUploadedFile] = useState(null);
   const [documentAURL, setDocumentAURL] = useState("");
+  const [check_d, setCheck_d] = useState([]);
+  
 
   const navigate = useNavigate();
 
@@ -68,7 +70,7 @@ function Form2A() {
     Total();
   }, [IActa, IActb, IActc, IActd, IActe, IActf]);
 
-  const handleSubmit = async (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
     const facultyRef = doc(db, "faculty", user.uid);
     const docRef = doc(facultyRef, "partB", "CategoryA");
@@ -83,6 +85,7 @@ function Form2A() {
       IEvensem,
       IActTotal,
       documentAURL,
+      check_d
     };
 
     if (uploadedFile) {
@@ -117,9 +120,92 @@ function Form2A() {
         }
       );
     }
-
+    if (IActa === "" || IActb === "" || IActc === "" || IActd === "" || IActe === "" || IActf === "" || IActTotal === "") {
+      alert("Please fill all the fields");
+      return;
+    } else if (IActa < 0 || IActb < 0 || IActc < 0 || IActd < 0 || IActe < 0 || IActf < 0 || IActTotal < 0) {
+      alert("Please enter valid numbers");
+      return;
+    } 
+    else if (IActTotal === NaN) {
+      alert("Please enter valid numbers");
+      return;
+    } else if (documentAURL === "") {
+      alert("Please upload the document");
+      return;
+    } else {
     await setDoc(docRef, data, { merge: true });
+    }
     // navigate('/form2');
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const facultyRef = doc(db, "faculty", user.uid);
+    const docRef = doc(facultyRef, "partB", "CategoryA");
+    const data = {
+      IActa,
+      IActb,
+      IActc,
+      IActd,
+      IActe,
+      IActf,
+      IOddsem,
+      IEvensem,
+      IActTotal,
+      documentAURL,
+      check_d
+    };
+
+    if (uploadedFile) {
+      const storageRef = ref(storage, `documents/${uploadedFile.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, uploadedFile);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            console.log(url);
+            setDocumentAURL(url);
+            data.documentURL = url;
+            setDoc(docRef, data, { merge: true });
+            // addDoc( collection(db, "partB"), data);
+              // .then(() => {
+              //   console.log("Document successfully written!");
+              //   navigate("/form2b");
+              // }
+              // )
+              // .catch((error) => {
+              //   console.error("Error writing document: ", error);
+              // });
+          });
+        }
+      );
+    }
+    if (IActa === "" || IActb === "" || IActc === "" || IActd === "" || IActe === "" || IActf === "" || IActTotal === "") {
+      alert("Please fill all the fields");
+      return;
+    } else if (IActa < 0 || IActb < 0 || IActc < 0 || IActd < 0 || IActe < 0 || IActf < 0 || IActTotal < 0) {
+      alert("Please enter valid numbers");
+      return;
+    }
+     else if (IActTotal === NaN || IActTotal === "NaN") {
+      alert("Please enter valid numbers");
+      return;
+    } else if (documentAURL === "") {
+      alert("Please upload the document");
+      return;
+    } else {
+    await setDoc(docRef, data, { merge: true });
+    }
+    navigate('/form2b');
   };
 
   const fetchData = async (uid) => {
@@ -140,6 +226,7 @@ function Form2A() {
         setIEvensem(data.IEvensem || []);
         setIActTotal(data.IActTotal || "0");
         setDocumentAURL(data.documentURL || "");
+        setCheck_d(data.check_d || []);
       }
     } catch (error) {
       console.error(error);
@@ -265,11 +352,11 @@ function Form2A() {
           <thead>
             <tr>
               <th></th>
-              <th>Courses Taught code and name</th>
+              <th>Courses Taught Lecture/ Practical code and name </th>
               <th>Class for which conducted</th>
-              <th>Target Lectures/ Practical</th>
-              <th>Lectures/ Practical Actually conducted</th>
-              <th>% of Classes conducted</th>
+              <th>Target Lectures/ Practicals</th>
+              <th>Lectures/ Practicals Actually conducted</th>
+              <th>% of Classes/ Labs conducted</th>
             </tr>
           </thead>
 
@@ -345,11 +432,13 @@ function Form2A() {
           ))}
           
         </Table>
+       
+
         <div className="text-center mb-3">
             <Row>
               <Col>
           <Button variant="primary" onClick={handleAddIOddsem}>
-            <Link className="text-decoration-none text-white">Add Odd semester</Link>
+            <Link className="text-decoration-none text-white">Add Odd Semester Lectures/Practical conducted </Link>
           </Button>
           </Col>
           </Row>
@@ -359,11 +448,11 @@ function Form2A() {
           <thead>
             <tr>
               <th></th>
-              <th>Courses Taught code and name</th>
+              <th>Courses Taught Lecture/ Practical code and name </th>
               <th>Class for which conducted</th>
-              <th>Target Lectures/ Practical</th>
-              <th>Lectures/ Practical Actually conducted</th>
-              <th>% of Classes conducted</th>
+              <th>Target Lectures/ Practicals</th>
+              <th>Lectures/ Practicals Actually conducted</th>
+              <th>% of Classes/ Labs conducted</th>
             </tr>
           </thead>
           {IEvensem.map((evensem, index) => (
@@ -442,7 +531,7 @@ function Form2A() {
             <Row>
               <Col>
           <Button variant="primary" onClick={handleAddIEvensem}>
-            <Link className="text-decoration-none text-white">Add Even semester</Link>
+            <Link className="text-decoration-none text-white">Add Even Semester Lectures/Practical conducted</Link>
           </Button>
           </Col>
           </Row>
@@ -475,7 +564,7 @@ function Form2A() {
               </td>
               <td>
                 <Form.Control
-                  type="text"
+                  type="number"
                   placeholder=""
                   value={IActa}
                   onChange={(e) => setIActa(e.target.value)}
@@ -497,7 +586,7 @@ function Form2A() {
               </td>
               <td>
                 <Form.Control
-                  type="text"
+                  type="number"
                   placeholder=""
                   value={IActb}
                   onChange={(e) => setIActb(e.target.value)}
@@ -517,7 +606,7 @@ function Form2A() {
               </td>
               <td>
                 <Form.Control
-                  type="text"
+                  type="number"
                   placeholder=""
                   value={IActc}
                   onChange={(e) => setIActc(e.target.value)}
@@ -533,7 +622,34 @@ function Form2A() {
                   description of each work done in separate sheet
                 </Col>
                 <Col>Evaluation Criteria:</Col>
-                <Col>1. Quality PPT made by self (5)</Col>
+                <Form.Check
+                  type="checkbox"
+                  label="Quality PPT made by self (5)"
+                  value="Quality PPT made by self (5)"
+                  checked={check_d.includes("Quality PPT made by self (5)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_d([...check_d, e.target.value]);
+                    } else {
+                      setCheck_d(check_d.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="Good quality video lectures available on public platforms"
+                  value="Good quality video lectures available on public platforms"
+                  checked={check_d.includes("Good quality video lectures available on public platforms")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_d([...check_d, e.target.value]);
+                    } else {
+                      setCheck_d(check_d.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+
+                {/* <Col>1. Quality PPT made by self (5)</Col>
                 <Col>2. Animations/virtual labs/website (10)</Col>
                 <Col>
                   3. Good quality video lectures available on public platforms
@@ -546,11 +662,11 @@ function Form2A() {
                 <Col>5. Arranged subject related Industrial Visit (2 pts)</Col>
                 <Col>6. Use of ICT (max 2)</Col>
                 <Col>7. Innovative pedagogy (max 2)</Col>
-                <Col>8. Content beyond syllabus(max 2)</Col>{" "}
+                <Col>8. Content beyond syllabus(max 2)</Col>{" "} */}
               </td>
               <td>
                 <Form.Control
-                  type="text"
+                  type="number"
                   placeholder=""
                   value={IActd}
                   onChange={(e) => setIActd(e.target.value)}
@@ -578,7 +694,7 @@ function Form2A() {
               </td>
               <td>
                 <Form.Control
-                  type="text"
+                  type="number"
                   placeholder=""
                   value={IActe}
                   onChange={(e) => setIActe(e.target.value)}
@@ -608,7 +724,7 @@ function Form2A() {
               </td>
               <td>
                 <Form.Control
-                  type="text"
+                  type="number"
                   placeholder=""
                   value={IActf}
                   onChange={(e) => setIActf(e.target.value)}
@@ -668,6 +784,10 @@ function Form2A() {
           </Col>
           </Row>
           </div>
+          <p className='text-center'>
+        *Upload document for above activities. To change the document, upload new document again.
+      </p>
+
       <div className="text-center mb-4" >
         <Row>
           <Col>
@@ -678,7 +798,7 @@ function Form2A() {
             </Button>
           </Col>
           <Col>
-            <Button variant="primary" type="submit" onClick={handleSubmit}>
+            <Button variant="primary" type="submit" onClick={handleSave}>
               <Link className="text-decoration-none text-white">
                 Save
               </Link>
@@ -686,7 +806,7 @@ function Form2A() {
           </Col>
           <Col>
             <Button variant="primary" type="submit" onClick={handleSubmit}>
-              <Link to="/form2b" className="text-decoration-none text-white">
+              <Link className="text-decoration-none text-white">
                 Next
               </Link>
             </Button>

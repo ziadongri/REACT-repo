@@ -1,166 +1,90 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
-import { auth, db } from '../firebase';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { Link, useNavigate } from 'react-router-dom';
-import '../styles/form.css';
+import React, { useEffect, useState } from "react";
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Button,
+  Alert,
+  Table,
+} from "react-bootstrap";
+import { auth, db, storage } from "../firebase";
+import { doc, collection, getDoc, setDoc, updateDoc, addDoc } from "firebase/firestore";
+import { Link, useNavigate } from "react-router-dom";
 
-function Form1() {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [name, setName] = useState('');
-  const [department, setDepartment] = useState('');
-  const [designation, setDesignation] = useState('');
-  const [DOLpromotion, setDOLpromotion] = useState('');
-  const [address, setAddress] = useState('');
-  const [contact, setContact] = useState('');
-  const [email, setEmail] = useState('');
-  const [freshQualification, setFreshQualification] = useState('');
-  const [year, setYear] = useState('');
-  let navigate = useNavigate();
+export default function preview() {
+    const [user, setUser] = useState(null);
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [partA, setPartA] = useState([]);
+    const [partB, setPartB] = useState([]);
+    const [partC, setPartC] = useState([]);
+    const [partD, setPartD] = useState([]);
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        setUser(user);
-      } else {
-        navigate('/login');
-      }
-    });
-    setLoading(false);
-    return unsubscribe;
-  }, []);
+    const navigate = useNavigate();
 
-  const fetchData = async (uid) => {
-    const docRef = doc(db, 'faculty', uid);
-    getDoc(docRef)
-      .then((docSnap) => {
+    useEffect(() => {
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                setUser(user);
+            } else {
+                navigate("/login");
+            }
+        });
+    }
+    , []);
+
+    const fetchPartA = async () => {
+        const partARef = doc(db, "faculty", user.uid);
+        const docSnap = await getDoc(partARef);
         if (docSnap.exists()) {
-          const data = docSnap.data();
-          setName(data.name);
-          setDepartment(data.department);
-          setDesignation(data.designation);
-          setDOLpromotion(data.DOLpromotion);
-          setAddress(data.address);
-          setContact(data.contact);
-          setEmail(data.email);
-          setFreshQualification(data.freshQualification);
-          setYear(data.year);
+            setPartA(docSnap.data());
+        } else {
+            console.log("No such document!");
         }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  useEffect(() => {
-    if (user) {
-      fetchData(user.uid);
     }
-  }, [user]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const docRef = doc(db, 'faculty', user.uid);
-    const data = {
-      role: 'faculty',
-      name,
-      department,
-      designation,
-      DOLpromotion,
-      address,
-      contact,
-      email,
-      freshQualification,
-      year,
-      uid: user.uid,
-    };
-    if (name === '' || department === '' || designation === '' || DOLpromotion === '' || address === '' || contact === '' || email === '' || freshQualification === '' || year === '') {
-      alert('Please fill all the fields');
-      return;
+    const fetchPartB = async () => {
+        const facultyRef = doc(db, "faculty", user.uid);
+    const docRef = doc(facultyRef, "partB", "CategoryA");
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        setPartB(docSnap.data());
     } else {
-    await setDoc(docRef, data, { merge: true });
+        console.log("No such document!");
     }
-    navigate('/form2a');
-  };
+    }
 
-  const handleSave = async (e) => {
-    e.preventDefault();
-    const docRef = doc(db, 'faculty', user.uid);
-    const data = {
-      role: 'faculty',
-      name,
-      department,
-      designation,
-      DOLpromotion,
-      address,
-      contact,
-      email,
-      freshQualification,
-      year,
-      uid: user.uid,
-    };
-    if (name === '' || department === '' || designation === '' || DOLpromotion === '' || address === '' || contact === '' || email === '' || freshQualification === '' || year === '') {
-      alert('Please fill all the fields');
-      return;
+    const fetchPartC = async () => {
+        const facultyRef = doc(db, "faculty", user.uid);
+    const docRef = doc(facultyRef, "partB", "CategoryB");
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        setPartC(docSnap.data());
     } else {
-    await setDoc(docRef, data, { merge: true });
+        console.log("No such document!");
     }
-  };
+    }
 
-  if (loading) {
-    return (
-      <Container>
-        <Row>
-          <Col md={{ span: 6, offset: 3 }}>
-            <h1>Loading...</h1>
-          </Col>
-        </Row>
-      </Container>
-    );
-  }
-  if (error) {
-    return (
-      <Container>
-        <Row>
-          <Col md={{ span: 6, offset: 3 }}>
-            <Alert variant="danger">{error}</Alert>
-          </Col>
-        </Row>
-      </Container>
-    );
-  }
+    const fetchPartD = async () => {
+        const facultyRef = doc(db, "faculty", user.uid);
+    const docRef = doc(facultyRef, "partB", "CategoryC");
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        setPartD(docSnap.data());
+    } else {
+        console.log("No such document!");
+    }
+    }
 
+    
   return (
-    <Container fluid>
+   <Container fluid>
       <Row>
-      <Col md={2} className="form-navigation">
-    <h3>Form Navigation</h3>
-    <ul>
-      <li>
-        <Link to="/form1">Part A</Link>
-      </li>
-      <li>
-        <span className="form2-subsection">Part B</span>
-        <ul className="form2-subsection-list">
-          <li>
-            <Link to="/form2a" className="form2-subsection-link">Category A</Link>
-          </li>
-          <li>
-            <Link to="/form2b" className="form2-subsection-link">Category B</Link>
-          </li>
-          <li>
-            <Link to="/form2c" className="form2-subsection-link">Category C</Link>
-          </li>
-        </ul>
-      </li>
-      {/* Add more form links as needed */}
-    </ul>
-  </Col>
-        <Col md={6}>
+      
+        <Col>
           <h1>Part A: General Information</h1>
-          <Form onSubmit={handleSubmit}>
+          <Form >
             <Form.Group className="mb-3 align-item-center" controlId="name">
             <Row>
           <Col md={3} className="form-label">
@@ -170,8 +94,8 @@ function Form1() {
             <Form.Control
               type="text"
               placeholder="Enter Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={partA.name}
+              readOnly
             />
           </Col>
         </Row>
@@ -341,7 +265,5 @@ function Form1() {
         </Col>
       </Row>
     </Container>
-  );
+  )
 }
-
-export default Form1;

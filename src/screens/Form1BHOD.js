@@ -185,13 +185,32 @@ function Form1BHOD() {
                     onChange={(e) => setName(e.target.value)}
                   >
                     <option value="">Select Name</option>
-                    {facultyData.map((faculty, index) => {
+                    {/* {facultyData.map((faculty, index) => {
                       return (
                         <option key={index} value={faculty.name}>
                           {faculty.name}
                         </option>
                       );
+                    })} */}
+                    {/* (if (facultyData.year === year) {
+                      return (  
+                        <option key={index} value={faculty.name}>
+                          {faculty.name}
+                        </option>
+                      );
+                    }) */}
+                    {facultyData.map((faculty, index) => {
+                      return (
+                        (faculty.year === year) ? (
+                          <option key={index} value={faculty.name}>
+                            {faculty.name}
+                          </option>
+                        ) : null
+                      );
                     })}
+                    
+                    
+                    
                   </Form.Control>
                 </Col>
               </Row>
