@@ -27,6 +27,7 @@ import Form2BPC from './screens/Form2BPC'
 import Form2CPC from './screens/Form2CPC'
 import Form3PC from './screens/Form3PC'
 import AboutUs from './screens/aboutus'
+
 import { db, storage } from "./firebase";
 import { doc, collection, getDoc, setDoc, updateDoc, addDoc } from "firebase/firestore";
 
@@ -193,7 +194,7 @@ function App() {
         <Route path="/form2cprincipal" element={<Form2CPC />} />
         <Route path="/form3principal" element={<Form3PC />} />
         <Route path="/aboutus" element={<AboutUs />} />
-
+        
         
       </Routes>
     </Router>

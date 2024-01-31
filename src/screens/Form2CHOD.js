@@ -10,20 +10,17 @@ function Form2CHOD() {
   const [loading, setLoading] = useState(true);
   const [facultyData, setFacultyData] = useState(null);
 
-    const [ IIIaActabSelfHOD, setIIIaActabSelfHOD]= useState('')
+  const [ ResearchPublicationHOD, setResearchPublicationHOD]= useState([])
     const [ ResearchArticleHOD, setResearchArticleHOD]= useState([])
-    // const [ResearchArticleHOD, setResearchArticleHOD] = useState(Array.from({ length: initialArrayLength }, () => ''));
-
     const [ ResearchProjectONHOD, setResearchProjectONHOD]= useState([])
     const [ ResearchProjectCOMPHOD, setResearchProjectCOMPHOD]= useState([])
+    const [ResearchNeedProjectHOD, setResearchNeedProjectHOD]= useState([])
     const [ ResearchGuidanceHOD, setResearchGuidanceHOD]= useState([])
     const [ TrainingCourseHOD, setTrainingCourseHOD]= useState([])
     const [PaperPresentConferenceHOD, setPaperPresentConferenceHOD]= useState([])
     const[ InvitedLectureHOD, setInvitedLectureHOD]= useState([])
     const [AwardHOD, setAwardHOD]= useState([])
     const [IIIActHODTotal, setIIIActHODTotal]= useState('') 
-    // const [researchArticleHOD, setResearchArticleHOD] = useState([]);
-
     const location = useLocation();
     const facultyUID = location.state.facultyUID;
     console.log(facultyUID);
@@ -34,13 +31,13 @@ function Form2CHOD() {
     }
     
     const Total = () => {
-      let IIIActHODTotal = parseInt(IIIaActabSelfHOD) + parseInt(ResearchArticleHOD) + parseInt(ResearchProjectONHOD) + parseInt(ResearchProjectCOMPHOD) + parseInt(ResearchGuidanceHOD) + parseInt(TrainingCourseHOD) + parseInt(PaperPresentConferenceHOD) + parseInt(InvitedLectureHOD) + parseInt(AwardHOD);
+      let IIIActHODTotal = parseInt(ResearchPublicationHOD) + parseInt(ResearchArticleHOD) + parseInt(ResearchProjectONHOD) + parseInt(ResearchProjectCOMPHOD) + parseInt(ResearchNeedProjectHOD)+ parseInt(ResearchGuidanceHOD) + parseInt(TrainingCourseHOD) + parseInt(PaperPresentConferenceHOD) + parseInt(InvitedLectureHOD) + parseInt(AwardHOD);
       setIIIActHODTotal(IIIActHODTotal);
     }
 
     useEffect(() => {
       Total();
-    }, [IIIaActabSelfHOD, ResearchArticleHOD, ResearchProjectONHOD, ResearchProjectCOMPHOD, ResearchGuidanceHOD, TrainingCourseHOD, PaperPresentConferenceHOD, InvitedLectureHOD, AwardHOD]);
+    }, [ResearchPublicationHOD, ResearchNeedProjectHOD, ResearchArticleHOD, ResearchProjectONHOD, ResearchProjectCOMPHOD, ResearchGuidanceHOD, TrainingCourseHOD, PaperPresentConferenceHOD, InvitedLectureHOD, AwardHOD]);
 
     useEffect(() => {
       const unsubscribe= auth.onAuthStateChanged (async (user) => {
@@ -54,37 +51,34 @@ function Form2CHOD() {
       return unsubscribe;
     }, [navigate]);
 
-    useEffect(() => {
-      const fetchData = async () => {
-       const facultyRef = doc(db, "faculty", facultyUID);
-       const docRef = doc(facultyRef, "partB", "CategoryC");
-       const docSnap = await getDoc(docRef);
-       if (docSnap.exists()) {
-         setFacultyData(docSnap.data());
-         console.log("Document data:", docSnap.data());
-       } else {
-         // doc.data() will be undefined in this case
-         console.log("No such document!");
-       }
+const fetchData = async () => {
+  const facultyRef = doc(db, "faculty", facultyUID);
+  const docRef = doc(facultyRef, "partB", "CategoryC");
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    setFacultyData(docSnap.data());
+    const data = docSnap.data();
+    setResearchPublicationHOD(data.ResearchPublicationHOD || []);
+    setResearchNeedProjectHOD(data.ResearchNeedProjectHOD || []);
+    setResearchArticleHOD(data.ResearchArticleHOD || []);
+    setResearchProjectONHOD(data.ResearchProjectONHOD || []);
+    setResearchProjectCOMPHOD(data.ResearchProjectCOMPHOD || []);
+    setResearchGuidanceHOD(data.ResearchGuidanceHOD || []);
+    setTrainingCourseHOD(data.TrainingCourseHOD || []);
+    setPaperPresentConferenceHOD(data.PaperPresentConferenceHOD || []);
+    setInvitedLectureHOD(data.InvitedLectureHOD || []);
+    setAwardHOD(data.AwardHOD || []);
+  } else {
+    // doc.data() will be undefined in this case
+    console.log("No such document!");
+  }
+};
 
-       if (docSnap.exists()) {
-        
-        setIIIaActabSelfHOD(docSnap.data().IIIaActabSelfHOD);
-        setResearchArticleHOD(docSnap.data().ResearchArticleHOD);
-        setResearchProjectONHOD(docSnap.data().ResearchProjectONHOD);
-        setResearchProjectCOMPHOD(docSnap.data().ResearchProjectCOMPHOD);
-        setResearchGuidanceHOD(docSnap.data().ResearchGuidanceHOD);
-        setTrainingCourseHOD(docSnap.data().TrainingCourseHOD);
-        setPaperPresentConferenceHOD(docSnap.data().PaperPresentConferenceHOD);
-        setInvitedLectureHOD(docSnap.data().InvitedLectureHOD);
-        setAwardHOD(docSnap.data().AwardHOD);
+ useEffect(() => {
+  fetchData();
+  }, [facultyUID]);
 
-        }
-        console.log("Document data:", docSnap.data());
 
-      }
-      fetchData();
-    }, [facultyUID]);
 
     useEffect(() => {
       console.log('ResearchArticleHOD:', ResearchArticleHOD);
@@ -94,78 +88,107 @@ function Form2CHOD() {
     console.log('ResearchProjectONHOD:', ResearchProjectONHOD);
  }, [ResearchProjectONHOD]);
 
+
+
     const handleSubmit = async (e) => {
       e.preventDefault();
       const facultyRef = doc(db, "faculty", facultyUID);
       const docRef = doc(facultyRef, "partB", "CategoryC");
       const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        await updateDoc(docRef, {
-          
-          IIIaActabSelfHOD: IIIaActabSelfHOD,
-          ResearchArticleHOD: ResearchArticleHOD,
-          ResearchProjectONHOD: ResearchProjectONHOD,
-          ResearchProjectCOMPHOD: ResearchProjectCOMPHOD,
-          ResearchGuidanceHOD: ResearchGuidanceHOD,
-          TrainingCourseHOD: TrainingCourseHOD,
-          PaperPresentConferenceHOD: PaperPresentConferenceHOD,
-          InvitedLectureHOD: InvitedLectureHOD,
-          AwardHOD: AwardHOD,
-        });
-        
-      } else {
-        await setDoc(docRef, {
-          
-          IIIaActabSelfHOD: IIIaActabSelfHOD,
-          ResearchArticleHOD: ResearchArticleHOD,
-          ResearchProjectONHOD: ResearchProjectONHOD,
-          ResearchProjectCOMPHOD: ResearchProjectCOMPHOD,
-          ResearchGuidanceHOD: ResearchGuidanceHOD,
-          TrainingCourseHOD: TrainingCourseHOD,
-          PaperPresentConferenceHOD: PaperPresentConferenceHOD,
-          InvitedLectureHOD: InvitedLectureHOD,
-          AwardHOD: AwardHOD,
-        });
-      }
-      // navigate('/form3HOD', {state: {facultyUID: facultyUID}});
+      const existingData = docSnap.exists() ? docSnap.data() : {};
+    
+      // Check for empty, null, or undefined values
+      if (
+        ResearchPublicationHOD < 0 ||
+        ResearchArticleHOD < 0 ||
+        ResearchProjectONHOD < 0 ||
+        ResearchProjectCOMPHOD < 0 ||
+        ResearchNeedProjectHOD < 0 ||
+        ResearchGuidanceHOD < 0 ||
+        TrainingCourseHOD < 0 ||
+        PaperPresentConferenceHOD < 0 ||
+        InvitedLectureHOD < 0 ||
+        AwardHOD < 0 ||
+        IIIActHODTotal < 0
+      ) {
+        alert("Please fill in all the required fields.");
+        return;
+      } 
+      else if (isNaN(IIIActHODTotal)) {
+        alert("Please fill numbers only");
+        return;
+      } 
+    
+      // Construct data object
+      const data = {
+        ResearchPublicationHOD,
+        ResearchArticleHOD,
+        ResearchProjectONHOD,
+        ResearchProjectCOMPHOD,
+        ResearchNeedProjectHOD,
+        ResearchGuidanceHOD,
+        TrainingCourseHOD,
+        PaperPresentConferenceHOD,
+        InvitedLectureHOD,
+        AwardHOD,
+      };
+    
+      // Update document with data
+      await updateDoc(docRef, data);
+      alert("Data saved successfully!");
+      navigate('/form3HOD', {state: {facultyUID: facultyUID}});
     }
-
+    
     const handleSave = async (e) => {
       e.preventDefault();
       const facultyRef = doc(db, "faculty", facultyUID);
       const docRef = doc(facultyRef, "partB", "CategoryC");
       const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        await updateDoc(docRef, {
-          
-          IIIaActabSelfHOD: IIIaActabSelfHOD,
-          ResearchArticleHOD: ResearchArticleHOD,
-          ResearchProjectONHOD: ResearchProjectONHOD,
-          ResearchProjectCOMPHOD: ResearchProjectCOMPHOD,
-          ResearchGuidanceHOD: ResearchGuidanceHOD,
-          TrainingCourseHOD: TrainingCourseHOD,
-          PaperPresentConferenceHOD: PaperPresentConferenceHOD,
-          InvitedLectureHOD: InvitedLectureHOD,
-          AwardHOD: AwardHOD,
-        });
-        
-      } else {
-        await setDoc(docRef, {
-          
-          IIIaActabSelfHOD: IIIaActabSelfHOD,
-          ResearchArticleHOD: ResearchArticleHOD,
-          ResearchProjectONHOD: ResearchProjectONHOD,
-          ResearchProjectCOMPHOD: ResearchProjectCOMPHOD,
-          ResearchGuidanceHOD: ResearchGuidanceHOD,
-          TrainingCourseHOD: TrainingCourseHOD,
-          PaperPresentConferenceHOD: PaperPresentConferenceHOD,
-          InvitedLectureHOD: InvitedLectureHOD,
-          AwardHOD: AwardHOD,
-        });
-      }
-        alert("Data Saved!");
-      // navigate('/form3HOD', {state: {facultyUID: facultyUID}});
+      const existingData = docSnap.exists() ? docSnap.data() : {};
+    
+      // Check for empty, null, or undefined values
+      if (
+        ResearchPublicationHOD < 0 ||
+        ResearchArticleHOD < 0 ||
+        ResearchProjectONHOD < 0 ||
+        ResearchProjectCOMPHOD < 0 ||
+        ResearchNeedProjectHOD < 0 ||
+        ResearchGuidanceHOD < 0 ||
+        TrainingCourseHOD < 0 ||
+        PaperPresentConferenceHOD < 0 ||
+        InvitedLectureHOD < 0 ||
+        AwardHOD < 0 ||
+        IIIActHODTotal < 0
+      ) {
+        alert("Please fill in all the required fields.");
+        return;
+      } 
+      else if (isNaN(IIIActHODTotal)) {
+        alert("Please fill numbers only");
+        return;
+      } 
+    
+      // Construct data object
+      const data = {
+        ResearchPublicationHOD,
+        ResearchArticleHOD,
+        ResearchProjectONHOD,
+        ResearchProjectCOMPHOD,
+        ResearchNeedProjectHOD,
+        ResearchGuidanceHOD,
+        TrainingCourseHOD,
+        PaperPresentConferenceHOD,
+        InvitedLectureHOD,
+        AwardHOD,
+      };
+    
+      // Update document with data
+      await updateDoc(docRef, data);
+      alert("Data saved successfully!");
     }
+    
+        
+      
 
     const handleForm2AHODNavigation = async (e) => {
       e.preventDefault();
@@ -182,47 +205,40 @@ function Form2CHOD() {
       navigate('/form3hod', { state: { facultyUID: facultyUID } });
     }
 
-    // const handleResearchArticleInputChange = (value, index) => {
-    //   // Create a copy of the array to avoid mutating the state directly
-    //   const updatedHODArray = [...ResearchArticleHOD];
-    //   updatedHODArray[index] = value;
-    //   setResearchArticleHOD(updatedHODArray);
-    // };
 
-    const handleResearchArticleInputChange = (value, index) => {
-      if (index >= 0 && index < ResearchArticleHOD.length) {
-         const updatedHODArray = [...ResearchArticleHOD];
-         updatedHODArray[index] = value;
-         setResearchArticleHOD(updatedHODArray);
-      } else {
-         console.error('Invalid index:', index);
-      }
-   };
+  const handleResearchPublicationInputChange = (value, index) => {
+  
+    const updatedHODArray = [...ResearchPublicationHOD];
+    updatedHODArray[index] = value;
+    setResearchPublicationHOD(updatedHODArray);
+  };
 
-   const handleResearchProjectONInputChange = (value, index) => {
-    if (index >= 0 && index < ResearchProjectONHOD.length) {
-       const updatedHODArray = [...ResearchProjectONHOD];
-       updatedHODArray[index] = value;
-       setResearchProjectONHOD(updatedHODArray);
-    } else {
-       console.error('Invalid index:', index);
-    }
- };
+  const handleResearchArticleInputChange = (value, index) => {
+    const updatedHODArray = [...ResearchArticleHOD];
 
-   
+    updatedHODArray[index] = value;
+    setResearchArticleHOD(updatedHODArray);
+  };
 
-    // const handleResearchProjectONInputChange = (value, index) => {
-    //   // Create a copy of the array to avoid mutating the state directly
-    //   const updatedHODArray = [...ResearchProjectONHOD];
-    //   updatedHODArray[index] = value;
-    //   setResearchProjectONHOD(updatedHODArray);
-    // };
+  const handleResearchProjectONInputChange = (value, index) => {
+    const updatedHODArray = [...ResearchProjectONHOD];
+    updatedHODArray[index] = value;
+    setResearchProjectONHOD(updatedHODArray);
+  };
+
 
     const handleResearchProjectCOMPInputChange = (value, index) => {
       // Create a copy of the array to avoid mutating the state directly
       const updatedHODArray = [...ResearchProjectCOMPHOD];
       updatedHODArray[index] = value;
       setResearchProjectCOMPHOD(updatedHODArray);
+    };
+
+    const handleResearchNeedProjectInputChange = (value, index) => {
+      // Create a copy of the array to avoid mutating the state directly  
+      const updatedHODArray = [...ResearchNeedProjectHOD];
+      updatedHODArray[index] = value;
+      setResearchNeedProjectHOD(updatedHODArray);
     };
 
     const handleResearchGuidanceInputChange = (value, index) => {
@@ -307,118 +323,56 @@ function Form2CHOD() {
         <h1>Category III: (Assessment must be based on evidence produced by the teacher such as: copy of publications, project sanction letter, utilization and completion certificates issued by the University and acknowledgements for patent filing and approval letters, students’ Ph.D. award letter, etc.)</h1>
         <Form onSubmit={handleSubmit}></Form>
 
+        
         <Table striped bordered hover>
         <thead>
         <tr>
-          <th>III (a)</th>
-          <th>Research Publication (Journals)</th>
-          <th colSpan= "3">Max API Score allotted: No maximum score. A percentage of three
-          years score is considered for promotion as per UGC notification Feb 2018</th>
-        </tr>
+        <th rowSpan="2">III (a)</th>
+      <th colSpan="1">Research Publications (Journals)</th>
+      <th colSpan="3">Max API Score allotted: No maximum score. A percentage of three
+years score is considered for promotion as per UGC notification Feb
+2018</th>
+    </tr>
+
+    <tr>
+      <th>Title with Journal name , Volume No., page No., ISS/ISBN No.</th>
+      <th>Index (indicate serial numbers against applicable)</th>
+      <th>Self Appraisal Score</th>
+      <th>Verified API Score</th>
+    </tr>
       </thead>
-
-        <tr>
-          <th>Sr.No</th>
-          <th>Title with Journal name , Volume no. page No ISSN/ISBN No</th>
-          <th>Index (indicate serial numbers against applicable)</th>
-          <th>Self appraisal score</th>
-          <th>Verified API Score</th>
-        </tr>
-
-        <tbody>
-
-        
       
-        <tr >
-          <td >a.</td>
-          
-          <td> A Modern Approach To Conventional Silk Farming</td>
-          <td>
-          <Form.Label>SCI</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder=""
-              value={facultyData.IIIaActa1}
-              />
-              <Form.Label>WOS</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder=""
-              value={facultyData.IIIaActa2}
-              />
-              {/* {facultyData.IIIaActa1HOD}
-              {facultyData.IIIaActa2HOD} */}
-              {/* <Form.Text className="text-muted">
-                {facultyData.IIIaActa1}
-              </Form.Text>
-              <Form.Text className="text-muted">
-                {facultyData.IIIaActa2}
-                </Form.Text> */}
-              </td>
-              <td rowSpan="2">
-            {/* <Form.Control
-              type="text"
-              placeholder=""
-              value={facultyData.IIIaActabSelf}
-              /> */}
-              {facultyData.IIIaActabSelf}
-              </td>
-              <td rowSpan="2">
-                <Form.Control
-                  type="text"
-                  placeholder=""
-                  value={IIIaActabSelfHOD}
-                  onChange={(e) => setIIIaActabSelfHOD(e.target.value)}/>
-              </td>
+    
+
+    {facultyData.ResearchPublication.map((data, index) => (
+  <tbody key={index}>
+    <tr>
+      <td>{index + 1}</td>
+      <td>{data.title}</td>
+      <><Col>SCI: {data.sci || ''}</Col>
+      <Col>WOS: {data.wos || ''}</Col>
+      <Col>ESCI: {data.esci || ''}</Col>
+      <Col>SCOPUS: {data.scopus || ''}</Col>
+      <Col>UGC CARE: {data.ugccare || ''}</Col>
+      <Col>Having ISBN/ISSN: {data.isbnissn || ''}</Col>
+      <Col>Proceedings: {data.proceedings || ''}</Col>
+      <Col>guide/mentor (mention serial number of paper): {data.guidementor || ''}</Col> </>
+      
+      <td>{data.selfscore}</td>
+      <td>
+      <Form.Control
+      key={index}
+  type="text"
+  placeholder=""
+  value={(ResearchPublicationHOD && ResearchPublicationHOD[index]) || ''}
+  onChange={(e) => handleResearchPublicationInputChange(e.target.value, index)}
+/>
+    
+      </td>
               </tr>
-        
 
-        <tr>
-        <td>b.</td>
-          <td > Bone Age Estimation System Using Deep Learning</td>
-          <td>
-          <Form.Label>ESCI</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder=""
-              value={facultyData.IIIaActb1}
-             />
-
-              <Form.Label>SCOPUS</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder=""
-              value={facultyData.IIIaActb2}
-              />
-              
-              <Form.Label>UGC CARE</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder=""
-              value={facultyData.IIIaActb3}
-              />
-
-              <Form.Label>Having ISBN/ISSN</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder=""
-              value={facultyData.IIIaActb4}
-              />
-
-              <Form.Label>Proceedings</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder=""
-              value={facultyData.IIIaActb5}
-              />
-
-              <Form.Label>guide/mentor (mention serial number of paper )</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder=""
-              value={facultyData.IIIaActb6}
-              /></td>
-              </tr>
+  </tbody>
+))}
 
             <tr>
               <td></td>
@@ -435,8 +389,24 @@ function Form2CHOD() {
               </td>
               
             </tr>
-            </tbody>
+        
         </Table>
+
+        <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Uploaded Document</Form.Label>
+            <br />
+            <a href={facultyData.documentC1} target="_blank">
+            View file here
+            </a>
+
+          </Form.Group>
+          </Col>
+          </Row>
+          </div>
+        
 
         <Table striped bordered hover>
         <thead>
@@ -464,25 +434,17 @@ function Form2CHOD() {
       <td>{data.booktitle}</td>
       <td>{data.isbn}</td>
       <td>{data.peerreview}</td>
-      <td>{data.coauthor}</td>
+      <><Col>{data.coauthor}</Col>
+      <Col>Main: {data.mainauthor}</Col></>
+      
       <td>{data.selfscore}</td>
       <td>
-        {/* <Form.Control
+         <Form.Control
           type="text"
           placeholder=""
-          value={ResearchArticleHOD[index] || ''}
+          value={(ResearchArticleHOD && ResearchArticleHOD[index]) || ''}
           onChange={(e) => handleResearchArticleInputChange(e.target.value, index)}
-        /> */}
-        {/* {ResearchArticleHOD[index] && ( */}
-   <Form.Control
-      type="text"
-      placeholder=""
-      value={ResearchArticleHOD[index] || ''}
-      onChange={(e) => handleResearchArticleInputChange(e.target.value, index)}
-    />
-
-  
-{/* )} */}
+        /> 
       </td>
     </tr>
   </tbody>
@@ -506,9 +468,24 @@ function Form2CHOD() {
       </tr>
       </Table>
 
+      <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Uploaded Document</Form.Label>
+            <br />
+            <a href={facultyData.documentC2} target="_blank">
+            View file here
+            </a>
+
+          </Form.Group>
+          </Col>
+          </Row>
+          </div>
+
       
 
-      <Table striped bordered hover>
+       <Table striped bordered hover>
         <thead>
         <tr>
         <th rowSpan="2">III (c)</th>
@@ -535,16 +512,13 @@ function Form2CHOD() {
               <td>{data.amount}</td>
               <td>{data.selfscore}</td>
               <td>
+              
                 <Form.Control
                   type="text"
                   placeholder=""
-                  value={ResearchProjectONHOD}
+                  value={(ResearchProjectONHOD && ResearchProjectONHOD[index]) || ''}
                   onChange={(e) => setResearchProjectONHOD(e.target.value)}/>
-                  {/* <Form.Control
-                  type="text"
-                  placeholder=""
-                  value={ResearchProjectONHOD[index] || ''}
-                  onChange={(e) => handleResearchProjectONInputChange(e.target.value, index)}/> */}
+                 
               </td>
             </tr>
           </tbody>
@@ -565,7 +539,22 @@ function Form2CHOD() {
 
       </td>
       </tr>
-      </Table>
+      </Table> 
+
+      <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Uploaded Document</Form.Label>
+            <br />
+            <a href={facultyData.documentC3} target="_blank">
+            View file here
+            </a>
+
+          </Form.Group>
+          </Col>
+          </Row>
+          </div>
 
 
       <Table striped bordered hover>
@@ -598,7 +587,7 @@ function Form2CHOD() {
                 <Form.Control
                   type="text"
                   placeholder=""
-                  value={ResearchProjectCOMPHOD[index] || ''}
+                 value= {(ResearchProjectCOMPHOD && ResearchProjectCOMPHOD[index]) || ''}
                   onChange={(e) => handleResearchProjectCOMPInputChange(e.target.value, index)}/>
               </td>
               
@@ -621,9 +610,92 @@ function Form2CHOD() {
       </td>
       </tr>
       </Table>
+
+      <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Uploaded Document</Form.Label>
+            <br />
+            <a href={facultyData.documentC4} target="_blank">
+            View file here
+            </a>
+
+          </Form.Group>
+          </Col>
+          </Row>
+          </div>
+
+       <Table striped bordered hover>
+        <thead>
+        <tr>
+        <th rowSpan="2">III (c)</th>
+      <th colSpan="6">Need Based Projects of the Institute completed without Sponsorship and approved by Institute authorities</th>
+    </tr>
+    <tr>
+      <th>Title</th>
+      <th>Agency</th>
+      <th>Period</th>
+      <th>Grant/Amount Mobilized (in Lakhs)</th>
+      <th>Self Appraisal Score</th>
+      <th>Verified API Score</th>
+        </tr>
+      </thead>
+
+      {
+        facultyData.ResearchNeedProject.map((data,index) => (
+          <tbody key={index}> 
+          <tr>
+              <td>{index + 1}</td>
+              <td>{data.title}</td>
+              <td>{data.agency}</td>
+              <td>{data.period}</td>
+              <td>{data.amount}</td>
+              <td>{data.selfscore}</td>
+              <td>
+                <Form.Control
+                  type="text"
+                  placeholder=""
+                  value={(ResearchNeedProjectHOD && ResearchNeedProjectHOD[index]) || ''}
+                  onChange={(e) => handleResearchNeedProjectInputChange(e.target.value, index)}/>
+              </td>
+              
+            </tr>
+          </tbody>
+        ))
+      }
+      <tr>
+        <td></td>
+        <td colSpan="6"><Col>Evaluation Criteria:</Col>
+          <Col>a) Major Projects amount mobilized with grants above 20.0 lakhs 30 points</Col>
+<Col>a) Major Projects amount mobilized with grants above 5.0 lakhs 20 points</Col>
+<Col>b) Major Projects Amount mobilized with a minimum of Rs. 3.00 lakhs up to Rs. 5.00 lakhs 15 points</Col>
+<Col>c) Minor Projects (Amount mobilized with grants above Rs. 25,000 up to Rs. 3 lakh 10 points</Col>
+<Col>d) Consultancy Projects amount mobilized with grants above 2.0 lakhs 10 points</Col>
+<Col>e) Consultancy Projects completed-Major above 5 lakhs (Acceptance from the funding agency) 20 points</Col>
+<Col>f) Consultancy Projects completed- Minor below 3 lakhs (Acceptance from the funding agency) 20 points</Col>
+<Col>g) Projects Outcome /Outputs in the form of Patent/Technology transfer/ Product/Process 30 points at the National level and 50 at the international level</Col>
+<Col>h) Need-based projects of the college 10 points</Col>
+      </td>
+      </tr>
+      </Table> 
+      <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Uploaded Document</Form.Label>
+            <br />
+            <a href={facultyData.documentC5} target="_blank">
+            View file here
+            </a>
+
+          </Form.Group>
+          </Col>
+          </Row>
+          </div>
       
 
-      <Table striped bordered hover>
+       <Table striped bordered hover>
         <thead>
         <tr>
         <th rowSpan="2">III (d)</th>
@@ -652,7 +724,7 @@ function Form2CHOD() {
               <Form.Control
                 type="text"
                 placeholder=""
-                value={ResearchGuidanceHOD[index] || ''}
+                 value={(ResearchGuidanceHOD && ResearchGuidanceHOD[index]) || ''}
                 onChange={(e) => handleResearchGuidanceInputChange(e.target.value, index)}/>
             </td>
           </tr>
@@ -670,9 +742,24 @@ function Form2CHOD() {
 
         </td>
       </tr>
-      </Table>
+      </Table> 
 
-      <Table striped bordered hover>
+      <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Uploaded Document</Form.Label>
+            <br />
+            <a href={facultyData.documentC6} target="_blank">
+            View file here
+            </a>
+
+          </Form.Group>
+          </Col>
+          </Row>
+          </div>
+
+       <Table striped bordered hover>
         <thead>
         <tr>
         <th rowSpan="2">III (e-i)</th>
@@ -699,7 +786,7 @@ function Form2CHOD() {
                 <Form.Control
                   type="text"
                   placeholder=""
-                  value={TrainingCourseHOD[index] || ''}
+                  value= {(TrainingCourseHOD && TrainingCourseHOD[index]) || ''}
                   onChange={(e) => handleTrainingCourseInputChange(e.target.value, index)}/>
               </td>
             </tr>
@@ -716,10 +803,25 @@ function Form2CHOD() {
 <Col>e. Online courses of a four weeks duration or more	20pts (proof of successful completion to be submitted)</Col>
 </td>
       </tr>
-      </Table>
+      </Table> 
+
+      <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Uploaded Document</Form.Label>
+            <br />
+            <a href={facultyData.documentC7} target="_blank">
+            View file here
+            </a>
+
+          </Form.Group>
+          </Col>
+          </Row>
+          </div>
      
 
-      <Table striped bordered hover>
+       <Table striped bordered hover>
         <thead>
         <tr>
         <th rowSpan="2">III (e-ii)</th>
@@ -749,7 +851,7 @@ function Form2CHOD() {
               <Form.Control
                 type="text"
                 placeholder=""
-                value={PaperPresentConferenceHOD[index] || ''}
+                value={(PaperPresentConferenceHOD && PaperPresentConferenceHOD[index]) || ''}
                 onChange={(e) => handlePaperPresentConferenceInputChange(e.target.value, index)}/>
             </td>
           </tr>
@@ -767,10 +869,25 @@ function Form2CHOD() {
       <Col>d)	Local – University/College level	3/each</Col>
       <Col>one publication is considered only under a single categor</Col></td>
     </tr>
-    </Table>
+    </Table> 
+
+    <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Uploaded Document</Form.Label>
+            <br />
+            <a href={facultyData.documentC8} target="_blank">
+            View file here
+            </a>
+
+          </Form.Group>
+          </Col>
+          </Row>
+          </div>
     
  
-    <Table striped bordered hover>
+     <Table striped bordered hover>
         <thead>
         <tr>
         <th rowSpan="2">III (e-iii)</th>
@@ -800,7 +917,7 @@ function Form2CHOD() {
                 <Form.Control
                   type="text"
                   placeholder=""
-                  value={InvitedLectureHOD[index] || ''}
+                   value={(InvitedLectureHOD && InvitedLectureHOD[index]) || ''}
                   onChange={(e) => handleInvitedLectureInputChange(e.target.value, index)}/>
               </td>
             </tr>              
@@ -815,7 +932,22 @@ function Form2CHOD() {
         <Col>c)	Regional/State level/local	–-5/ each</Col>
 </td>
       </tr>
-      </Table>
+      </Table> 
+
+      <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Uploaded Document</Form.Label>
+            <br />
+            <a href={facultyData.documentC9} target="_blank">
+            View file here
+            </a>
+
+          </Form.Group>
+          </Col>
+          </Row>
+          </div>
       
 
       <Table striped bordered hover>
@@ -848,7 +980,7 @@ function Form2CHOD() {
                 <Form.Control
                   type="text"
                   placeholder=""
-                  value={AwardHOD[index] || ''}
+                  value= {(AwardHOD && AwardHOD[index]) || ''}
                   onChange={(e) => handleAwardInputChange(e.target.value, index)}/>
                 </td>        
             </tr>           
@@ -878,7 +1010,22 @@ function Form2CHOD() {
         <Col>Post-doctoral degrees</Col>
         <Col>d.	D.Sc from an university based on post-doctoral thesis	50 /each</Col></td>
       </tr>
-      </Table>
+      </Table> 
+
+      <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Uploaded Document</Form.Label>
+            <br />
+            <a href={facultyData.documentC10} target="_blank">
+            View file here
+            </a>
+
+          </Form.Group>
+          </Col>
+          </Row>
+          </div>
       
 
       <Table striped bordered hover>
@@ -895,20 +1042,8 @@ function Form2CHOD() {
           </tr>
         </tbody>
       </Table>
-      <div className="text-center mb-3">
-            <Row>
-              <Col>
-          <Form.Group controlId="formFile" className="mb-3">
-            <Form.Label>Uploaded Document</Form.Label>
-            <br />
-            <a href={facultyData.documentCURL} target="_blank">
-              File
-            </a>
 
-          </Form.Group>
-          </Col>
-          </Row>
-          </div>
+
 
 
 

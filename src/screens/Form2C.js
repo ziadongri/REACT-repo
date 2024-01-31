@@ -10,26 +10,11 @@ function Form2C(){
     const [user, setUser]= useState(null)
     const [loading, setLoading]= useState(true)
     const [error, setError]= useState(null)
-
-    const [ IIIaActa1, setIIIaActa1]= useState('') 
-    
-    const [ IIIaActa2, setIIIaActa2]= useState('')
-    
-    const [ IIIaActb1, setIIIaActb1]= useState('')
-    
-    const [ IIIaActb2, setIIIaActb2]= useState('')
-   
-    const [ IIIaActb3, setIIIaActb3]= useState('')
-   
-    const [ IIIaActb4, setIIIaActb4]= useState('')
-    
-    const [ IIIaActb5, setIIIaActb5]= useState('')
-   
-    const [ IIIaActb6, setIIIaActb6]= useState('')
-    const [ IIIaActabSelf, setIIIaActabSelf]= useState('')
+    const [ResearchPublication, setResearchPublication]= useState([])
     const [ ResearchArticle, setResearchArticle]= useState([])
     const [ ResearchProjectON, setResearchProjectON]= useState([])
     const [ ResearchProjectCOMP, setResearchProjectCOMP]= useState([])
+    const [ResearchNeedProject, setResearchNeedProject]= useState([])
     const [ ResearchGuidance, setResearchGuidance]= useState([])
     const [ TrainingCourse, setTrainingCourse]= useState([])
     const [PaperPresentConference, setPaperPresentConference]= useState([])
@@ -38,13 +23,87 @@ function Form2C(){
     const [IIISelfTotal, setIIISelfTotal] = useState(0)
     const [email, setEmail]= useState('')
     const [uploadedFile, setUploadedFile] = useState(null);
-  const [documentCURL, setDocumentCURL] = useState("");
+    const [documentC1, setDocumentC1] = useState("");
+    const [documentC2, setDocumentC2] = useState("");
+    const [documentC3, setDocumentC3] = useState("");
+    const [documentC4, setDocumentC4] = useState("");
+    const [documentC5, setDocumentC5] = useState("");
+    const [documentC6, setDocumentC6] = useState("");
+    const [documentC7, setDocumentC7] = useState("");
+    const [documentC8, setDocumentC8] = useState("");
+    const [documentC9, setDocumentC9] = useState("");
+    const [documentC10, setDocumentC10] = useState("");
+  // const [documentCURL, setDocumentCURL] = useState("");
 
     const navigate = useNavigate();
 
-    const handleUpload = (e) => {
+    // const handleUpload = (e) => {
+    //   const file = e.target.files[0];
+    //   setUploadedFile(file);
+    // };
+
+    const handleUpload = (e, documentIdentifier) => {
       const file = e.target.files[0];
-      setUploadedFile(file);
+    
+      // Your upload logic here...
+    
+      if (file) {
+        const storageRef = ref(storage, `documents/${file.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+    
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          },
+          (error) => {
+            console.log(error);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+              console.log(url);
+              // Update the corresponding document state based on the identifier
+              switch (documentIdentifier) {
+                case "documentC1":
+                  setDocumentC1(url);
+                  break;
+                case "documentC2":
+                  setDocumentC2(url);
+                  break;
+                case "documentC3":
+                  setDocumentC3(url);
+                  break;
+                case "documentC4":
+                  setDocumentC4(url);
+                  break;
+                case "documentC5":
+                  setDocumentC5(url);
+                  break;
+                case "documentC6":
+                  setDocumentC6(url);
+                  break;
+                case "documentC7":
+                  setDocumentC7(url);
+                  break;
+                case "documentC8":
+                  setDocumentC8(url);
+                  break;
+                case "documentC9":
+                  setDocumentC9(url);
+                  break;
+                case "documentC10":
+                  setDocumentC10(url);
+                  break;
+  
+                // Add cases for other document identifiers as needed
+                default: 
+  
+                  break;
+              }
+            });
+          }
+        );
+      }
     };
 
 useEffect(() => {
@@ -61,80 +120,156 @@ useEffect(() => {
 }, [navigate]);
 
 
-    // useEffect(() => {
-    //   Total()
-    // }, [IIActa, IIActb, IIActc, IIActd])
-
     const handleSave = async (e) => {
       e.preventDefault();
       const facultyRef = doc(db, "faculty", user.uid);
       const docRef = doc(facultyRef, "partB", "CategoryC");
       const data = {
-        IIIaActa1,
-        IIIaActa2,
-        IIIaActb1,
-        IIIaActb2,
-        IIIaActb3,
-        IIIaActb4,
-        IIIaActb5,
-        IIIaActb6,
-        IIIaActabSelf,
+        ResearchPublication,
         ResearchArticle,
         ResearchProjectON,
         ResearchProjectCOMP,
+        ResearchNeedProject,
         ResearchGuidance,
         TrainingCourse,
         PaperPresentConference,
         InvitedLecture,
         Award,
         IIISelfTotal,
-        documentCURL,
+        documentC1,
+        documentC2,
+        documentC3,
+        documentC4,
+        documentC5,
+        documentC6,
+        documentC7,
+        documentC8,
+        documentC9,
+        documentC10
       };
-      if (uploadedFile) {
-        const storageRef = ref(storage, `documents/${uploadedFile.name}`);
-        const uploadTask = uploadBytesResumable(storageRef, uploadedFile);
+      // if (uploadedFile) {
+      //   const storageRef = ref(storage, `documents/${uploadedFile.name}`);
+      //   const uploadTask = uploadBytesResumable(storageRef, uploadedFile);
     
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {
-            const progress =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          },
-          (error) => {
-            console.log(error);
-          },
-          () => {
-            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-              console.log(url);
-              setDocumentCURL(url);
-              data.documentCURL = url;
-              setDoc(docRef, data, { merge: true });
-            });
-          }
-        );
-      }
+      //   uploadTask.on(
+      //     "state_changed",
+      //     (snapshot) => {
+      //       const progress =
+      //         (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      //     },
+      //     (error) => {
+      //       console.log(error);
+      //     },
+      //     () => {
+      //       getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+      //         console.log(url);
+      //         setDocumentCURL(url);
+      //         data.documentCURL = url;
+      //         setDoc(docRef, data, { merge: true });
+      //       });
+      //     }
+      //   );
+      // }
       if (
         [
-          IIIaActa1, IIIaActa2, IIIaActb1, IIIaActb2, IIIaActb3, IIIaActb4, IIIaActb5, IIIaActb6, IIIaActabSelf,
-          ResearchArticle, ResearchProjectON, ResearchProjectCOMP, ResearchGuidance, TrainingCourse,
-          PaperPresentConference, InvitedLecture, Award, IIISelfTotal, documentCURL
+          ResearchPublication, ResearchArticle, ResearchProjectON, ResearchProjectCOMP, ResearchNeedProject, ResearchGuidance, TrainingCourse,
+          PaperPresentConference, InvitedLecture, Award, IIISelfTotal
         ].some(field => field === '' || (Array.isArray(field) && field.some(item => item === '')))
       ) {
         alert('Please fill in all the fields!');
         return;
       }
-      else if (IIIaActa1 < 0 || IIIaActa2 < 0 || IIIaActb1 < 0 || IIIaActb2 < 0 || IIIaActb3 < 0 || IIIaActb4 < 0 || IIIaActb5 < 0 || IIIaActb6 < 0 || IIIaActabSelf < 0 || ResearchArticle < 0 || ResearchProjectON < 0 || ResearchProjectCOMP < 0 || ResearchGuidance < 0 || TrainingCourse < 0 || PaperPresentConference < 0 || InvitedLecture < 0 || Award < 0 || IIISelfTotal < 0) {
+      else if (ResearchPublication < 0 || ResearchArticle < 0 || ResearchProjectON < 0 || ResearchProjectCOMP < 0 || ResearchNeedProject < 0 || ResearchGuidance < 0 || TrainingCourse < 0 || PaperPresentConference < 0 || InvitedLecture < 0 || Award < 0 || IIISelfTotal < 0) {
         alert('Please fill in all the fields with positive values only!');
         return;
+      } 
+      else if (isNaN(IIISelfTotal)) {
+        alert('Please fill in numeric values only!');
       }
-      else if (documentCURL === '') {
-        alert('Please upload the required documents!');
+
+      else if (ResearchPublication.some((item) => item.title === '' || item.sci==='' || item.wos==='' || item.esci ==='' || item.scopus==='' || item.ugccare ==='' || item.isbnissn ==='' || item.proceedings ==='' || item.guidementor ==='' || item.selfscore === '')) {
+        alert('Please fill all the fields in the research publication!');
+        return;
+      } else if (ResearchPublication.some((item) => item.selfscore < 0)) {
+        alert('Please fill all the fields with positive values only!');
         return;
       }
-      else {
-      await setDoc(docRef, data, { merge: true });
-      // navigate('/FormSubmission');
+
+        else if (ResearchArticle.some((item) => item.title === '' || item.booktitle === '' || item.isbn === '' || item.peerreview === '' || item.coauthor === '' || item.selfscore === '')) {
+        alert('Please fill all the fields in the research article!');
+        return;
+      } else if (ResearchArticle.some((item) => item.selfscore < 0)) {
+        alert('Please fill all the fields with positive values only!');
+        return;
       }
+
+      else if (ResearchProjectON.some((item) => item.title === '' || item.agency === '' || item.period === '' || item.amount === '' || item.selfscore === '')) {
+        alert('Please fill all the fields in the research project!');
+        return;
+      } else if (ResearchProjectON.some((item) => item.selfscore < 0)) {
+        alert('Please fill all the fields with positive values only!');
+        return;
+      }
+       
+      else  if (ResearchProjectCOMP.some((item) => item.title === '' || item.agency === '' || item.period === '' || item.amount === '' || item.selfscore === '')) {
+        alert('Please fill all the fields in the research project!');
+        return;
+      } else if (ResearchProjectCOMP.some((item) => item.selfscore < 0)) {
+        alert('Please fill all the fields with positive values only!');
+        return;
+      }
+       
+      else  if (ResearchNeedProject.some((item) => item.title === '' || item.agency === '' || item.period === '' || item.amount === '' || item.selfscore === '')) {
+        alert('Please fill all the fields in the research project!');
+        return;
+      }
+      else if (ResearchNeedProject.some((item) => item.selfscore < 0)) {
+        alert('Please fill all the fields with positive values only!');
+        return;
+      }
+  
+      else if (TrainingCourse.some((item) => item.programme === '' || item.duration === '' || item.organizedby === '' || item.selfscore === '')) {
+        alert('Please fill all the fields in the training course!');
+        return;
+      }
+      else if (TrainingCourse.some((item) => item.selfscore < 0)) {
+        alert('Please fill all the fields with positive values only!');
+        return;
+      }
+  
+      else if (PaperPresentConference.some((item) => item.titlepaper === '' || item.titleseminar === '' || item.organisedby === '' || item.level === '' || item.selfscore === '')) {
+        alert('Please fill all the fields in the paper presented in conference!');
+        return;
+      }
+      else if (PaperPresentConference.some((item) => item.selfscore < 0)) {
+        alert('Please fill all the fields with positive values only!');
+        return;
+      }
+  
+      else if (InvitedLecture.some((item) => item.titlelecture === '' || item.titleconference === '' || item.organisedby === '' || item.level === '' || item.selfscore === '')) {
+        alert('Please fill all the fields in the invited lecture!');
+        return;
+      }
+      else if (InvitedLecture.some((item) => item.selfscore < 0)) {
+        alert('Please fill all the fields with positive values only!');
+        return;
+      }
+  
+      else if (Award.some((item) => item.award === '' || item.agencyinvolved === '' || item.level === '' || item.discipline === '' || item.selfscore === '')) {
+        alert('Please fill all the fields in the award!');
+        return;
+      }
+      else if (Award.some((item) => item.selfscore < 0)) {
+        alert('Please fill all the fields with positive values only!');
+        return;
+      }
+      else if (!documentC1 || !documentC2 || !documentC3 || !documentC4 || !documentC5 || !documentC6 || !documentC7 || !documentC8 || !documentC9 || !documentC10) {
+        alert("Please upload all the required documents");
+        return;
+      }
+      
+      await setDoc(docRef, data);
+      
       // navigate('/form2');
     };
 
@@ -143,66 +278,152 @@ useEffect(() => {
       const facultyRef = doc(db, "faculty", user.uid);
       const docRef = doc(facultyRef, "partB", "CategoryC");
       const data = {
-        IIIaActa1,
-        IIIaActa2,
-        IIIaActb1,
-        IIIaActb2,
-        IIIaActb3,
-        IIIaActb4,
-        IIIaActb5,
-        IIIaActb6,
-        IIIaActabSelf,
+        ResearchPublication,
         ResearchArticle,
         ResearchProjectON,
         ResearchProjectCOMP,
+        ResearchNeedProject,
         ResearchGuidance,
         TrainingCourse,
         PaperPresentConference,
         InvitedLecture,
         Award,
         IIISelfTotal,
-        documentCURL,
+        documentC1,
+        documentC2,
+        documentC3,
+        documentC4,
+        documentC5,
+        documentC6,
+        documentC7,
+        documentC8,
+        documentC9,
+        documentC10
       };
-      if (uploadedFile) {
-        const storageRef = ref(storage, `documents/${uploadedFile.name}`);
-        const uploadTask = uploadBytesResumable(storageRef, uploadedFile);
+      // if (uploadedFile) {
+      //   const storageRef = ref(storage, `documents/${uploadedFile.name}`);
+      //   const uploadTask = uploadBytesResumable(storageRef, uploadedFile);
     
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {
-            const progress =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          },
-          (error) => {
-            console.log(error);
-          },
-          () => {
-            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-              console.log(url);
-              setDocumentCURL(url);
-              data.documentCURL = url;
-              setDoc(docRef, data, { merge: true });
-            });
-          }
-        );
-      }
-      if (IIIaActa1 === '' || IIIaActa2 === '' || IIIaActb1 === '' || IIIaActb2 === '' || IIIaActb3 === '' || IIIaActb4 === '' || IIIaActb5 === '' || IIIaActb6 === '' || IIIaActabSelf === '' || ResearchArticle === '' || ResearchProjectON === '' || ResearchProjectCOMP === '' || ResearchGuidance === '' || TrainingCourse === '' || PaperPresentConference === '' || InvitedLecture === '' || Award === '' || IIISelfTotal === '' || documentCURL === '') {
+      //   uploadTask.on(
+      //     "state_changed",
+      //     (snapshot) => {
+      //       const progress =
+      //         (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      //     },
+      //     (error) => {
+      //       console.log(error);
+      //     },
+      //     () => {
+      //       getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+      //         console.log(url);
+      //         setDocumentCURL(url);
+      //         data.documentCURL = url;
+      //         setDoc(docRef, data, { merge: true });
+      //       });
+      //     }
+      //   );
+      // }
+      if (
+        [
+          ResearchPublication, ResearchArticle, ResearchProjectON, ResearchProjectCOMP, ResearchNeedProject, ResearchGuidance, TrainingCourse,
+          PaperPresentConference, InvitedLecture, Award, IIISelfTotal
+        ].some(field => field === '' || (Array.isArray(field) && field.some(item => item === '')))
+      ) {
         alert('Please fill in all the fields!');
         return;
       }
-      else if (IIIaActa1 < 0 || IIIaActa2 < 0 || IIIaActb1 < 0 || IIIaActb2 < 0 || IIIaActb3 < 0 || IIIaActb4 < 0 || IIIaActb5 < 0 || IIIaActb6 < 0 || IIIaActabSelf < 0 || ResearchArticle < 0 || ResearchProjectON < 0 || ResearchProjectCOMP < 0 || ResearchGuidance < 0 || TrainingCourse < 0 || PaperPresentConference < 0 || InvitedLecture < 0 || Award < 0 || IIISelfTotal < 0) {
+      else if (ResearchPublication < 0 || ResearchArticle < 0 || ResearchProjectON < 0 || ResearchProjectCOMP < 0 || ResearchNeedProject < 0 || ResearchGuidance < 0 || TrainingCourse < 0 || PaperPresentConference < 0 || InvitedLecture < 0 || Award < 0 || IIISelfTotal < 0) {
         alert('Please fill in all the fields with positive values only!');
         return;
+      } 
+      else if (isNaN(IIISelfTotal)) {
+        alert('Please fill in numeric values only!');
       }
-      else if (documentCURL === '') {
-        alert('Please upload the required documents!');
+
+      else if (ResearchPublication.some((item) => item.title === '' || item.sci==='' || item.wos==='' || item.esci ==='' || item.scopus==='' || item.ugccare ==='' || item.isbnissn ==='' || item.proceedings ==='' || item.guidementor ==='' || item.selfscore === '')) {
+        alert('Please fill all the fields in the research publication!');
+        return;
+      } else if (ResearchPublication.some((item) => item.selfscore < 0)) {
+        alert('Please fill all the fields with positive values only!');
         return;
       }
-      else {
-      await setDoc(docRef, data, { merge: true });
-      navigate('/FormSubmission');
+
+        else if (ResearchArticle.some((item) => item.title === '' || item.booktitle === '' || item.isbn === '' || item.peerreview === '' || item.coauthor === '' || item.selfscore === '')) {
+        alert('Please fill all the fields in the research article!');
+        return;
+      } else if (ResearchArticle.some((item) => item.selfscore < 0)) {
+        alert('Please fill all the fields with positive values only!');
+        return;
       }
-      // navigate('/form2');
+
+      else if (ResearchProjectON.some((item) => item.title === '' || item.agency === '' || item.period === '' || item.amount === '' || item.selfscore === '')) {
+        alert('Please fill all the fields in the research project!');
+        return;
+      } else if (ResearchProjectON.some((item) => item.selfscore < 0)) {
+        alert('Please fill all the fields with positive values only!');
+        return;
+      }
+       
+      else  if (ResearchProjectCOMP.some((item) => item.title === '' || item.agency === '' || item.period === '' || item.amount === '' || item.selfscore === '')) {
+        alert('Please fill all the fields in the research project!');
+        return;
+      } else if (ResearchProjectCOMP.some((item) => item.selfscore < 0)) {
+        alert('Please fill all the fields with positive values only!');
+        return;
+      }
+       
+      else  if (ResearchNeedProject.some((item) => item.title === '' || item.agency === '' || item.period === '' || item.amount === '' || item.selfscore === '')) {
+        alert('Please fill all the fields in the research project!');
+        return;
+      }
+      else if (ResearchNeedProject.some((item) => item.selfscore < 0)) {
+        alert('Please fill all the fields with positive values only!');
+        return;
+      }
+  
+      else if (TrainingCourse.some((item) => item.programme === '' || item.duration === '' || item.organizedby === '' || item.selfscore === '')) {
+        alert('Please fill all the fields in the training course!');
+        return;
+      }
+      else if (TrainingCourse.some((item) => item.selfscore < 0)) {
+        alert('Please fill all the fields with positive values only!');
+        return;
+      }
+  
+      else if (PaperPresentConference.some((item) => item.titlepaper === '' || item.titleseminar === '' || item.organisedby === '' || item.level === '' || item.selfscore === '')) {
+        alert('Please fill all the fields in the paper presented in conference!');
+        return;
+      }
+      else if (PaperPresentConference.some((item) => item.selfscore < 0)) {
+        alert('Please fill all the fields with positive values only!');
+        return;
+      }
+  
+      else if (InvitedLecture.some((item) => item.titlelecture === '' || item.titleconference === '' || item.organisedby === '' || item.level === '' || item.selfscore === '')) {
+        alert('Please fill all the fields in the invited lecture!');
+        return;
+      }
+      else if (InvitedLecture.some((item) => item.selfscore < 0)) {
+        alert('Please fill all the fields with positive values only!');
+        return;
+      }
+  
+      else if (Award.some((item) => item.award === '' || item.agencyinvolved === '' || item.level === '' || item.discipline === '' || item.selfscore === '')) {
+        alert('Please fill all the fields in the award!');
+        return;
+      }
+      else if (Award.some((item) => item.selfscore < 0)) {
+        alert('Please fill all the fields with positive values only!');
+        return;
+      }
+      else if (!documentC1 || !documentC2 || !documentC3 || !documentC4 || !documentC5 || !documentC6 || !documentC7 || !documentC8 || !documentC9 || !documentC10) {
+        alert("Please upload all the required documents");
+        return;
+      }
+      
+      await setDoc(docRef, data);
+      
+       navigate('/formsubmission');
     };
 
 
@@ -213,25 +434,27 @@ useEffect(() => {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           const data = docSnap.data();
-          setIIIaActa1(data.IIIaActa1 || '');
-          setIIIaActa2(data.IIIaActa2 || '');
-          setIIIaActb1(data.IIIaActb1 || '');
-          setIIIaActb2(data.IIIaActb2 || '');
-          setIIIaActb3(data.IIIaActb3 || '');
-          setIIIaActb4(data.IIIaActb4 || '');
-          setIIIaActb5(data.IIIaActb5 || '');
-          setIIIaActb6(data.IIIaActb6 || '');
-          setIIIaActabSelf(data.IIIaActabSelf || '');
+          setResearchPublication(data.ResearchPublication || []);
           setResearchArticle(data.ResearchArticle || []);
           setResearchProjectON(data.ResearchProjectON || []);
           setResearchProjectCOMP(data.ResearchProjectCOMP || []);
+          setResearchNeedProject(data.ResearchNeedProject || []);
           setResearchGuidance(data.ResearchGuidance || []);
           setTrainingCourse(data.TrainingCourse || []);
           setPaperPresentConference(data.PaperPresentConference || []);
           setInvitedLecture(data.InvitedLecture || []);
           setAward(data.Award || []);
           setIIISelfTotal(data.IIISelfTotal || '');
-          setDocumentCURL(data.documentCURL || '');
+          setDocumentC1(data.documentC1 || "");
+          setDocumentC2(data.documentC2 || "");
+          setDocumentC3(data.documentC3 || "");
+          setDocumentC4(data.documentC4 || "");
+          setDocumentC5(data.documentC5 || "");
+          setDocumentC6(data.documentC6 || "");
+          setDocumentC7(data.documentC7 || "");
+          setDocumentC8(data.documentC8 || "");
+          setDocumentC9(data.documentC9 || "");
+          setDocumentC10(data.documentC10 || "");
         // } else {
         //   setError('User not found');
         }
@@ -242,10 +465,11 @@ useEffect(() => {
 
     const Total = () => {
       setIIISelfTotal(
-        parseFloat(IIIaActabSelf) +
+        parseFloat(ResearchPublication.reduce((acc, curr) => acc + parseFloat(curr.selfscore), 0)) +
         parseFloat(ResearchArticle.reduce((acc, curr) => acc + parseFloat(curr.selfscore), 0)) +
         parseFloat(ResearchProjectON.reduce((acc, curr) => acc + parseFloat(curr.selfscore), 0)) +
-        parseFloat(ResearchProjectCOMP.reduce((acc, curr) => acc + parseFloat(curr.selfscore), 0)) +
+        parseFloat(ResearchProjectCOMP.reduce((acc, curr) => acc + parseFloat(curr.selfscore), 0)) + 
+        parseFloat(ResearchNeedProject.reduce((acc, curr) => acc + parseFloat(curr.selfscore), 0)) +
         parseFloat(ResearchGuidance.reduce((acc, curr) => acc + parseFloat(curr.selfscore), 0)) +
         parseFloat(TrainingCourse.reduce((acc, curr) => acc + parseFloat(curr.selfscore), 0)) +
         parseFloat(PaperPresentConference.reduce((acc, curr) => acc + parseFloat(curr.selfscore), 0)) +
@@ -256,7 +480,7 @@ useEffect(() => {
     
     useEffect(() => {
       Total()
-    }, [IIIaActabSelf, ResearchArticle, ResearchProjectON, ResearchProjectCOMP, ResearchGuidance, TrainingCourse, PaperPresentConference, InvitedLecture, Award])
+    }, [ResearchPublication, ResearchArticle, ResearchProjectON, ResearchProjectCOMP,  ResearchNeedProject, ResearchGuidance, TrainingCourse, PaperPresentConference, InvitedLecture, Award])
 
     useEffect(() => {
       if (user) {
@@ -264,11 +488,42 @@ useEffect(() => {
       }
     }, [user]);
 
+    const handleAddResearchPublication = () => {
+      if (ResearchPublication.some((item) => item.title === '' || item.sci==='' || item.wos==='' || item.esci ==='' || item.scopus==='' || item.ugccare ==='' || item.isbnissn ==='' || item.proceedings ==='' || item.guidementor ==='' || item.selfscore === '')) {
+        alert('Please fill all the fields in the research publication!');
+        return;
+      } else if (ResearchPublication.some((item) => item.selfscore < 0)) {
+        alert('Please fill all the fields with positive values only!');
+        return;
+      }
+      else {
+      setResearchPublication((prevResearchPublication) => [
+        ...prevResearchPublication,
+        { sci: '', wos: '', esci: '', scopus: '', ugccare: '', isbnissn: '', proceedings: '', guidementor: '', selfscore: '' },
+      ]);}
+    };
+
+    const handleRemoveResearchPublication = (index) => {
+      setResearchPublication((prevResearchPublication) => [
+        ...prevResearchPublication.filter((item) => prevResearchPublication.indexOf(item) !== index),
+      ]);
+    };
+
+
     const handleAddResearchArticle = () => {
+      if (ResearchArticle.some((item) => item.title === '' || item.booktitle === '' || item.isbn === '' || item.peerreview === '' || item.coauthor === '' || item.mainauthor==='' || item.selfscore === '')) {
+        alert('Please fill all the fields in the research article!');
+        return;
+      } else if (ResearchArticle.some((item) => item.selfscore < 0)) {
+        alert('Please fill all the fields with positive values only!');
+        return;
+      }
+      else {
       setResearchArticle((prevResearchArticle) => [
         ...prevResearchArticle,
-        { title: '', booktitle: '', isbn: '', peerreview: '', coauthor: '', selfscore: '' },
+        { title: '', booktitle: '', isbn: '', peerreview: '', coauthor: '', mainauthor: '', selfscore: '' },
       ]);
+    }
     };
 
     const handleRemoveResearchArticle = (index) => {
@@ -278,10 +533,21 @@ useEffect(() => {
     };
 
     const handleAddResearchProjectON = () => {
+      if (ResearchProjectON.some((item) => item.title === '' || item.agency === '' || item.period === '' || item.amount === '' || item.selfscore === '')) {
+        alert('Please fill all the fields in the research project!');
+        return;
+      } else if (ResearchProjectON.some((item) => item.selfscore < 0)) {
+        alert('Please fill all the fields with positive values only!');
+        return;
+      }
+      else {
+
       setResearchProjectON((prevResearchProjectON) => [
+
         ...prevResearchProjectON,
         { title: '', agency: '', period: '', amount:'', selfscore: '' , ResearchProjectONHOD:'' },
       ]);
+    }
     }
 
     const handleRemoveResearchProjectON = (index) => {
@@ -291,10 +557,19 @@ useEffect(() => {
     }
 
     const handleAddResearchProjectCOMP = () => {
+      if (ResearchProjectCOMP.some((item) => item.title === '' || item.agency === '' || item.period === '' || item.amount === '' || item.selfscore === '')) {
+        alert('Please fill all the fields in the research project!');
+        return;
+      } else if (ResearchProjectCOMP.some((item) => item.selfscore < 0)) {
+        alert('Please fill all the fields with positive values only!');
+        return;
+      }
+      else {
       setResearchProjectCOMP((prevResearchProjectCOMP) => [
         ...prevResearchProjectCOMP,
         { title: '', agency: '', period: '', amount: '', selfscore: '' },
       ]);
+    }
     }
 
     const handleRemoveResearchProjectCOMP = (index) => {
@@ -303,11 +578,45 @@ useEffect(() => {
       ]);
     }
 
+    const handleAddResearchNeedProject = () => {
+      if (ResearchNeedProject.some((item) => item.title === '' || item.agency === '' || item.period === '' || item.amount === '' || item.selfscore === '')) {
+        alert('Please fill all the fields in the research project!');
+        return;
+      }
+      else if (ResearchNeedProject.some((item) => item.selfscore < 0)) {
+        alert('Please fill all the fields with positive values only!');
+        return;
+      }
+      else {
+
+      setResearchNeedProject((prevResearchNeedProject) => [
+        ...prevResearchNeedProject,
+        { title: '', agency: '', period: '', amount: '', selfscore: '' },
+      ]);
+    }
+    }
+
+    const handleRemoveResearchNeedProject = (index) => {
+      setResearchNeedProject((prevResearchNeedProject) => [
+        ...prevResearchNeedProject.filter((item) => prevResearchNeedProject.indexOf(item) !== index),
+      ]);
+    }    
+
     const handleAddResearchGuidance = () => {
+      if (ResearchGuidance.some((item) => item.enrolled === '' || item.thesis === '' || item.degree === '' || item.selfscore === '')) {
+        alert('Please fill all the fields in the research guidance!');
+        return;
+      }
+      else if (ResearchGuidance.some((item) => item.selfscore < 0)) {
+        alert('Please fill all the fields with positive values only!');
+        return;
+      }
+      else {
+
       setResearchGuidance((prevResearchGuidance) => [
         ...prevResearchGuidance,
         { enrolled: '', thesis: '', degree: '', selfscore: '' },
-      ]);
+      ])}
     }
 
     const handleRemoveResearchGuidance = (index) => {
@@ -317,10 +626,19 @@ useEffect(() => {
     }
 
     const handleAddTrainingCourse = () => {
+      if (TrainingCourse.some((item) => item.programme === '' || item.duration === '' || item.organizedby === '' || item.selfscore === '')) {
+        alert('Please fill all the fields in the training course!');
+        return;
+      }
+      else if (TrainingCourse.some((item) => item.selfscore < 0)) {
+        alert('Please fill all the fields with positive values only!');
+        return;
+      }
+      else {
       setTrainingCourse((prevTrainingCourse) => [
         ...prevTrainingCourse,
         { programme: '', duration: '', organizedby: '', selfscore: '' },
-      ]);
+      ]);}
     }
 
     const handleRemoveTrainingCourse = (index) => {
@@ -330,10 +648,19 @@ useEffect(() => {
     }
 
     const handleAddPaperPresentConference = () => {
+      if (PaperPresentConference.some((item) => item.titlepaper === '' || item.titleseminar === '' || item.organisedby === '' || item.level === '' || item.selfscore === '')) {
+        alert('Please fill all the fields in the paper presented in conference!');
+        return;
+      }
+      else if (PaperPresentConference.some((item) => item.selfscore < 0)) {
+        alert('Please fill all the fields with positive values only!');
+        return;
+      }
+      else {
       setPaperPresentConference((prevPaperPresentConference) => [
         ...prevPaperPresentConference,
         { titlepaper: '', titleseminar: '', organisedby: '', level: '', selfscore: '' },
-      ]);
+      ]);}
     }
 
     const handleRemovePaperPresentConference = (index) => {
@@ -343,10 +670,19 @@ useEffect(() => {
     }
 
     const handleAddInvitedLecture = () => {
+      if (InvitedLecture.some((item) => item.titlelecture === '' || item.titleconference === '' || item.organisedby === '' || item.level === '' || item.selfscore === '')) {
+        alert('Please fill all the fields in the invited lecture!');
+        return;
+      }
+      else if (InvitedLecture.some((item) => item.selfscore < 0)) {
+        alert('Please fill all the fields with positive values only!');
+        return;
+      }
+      else {
       setInvitedLecture((prevInvitedLecture) => [
         ...prevInvitedLecture,
         { titlelecture: '', titleconference: '', organisedby: '', level: '', selfscore: '' },
-      ]);
+      ]); }
     }
 
     const handleRemoveInvitedLecture = (index) => {
@@ -356,10 +692,20 @@ useEffect(() => {
     }
 
     const handleAddAward = () => {
+      if (Award.some((item) => item.award === '' || item.agencyinvolved === '' || item.level === '' || item.discipline === '' || item.selfscore === '')) {
+        alert('Please fill all the fields in the award!');
+        return;
+      }
+      else if (Award.some((item) => item.selfscore < 0)) {
+        alert('Please fill all the fields with positive values only!');
+        return;
+      }
+      else {
+
       setAward((prevAward) => [
         ...prevAward,
         { award: '', agencyinvolved: '', level: '', discipline: '', selfscore: '' },
-      ]);
+      ]); }
     }
 
     const handleRemoveAward = (index) => {
@@ -396,134 +742,208 @@ useEffect(() => {
     </ul>
   </Col>
   <Col md={9}>
-
-        <h1>Category III: (Assessment must be based on evidence produced by the teacher such as: copy of publications, project sanction letter, utilization and completion certificates issued by the University and acknowledgements for patent filing and approval letters, students’ Ph.D. award letter, etc.)</h1>
+  <h1>Part B: Academic Performance Indicators</h1>
+        {/* style={{fontWeigth:'bold'}} */}
+        <h4  style={{fontSize: 20}}>Category III: (Assessment must be based on evidence produced by the teacher such as: copy of publications, project sanction letter, utilization and completion certificates issued by the University and acknowledgements for patent filing and approval letters, students’ Ph.D. award letter, etc.)</h4>
         <Form onSubmit={handleSubmit}></Form>
 
         <Table striped bordered hover>
         <thead>
         <tr>
-          <th>III (a)</th>
-          <th>Research Publication (Journals)</th>
-          <th colSpan= "2">Max API Score allotted: No maximum score. A percentage of three
-          years score is considered for promotion as per UGC notification Feb 2018</th>
+        <th rowSpan="2">III (a)</th>
+      <th colSpan="1">Research Publications (Journals)</th>
+      <th colSpan="2">Max API Score allotted: No maximum score. A percentage of three
+years score is considered for promotion as per UGC notification Feb
+2018</th>
+    </tr>
+
+    <tr>
+      <th>Title with Journal name , Volume No., page No., ISS/ISBN No.</th>
+      <th>Index (indicate serial numbers against applicable)</th>
+      <th>Self Appraisal Score</th>
         </tr>
       </thead>
 
-        <tr>
-          <th>Sr.No</th>
-          <th>Title with Journal name , Volume no. page No ISSN/ISBN No</th>
-          <th>Index (indicate serial numbers against applicable)</th>
-          <th>Self appraisal score</th>
-        </tr>
-
-        <tbody>
-
-        
-      
-        <tr >
-          <td >a.</td>
-          
-          <td> A Modern Approach To Conventional Silk Farming</td>
-          <td>
-          <Form.Label>SCI</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder=""
-              value={IIIaActa1}
-              onChange={(e) => setIIIaActa1(e.target.value)}/>
-              <Form.Label>WOS</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder=""
-              value={IIIaActa2}
-              onChange={(e) => setIIIaActa2(e.target.value)}/></td>
-              <td rowSpan="2"><Form.Label></Form.Label>
-            <Form.Control
-              type="text"
-              placeholder=""
-              value={IIIaActabSelf}
-              onChange={(e) => setIIIaActabSelf(e.target.value)}/></td>
-              </tr>
-        
-
-        <tr>
-        <td>b.</td>
-          <td > Bone Age Estimation System Using Deep Learning</td>
-          <td>
-          <Form.Label>ESCI</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder=""
-              value={IIIaActb1}
-              onChange={(e) => setIIIaActb1(e.target.value)}/>
-
-              <Form.Label>SCOPUS</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder=""
-              value={IIIaActb2}
-              onChange={(e) => setIIIaActb2(e.target.value)}/>
-              
-              <Form.Label>UGC CARE</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder=""
-              value={IIIaActb3}
-              onChange={(e) => setIIIaActb3(e.target.value)}/>
-
-              <Form.Label>Having ISBN/ISSN</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder=""
-              value={IIIaActb4}
-              onChange={(e) => setIIIaActb4(e.target.value)}/>
-
-              <Form.Label>Proceedings</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder=""
-              value={IIIaActb5}
-              onChange={(e) => setIIIaActb5(e.target.value)}/>
-
-              <Form.Label>guide/mentor (mention serial number of paper )</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder=""
-              value={IIIaActb6}
-              onChange={(e) => setIIIaActb6(e.target.value)}/></td></tr>
-
+      {
+        ResearchPublication.map((researchpublication,index) => (
+          <tbody key={index}>
             <tr>
-              <td></td>
-              <td colspan="3"><Col>Evaluation Criteria:</Col>
-              <Col>1. Refereed Journals</Col>
-              <Col>   • SCI –- 40 / publication</Col>
-              <Col>   • ESCI –- 30 / publication</Col>
-              <Col>   • SCOPUS –- 20 / publication</Col>
-              <Col>   • UGC CARE –- 15 / publication</Col>
-
-              <Col>2. Non-refereed but recognized and reputable journals and periodicals, having ISBN/ISSN numbers –- 10 / publication</Col>
-              <Col>3. Conference proceedings as full papers, etc. (Abstracts not to be included) –- 10 / publication</Col>
-              <Col>4. Guide or mentor of the faculty gets 40% of the total points</Col>
+              <td>{index + 1}</td>
+              <td>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter title"
+                  value={researchpublication.title}
+                  onChange={(e) => {
+                    const newResearchPublication = [...ResearchPublication]
+                    newResearchPublication[index].title = e.target.value
+                    setResearchPublication(newResearchPublication)
+                  }}
+                  required/>
               </td>
-              
-            </tr>
-            </tbody>
+
+              <td>
+               
+               
+                <Form.Control
+                
+                type="text"
+                placeholder="Enter sci"
+                value={researchpublication.sci || ''}
+                onChange={(e) => {
+                  const newResearchPublication = [...ResearchPublication]
+                  newResearchPublication[index].sci = e.target.value
+                  setResearchPublication(newResearchPublication)
+                } }
+                required/>
+
+                <Form.Control
+                type="text"
+                placeholder="Enter wos"
+                value={researchpublication.wos || ''}
+                onChange={(e) => {
+                  const newResearchPublication = [...ResearchPublication]
+                  newResearchPublication[index].wos = e.target.value
+                  setResearchPublication(newResearchPublication)
+                } }
+                required/>
+                <Form.Control
+                type="text"
+                placeholder="Enter esci"
+                value={researchpublication.esci || ''}
+                onChange={(e) => {
+                  const newResearchPublication = [...ResearchPublication]
+                  newResearchPublication[index].esci = e.target.value
+                  setResearchPublication(newResearchPublication)
+                } }
+                required/>
+                <Form.Control
+                type="text"
+                placeholder="Enter scopus"
+                value={researchpublication.scopus || ''}
+                onChange={(e) => {
+                  const newResearchPublication = [...ResearchPublication]
+                  newResearchPublication[index].scopus = e.target.value
+                  setResearchPublication(newResearchPublication)
+                } }
+                required/>
+                <Form.Control
+                type="text"
+                placeholder="Enter ugccare"
+                value={researchpublication.ugccare || ''}
+                onChange={(e) => {
+                  const newResearchPublication = [...ResearchPublication]
+                  newResearchPublication[index].ugccare = e.target.value
+                  setResearchPublication(newResearchPublication)
+                } }
+                required/>
+                <Form.Control
+                type="text"
+                placeholder="Enter isbnissn"
+                value={researchpublication.isbnissn || ''}
+                onChange={(e) => {
+                  const newResearchPublication = [...ResearchPublication]
+                  newResearchPublication[index].isbnissn = e.target.value
+                  setResearchPublication(newResearchPublication)
+                } }
+                required/>
+                <Form.Control
+                type="text"
+                placeholder="Enter proceedings"
+                value={researchpublication.proceedings || ''}
+                onChange={(e) => {
+                  const newResearchPublication = [...ResearchPublication]
+                  newResearchPublication[index].proceedings = e.target.value
+                  setResearchPublication(newResearchPublication)
+                } }
+                required/>
+                <Form.Control
+                type="text"
+                placeholder="Enter guidementor"
+                value={researchpublication.guidementor || ''  }
+                onChange={(e) => {
+                  const newResearchPublication = [...ResearchPublication]
+                  newResearchPublication[index].guidementor = e.target.value
+                  setResearchPublication(newResearchPublication)
+                } }
+                required/>
+
+              </td>
+
+              <td>
+                <Form.Control
+                type="number"
+                placeholder="Enter selfscore"
+                value={researchpublication.selfscore}
+                onChange={(e) => {
+                  const newResearchPublication = [...ResearchPublication]
+                  newResearchPublication[index].selfscore = e.target.value
+                  setResearchPublication(newResearchPublication)
+                } }
+                required/>
+
+              </td>
+              <td>
+                <Button
+                  variant="danger"
+                  onClick={() => handleRemoveResearchPublication(index)}
+                >
+                  Remove
+                </Button>
+              </td>
+              </tr>
+              </tbody>
+        ))
+      }
         </Table>
+
+        <div className="text-center mb-3">
+          <Row>
+            <Col>
+            <Form.Group controlId="formFile" className="mb-3">
+            
+            {documentC1 && (
+              <>
+              <Form.Label>Doucment uploaded successfully</Form.Label>
+              <br />
+              <a href={documentC1} target="_blank" rel="noreferrer">
+                View Document
+              </a>
+              </>
+            )}
+            {!documentC1 && (
+              <Form.Label>Upload supporting documents (pdf)</Form.Label>
+            )}
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentC1')} />
+            
+          </Form.Group>
+            </Col>
+            </Row>
+          </div>
+
+        <div className="text-center mb-3">
+          <Row>
+            <Col>
+              <Button variant="primary" onClick={handleAddResearchPublication}>
+                Add Research Publication
+              </Button>
+            </Col>
+          </Row>
+        </div>
 
         <Table striped bordered hover>
         <thead>
         <tr>
         <th rowSpan="2">III (b)</th>
-      <th colSpan="3">Research Projects</th>
-      <th colSpan="3">Max API Score allotted: 100</th>
+      <th colSpan="3">Articles/ Chapters published in books</th>
+      <th colSpan="3">Max API Score allotted</th>
     </tr>
     <tr>
-      <th>Title</th>
-      <th>Book Title</th>
-      <th>ISBN</th>
-      <th>Peer Review</th>
-      <th>Co-author</th>
+      <th>Title with Page No.</th>
+      <th>Book Title, editor and publisher</th>
+      <th>ISS/ISBN No.</th>
+      <th>Whether Peer Reviewed?</th>
+      <th>No of Coauthors. Specify if main author.</th>
       <th>Self Appraisal Score</th>
         </tr>
       </thead>
@@ -573,15 +993,40 @@ useEffect(() => {
               
               
               <td>
-                <Form.Control
-                type="text"
-                placeholder="Enter peerreview"
-                value={researcharticle.peerreview}
-                onChange={(e) =>{
-                  const newResearchArticle = [...ResearchArticle]
-                  newResearchArticle[index].peerreview = e.target.value
-                  setResearchArticle(newResearchArticle)
-                } }/>
+                <Form.Check
+                  type="radio"
+                  label="Yes"
+                  value="Yes"
+                  checked={researcharticle.peerreview === 'Yes'}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      const newResearchArticle = [...ResearchArticle]
+                      newResearchArticle[index].peerreview = e.target.value
+                      setResearchArticle(newResearchArticle)
+                    } else {
+                      const newResearchArticle = [...ResearchArticle]
+                      newResearchArticle[index].peerreview = ''
+                      setResearchArticle(newResearchArticle)
+                    }
+                  }}
+                />
+                <Form.Check
+                  type="radio"
+                  label="No"
+                  value="No"
+                  checked={researcharticle.peerreview === 'No'}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      const newResearchArticle = [...ResearchArticle]
+                      newResearchArticle[index].peerreview = e.target.value
+                      setResearchArticle(newResearchArticle)
+                    } else {
+                      const newResearchArticle = [...ResearchArticle]
+                      newResearchArticle[index].peerreview = ''
+                      setResearchArticle(newResearchArticle)
+                    }
+                  }}
+                  />
               </td>
               <td>
                 <Form.Control
@@ -593,6 +1038,43 @@ useEffect(() => {
                   newResearchArticle[index].coauthor = e.target.value
                   setResearchArticle(newResearchArticle)
                 } }/>
+                <Form.Label>Main:</Form.Label>
+
+                <Form.Check
+                  type="radio"
+                  label="Yes"
+                  value="Yes"
+                  checked={researcharticle.mainauthor === 'Yes'}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      const newResearchArticle = [...ResearchArticle]
+                      newResearchArticle[index].mainauthor = e.target.value
+                      setResearchArticle(newResearchArticle)
+                    }
+                  else {
+                      const newResearchArticle = [...ResearchArticle]
+                      newResearchArticle[index].mainauthor = ''
+                      setResearchArticle(newResearchArticle)
+                    }
+                  }}
+                />
+                <Form.Check
+                  type="radio"
+                  label="No"
+                  value="No"
+                  checked={researcharticle.mainauthor === 'No'}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      const newResearchArticle = [...ResearchArticle]
+                      newResearchArticle[index].mainauthor = e.target.value
+                      setResearchArticle(newResearchArticle)
+                    } else {
+                      const newResearchArticle = [...ResearchArticle]
+                      newResearchArticle[index].mainauthor = ''
+                      setResearchArticle(newResearchArticle)
+                    }
+                  }}
+                  />
               </td>
 
               <td>
@@ -642,6 +1124,30 @@ useEffect(() => {
       </Table>
 
       <div className="text-center mb-3">
+          <Row>
+            <Col>
+            <Form.Group controlId="formFile" className="mb-3">
+            
+            {documentC2 && (
+              <>
+              <Form.Label>Doucment uploaded successfully</Form.Label>
+              <br />
+              <a href={documentC2} target="_blank" rel="noreferrer">
+                View Document
+              </a>
+              </>
+            )}
+            {!documentC2 && (
+              <Form.Label>Upload supporting documents (pdf)</Form.Label>
+            )}
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentC2')} />
+            
+          </Form.Group>
+            </Col>
+            </Row>
+          </div>
+
+      <div className="text-center mb-3">
             <Row>
               <Col>
           <Button variant="primary" onClick={handleAddResearchArticle}>
@@ -650,6 +1156,8 @@ useEffect(() => {
           </Col>
           </Row>
           </div>
+
+         
 
       <Table striped bordered hover>
         <thead>
@@ -661,8 +1169,8 @@ useEffect(() => {
       <th>Title</th>
       <th>Agency</th>
       <th>Period</th>
-      <th>Amount</th>
-      <th>Self Appraisal Score</th>
+      <th>Grant/Amount Mobilized (in Lakhs)</th>
+      <th>Self appraisal Score</th>
         </tr>
       </thead>
 
@@ -760,6 +1268,31 @@ useEffect(() => {
       </td>
       </tr>
       </Table>
+
+      <div className="text-center mb-3">
+          <Row>
+            <Col>
+            <Form.Group controlId="formFile" className="mb-3">
+            
+            {documentC3 && (
+              <>
+              <Form.Label>Doucment uploaded successfully</Form.Label>
+              <br />
+              <a href={documentC3} target="_blank" rel="noreferrer">
+                View Document
+              </a>
+              </>
+            )}
+            {!documentC3 && (
+              <Form.Label>Upload supporting documents (pdf)</Form.Label>
+            )}
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentC3')} />
+            
+          </Form.Group>
+            </Col>
+            </Row>
+          </div>
+
       <div className="text-center mb-3">
             <Row>
               <Col>
@@ -780,8 +1313,8 @@ useEffect(() => {
       <th>Title</th>
       <th>Agency</th>
       <th>Period</th>
-      <th>Amount</th>
-      <th>Self Appraisal Score</th>
+      <th>Grant/Amount Mobilized (in Lakhs)</th>
+      <th>Self appraisal Score</th>
         </tr>
       </thead>
 
@@ -878,6 +1411,31 @@ useEffect(() => {
       </td>
       </tr>
       </Table>
+
+      <div className="text-center mb-3">
+          <Row>
+            <Col>
+            <Form.Group controlId="formFile" className="mb-3">
+            
+            {documentC4 && (
+              <>
+              <Form.Label>Doucment uploaded successfully</Form.Label>
+              <br />
+              <a href={documentC4} target="_blank" rel="noreferrer">
+                View Document
+              </a>
+              </>
+            )}
+            {!documentC4 && (
+              <Form.Label>Upload supporting documents (pdf)</Form.Label>
+            )}
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentC4')} />
+            
+          </Form.Group>
+            </Col>
+            </Row>
+          </div>
+
       <div className="text-center mb-3">
             <Row>
               <Col>
@@ -888,18 +1446,165 @@ useEffect(() => {
           </Row>
           </div>
 
+          <Table striped bordered hover>
+        <thead>
+        <tr>
+        <th rowSpan="2">III (c)</th>
+      <th colSpan="5">Need Based Projects of the Institute completed without Sponsorship and approved by Institute authorities</th>
+    </tr>
+    <tr>
+      <th>Title</th>
+      <th>Agency</th>
+      <th>Period</th>
+      <th>Grant/Amount Mobilized (in Lakhs)</th>
+      <th>Self appraisal Score</th>
+
+        </tr>
+      </thead>
+
+      {
+        ResearchNeedProject.map((researchneedproject,index) => (
+          <tbody key={index}>
+          <tr>
+              <td>{index + 1}</td>
+              <td>
+                <Form.Control
+
+                  type="text"
+                  placeholder="Enter title"
+                  value={researchneedproject.title}
+                  onChange={(e) =>{
+                    const newResearchNeedProject = [...ResearchNeedProject]
+                    newResearchNeedProject[index].title = e.target.value
+                    setResearchNeedProject(newResearchNeedProject)
+                  } }/>
+              </td>
+              <td>
+            
+                <Form.Control
+                type="text"
+                placeholder="Enter agency"
+                value={researchneedproject.agency}
+                onChange={(e) =>{
+                  const newResearchNeedProject = [...ResearchNeedProject]
+                  newResearchNeedProject[index].agency = e.target.value
+                  setResearchNeedProject(newResearchNeedProject)
+                } }/>
+              </td>
+              <td>
+
+                <Form.Control
+                type="text"
+                placeholder="Enter period"
+                value={researchneedproject.period}
+                onChange={(e) =>{
+                  const newResearchNeedProject = [...ResearchNeedProject]
+                  newResearchNeedProject[index].period = e.target.value
+                  setResearchNeedProject(newResearchNeedProject)
+                } }/>
+              </td>
+              <td>
+
+                <Form.Control
+                type="text"
+                placeholder="Enter amount"
+                value={researchneedproject.amount}
+                onChange={(e) =>{
+                  const newResearchNeedProject = [...ResearchNeedProject]
+                  newResearchNeedProject[index].amount = e.target.value
+                  setResearchNeedProject(newResearchNeedProject)
+                } }/>
+              </td>
+
+              <td>
+                <Form.Control
+                type="text"
+                placeholder="Enter selfscore"
+                value={researchneedproject.selfscore}
+                onChange={(e) =>{
+                  const newResearchNeedProject = [...ResearchNeedProject]
+                  newResearchNeedProject[index].selfscore = e.target.value
+                  setResearchNeedProject(newResearchNeedProject)
+                } }/>
+
+              </td>
+
+              <td>
+                <Button
+                  variant="danger"
+                  onClick={() => handleRemoveResearchNeedProject(index)}
+                >
+                  Remove
+                </Button>
+              </td>
+            </tr>
+          </tbody>
+        ))
+      }
+      <tr>
+        <td></td>
+        <td colSpan="5"><Col>Evaluation Criteria:</Col>
+          <Col>a) Major Projects amount mobilized with grants above 20.0 lakhs 30 points</Col>
+<Col>a) Major Projects amount mobilized with grants above 5.0 lakhs 20 points</Col>
+<Col>b) Major Projects Amount mobilized with a minimum of Rs. 3.00 lakhs up to Rs. 5.00 lakhs 15 points</Col>
+<Col>c) Minor Projects (Amount mobilized with grants above Rs. 25,000 up to Rs. 3 lakh 10 points</Col>
+<Col>d) Consultancy Projects amount mobilized with grants above 2.0 lakhs 10 points</Col>
+<Col>e) Consultancy Projects completed-Major above 5 lakhs (Acceptance from the funding agency) 20 points</Col>
+<Col>f) Consultancy Projects completed- Minor below 3 lakhs (Acceptance from the funding agency) 20 points</Col>
+<Col>g) Projects Outcome /Outputs in the form of Patent/Technology transfer/ Product/Process 30 points at the National level and 50 at the international level</Col>  
+<Col>h) Need-based projects of the college 10 points</Col>
+      </td>
+      </tr>
+      </Table>
+
+      <div className="text-center mb-3">
+          <Row>
+            <Col>
+            <Form.Group controlId="formFile" className="mb-3">
+            
+            {documentC5 && (
+              <>
+              <Form.Label>Doucment uploaded successfully</Form.Label>
+              <br />
+              <a href={documentC5} target="_blank" rel="noreferrer">
+                View Document
+              </a>
+              </>
+            )}
+            {!documentC5 && (
+              <Form.Label>Upload supporting documents (pdf)</Form.Label>
+            )}
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentC5')} />
+            
+          </Form.Group>
+            </Col>
+            </Row>
+          </div>
+
+      <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Button variant="primary" onClick={handleAddResearchNeedProject}>
+            <Link className="text-decoration-none text-white">Add Need Based Project</Link>
+          </Button>
+          </Col>
+          </Row>
+          </div>
+
+
+
       <Table striped bordered hover>
         <thead>
         <tr>
         <th rowSpan="2">III (d)</th>
-      <th colSpan="4">Research Guidance</th>
+      <th colSpan="4">Research Guidance ( For ME and PhD guides only) </th>
       
     </tr>
     <tr>
-      <th>Enrolled</th>
+      <th> No: Enrolled</th>
       <th>Thesis Submitted</th>
       <th>Degree Awarded</th>
-      <th>Self Appraisal Score</th>
+      <th>Self appraisal Score</th>
         </tr>
       </thead>
       
@@ -979,6 +1684,31 @@ useEffect(() => {
         </td>
       </tr>
       </Table>
+
+      <div className="text-center mb-3">
+          <Row>
+            <Col>
+            <Form.Group controlId="formFile" className="mb-3">
+            
+            {documentC6 && (
+              <>
+              <Form.Label>Doucment uploaded successfully</Form.Label>
+              <br />
+              <a href={documentC6} target="_blank" rel="noreferrer">
+                View Document
+              </a>
+              </>
+            )}
+            {!documentC6 && (
+              <Form.Label>Upload supporting documents (pdf)</Form.Label>
+            )}
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentC6')} />
+            
+          </Form.Group>
+            </Col>
+            </Row>
+          </div>
+
       <div className="text-center mb-3">
             <Row>
               <Col>
@@ -1077,6 +1807,31 @@ useEffect(() => {
 </td>
       </tr>
       </Table>
+
+      <div className="text-center mb-3">
+          <Row>
+            <Col>
+            <Form.Group controlId="formFile" className="mb-3">
+            
+            {documentC7 && (
+              <>
+              <Form.Label>Doucment uploaded successfully</Form.Label>
+              <br />
+              <a href={documentC7} target="_blank" rel="noreferrer">
+                View Document
+              </a>
+              </>
+            )}
+            {!documentC7 && (
+              <Form.Label>Upload supporting documents (pdf)</Form.Label>
+            )}
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentC7')} />
+            
+          </Form.Group>
+            </Col>
+            </Row>
+          </div>
+
       <div className="text-center mb-3">
             <Row>
               <Col>
@@ -1094,7 +1849,7 @@ useEffect(() => {
       <th colSpan="5">PAPER PRESENTATIONS IN CONFERENCES AND SEMINARS</th>
     </tr>
     <tr>
-      <th>Title of paper</th>
+      <th>Title of Paper Presented</th>
       <th>Title of Seminar/Conference</th>
       <th>Organized by</th>
       <th>Level</th>
@@ -1188,6 +1943,31 @@ useEffect(() => {
       <Col>one publication is considered only under a single categor</Col></td>
     </tr>
     </Table>
+
+    <div className="text-center mb-3">
+          <Row>
+            <Col>
+            <Form.Group controlId="formFile" className="mb-3">
+            
+            {documentC8 && (
+              <>
+              <Form.Label>Doucment uploaded successfully</Form.Label>
+              <br />
+              <a href={documentC8} target="_blank" rel="noreferrer">
+                View Document
+              </a>
+              </>
+            )}
+            {!documentC8 && (
+              <Form.Label>Upload supporting documents (pdf)</Form.Label>
+            )}
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentC8')} />
+            
+          </Form.Group>
+            </Col>
+            </Row>
+          </div>
+
     <div className="text-center mb-3">
             <Row>
               <Col>
@@ -1296,6 +2076,31 @@ useEffect(() => {
 </td>
       </tr>
       </Table>
+
+      <div className="text-center mb-3">
+          <Row>
+            <Col>
+            <Form.Group controlId="formFile" className="mb-3">
+            
+            {documentC9 && (
+              <>
+              <Form.Label>Doucment uploaded successfully</Form.Label>
+              <br />
+              <a href={documentC9} target="_blank" rel="noreferrer">
+                View Document
+              </a>
+              </>
+            )}
+            {!documentC9 && (
+              <Form.Label>Upload supporting documents (pdf)</Form.Label>
+            )}
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentC9')} />
+            
+          </Form.Group>
+            </Col>
+            </Row>
+          </div>
+
       <div className="text-center mb-3">
             <Row>
               <Col>
@@ -1420,6 +2225,31 @@ useEffect(() => {
         <Col>d.	D.Sc from an university based on post-doctoral thesis	50 /each</Col></td>
       </tr>
       </Table>
+
+      <div className="text-center mb-3">
+          <Row>
+            <Col>
+            <Form.Group controlId="formFile" className="mb-3">
+            
+            {documentC10 && (
+              <>
+              <Form.Label>Doucment uploaded successfully</Form.Label>
+              <br />
+              <a href={documentC10} target="_blank" rel="noreferrer">
+                View Document
+              </a>
+              </>
+            )}
+            {!documentC10 && (
+              <Form.Label>Upload supporting documents (pdf)</Form.Label>
+            )}
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentC10')} />
+            
+          </Form.Group>
+            </Col>
+            </Row>
+          </div>
+
       <div className="text-center mb-3">
             <Row>
               <Col>
@@ -1444,13 +2274,13 @@ useEffect(() => {
 
 
 
-      <div className="text-center mb-3">
+      {/* <div className="text-center mb-3">
             <Row>
               <Col>
           <Form.Group controlId="formFile" className="mb-3">
             {/* <Form.Label>Upload supporting documents (pdf)</Form.Label>
             <Form.Control type="file" onChange={handleUpload} /> */}
-            {documentCURL && (
+            {/* {documentCURL && (
               <>
               <Form.Label>Doucment uploaded successfully</Form.Label>
               <br />
@@ -1466,8 +2296,11 @@ useEffect(() => {
           </Form.Group>
           </Col>
           </Row>
-          </div>
-
+          </div> */} 
+          
+          <p className='text-center'>
+        *Upload document for above activities. To change the document, upload new document again.
+      </p>
       <p>*If a paper presented in Conference/Seminar is published in the form of Proceedings, the points would accrue for the publication (III(a) and not under presentation (III(e)(ii))).</p>
        
       <div className='text-center mb-4'>

@@ -12,6 +12,7 @@ import { auth, db, storage } from "../firebase";
 import { doc, collection, getDoc, setDoc, updateDoc, addDoc } from "firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { uploadBytes } from "@firebase/storage";
 
 function Form2A() {
   const [user, setUser] = useState(null);
@@ -30,17 +31,84 @@ function Form2A() {
   const [IActTotal, setIActTotal] = useState("");
   const [email, setEmail] = useState("");
   const [uploadedFile, setUploadedFile] = useState(null);
-  const [documentAURL, setDocumentAURL] = useState("");
+  // const [documentAURL, setDocumentAURL] = useState([]);
+  const [documentA1, setDocumentA1] = useState("");
+  const [documentA2, setDocumentA2] = useState("");
+  const [documentA3, setDocumentA3] = useState("");
+  const [documentA4, setDocumentA4] = useState("");
+  const [documentA5, setDocumentA5] = useState("");
+  const [documentA6, setDocumentA6] = useState("");
+  const [documentA7, setDocumentA7] = useState("");
+  const [documentA8, setDocumentA8] = useState("");
   const [check_d, setCheck_d] = useState([]);
-  
+  const [check_e, setCheck_e] = useState([]);
+  const [check_f, setCheck_f] = useState([]);
 
   const navigate = useNavigate();
 
-  const handleUpload = (e) => {
+  // const handleUpload = (e) => {
+  //   setUploadedFile(e.target.files[0]);
+  // };
+ 
+  const handleUpload = (e, documentIdentifier) => {
     const file = e.target.files[0];
-    setUploadedFile(file);
-  };
   
+    // Your upload logic here...
+  
+    if (file) {
+      const storageRef = ref(storage, `documents/${file.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+  
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            console.log(url);
+            // Update the corresponding document state based on the identifier
+            switch (documentIdentifier) {
+              case 'documentA1':
+                setDocumentA1(url);
+                break;
+              case 'documentA2':
+                setDocumentA2(url);
+                break;
+              case 'documentA3':
+                setDocumentA3(url);
+                break;
+              case 'documentA4':
+                setDocumentA4(url);
+                break;
+              case 'documentA5':
+                setDocumentA5(url);
+                break;
+              case 'documentA6':
+                setDocumentA6(url);
+                break;
+              case 'documentA7':
+                setDocumentA7(url);
+                break;
+              case 'documentA8':
+                setDocumentA8(url);
+                break;
+
+
+              // Add cases for other document identifiers as needed
+              default: 
+
+                break;
+            }
+          });
+        }
+      );
+    }
+  };
+
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -70,6 +138,117 @@ function Form2A() {
     Total();
   }, [IActa, IActb, IActc, IActd, IActe, IActf]);
 
+  // const handleSave = async (e) => {
+  //   e.preventDefault();
+  //   const facultyRef = doc(db, "faculty", user.uid);
+  //   const docRef = doc(facultyRef, "partB", "CategoryA");
+  //   const data = {
+  //     IActa,
+  //     IActb,
+  //     IActc,
+  //     IActd,
+  //     IActe,
+  //     IActf,
+  //     IOddsem,
+  //     IEvensem,
+  //     IActTotal,
+  //     // documentAURL,
+  //     documentA1,
+  //     documentA2,
+  //     documentA3,
+  //     documentA4,
+  //     documentA5,
+  //     documentA6,
+  //     check_d,
+  //     check_e,
+  //     check_f
+  //   };
+
+  //   if (uploadedFile) {
+  //     const storageRef = ref(storage, `documents/${uploadedFile.name}`);
+  //     const uploadTask = uploadBytesResumable(storageRef, uploadedFile);
+
+  //     uploadTask.on(
+  //       "state_changed",
+  //       (snapshot) => {
+  //         const progress =
+  //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  //       },
+  //       (error) => {
+  //         console.log(error);
+  //       },
+  //       () => {
+  //         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+  //           console.log(url);
+  //           setDocumentA1(url);
+  //           setDocumentA2(url);
+  //           setDocumentA3(url);
+  //           setDocumentA4(url);
+  //           setDocumentA5(url);
+  //           setDocumentA6(url);
+
+  //           // setDocumentAURL(url);
+  //           // setDocumentAURL([...documentAURL, url]);
+
+  //           data.documentURL = url;
+  //           setDoc(docRef, data);
+  //           // addDoc( collection(db, "partB"), data);
+  //             // .then(() => {
+  //             //   console.log("Document successfully written!");
+  //             //   navigate("/form2b");
+  //             // }
+  //             // )
+  //             // .catch((error) => {
+  //             //   console.error("Error writing document: ", error);
+  //             // });
+  //         });
+  //       }
+  //     );
+  //   }
+
+  //   if (IActa === "" || IActb === "" || IActc === "" || IActd === "" || IActe === "" || IActf === "" || IActTotal === "") {
+  //     alert("Please fill all the fields");
+  //     return;
+  //   } else if (IActa < 0 || IActb < 0 || IActc < 0 || IActd < 0 || IActe < 0 || IActf < 0 || IActTotal < 0) {
+  //     alert("Please enter valid numbers");
+  //     return;
+  //   } 
+  //   else if (check_d.length === 0 || check_e.length === 0 || check_f.length === 0) {
+  //     alert("Please select atleast one option in each category");
+  //     return;
+  //   }
+  //   else if (isNaN(IActTotal)) {
+  //     alert("Please enter valid numbers");
+  //     return;
+  //   } else if (documentA1 === "") {
+  //     alert("Please upload the document");
+  //     return;
+  //   } else if (documentA2 === "") {
+  //     alert("Please upload the document");
+  //     return;
+  //   }
+  //   else if (documentA3 === "") {
+  //     alert("Please upload the document");
+  //     return;
+  //   }
+  //   else if (documentA4 === "") {
+  //     alert("Please upload the document");
+  //     return;
+  //   }
+  //   else if (documentA5 === "") {
+  //     alert("Please upload the document");
+  //     return;
+  //   }
+  //   else if (documentA6 === "") {
+  //     alert("Please upload the document");
+  //     return;
+  //   }
+  //   else {
+  //   await setDoc(docRef, data);
+  //   }
+  //   // navigate('/form2');
+  // };
+  
   const handleSave = async (e) => {
     e.preventDefault();
     const facultyRef = doc(db, "faculty", user.uid);
@@ -84,129 +263,108 @@ function Form2A() {
       IOddsem,
       IEvensem,
       IActTotal,
-      documentAURL,
-      check_d
+      documentA1,
+      documentA2,
+      documentA3,
+      documentA4,
+      documentA5,
+      documentA6,
+      documentA7,
+      documentA8,
+      check_d,
+      check_e,
+      check_f
     };
-
-    if (uploadedFile) {
-      const storageRef = ref(storage, `documents/${uploadedFile.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, uploadedFile);
-
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        },
-        (error) => {
-          console.log(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-            console.log(url);
-            setDocumentAURL(url);
-            data.documentURL = url;
-            setDoc(docRef, data, { merge: true });
-            // addDoc( collection(db, "partB"), data);
-              // .then(() => {
-              //   console.log("Document successfully written!");
-              //   navigate("/form2b");
-              // }
-              // )
-              // .catch((error) => {
-              //   console.error("Error writing document: ", error);
-              // });
-          });
-        }
-      );
-    }
-    if (IActa === "" || IActb === "" || IActc === "" || IActd === "" || IActe === "" || IActf === "" || IActTotal === "") {
+  
+    // Add logic to handle document URLs here, if needed
+  
+    // Ensure the required fields are filled and valid
+    if (
+      IActa === "" ||
+      IActb === "" ||
+      IActc === "" ||
+      IActd === "" ||
+      IActe === "" ||
+      IActf === "" ||
+      IActTotal === ""
+    ) {
       alert("Please fill all the fields");
       return;
-    } else if (IActa < 0 || IActb < 0 || IActc < 0 || IActd < 0 || IActe < 0 || IActf < 0 || IActTotal < 0) {
-      alert("Please enter valid numbers");
+    } else if (isNaN(IActTotal) || IActTotal < 0) {
+      alert("Please enter a valid number for 'Total'");
       return;
-    } 
-    else if (IActTotal === NaN) {
-      alert("Please enter valid numbers");
+    } else if (check_d.length === 0 || check_e.length === 0 || check_f.length === 0) {
+      alert("Please select at least one option in each category");
       return;
-    } else if (documentAURL === "") {
-      alert("Please upload the document");
+    } else if (!documentA1 || !documentA2 || !documentA3 || !documentA4 || !documentA5 || !documentA6 || !documentA7 || !documentA8) {
+      alert("Please upload all the required documents");
       return;
-    } else {
-    await setDoc(docRef, data, { merge: true });
     }
-    // navigate('/form2');
+  
+    // Save data to Firestore
+    await setDoc(docRef, data);
   };
+  
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const facultyRef = doc(db, "faculty", user.uid);
-    const docRef = doc(facultyRef, "partB", "CategoryA");
-    const data = {
-      IActa,
-      IActb,
-      IActc,
-      IActd,
-      IActe,
-      IActf,
-      IOddsem,
-      IEvensem,
-      IActTotal,
-      documentAURL,
-      check_d
+    {
+      e.preventDefault();
+      const facultyRef = doc(db, "faculty", user.uid);
+      const docRef = doc(facultyRef, "partB", "CategoryA");
+      const data = {
+        IActa,
+        IActb,
+        IActc,
+        IActd,
+        IActe,
+        IActf,
+        IOddsem,
+        IEvensem,
+        IActTotal,
+        documentA1,
+        documentA2,
+        documentA3,
+        documentA4,
+        documentA5,
+        documentA6,
+        documentA7,
+        documentA8,
+        check_d,
+        check_e,
+        check_f
+      };
+    
+      // Add logic to handle document URLs here, if needed
+    
+      // Ensure the required fields are filled and valid
+      if (
+        IActa === "" ||
+        IActb === "" ||
+        IActc === "" ||
+        IActd === "" ||
+        IActe === "" ||
+        IActf === "" ||
+        IActTotal === ""
+      ) {
+        alert("Please fill all the fields");
+        return;
+      } else if (isNaN(IActTotal) || IActTotal < 0) {
+        alert("Please enter a valid number for 'Total'");
+        return;
+      } else if (check_d.length === 0 || check_e.length === 0 || check_f.length === 0) {
+        alert("Please select at least one option in each category");
+        return;
+      } else if (!documentA1 || !documentA2 || !documentA3 || !documentA4 || !documentA5 || !documentA6 || !documentA7 || !documentA8) {
+        alert("Please upload all the required documents");
+        return;
+      }
+    
+      // Save data to Firestore
+      await setDoc(docRef, data);
     };
-
-    if (uploadedFile) {
-      const storageRef = ref(storage, `documents/${uploadedFile.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, uploadedFile);
-
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        },
-        (error) => {
-          console.log(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-            console.log(url);
-            setDocumentAURL(url);
-            data.documentURL = url;
-            setDoc(docRef, data, { merge: true });
-            // addDoc( collection(db, "partB"), data);
-              // .then(() => {
-              //   console.log("Document successfully written!");
-              //   navigate("/form2b");
-              // }
-              // )
-              // .catch((error) => {
-              //   console.error("Error writing document: ", error);
-              // });
-          });
-        }
-      );
-    }
-    if (IActa === "" || IActb === "" || IActc === "" || IActd === "" || IActe === "" || IActf === "" || IActTotal === "") {
-      alert("Please fill all the fields");
-      return;
-    } else if (IActa < 0 || IActb < 0 || IActc < 0 || IActd < 0 || IActe < 0 || IActf < 0 || IActTotal < 0) {
-      alert("Please enter valid numbers");
-      return;
-    }
-     else if (IActTotal === NaN || IActTotal === "NaN") {
-      alert("Please enter valid numbers");
-      return;
-    } else if (documentAURL === "") {
-      alert("Please upload the document");
-      return;
-    } else {
-    await setDoc(docRef, data, { merge: true });
-    }
     navigate('/form2b');
   };
+   
 
   const fetchData = async (uid) => {
     const facultyRef = doc(db, "faculty", uid);
@@ -225,8 +383,18 @@ function Form2A() {
         setIOddsem(data.IOddsem || []);
         setIEvensem(data.IEvensem || []);
         setIActTotal(data.IActTotal || "0");
-        setDocumentAURL(data.documentURL || "");
+        // setDocumentAURL(data.documentURL || "");
+        setDocumentA1(data.documentA1 || "");
+        setDocumentA2(data.documentA2 || "");
+        setDocumentA3(data.documentA3 || "");
+        setDocumentA4(data.documentA4 || "");
+        setDocumentA5(data.documentA5 || "");
+        setDocumentA6(data.documentA6 || "");
+        setDocumentA7(data.documentA7 || "");
+        setDocumentA8(data.documentA8 || "");
         setCheck_d(data.check_d || []);
+        setCheck_e(data.check_e || []);
+        setCheck_f(data.check_f || []);
       }
     } catch (error) {
       console.error(error);
@@ -433,12 +601,35 @@ function Form2A() {
           
         </Table>
        
+        <div className="text-center mb-3">
+          <Row>
+            <Col>
+            <Form.Group controlId="formFile" className="mb-3">
+            
+            {documentA7 && (
+              <>
+              <Form.Label>Doucment uploaded successfully</Form.Label>
+              <br />
+              <a href={documentA7} target="_blank" rel="noreferrer">
+                View Document
+              </a>
+              </>
+            )}
+            {!documentA7 && (
+              <Form.Label>Upload supporting documents (pdf)</Form.Label>
+            )}
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA7')} />
+            
+          </Form.Group>
+            </Col>
+            </Row>
+          </div>
 
         <div className="text-center mb-3">
             <Row>
               <Col>
           <Button variant="primary" onClick={handleAddIOddsem}>
-            <Link className="text-decoration-none text-white">Add Odd Semester Lectures/Practical conducted </Link>
+            <Link className="text-decoration-none text-white">Add Odd Semester Lectures / Practical conducted </Link>
           </Button>
           </Col>
           </Row>
@@ -527,11 +718,36 @@ function Form2A() {
           ))}
           
         </Table>
+
+        <div className="text-center mb-3">
+          <Row>
+            <Col>
+            <Form.Group controlId="formFile" className="mb-3">
+            
+            {documentA8 && (
+              <>
+              <Form.Label>Doucment uploaded successfully</Form.Label>
+              <br />
+              <a href={documentA8} target="_blank" rel="noreferrer">
+                View Document
+              </a>
+              </>
+            )}
+            {!documentA8 && (
+              <Form.Label>Upload supporting documents (pdf)</Form.Label>
+            )}
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA8')} />
+            
+          </Form.Group>
+            </Col>
+            </Row>
+          </div>
+
         <div className="text-center mb-3">
             <Row>
               <Col>
           <Button variant="primary" onClick={handleAddIEvensem}>
-            <Link className="text-decoration-none text-white">Add Even Semester Lectures/Practical conducted</Link>
+            <Link className="text-decoration-none text-white">Add Even Semester Lectures / Practical conducted</Link>
           </Button>
           </Col>
           </Row>
@@ -544,6 +760,7 @@ function Form2A() {
               <th>Natural of Activity</th>
               <th>MAX API Score alloted</th>
               <th>Self appraisal Score</th>
+              <th>Upload Supporting Documents</th>
             </tr>
           </thead>
 
@@ -554,13 +771,14 @@ function Form2A() {
               <td>
                 <Col>
                   Lectures, Seminars, tutorials, practical, contact hours
-                  undertaken taken as percentage of lectures allocated
+                  undertaken taken as percentage of lectures allocated.
                 </Col>
+                <br/>
                 <Col>Total lectures conducted {">"} 90% score = 50</Col>
                 <Col>90% {">"} Lectures taken ≥ 80% = 40</Col>
                 <Col> 80% {">"} Lectures taken ≥ 70% = 30</Col>
                 <Col>
-                  no score if number of lectures taken is less than 70%{" "}
+                  No score if number of lectures taken is less than 70%{" "}
                 </Col>
               </td>
               <td>
@@ -574,18 +792,38 @@ function Form2A() {
                   onChange={(e) => setIActa(e.target.value)}
                 />
               </td>
+              <td>
+              <Form.Group controlId="formFile" className="mb-3">
+            
+            {documentA1 && (
+              <>
+              <Form.Label>Doucment uploaded successfully</Form.Label>
+              <br />
+              <a href={documentA1} target="_blank" rel="noreferrer">
+                View Document
+              </a>
+              </>
+            )}
+            {!documentA1 && (
+              <Form.Label>Upload supporting documents (pdf)</Form.Label>
+            )}
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA1')} />
+            
+          </Form.Group>
+              </td>
             </tr>
 
             <tr>
               <td>b.</td>
               <td>
-                <Col> Lectures or lab in excess of UGC norms </Col>
+                <Col> Lectures or lab in excess of UGC norms. </Col>
                 <Col>(One point for each extra class) </Col>
+                <br/>
                 <Col>
                   {" "}
                   This refers to lecture load allotted above 16/week for Asst
                   Prof or above 14/week for Associate Prof and Professor. Repeat
-                  classes for diploma students may be given 5 marks
+                  classes for diploma students may be given 5 marks.
                 </Col>
               </td>
               <td>
@@ -599,6 +837,23 @@ function Form2A() {
                   onChange={(e) => setIActb(e.target.value)}
                 />
               </td>
+              <td>
+              <Form.Group controlId="formFile" className="mb-3">
+                { documentA2 && (
+                  <>
+                  <Form.Label>Doucment uploaded successfully</Form.Label>
+                  <br />
+                  <a href={documentA2} target="_blank" rel="noreferrer">
+                    View Document
+                  </a>
+                  </>
+                )}
+                {!documentA2 && (
+                  <Form.Label>Upload supporting documents (pdf)</Form.Label>
+                )}
+                <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA2')} />
+              </Form.Group>
+              </td>
             </tr>
 
             <tr>
@@ -608,7 +863,7 @@ function Form2A() {
                   {" "}
                   Remedial lectures or Revision Lectures actually conducted for
                   weak students (one point for each extra class in other than
-                  mentioned in 1.a)
+                  mentioned in 1.a).
                 </Col>
               </td>
               <td>
@@ -622,6 +877,23 @@ function Form2A() {
                   onChange={(e) => setIActc(e.target.value)}
                 />
               </td>
+              <td>
+              <Form.Group controlId="formFile" className="mb-3">
+                { documentA3 && (
+                  <>
+                  <Form.Label>Doucment uploaded successfully</Form.Label>
+                  <br />
+                  <a href={documentA3} target="_blank" rel="noreferrer">
+                    View Document
+                  </a>
+                  </>
+                )}
+                {!documentA3 && (
+                  <Form.Label>Upload supporting documents (pdf)</Form.Label>
+                )}
+                <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA3')} />
+              </Form.Group>
+              </td>
             </tr>
 
             <tr>
@@ -629,7 +901,7 @@ function Form2A() {
               <td>
                 <Col>
                   Learning material prepared for students: Provide short
-                  description of each work done in separate sheet
+                  description of each work done in separate sheet.
                 </Col>
                 <Col>Evaluation Criteria:</Col>
                 <Form.Check
@@ -673,10 +945,8 @@ function Form2A() {
                 />
                 <Form.Check
                   type="checkbox"
-                  label="Arranged guest lecture (2 points per lecture. The guest
-                    should be external faculty from reputed institute or industry)"
-                  value="Arranged guest lecture (2 points per lecture. The guest
-                    should be external faculty from reputed institute or industry)"
+                  label="4. Arranged guest lecture (2 points per lecture. The guest should be external faculty from reputed institute or industry)"
+                  value="Arranged guest lecture (2 points per lecture. The guest should be external faculty from reputed institute or industry)"
                   checked={check_d.includes("Arranged guest lecture (2 points per lecture. The guest should be external faculty from reputed institute or industry)")}
                   onChange={(e) => {
                     if (e.target.checked) {
@@ -752,6 +1022,23 @@ function Form2A() {
                   onChange={(e) => setIActd(e.target.value)}
                 />
               </td>
+              <td>
+              <Form.Group controlId="formFile" className="mb-3">
+                { documentA4 && (
+                  <>
+                  <Form.Label>Doucment uploaded successfully</Form.Label>
+                  <br />
+                  <a href={documentA4} target="_blank" rel="noreferrer">
+                    View Document
+                  </a>
+                  </>
+                )}
+                {!documentA4 && (
+                  <Form.Label>Upload supporting documents (pdf)</Form.Label>
+                )}
+                <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA4')} />
+              </Form.Group>
+              </td>
             </tr>
 
             <tr>
@@ -762,12 +1049,12 @@ function Form2A() {
                   type="checkbox"
                   label="1. Updated lecture notes (max 3)"
                   value="Updated lecture notes (max 3)"
-                  checked={check_d.includes("Updated lecture notes (max 3)")}
+                  checked={check_e.includes("Updated lecture notes (max 3)")}
                   onChange={(e) => {
                     if (e.target.checked) {
-                      setCheck_d([...check_d, e.target.value]);
+                      setCheck_e([...check_e, e.target.value]);
                     } else {
-                      setCheck_d(check_d.filter((c) => c !== e.target.value));
+                      setCheck_e(check_e.filter((c) => c !== e.target.value));
                     }
                   }}
                 />
@@ -775,12 +1062,12 @@ function Form2A() {
                   type="checkbox"
                   label="2. Updated lab manual (max 3)"
                   value="Updated lab manual (max 3)"
-                  checked={check_d.includes("Updated lab manual (max 3)")}
+                  checked={check_e.includes("Updated lab manual (max 3)")}
                   onChange={(e) => {
                     if (e.target.checked) {
-                      setCheck_d([...check_d, e.target.value]);
+                      setCheck_e([...check_e, e.target.value]);
                     } else {
-                      setCheck_d(check_d.filter((c) => c !== e.target.value));
+                      setCheck_e(check_e.filter((c) => c !== e.target.value));
                     }
                   }}
                 />
@@ -788,39 +1075,28 @@ function Form2A() {
                   type="checkbox"
                   label="3. Question bank (2 marks)"
                   value="Question bank (2 marks)"
-                  checked={check_d.includes("Question bank (2 marks)")}
+                  checked={check_e.includes("Question bank (2 marks)")}
                   onChange={(e) => {
                     if (e.target.checked) {
-                      setCheck_d([...check_d, e.target.value]);
+                      setCheck_e([...check_e, e.target.value]);
                     } else {
-                      setCheck_d(check_d.filter((c) => c !== e.target.value));
+                      setCheck_e(check_e.filter((c) => c !== e.target.value));
                     }
                   }}
                 />  
-                  <Form.Check
-                  type="checkbox"
-                  label="4. Question Paper solution"
-                  value="Question Paper solution"
-                  checked={check_d.includes("Question Paper solution")}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setCheck_d([...check_d, e.target.value]);
-                    } else {
-                      setCheck_d(check_d.filter((c) => c !== e.target.value));
-                    }
-                  }}
-                />                 
+                <Col>4. Question Paper solution</Col>
+                                 
                   <Col>
                   <Form.Check
                   type="checkbox"
                   label="1. Term Test (1 each max 2)"
                   value="Term Test (1 each max 2)"
-                  checked={check_d.includes("Term Test (1 each max 2)")}
+                  checked={check_e.includes("Term Test (1 each max 2)")}
                   onChange={(e) => {
                     if (e.target.checked) {
-                      setCheck_d([...check_d, e.target.value]);
+                      setCheck_e([...check_e, e.target.value]);
                     } else {
-                      setCheck_d(check_d.filter((c) => c !== e.target.value));
+                      setCheck_e(check_e.filter((c) => c !== e.target.value));
                     }
                   }}
                 />
@@ -828,12 +1104,12 @@ function Form2A() {
                   type="checkbox"
                   label="2. Model University solution (5)"
                   value="Model University solution (5)"
-                  checked={check_d.includes("Model University solution (5)")}
+                  checked={check_e.includes("Model University solution (5)")}
                   onChange={(e) => {
                     if (e.target.checked) {
-                      setCheck_d([...check_d, e.target.value]);
+                      setCheck_e([...check_e, e.target.value]);
                     } else {
-                      setCheck_d(check_d.filter((c) => c !== e.target.value));
+                      setCheck_e(check_e.filter((c) => c !== e.target.value));
                     }
                   }}
                 />
@@ -842,12 +1118,12 @@ function Form2A() {
                   type="checkbox"
                   label="5. Assignment solution (1 each max 2)"
                   value="Assignment solution (1 each max 2)"
-                  checked={check_d.includes("Assignment solution (1 each max 2)")}
+                  checked={check_e.includes("Assignment solution (1 each max 2)")}
                   onChange={(e) => {
                     if (e.target.checked) {
-                      setCheck_d([...check_d, e.target.value]);
+                      setCheck_e([...check_e, e.target.value]);
                     } else {
-                      setCheck_d(check_d.filter((c) => c !== e.target.value));
+                      setCheck_e(check_e.filter((c) => c !== e.target.value));
                     }
                   }}
                 />
@@ -855,12 +1131,12 @@ function Form2A() {
                   type="checkbox"
                   label="6. Syllabus setting (5 marks each)(max 2)"
                   value="Syllabus setting (5 marks each)(max 2)"
-                  checked={check_d.includes("Syllabus setting (5 marks each)(max 2)")}
+                  checked={check_e.includes("Syllabus setting (5 marks each)(max 2)")}
                   onChange={(e) => {
                     if (e.target.checked) {
-                      setCheck_d([...check_d, e.target.value]);
+                      setCheck_e([...check_e, e.target.value]);
                     } else {
-                      setCheck_d(check_d.filter((c) => c !== e.target.value));
+                      setCheck_e(check_e.filter((c) => c !== e.target.value));
                     }
                   }}
                 />
@@ -878,26 +1154,42 @@ function Form2A() {
                   onChange={(e) => setIActe(e.target.value)}
                 />
               </td>
+              <td>
+              <Form.Group controlId="formFile" className="mb-3">
+                { documentA5 && (
+                  <>
+                  <Form.Label>Doucment uploaded successfully</Form.Label> 
+                  <br />
+                  <a href={documentA5} target="_blank" rel="noreferrer">
+                    View Document
+                  </a>
+                  </>
+                )}
+                {!documentA5 && (
+                  <Form.Label>Upload supporting documents (pdf)</Form.Label>
+                )}
+                <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA5')} />
+              </Form.Group>
+              </td>
+
             </tr>
 
             <tr>
-              <td>g.</td>
+              <td>f.</td>
               <td>
                 <Col>
                   Examination duties (invigilation; Question paper setting, evaluation/ assessment of answer scripts) as per allotment.
                 </Col>
                 <Form.Check
                   type="checkbox"
-                  label="1. Invigilation (flying squad duties/Joint CC/any exam related
-                  duties) (max 5 points)"
-                  value="Invigilation (flying squad duties/Joint CC/any exam related
-                  duties) (max 5 points)"
-                  checked={check_d.includes("Invigilation (flying squad duties/Joint CC/any exam related duties) (max 5 points)")}
+                  label="1. Invigilation (flying squad duties/Joint CC/any exam related duties) (max 5 points)"
+                  value="Invigilation (flying squad duties/Joint CC/any exam related duties) (max 5 points)"
+                  checked={check_f.includes("Invigilation (flying squad duties/Joint CC/any exam related duties) (max 5 points)")}
                   onChange={(e) => {
                     if (e.target.checked) {
-                      setCheck_d([...check_d, e.target.value]);
+                      setCheck_f([...check_f, e.target.value]);
                     } else {
-                      setCheck_d(check_d.filter((c) => c !== e.target.value));
+                      setCheck_f(check_f.filter((c) => c !== e.target.value));
                     }
                   }}
                 />               
@@ -906,16 +1198,14 @@ function Form2A() {
                 </Col>
                 <Form.Check
                   type="checkbox"
-                  label="2. Evaluation of answer script, preparation of result list on
-                  time as specified by Examination Section (max 10 points)"
-                  value="Evaluation of answer script, preparation of result list on
-                  time as specified by Examination Section (max 10 points)"
-                  checked={check_d.includes("Evaluation of answer script, preparation of result list on time as specified by Examination Section (max 10 points)")}
+                  label="2. Evaluation of answer script, preparation of result list on time as specified by Examination Section (max 10 points)"
+                  value="Evaluation of answer script, preparation of result list on time as specified by Examination Section (max 10 points)"
+                  checked={check_f.includes("Evaluation of answer script, preparation of result list on time as specified by Examination Section (max 10 points)")}
                   onChange={(e) => {
                     if (e.target.checked) {
-                      setCheck_d([...check_d, e.target.value]);
+                      setCheck_f([...check_f, e.target.value]);
                     } else {
-                      setCheck_d(check_d.filter((c) => c !== e.target.value));
+                      setCheck_f(check_f.filter((c) => c !== e.target.value));
                     }
                   }}
                 />
@@ -924,12 +1214,12 @@ function Form2A() {
                   type="checkbox"
                   label="3. Question paper setting (5 each, max score 10)"
                   value="Question paper setting (5 each, max score 10)"
-                  checked={check_d.includes("Question paper setting (5 each, max score 10)")}
+                  checked={check_f.includes("Question paper setting (5 each, max score 10)")}
                   onChange={(e) => {
                     if (e.target.checked) {
-                      setCheck_d([...check_d, e.target.value]);
+                      setCheck_f([...check_f, e.target.value]);
                     } else {
-                      setCheck_d(check_d.filter((c) => c !== e.target.value));
+                      setCheck_f(check_f.filter((c) => c !== e.target.value));
                     }
                   }}
                 />
@@ -944,6 +1234,23 @@ function Form2A() {
                   value={IActf}
                   onChange={(e) => setIActf(e.target.value)}
                 />
+              </td>
+              <td>
+              <Form.Group controlId="formFile" className="mb-3">
+                { documentA6 && (
+                  <>
+                  <Form.Label>Doucment uploaded successfully</Form.Label>
+                  <br />
+                  <a href={documentA6} target="_blank" rel="noreferrer">
+                    View Document
+                  </a>
+                  </>
+                )}
+                {!documentA6 && (
+                  <Form.Label>Upload supporting documents (pdf)</Form.Label>
+                )}
+                <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA6')} />
+              </Form.Group>
               </td>
             </tr>
 
@@ -978,12 +1285,11 @@ function Form2A() {
           {/* <Link to="/form2" className="btn btn-primary ms-2">Next</Link> */}
         </Table>
       </Form>
-      <div className="text-center mb-3">
+      {/* <div className="text-center mb-3">
             <Row>
               <Col>
           <Form.Group controlId="formFile" className="mb-3">
-            {/* <Form.Label>Upload supporting documents (pdf)</Form.Label>
-            <Form.Control type="file" onChange={handleUpload} /> */}
+            
             {documentAURL && (
               <>
               <Form.Label>Doucment uploaded successfully</Form.Label>
@@ -1001,7 +1307,7 @@ function Form2A() {
           </Form.Group>
           </Col>
           </Row>
-          </div>
+          </div> */}
           <p className='text-center'>
         *Upload document for above activities. To change the document, upload new document again.
       </p>

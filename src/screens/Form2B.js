@@ -16,16 +16,71 @@ function Form2B() {
   const [IIActb, setIIActb] = useState('');
   const [IIActc, setIIActc] = useState('');
   const [IIActd, setIIActd] = useState('');
+  const [check_2b, setCheck_2b] = useState(''); 
+  const [check_2c, setCheck_2c] = useState('');
+  const [check_2d, setCheck_2d] = useState('');
+  const [documentB1, setDocumentB1] = useState('');
+  const [documentB2, setDocumentB2] = useState('');
+  const [documentB3, setDocumentB3] = useState('');
+  const [documentB4, setDocumentB4] = useState('');
   const [responsibility, setResponsibility] = useState('');
   const [IIActTotal, setIIActTotal] = useState('');
   const [uploadedFile, setUploadedFile] = useState(null);
-  const [documentBURL, setDocumentBURL] = useState("");
+  // const [documentBURL, setDocumentBURL] = useState('');
 
   const navigate = useNavigate();
 
-  const handleUpload = (e) => {
+  // const handleUpload = (e) => {
+  //   const file = e.target.files[0];
+  //   setUploadedFile(file);
+  // };
+
+  const handleUpload = (e, documentIdentifier) => {
     const file = e.target.files[0];
-    setUploadedFile(file);
+  
+    // Your upload logic here...
+  
+    if (file) {
+      const storageRef = ref(storage, `documents/${file.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+  
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            console.log(url);
+            // Update the corresponding document state based on the identifier
+            switch (documentIdentifier) {
+              case "documentB1":
+                setDocumentB1(url);
+                break;
+              case "documentB2":
+                setDocumentB2(url);
+                break;
+              case "documentB3":
+                setDocumentB3(url);
+                break;
+              case "documentB4":
+                setDocumentB4(url);
+                break;
+                
+
+
+              // Add cases for other document identifiers as needed
+              default: 
+
+                break;
+            }
+          });
+        }
+      );
+    }
   };
 
   useEffect(() => {
@@ -56,9 +111,16 @@ function Form2B() {
         setIIActb(data.IIActb || '');
         setIIActc(data.IIActc || '');
         setIIActd(data.IIActd || '');
-        
+        setCheck_2b(data.check_2b || '');
+        setCheck_2c(data.check_2c || '');
+        setCheck_2d(data.check_2d || '');
+        setDocumentB1(data.documentB1 || '');
+        setDocumentB2(data.documentB2 || '');
+        setDocumentB3(data.documentB3 || '');
+        setDocumentB4(data.documentB4 || '');
         setIIActTotal(data.IIActTotal || '');
-        setDocumentBURL(data.documentBURL || '');
+        setResponsibility(data.responsibility || '');
+        // setDocumentBURL(data.documentBURL || '');
       }
     } catch (error) {
       console.log(error);
@@ -92,41 +154,48 @@ function Form2B() {
       IIActc,
       IIActd,
       IIActTotal,
-      documentBURL,
+      responsibility,
+      check_2b,
+      check_2c,
+      check_2d,
+      documentB1,
+      documentB2,
+      documentB3,
+      documentB4
+      // documentBURL,
     };
-    if (uploadedFile) {
-      const storageRef = ref(storage, `documents/${uploadedFile.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, uploadedFile);
+    // if (uploadedFile) {
+    //   const storageRef = ref(storage, `documents/${uploadedFile.name}`);
+    //   const uploadTask = uploadBytesResumable(storageRef, uploadedFile);
   
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        },
-        (error) => {
-          console.log(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-            console.log(url);
-            setDocumentBURL(url);
-            data.documentURL = url;
-            setDoc(docRef, data, { merge: true });
-          });
-        }
-      );
-    }
-    if (IIActaSem === "" && IIActbSem === "" && IIActcSem === "" && IIActdSem === "" && IIActa === "" && IIActb === "" && IIActc === "" && IIActd === "" && IIActTotal === "") {
+    //   uploadTask.on(
+    //     "state_changed",
+    //     (snapshot) => {
+    //       const progress =
+    //         (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+    //     },
+    //     (error) => {
+    //       console.log(error);
+    //     },
+    //     () => {
+    //       getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+    //         console.log(url);
+    //         setDocumentBURL(url);
+    //         data.documentURL = url;
+    //         setDoc(docRef, data);
+    //       });
+    //     }
+    //   );
+    // }
+    if (IIActaSem === "" || IIActbSem === "" || IIActcSem === "" || IIActdSem === "" || IIActa === "" || IIActb === "" || IIActc === "" || IIActd === "" || check_2b === "" || check_2c ==="" || check_2d ==="" || responsibility ==="" || IIActTotal === "") {
       alert("Enter data in the form");
     } else if (IIActaSem < 0 || IIActbSem < 0 || IIActcSem < 0 || IIActdSem < 0 || IIActa < 0 || IIActb < 0 || IIActc < 0 || IIActd < 0 || IIActTotal < 0) {
       alert("Negative values not allowed");
-    } else if (documentBURL === "") {
-      alert("Upload supporting documents");
+    } else if (!documentB1 || !documentB2 || !documentB3 || !documentB4) {
+      alert("Please upload all the required documents");
+      return;
     }
-    else {
-    await setDoc(docRef, data, { merge: true });
-    }
+    await setDoc(docRef, data);
     // navigate('/form2c');
   };
 
@@ -144,42 +213,49 @@ function Form2B() {
       IIActc,
       IIActd,
       IIActTotal,
-      documentBURL,
+      responsibility,
+      check_2b,
+      check_2c,
+      check_2d,
+      documentB1,
+      documentB2,
+      documentB3,
+      documentB4
+      // documentBURL,
     };
-    if (uploadedFile) {
-      const storageRef = ref(storage, `documents/${uploadedFile.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, uploadedFile);
+    // if (uploadedFile) {
+    //   const storageRef = ref(storage, `documents/${uploadedFile.name}`);
+    //   const uploadTask = uploadBytesResumable(storageRef, uploadedFile);
   
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        },
-        (error) => {
-          console.log(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-            console.log(url);
-            setDocumentBURL(url);
-            data.documentURL = url;
-            setDoc(docRef, data, { merge: true });
-          });
-        }
-      );
-    }
-    if (IIActaSem === "" || IIActbSem === "" || IIActcSem === "" || IIActdSem === "" || IIActa === "" || IIActb === "" || IIActc === "" || IIActd === "" || IIActTotal === "") {
+    //   uploadTask.on(
+    //     "state_changed",
+    //     (snapshot) => {
+    //       const progress =
+    //         (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+    //     },
+    //     (error) => {
+    //       console.log(error);
+    //     },
+    //     () => {
+    //       getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+    //         console.log(url);
+    //         setDocumentBURL(url);
+    //         data.documentURL = url;
+    //         setDoc(docRef, data);
+    //       });
+    //     }
+    //   );
+    // }
+    if (IIActaSem === "" || IIActbSem === "" || IIActcSem === "" || IIActdSem === "" || IIActa === "" || IIActb === "" || IIActc === "" || IIActd === "" || check_2b === "" || check_2c ==="" || check_2d ==="" || responsibility ==="" || IIActTotal === "") {
       alert("Enter data in the form");
     } else if (IIActaSem < 0 || IIActbSem < 0 || IIActcSem < 0 || IIActdSem < 0 || IIActa < 0 || IIActb < 0 || IIActc < 0 || IIActd < 0 || IIActTotal < 0) {
       alert("Negative values not allowed");
-    } else if (documentBURL === "") {
-      alert("Upload supporting documents");
+    } else if (!documentB1 || !documentB2 || !documentB3 || !documentB4) {
+      alert("Please upload all the required documents");
+      return;
     }
-    else {
-    await setDoc(docRef, data, { merge: true });
-    navigate('/form2c');
-    }
+    await setDoc(docRef, data);
+     navigate('/form2c');
   };
 
 
@@ -212,7 +288,7 @@ function Form2B() {
         <Col md={9}>
         <h1>Part B: Academic Performance Indicators</h1>
           
-          <h4>Category II: Co-Curricular, Extension and Profession related activities</h4>
+          <h4 style={{fontSize: 20}}>Category II: Co-Curricular, Extension and Profession related activities</h4>
 
           <Form onSubmit={handleSubmit}>
             <Table striped bordered hover>
@@ -222,6 +298,8 @@ function Form2B() {
                   <th>Natural of Activity</th>
                   <th>Semester</th>
                   <th>MAX API Score alloted</th>
+                  <th>Self apprasial Score</th>
+                  <th>Upload Supporting Documents</th>
                 </tr>
               </thead>
               <tbody>
@@ -231,7 +309,7 @@ function Form2B() {
                     
                     Contribution to Corporate life and management of Institution- 
                     <Col>List yearly or semester-wise responsibilities</Col>
-                    <p style= {{fontWeight:"bold"} }>Comments of the Head of the Department on (b) and (c) :</p>
+                    
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
           <Form.Text className="text-muted">
             (Minimum characters: 100, Maximum characters: 500)
@@ -239,8 +317,8 @@ function Form2B() {
           <Form.Control
             as="textarea"
             rows={3}
-            value={commentshod}
-            onChange={(e) => setCommentsHOD(e.target.value)}
+            value={responsibility}
+            onChange={(e) => setResponsibility(e.target.value)}
             minLength={100}
             maxLength={500}
           />
@@ -258,6 +336,9 @@ function Form2B() {
                     />
                   </td>
                   <td>
+              <p className='text-center'>35</p>
+              </td>
+                  <td>
                     <Form.Control
                       type="number"
                       placeholder=""
@@ -265,10 +346,29 @@ function Form2B() {
                       onChange={(e) => setIIActa(e.target.value)}
                     />
                   </td>
+                  <td>
+                  <Form.Group controlId="formFile" className="mb-3">
+            
+            {documentB1 && (
+              <>
+              <Form.Label>Doucment uploaded successfully</Form.Label>
+              <br />
+              <a href={documentB1} target="_blank" rel="noreferrer">
+                View Document
+              </a>
+              </>
+            )}
+            {!documentB1 && (
+              <Form.Label>Upload supporting documents (pdf)</Form.Label>
+            )}
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentB1')} />
+            
+          </Form.Group>
+                  </td>
                 </tr>
                 <tr>
                   <td></td>
-                <td colSpan={4}>
+                <td colSpan={5}>
                   Evaluation Criteria:
                 <Col>a) Contribution to corporate life in colleges and universities through meetings/popular lectures/subject-related events/articles in college magazines and university volumes - 3 pts each</Col>
                 <Col>Institutional governance responsibilities like Vice-Principal, Deans, HOD, Director, IQAC Coordinator/T&P officer, Exam cell in charge, Admission cell in charge maximum of 25 points (or any other equivalent responsibility)</Col>
@@ -294,24 +394,229 @@ function Form2B() {
                   <td>b.</td>
                   <td>
                     
-                    Extension, Co-curricular and field based activities 
-                    <Col>a) Field studies / Educational Tour (other than subject related in 1.d)</Col>
-                    <Col>b) Placement activity (for coordinators 15 marks)</Col>
-                    <Col>c) Community Service, Social Orientation other (10 marks)</Col>
-                    <Col>d) IQAC members / DQC / PAC (10 marks)</Col>
-                    <Col>e) IIC members (10 marks)</Col>
-                    <Col>f) Alumni committee members (10 marks)</Col>
-                    <Col>g) Admission cell members (15 marks)</Col>
-                    <Col>h) ATF Coordinators Member & dept supports (5)</Col>
-                    <Col>i) NSS / NCC / NSO / other (15 marks)</Col>
-                    <Col>j) Exam coordinator (10)</Col>
-                    <Col>k) Time Table coordinator (10)</Col>
-                    <Col>l) Project Coordinators (5)</Col>
-                    <Col>m) Class teacher (10 marks for 1 semester)</Col>
-                    <Col>n) Proctor coordinator / NPTEL coordinator (max 3 marks)</Col>
-                    <Col>o) Project Competition Coordinators (5)</Col>
-                    <Col>p) IIIC Coordinators, IV Coordinators (5)</Col>
-                    <Col>q) Any other coordinators (marks based on activeness max 5 provided in the same is not repeated elsewhere)</Col>
+                    Extension, Co-curricular and field based activities:
+                    <Form.Check
+                  type="checkbox"
+                  label="a) Field studies / Educational Tour (other than subject related in 1.d)"
+                  value="a) Field studies / Educational Tour (other than subject related in 1.d)"
+                  checked={check_2b.includes("a) Field studies / Educational Tour (other than subject related in 1.d)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_2b([...check_2b, e.target.value]);
+                    } else {
+                      setCheck_2b(check_2b.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+                 <Form.Check
+                  type="checkbox"
+                  label="b) Placement activity (for coordinators 15 marks)"
+                  value="b) Placement activity (for coordinators 15 marks)"
+                  checked={check_2b.includes("b) Placement activity (for coordinators 15 marks)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_2b([...check_2b, e.target.value]);
+                    } else {
+                      setCheck_2b(check_2b.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />  
+                <Form.Check
+                  type="checkbox"
+                  label="c) Community Service, Social Orientation other (10 marks)"
+                  value="c) Community Service, Social Orientation other (10 marks)"
+                  checked={check_2b.includes("c) Community Service, Social Orientation other (10 marks)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_2b([...check_2b, e.target.value]);
+                    } else {
+                      setCheck_2b(check_2b.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                /> 
+                 <Form.Check
+                  type="checkbox"
+                  label="d) IQAC members / DQC / PAC (10 marks)"
+                  value="d) IQAC members / DQC / PAC (10 marks)"
+                  checked={check_2b.includes("d) IQAC members / DQC / PAC (10 marks)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_2b([...check_2b, e.target.value]);
+                    } else {
+                      setCheck_2b(check_2b.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />  
+                  <Form.Check
+                  type="checkbox"
+                  label="e) IIC members (10 marks)"
+                  value="e) IIC members (10 marks)"
+                  checked={check_2b.includes("e) IIC members (10 marks)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_2b([...check_2b, e.target.value]);
+                    } else {
+                      setCheck_2b(check_2b.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                /> 
+                <Form.Check
+                  type="checkbox"
+                  label="f) Alumni committee members (10 marks)"
+                  value="f) Alumni committee members (10 marks)"
+                  checked={check_2b.includes("f) Alumni committee members (10 marks)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_2b([...check_2b, e.target.value]);
+                    } else {
+                      setCheck_2b(check_2b.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="g) Admission cell members (15 marks)"
+                  value="g) Admission cell members (15 marks)"
+                  checked={check_2b.includes("g) Admission cell members (15 marks)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_2b([...check_2b, e.target.value]);
+                    } else {
+                      setCheck_2b(check_2b.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="h) ATF Coordinators Member & dept supports (5)"
+                  value="h) ATF Coordinators Member & dept supports (5)"
+                  checked={check_2b.includes("h) ATF Coordinators Member & dept supports (5)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_2b([...check_2b, e.target.value]);
+                    } else {
+                      setCheck_2b(check_2b.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="i) NSS / NCC / NSO / other (15 marks)"
+                  value="i) NSS / NCC / NSO / other (15 marks)"
+                  checked={check_2b.includes("i) NSS / NCC / NSO / other (15 marks)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_2b([...check_2b, e.target.value]);
+                    } else {
+                      setCheck_2b(check_2b.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="j) Exam coordinator (10)"
+                  value="j) Exam coordinator (10)"
+                  checked={check_2b.includes("j) Exam coordinator (10)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_2b([...check_2b, e.target.value]);
+                    } else {
+                      setCheck_2b(check_2b.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="k) Time Table coordinator (10)"
+                  value="k) Time Table coordinator (10)"
+                  checked={check_2b.includes("k) Time Table coordinator (10)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_2b([...check_2b, e.target.value]);
+                    } else {
+                      setCheck_2b(check_2b.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="l) Project Coordinators (5)"
+                  value="l) Project Coordinators (5)"
+                  checked={check_2b.includes("l) Project Coordinators (5)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_2b([...check_2b, e.target.value]);
+                    } else {
+                      setCheck_2b(check_2b.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+                
+                <Form.Check
+                  type="checkbox"
+                  label="m) Class teacher (10 marks for 1 semester)"
+                  value="m) Class teacher (10 marks for 1 semester)"
+                  checked={check_2b.includes("m) Class teacher (10 marks for 1 semester)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_2b([...check_2b, e.target.value]);
+                    } else {
+                      setCheck_2b(check_2b.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="n) Proctor coordinator / NPTEL coordinator (max 3 marks)"
+                  value="n) Proctor coordinator / NPTEL coordinator (max 3 marks)"
+                  checked={check_2b.includes("n) Proctor coordinator / NPTEL coordinator (max 3 marks)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_2b([...check_2b, e.target.value]);
+                    } else {
+                      setCheck_2b(check_2b.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="o) Project Competition Coordinators (5)"
+                  value="o) Project Competition Coordinators (5)"
+                  checked={check_2b.includes("o) Project Competition Coordinators (5)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_2b([...check_2b, e.target.value]);
+                    } else {
+                      setCheck_2b(check_2b.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="p) IIIC Coordinators, IV Coordinators (5)"
+                  value="p) IIIC Coordinators, IV Coordinators (5)"
+                  checked={check_2b.includes("p) IIIC Coordinators, IV Coordinators (5)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_2b([...check_2b, e.target.value]);
+                    } else {
+                      setCheck_2b(check_2b.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="q) Any other coordinators (marks based on activeness max 5 provided in the same is not repeated elsewhere)"
+                  value="q) Any other coordinators (marks based on activeness max 5 provided in the same is not repeated elsewhere)"
+                  checked={check_2b.includes("q) Any other coordinators (marks based on activeness max 5 provided in the same is not repeated elsewhere)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_2b([...check_2b, e.target.value]);
+                    } else {
+                      setCheck_2b(check_2b.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
                     <p></p>
                     All members have to take sign of coordinators of respective
                       committee to validate description of job done. Marks
@@ -327,6 +632,9 @@ function Form2B() {
                     />
                   </td>
                   <td>
+                      <p className='text-center'>25</p>
+                      </td>
+                  <td>
                     <Form.Control
                       type="number"
                       placeholder=""
@@ -334,15 +642,90 @@ function Form2B() {
                       onChange={(e) => setIIActb(e.target.value)}
                     />
                   </td>
+                  <td>
+                  <Form.Group controlId="formFile" className="mb-3">
+            
+            {documentB2 && (
+              <>
+              <Form.Label>Doucment uploaded successfully</Form.Label>
+              <br />
+              <a href={documentB2} target="_blank" rel="noreferrer">
+                View Document
+              </a>
+              </>
+            )}
+            {!documentB2 && (
+              <Form.Label>Upload supporting documents (pdf)</Form.Label>
+            )}
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentB2')} />
+            
+          </Form.Group>
+                  </td>
                 </tr>
                 <tr>
                   <td>c.</td>
                   <td>
                     
-                      Students and Staff Related Socio Cultural and Sports Programs (intra/interdepartmental and intercollegiate)
-                      <Col>1. In charge for Score/Oscillations/Surge/Intech etc (Judge for project competition in Intech)</Col>
-                      <Col>2. Coordinators of different events based on complexity- (as recommended by in-charge) (coordinated Placement in 5 different companies and coordinated for collaboration with industries)</Col>
-
+                      Students and Staff Related Socio Cultural and Sports Programs (intra/interdepartmental and intercollegiate):
+                      <Form.Check
+                  type="checkbox"
+                  label="1. In charge for Score/Oscillations/Surge/Intech etc (Judge for project competition in Intech)"
+                  value="In charge for Score/Oscillations/Surge/Intech etc (Judge for project competition in Intech)"
+                  checked={check_2c.includes("In charge for Score/Oscillations/Surge/Intech etc (Judge for project competition in Intech)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_2c([...check_2c, e.target.value]);
+                    }
+                    else {
+                      setCheck_2c(check_2c.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+                <Form.Check
+                type = "checkbox"
+                label = "2. Coordinators of different events based on complexity- (as recommended by in-charge) (coordinated Placement in 5 different companies and coordinated for collaboration with industries)"
+                value = "Coordinators of different events based on complexity- (as recommended by in-charge) (coordinated Placement in 5 different companies and coordinated for collaboration with industries)"
+                checked={check_2c.includes("Coordinators of different events based on complexity- (as recommended by in-charge) (coordinated Placement in 5 different companies and coordinated for collaboration with industries)")}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setCheck_2c([...check_2c, e.target.value]);
+                  }
+                  else {
+                    setCheck_2c(check_2c.filter((c) => c !== e.target.value));
+                  }
+                }
+                }
+                />
+                      {/* <Form.Check
+                  type="checkbox"
+                  label = "1. In charge for Score/Oscillations/Surge/Intech etc (Judge for project competition in Intech)"
+                  value = "In charge for Score/Oscillations/Surge/Intech etc (Judge for project competition in Intech)"
+                  checked={check_2c.includes("1. In charge for Score/Oscillations/Surge/Intech etc (Judge for project competition in Intech)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_2c([...check_2c, e.target.value]);
+                    }
+                    else {
+                      setCheck_2c(check_2c.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                /> */}
+                {/* <Form.Check
+                type = "checkbox"
+                label = "2. Coordinators of different events based on complexity- (as recommended by in-charge) (coordinated Placement in 5 different companies and coordinated for collaboration with industries)"
+                value = "Coordinators of different events based on complexity- (as recommended by in-charge) (coordinated Placement in 5 different companies and coordinated for collaboration with industries)"
+                checked={check_2c.includes("2. Coordinators of different events based on complexity- (as recommended by in-charge) (coordinated Placement in 5 different companies and coordinated for collaboration with industries)")}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setCheck_2c([...check_2c, e.target.value]);
+                  }
+                  else {
+                    setCheck_2c(check_2c.filter((c) => c !== e.target.value));
+                  }
+                }
+                }
+                /> */}
+                
                     
                   </td>
                   <td>
@@ -354,6 +737,9 @@ function Form2B() {
                     />
                   </td>
                   <td>
+                      <p className='text-center'>20</p>
+                      </td>
+                  <td>
                     <Form.Control
                       type="number"
                       placeholder=""
@@ -361,23 +747,139 @@ function Form2B() {
                       onChange={(e) => setIIActc(e.target.value)}
                     />
                   </td>
+                  <td>
+                  <Form.Group controlId="formFile" className="mb-3">
+            
+            {documentB3 && (
+              <>
+              <Form.Label>Doucment uploaded successfully</Form.Label>
+              <br />
+              <a href={documentB3} target="_blank" rel="noreferrer">
+                View Document
+              </a>
+              </>
+            )}
+            {!documentB3 && (
+              <Form.Label>Upload supporting documents (pdf)</Form.Label>
+            )}
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentB3')} />
+            
+          </Form.Group>
+                  </td>
                 </tr>
                 <tr>
                   <td>d.</td>
                   <td>
                     
                     Professional Development Activities:
-                    <p></p>
-                     Coordinator of student chapters IEEE/IETE/IET/CSI/ISTE (5 points)
-                    <Col>- Media participation in profession-related talks/debates, etc (5 points)</Col>
-                    <Col>- Membership in profession-related committees at state and national levels (max 3)</Col>
-                    <Col>- Participation in subject associations, conferences, seminars without paper presentation (1 mark each, subject to a max of 3)</Col>
-                    <Col>- Participation in short-term training courses less than one-week duration:</Col>
-                    <Col>  <Col> 1. IIT/NIT/Govt college/TEQIP (10 each for external, 8 for local)</Col></Col>
-                    <Col>  <Col> 2. Industry-related (max 10 for outside Mumbai, 5 in Mumbai)</Col></Col>
-                    <Col>  <Col> 3. Not belonging to the above (5 for external, 4 for local)</Col></Col>
-                    <Col>- Boards of Studies, editorial committees of journals (5 points)</Col>
-                   
+                    
+                    <Form.Check
+                  type="checkbox"
+                  label="Coordinator of student chapters IEEE/IETE/IET/CSI/ISTE (5 points)"
+                  value="Coordinator of student chapters IEEE/IETE/IET/CSI/ISTE (5 points)"
+                  checked={check_2d.includes("Coordinator of student chapters IEEE/IETE/IET/CSI/ISTE (5 points)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_2d([...check_2d, e.target.value]);
+                    } else {
+                      setCheck_2d(check_2d.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="Media participation in profession-related talks/debates, etc (5 points)"
+                  value="Media participation in profession-related talks/debates, etc (5 points)"
+                  checked={check_2d.includes("Media participation in profession-related talks/debates, etc (5 points)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_2d([...check_2d, e.target.value]);
+                    } else {
+                      setCheck_2d(check_2d.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="Membership in profession-related committees at state and national levels (max 3)"
+                  value="Membership in profession-related committees at state and national levels (max 3)"
+                  checked={check_2d.includes("Membership in profession-related committees at state and national levels (max 3)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_2d([...check_2d, e.target.value]);
+                    } else {
+                      setCheck_2d(check_2d.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="Participation in subject associations, conferences, seminars without paper presentation (1 mark each, subject to a max of 3)"
+                  value="Participation in subject associations, conferences, seminars without paper presentation (1 mark each, subject to a max of 3)"
+                  checked={check_2d.includes("Participation in subject associations, conferences, seminars without paper presentation (1 mark each, subject to a max of 3)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_2d([...check_2d, e.target.value]);
+                    } else {
+                      setCheck_2d(check_2d.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+                Participation in short-term training courses less than one-week duration:
+                    <Col>
+                <Form.Check
+                  type="checkbox"
+                  label="1. IIT/NIT/Govt college/TEQIP (10 each for external, 8 for local)"
+                  value="1. IIT/NIT/Govt college/TEQIP (10 each for external, 8 for local)"
+                  checked={check_2d.includes("1. IIT/NIT/Govt college/TEQIP (10 each for external, 8 for local)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_2d([...check_2d, e.target.value]);
+                    } else {
+                      setCheck_2d(check_2d.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="2. Industry-related (max 10 for outside Mumbai, 5 in Mumbai)"
+                  value="2. Industry-related (max 10 for outside Mumbai, 5 in Mumbai)"
+                  checked={check_2d.includes("2. Industry-related (max 10 for outside Mumbai, 5 in Mumbai)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_2d([...check_2d, e.target.value]);
+                    } else {
+                      setCheck_2d(check_2d.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="3. Not belonging to the above (5 for external, 4 for local)"
+                  value="3. Not belonging to the above (5 for external, 4 for local)"
+                  checked={check_2d.includes("3. Not belonging to the above (5 for external, 4 for local)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_2d([...check_2d, e.target.value]);
+                    } else {
+                      setCheck_2d(check_2d.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />                    
+                    </Col>
+                    <Form.Check
+                  type="checkbox"
+                  label="Boards of Studies, editorial committees of journals (5 points)"
+                  value="Boards of Studies, editorial committees of journals (5 points)"
+                  checked={check_2d.includes("Boards of Studies, editorial committees of journals (5 points)")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCheck_2d([...check_2d, e.target.value]);
+                    } else {
+                      setCheck_2d(check_2d.filter((c) => c !== e.target.value));
+                    }
+                  }}
+                />
                   </td>
                   <td>
                     <Form.Control
@@ -388,6 +890,10 @@ function Form2B() {
                     />
                   </td>
                   <td>
+                      <p className='text-center'>20</p>
+                      </td>
+                  
+                  <td>
                     <Form.Control
                       type="number"
                       placeholder=""
@@ -395,11 +901,35 @@ function Form2B() {
                       onChange={(e) => setIIActd(e.target.value)}
                     />
                   </td>
+                  <td>
+                  <Form.Group controlId="formFile" className="mb-3">
+            
+            {documentB4 && (
+              <>
+              <Form.Label>Doucment uploaded successfully</Form.Label>
+              <br />
+              <a href={documentB4} target="_blank" rel="noreferrer">
+                View Document
+              </a>
+              </>
+            )}
+            {!documentB4 && (
+              <Form.Label>Upload supporting documents (pdf)</Form.Label>
+            )}
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentB4')} />
+            
+          </Form.Group>
+                  </td>
                 </tr>
                 <tr>
                   <td></td>
+                  
+                  
                   <td>Total of Category II</td>
                   <td></td>
+                  <td>
+                      <p className='text-center'>100</p>
+                      </td>
                   <td>
                     <Form.Control
                       type="text"
@@ -410,12 +940,11 @@ function Form2B() {
                 </tr>
               </tbody>
             </Table>
-            <div className="text-center mb-3">
+          {/* <div className="text-center mb-3">
             <Row>
               <Col>
           <Form.Group controlId="formFile" className="mb-3">
-            {/* <Form.Label>Upload supporting documents (pdf)</Form.Label>
-            <Form.Control type="file" onChange={handleUpload} /> */}
+            
             {documentBURL && (
               <>
               <Form.Label>Doucment uploaded successfully</Form.Label>
@@ -432,7 +961,7 @@ function Form2B() {
           </Form.Group>
           </Col>
           </Row>
-          </div>
+          </div> */}
           <p className='text-center'>
         *Upload document for above activities. To change the document, upload new document again.
       </p>

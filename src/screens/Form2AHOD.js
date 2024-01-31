@@ -53,28 +53,28 @@ function Form2AHOD() {
     return unsubscribe;
   }, [navigate]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const facultyRef = doc(db, "faculty", facultyUID);
-      const docRef = doc(facultyRef, "partB", "CategoryA");
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        setFacultyData(docSnap.data());
-        console.log("Document data:", docSnap.data());
-      } else {
-        console.log("No such document!");
-      }
+const fetchData = async () => {
+  const facultyRef = doc(db, "faculty", facultyUID);
+  const docRef = doc(facultyRef, "partB", "CategoryA");
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    setFacultyData(docSnap.data());
+    const data = docSnap.data();
+    setIActaHOD(data.IActaHOD); 
+    setIActbHOD(data.IActbHOD);
+    setIActcHOD(data.IActcHOD);
+    setIActdHOD(data.IActdHOD);
+    setIActeHOD(data.IActeHOD);
+    setIActfHOD(data.IActfHOD);
+    setIActTotalHOD(data.IActTotalHOD);
+  } else {
+    console.log("No such document!");
+  }
+}
 
-      if (docSnap.exists()) {
-        setIActaHOD(docSnap.data().IActaHOD);
-        setIActbHOD(docSnap.data().IActbHOD);
-        setIActcHOD(docSnap.data().IActcHOD);
-        setIActdHOD(docSnap.data().IActdHOD);
-        setIActeHOD(docSnap.data().IActeHOD);
-        setIActfHOD(docSnap.data().IActfHOD);
-        setIActTotalHOD(docSnap.data().IActTotalHOD);
-      }
-    }
+
+  useEffect(() => {
+    
     fetchData();
   } , [facultyUID]);
 
@@ -83,56 +83,62 @@ function Form2AHOD() {
     const facultyRef = doc(db, "faculty", facultyUID);
     const docRef = doc(facultyRef, "partB", "CategoryA");
     const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      await updateDoc(docRef, {
-        IActaHOD: IActaHOD,
-        IActbHOD: IActbHOD,
-        IActcHOD: IActcHOD,
-        IActdHOD: IActdHOD,
-        IActeHOD: IActeHOD,
-        IActfHOD: IActfHOD,
-        IActTotalHOD: IActTotalHOD,
-      });
-    } else {
-      await setDoc(docRef, {
-        IActaHOD: IActaHOD,
-        IActbHOD: IActbHOD,
-        IActcHOD: IActcHOD,
-        IActdHOD: IActdHOD,
-        IActeHOD: IActeHOD,
-        IActfHOD: IActfHOD,
-        IActTotalHOD: IActTotalHOD,
-      });
-    }
+    const existingData = docSnap.exists() ? docSnap.data() : {};
+    const data = {
+      IActaHOD: IActaHOD,
+      IActbHOD: IActbHOD,
+      IActcHOD: IActcHOD,
+      IActdHOD: IActdHOD,
+      IActeHOD: IActeHOD,
+      IActfHOD: IActfHOD,
+      IActTotalHOD: IActTotalHOD,
+    };
+    
+    if (IActaHOD === "" || IActbHOD === "" || IActcHOD === "" || IActdHOD === "" || IActeHOD === "" || IActfHOD === "") {
+      alert("Please fill all the fields");
+      return;
+    } else if ( IActaHOD < 0 || IActbHOD < 0 || IActcHOD < 0 || IActdHOD < 0 || IActeHOD < 0 || IActfHOD < 0) {
+      alert("Please enter positive values only");
+      return;
+    } else if (isNaN(IActTotalHOD)) {
+      alert("Please fill numbers only");
+      return;
+    } 
+    await setDoc(docRef, data, { merge: true });
+
     alert("Data Saved");
-  }
+  } 
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const facultyRef = doc(db, "faculty", facultyUID);
     const docRef = doc(facultyRef, "partB", "CategoryA");
     const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      await updateDoc(docRef, {
-        IActaHOD: IActaHOD,
-        IActbHOD: IActbHOD,
-        IActcHOD: IActcHOD,
-        IActdHOD: IActdHOD,
-        IActeHOD: IActeHOD,
-        IActfHOD: IActfHOD,
-        IActTotalHOD: IActTotalHOD,
-      });
-    } else {
-      await setDoc(docRef, {
-        IActaHOD: IActaHOD,
-        IActbHOD: IActbHOD,
-        IActcHOD: IActcHOD,
-        IActdHOD: IActdHOD,
-        IActeHOD: IActeHOD,
-        IActfHOD: IActfHOD,
-        IActTotalHOD: IActTotalHOD,
-      });
-    }
+    const existingData = docSnap.exists() ? docSnap.data() : {};
+    const data = {
+      IActaHOD: IActaHOD,
+      IActbHOD: IActbHOD,
+      IActcHOD: IActcHOD,
+      IActdHOD: IActdHOD,
+      IActeHOD: IActeHOD,
+      IActfHOD: IActfHOD,
+      IActTotalHOD: IActTotalHOD,
+    };
+    
+    if (IActaHOD === "" || IActbHOD === "" || IActcHOD === "" || IActdHOD === "" || IActeHOD === "" || IActfHOD === "") {
+      alert("Please fill all the fields");
+      return;
+    } else if ( IActaHOD < 0 || IActbHOD < 0 || IActcHOD < 0 || IActdHOD < 0 || IActeHOD < 0 || IActfHOD < 0) {
+      alert("Please enter positive values only");
+      return;
+    } else if (isNaN(IActTotalHOD)) {
+      alert("Please fill numbers only");
+      return;
+    } 
+    await setDoc(docRef, data, { merge: true });
+
+    alert("Data Saved");
     navigate('/form2bhod', { state: { facultyUID: facultyUID } });
     // console.log(facultyAUID)
   }
@@ -228,6 +234,22 @@ function Form2AHOD() {
             </tbody>
           ))}
         </Table>
+
+        <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Uploaded Document</Form.Label>
+            <br />
+            <a href={facultyData.documentA7} target="_blank">
+              View file here
+            </a>
+
+          </Form.Group>
+          </Col>
+          </Row>
+          </div>
+
         <Table striped bordered hover>
           <thead>
             <tr>
@@ -252,12 +274,30 @@ function Form2AHOD() {
             </tbody>
           ))}
         </Table>
+
+        <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Uploaded Document</Form.Label>
+            <br />
+            <a href={facultyData.documentA8} target="_blank">
+              View file here
+            </a>
+
+          </Form.Group>
+          </Col>
+          </Row>
+          </div>
+
         <Table striped bordered hover>
           <thead>
             <tr>
               <th>Sr. No.</th>
               <th>Natural of Activity</th>
               <th>MAX API Score alloted</th>
+              <th>Self appraisal Score</th>
+              <th>Supporting Documents</th>
               <th>Verified API Score</th>
             </tr>
           </thead>
@@ -276,10 +316,28 @@ function Form2AHOD() {
                   no score if number of lectures taken is less than 70%{" "}
                 </Col>
               </td>
-              <td>{facultyData.IActa}</td>
+              <td><p className='text-center'>50</p></td>
+              <td><p className='text-center'>{facultyData.IActa}</p></td>
+
+              <td>
+              <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Uploaded Document</Form.Label>
+            <br />
+            <a href={facultyData.documentA1} target="_blank">
+              View file here
+            </a>
+
+          </Form.Group>
+          </Col>
+          </Row>
+          </div>
+              </td>
               <td>
                 <Form.Control
-                  type="number"
+                  type="text"
                   value={IActaHOD}
                   onChange={(e) => setIActaHOD(e.target.value)}
                 />
@@ -298,10 +356,29 @@ function Form2AHOD() {
                   classes for diploma students may be given 5 marks
                 </Col>
               </td>
-              <td>{facultyData.IActb}</td>
+              <td>
+              <p className='text-center'>5</p>
+              </td>
+              <td><p className='text-center'>{facultyData.IActb}</p></td>
+              <td>
+              <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Uploaded Document</Form.Label>
+            <br />
+            <a href={facultyData.documentA2} target="_blank">
+              View file here
+            </a>
+
+          </Form.Group>
+          </Col>
+          </Row>
+          </div>
+              </td>
               <td>
                 <Form.Control
-                  type="number"
+                  type="text"
                   value={IActbHOD}
                   onChange={(e) => setIActbHOD(e.target.value)}
                 />
@@ -318,10 +395,31 @@ function Form2AHOD() {
                   mentioned in 1.a)
                 </Col>
               </td>
-              <td>{facultyData.IActc}</td>
+              <td>
+              <p className='text-center'>5</p>
+              </td>
+              <td>
+              <p className='text-center'>{facultyData.IActc}</p>
+              </td>
+              <td>
+              <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Uploaded Document</Form.Label>
+            <br />
+            <a href={facultyData.documentA3} target="_blank">
+              View file here
+            </a>
+
+          </Form.Group>
+          </Col>
+          </Row>
+          </div>
+              </td>
               <td>
                 <Form.Control
-                  type="number"
+                  type="text"
                   value={IActcHOD}
                   onChange={(e) => setIActcHOD(e.target.value)}
                 />
@@ -336,25 +434,149 @@ function Form2AHOD() {
                   description of each work done in separate sheet
                 </Col>
                 <Col>Evaluation Criteria:</Col>
-                <Col>1. Quality PPT made by self (5)</Col>
-                <Col>2. Animations/virtual labs/website (10)</Col>
-                <Col>
-                  3. Good quality video lectures available on public platforms
-                  (recorded online lectures not to be considered) (10)
-                </Col>
-                <Col>
-                  4. Arranged guest lecture (2 points per lecture. The guest
-                  should be external faculty from reputed institute or industry)
-                </Col>
-                <Col>5. Arranged subject related Industrial Visit (2 pts)</Col>
-                <Col>6. Use of ICT (max 2)</Col>
-                <Col>7. Innovative pedagogy (max 2)</Col>
-                <Col>8. Content beyond syllabus(max 2)</Col>{" "}
+              
+                <Form.Check
+                  type="checkbox"
+                  label="1. Quality PPT made by self (5)"
+                  // value="Quality PPT made by self (5)"
+                  checked={facultyData.check_d.includes("Quality PPT made by self (5)")}
+                  readOnly
+                  // onChange={(e) => {
+                  //   if (e.target.checked) {
+                  //     setCheck_d([...check_d, e.target.value]);
+                  //   } else {
+                  //     setCheck_d(check_d.filter((c) => c !== e.target.value));
+                  //   }
+                  // }}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="2. Animations/virtual labs/website (10)"
+                  // value="Animations/virtual labs/website (10)"
+                  checked={facultyData.check_d.includes("Animations/virtual labs/website (10)")}
+                  readOnly
+                  // onChange={(e) => {
+                  //   if (e.target.checked) {
+                  //     setCheck_d([...check_d, e.target.value]);
+                  //   } else {
+                  //     setCheck_d(check_d.filter((c) => c !== e.target.value));
+                  //   }
+                  // }}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="3. Good quality video lectures available on public platforms (recorded online lectures not to be considered) (10)"
+                  // value="Good quality video lectures available on public platforms"
+                  checked={facultyData.check_d.includes("Good quality video lectures available on public platforms")}
+                  readOnly
+                  // onChange={(e) => {
+                  //   if (e.target.checked) {
+                  //     setCheck_d([...check_d, e.target.value]);
+                  //   } else {
+                  //     setCheck_d(check_d.filter((c) => c !== e.target.value));
+                  //   }
+                  // }}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="4. Arranged guest lecture (2 points per lecture. The guest
+                    should be external faculty from reputed institute or industry)"
+                  // value="Arranged guest lecture (2 points per lecture. The guest
+                  //   should be external faculty from reputed institute or industry)"
+                  checked={facultyData.check_d.includes("Arranged guest lecture (2 points per lecture. The guest should be external faculty from reputed institute or industry)")}
+                  readOnly
+                  // onChange={(e) => {
+                  //   if (e.target.checked) {
+                  //     setCheck_d([...check_d, e.target.value]);
+                  //   } else {
+                  //     setCheck_d(check_d.filter((c) => c !== e.target.value));
+                  //   }
+                  // }}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="5. Arranged subject related Industrial Visit (2 pts)"
+                  // value="Arranged subject related Industrial Visit (2 pts)"
+                  checked={facultyData.check_d.includes("Arranged subject related Industrial Visit (2 pts)")}
+                  readOnly
+                  // onChange={(e) => {
+                  //   if (e.target.checked) {
+                  //     setCheck_d([...check_d, e.target.value]);
+                  //   } else {
+                  //     setCheck_d(check_d.filter((c) => c !== e.target.value));
+                  //   }
+                  // }}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="6. Use of ICT (max 2)"
+                  // value="Use of ICT (max 2)"
+                  checked={facultyData.check_d.includes("Use of ICT (max 2)")}
+                  readOnly
+                  // onChange={(e) => {
+                  //   if (e.target.checked) {
+                  //     setCheck_d([...check_d, e.target.value]);
+                  //   } else {
+                  //     setCheck_d(check_d.filter((c) => c !== e.target.value));
+                  //   }
+                  // }}
+                />
+                
+                <Form.Check
+                  type="checkbox"
+                  label="7. Innovative pedagogy (max 2)"
+                  // value="Innovative pedagogy (max 2)"
+                  checked={facultyData.check_d.includes("Innovative pedagogy (max 2)")}
+                  readOnly
+                  // onChange={(e) => {
+                  //   if (e.target.checked) {
+                  //     setCheck_d([...check_d, e.target.value]);
+                  //   } else {
+                  //     setCheck_d(check_d.filter((c) => c !== e.target.value));
+                  //   }
+                  // }}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="8. Content beyond syllabus(max 2)"
+                  // value="Content beyond syllabus(max 2)"
+                  checked={facultyData.check_d.includes("Content beyond syllabus(max 2)")}
+                  readOnly
+                  // onChange={(e) => {
+                  //   if (e.target.checked) {
+                  //     setCheck_d([...check_d, e.target.value]);
+                  //   } else {
+                  //     setCheck_d(check_d.filter((c) => c !== e.target.value));
+                  //   }
+                  // }}
+                />
+
               </td>
-              <td>{facultyData.IActd}</td>
+              <td>
+              <p className='text-center'>40</p>
+              </td>
+              <td>
+              <p className='text-center'>{facultyData.IActd}</p>
+              </td>
+              <td>
+              <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Uploaded Document</Form.Label>
+            <br />
+            <a href={facultyData.documentA4} target="_blank">
+              View file here
+            </a>
+
+          </Form.Group>
+          </Col>
+          </Row>
+          </div>
+              </td>
               <td>
                 <Form.Control
-                  type="number"
+                  type="text"
                   value={IActdHOD}
                   onChange={(e) => setIActdHOD(e.target.value)}
                 />
@@ -365,24 +587,79 @@ function Form2AHOD() {
               <td>e.</td>
               <td>
                 <Col>Updating of subject content course improvement etc</Col>
+                
+                <Form.Check
+                  type="checkbox"
+                  label="1. Updated lecture notes (max 3)"
+                  checked={facultyData.check_e.includes("Updated lecture notes (max 3)")}
+                  readOnly
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="2. Updated lab manual (max 3)"
+                  checked={facultyData.check_e.includes("Updated lab manual (max 3)")}
+                  readOnly
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="3. Question bank (2 marks)"
+                  checked={facultyData.check_e.includes("Question bank (2 marks)")}
+                  readOnly
+                />
                 <Col>
-                  <Col>1. Updated lecture notes (max 3)</Col>
-                  <Col>2. Updated lab manual (max 3)</Col>
-                  <Col>3. Question bank (2 marks)</Col>
+                  4. Question Paper solution</Col>
                   <Col>
-                    4. Question Paper solution
-                    <Col>1. Term Test (1 each max 2)</Col>
-                    <Col>2. Model University solution (5)</Col>
+                    <Form.Check
+                      type="checkbox"
+                      label="1. Term Test (1 each max 2)"
+                      checked={facultyData.check_e.includes("Term Test (1 each max 2)")}
+                      readOnly
+                    />
+                    <Form.Check
+                      type="checkbox"
+                      label="2. Model University solution (5)"
+                      checked={facultyData.check_e.includes("Model University solution (5)")}
+                      readOnly
+                    />
                   </Col>
-                  <Col>5. Assignment solution (1 each max 2)</Col>
-                  <Col>6. Syllabus setting (5 marks each)(max 2)</Col>
-                </Col>
+                <Form.Check
+                  type="checkbox"
+                  label="5. Assignment solution (1 each max 2)"
+                  checked={facultyData.check_e.includes("Assignment solution (1 each max 2)")}
+                  readOnly
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="6. Syllabus setting (5 marks each)(max 2)"
+                  checked={facultyData.check_e.includes("Syllabus setting (5 marks each)(max 2)")}
+                  readOnly
+                  />
                 <Col>*quality of notes/solution to be considered</Col>
               </td>
+              <td>
+              <p className='text-center'>25</p>
+              </td>
+              
               <td>{facultyData.IActe}</td>
               <td>
+              <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Uploaded Document</Form.Label>
+            <br />
+            <a href={facultyData.documentA5} target="_blank">
+              View file here
+            </a>
+
+          </Form.Group>
+          </Col>
+          </Row>
+          </div>
+              </td>
+              <td>
                 <Form.Control
-                  type="number"
+                  type="text"
                   value={IActeHOD}
                   onChange={(e) => setIActeHOD(e.target.value)}
                 />
@@ -390,29 +667,63 @@ function Form2AHOD() {
             </tr>
 
             <tr>
-              <td>g.</td>
+              <td>f.</td>
               <td>
                 <Col>
                   Examination duties (invigilation; Question paper setting, evaluation/ assessment of answer scripts) as per allotment.
                 </Col>
-                <Col>
-                  1. Invigilation (flying squad duties/Joint CC/any exam related
-                  duties) (max 5 points)
-                </Col>
+                
+                <Form.Check
+                  type="checkbox"
+                  label="1. Invigilation (flying squad duties/Joint CC/any exam related duties) (max 5 points)"
+                  checked={facultyData.check_f.includes("Invigilation (flying squad duties/Joint CC/any exam related duties) (max 5 points)")}
+                  readOnly
+                />
                 <Col>
                   100% compliance: 5, 80% compliance: 3, less than 80%: no score
                 </Col>
-                <Col>
+                {/* <Col>
                   2. Evaluation of answer script, preparation of result list on
                   time as specified by Examination Section (max 10 points)
-                </Col>
+                </Col> */}
+                <Form.Check
+                  type="checkbox"
+                  label="2. Evaluation of answer script, preparation of result list on time as specified by Examination Section (max 10 points)"
+                  checked={facultyData.check_f.includes("Evaluation of answer script, preparation of result list on time as specified by Examination Section (max 10 points)")}
+                  readOnly
+                />
                 <Col>100% compliance: 5, less than 100%: no score.</Col>
-                <Col>Question paper setting (5 each, max score 10)</Col>
+                {/* <Col>Question paper setting (5 each, max score 10)</Col> */}
+                <Form.Check
+                  type="checkbox"
+                  label="Question paper setting (5 each, max score 10)"
+                  checked={facultyData.check_f.includes("Question paper setting (5 each, max score 10)")}
+                  readOnly
+                />
+              </td>
+              <td>
+              <p className='text-center'>25</p>
               </td>
               <td>{facultyData.IActf}</td>
               <td>
+              <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Uploaded Document</Form.Label>
+            <br />
+            <a href={facultyData.documentA6} target="_blank">
+              View file here
+            </a>
+
+          </Form.Group>
+          </Col>
+          </Row>
+          </div>
+              </td>
+              <td>
                 <Form.Control
-                  type="number"
+                  type="text"
                   value={IActfHOD}
                   onChange={(e) => setIActfHOD(e.target.value)}
                 />
@@ -422,12 +733,16 @@ function Form2AHOD() {
             <tr>
               <td></td>
               <td>Total of Category I</td>
+              <td>
+              <p className='text-center'>150</p>
+              </td>
               <td>{facultyData.IActTotal}</td>
+              <td></td>
               <td>{IActTotalHOD}</td>
             </tr>
           </tbody>
         </Table>
-        <div className="text-center mb-3">
+        {/* <div className="text-center mb-3">
             <Row>
               <Col>
           <Form.Group controlId="formFile" className="mb-3">
@@ -440,7 +755,8 @@ function Form2AHOD() {
           </Form.Group>
           </Col>
           </Row>
-          </div>
+          </div> */}
+
         <div className="text-center mb-4" >
         <Row>
           <Col>
@@ -459,9 +775,9 @@ function Form2AHOD() {
           </Col>
           <Col>
             <Button variant="primary" type="submit" onClick={handleSubmit}>
-              <Link onClick={handleForm2BHODNavigation} className="text-decoration-none text-white">
+              {/* <Link className="text-decoration-none text-white"> */}
                 Next
-              </Link>
+              {/* </Link> */}
             </Button>
           </Col>
           </Row>

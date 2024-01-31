@@ -17,6 +17,7 @@ function Form2BHOD() {
     const [IIActbHOD, setIIActbHOD] = useState('');
     const [IIActcHOD, setIIActcHOD] = useState('');
     const [IIActdHOD, setIIActdHOD] = useState('');
+    
     const [IIActTotalHOD, setIIActTotalHOD] = useState('');
 
     const location = useLocation();
@@ -49,30 +50,29 @@ function Form2BHOD() {
             return unsubscribe;
           }, [navigate]);
 
-          useEffect(() => {
+          
             const fetchData = async () => {
               const facultyRef = doc(db, "faculty", facultyUID);
               const docRef = doc(facultyRef, "partB", "CategoryB");
               const docSnap = await getDoc(docRef);
               if (docSnap.exists()) {
                 setFacultyData(docSnap.data());
-                console.log("Document data:", docSnap.data());
-              } else {
-                console.log("No such document!");
-              }
-        
-              if (docSnap.exists()) {
-                setIIActaSemHOD(docSnap.data().IIActaSemHOD);   
-                setIIActbSemHOD(docSnap.data().IIActbSemHOD);
-                setIIActcSemHOD(docSnap.data().IIActcSemHOD);
-                setIIActdSemHOD(docSnap.data().IIActdSemHOD);
+                setIIActaSemHOD(docSnap.data().IIActaSem);
+                setIIActbSemHOD(docSnap.data().IIActbSem);
+                setIIActcSemHOD(docSnap.data().IIActcSem);
+                setIIActdSemHOD(docSnap.data().IIActdSem);
                 setIIActaHOD(docSnap.data().IIActaHOD);
                 setIIActbHOD(docSnap.data().IIActbHOD);
                 setIIActcHOD(docSnap.data().IIActcHOD);
                 setIIActdHOD(docSnap.data().IIActdHOD);
                 setIIActTotalHOD(docSnap.data().IIActTotalHOD);
+              } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
               }
-            }
+            };
+
+          useEffect(() => {
             fetchData();
           } , [facultyUID]);  
           
@@ -81,32 +81,33 @@ function Form2BHOD() {
             const facultyRef = doc(db, "faculty", facultyUID);
             const docRef = doc(facultyRef, "partB", "CategoryB");
             const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-              await updateDoc(docRef, {
-                // IIActaSemHOD: IIActaSemHOD,
-                // IIActbSemHOD: IIActbSemHOD,
-                // IIActcSemHOD: IIActcSemHOD,
-                // IIActdSemHOD: IIActdSemHOD,
-                IIActaHOD: IIActaHOD,
-                IIActbHOD: IIActbHOD,
-                IIActcHOD: IIActcHOD,
-                IIActdHOD: IIActdHOD,
-                IIActTotalHOD: IIActTotalHOD,
-              });
-            } else {
-              await setDoc(docRef, {
-                // IIActaSemHOD: IIActaSemHOD,
-                // IIActbSemHOD: IIActbSemHOD,
-                // IIActcSemHOD: IIActcSemHOD,
-                // IIActdSemHOD: IIActdSemHOD,
-                IIActaHOD: IIActaHOD,
-                IIActbHOD: IIActbHOD,
-                IIActcHOD: IIActcHOD,
-                IIActdHOD: IIActdHOD,
-                IIActTotalHOD: IIActTotalHOD,
-              
-              });
+            const existingData = docSnap.data() ? docSnap.data() : {};
+            const data ={
+              IIActaSemHOD: IIActaSemHOD,
+              IIActbSemHOD: IIActbSemHOD,
+              IIActcSemHOD: IIActcSemHOD,
+              IIActdSemHOD: IIActdSemHOD,
+              IIActaHOD: IIActaHOD,
+              IIActbHOD: IIActbHOD,
+              IIActcHOD: IIActcHOD,
+              IIActdHOD: IIActdHOD,
+              IIActTotalHOD: IIActTotalHOD,
             }
+            
+            if (IIActaHOD === '' || IIActbHOD === '' || IIActcHOD === '' || IIActdHOD === '') {
+              alert("Please fill all the fields!");
+              return;
+            }
+            if (IIActaHOD < 0 || IIActbHOD < 0 || IIActcHOD < 0 || IIActdHOD < 0) {
+              alert("Please enter valid values!");
+              return;
+            }
+            else if (isNaN(IIActTotalHOD)) {
+              alert("Please enter valid values!");
+              return;
+            }
+            await updateDoc(docRef, data);
+            alert("Data Submitted!");
             navigate('/form2chod', { state: { facultyUID: facultyUID } });
             console.log("Document written with ID: ", facultyUID);
           }
@@ -116,33 +117,35 @@ function Form2BHOD() {
             const facultyRef = doc(db, "faculty", facultyUID);
             const docRef = doc(facultyRef, "partB", "CategoryB");
             const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-              await updateDoc(docRef, {
-                // IIActaSemHOD: IIActaSemHOD,
-                // IIActbSemHOD: IIActbSemHOD,
-                // IIActcSemHOD: IIActcSemHOD,
-                // IIActdSemHOD: IIActdSemHOD,
-                IIActaHOD: IIActaHOD,
-                IIActbHOD: IIActbHOD,
-                IIActcHOD: IIActcHOD,
-                IIActdHOD: IIActdHOD,
-                IIActTotalHOD: IIActTotalHOD,
-              });
-            } else {
-              await setDoc(docRef, {
-                // IIActaSemHOD: IIActaSemHOD,
-                // IIActbSemHOD: IIActbSemHOD,
-                // IIActcSemHOD: IIActcSemHOD,
-                // IIActdSemHOD: IIActdSemHOD,
-                IIActaHOD: IIActaHOD,
-                IIActbHOD: IIActbHOD,
-                IIActcHOD: IIActcHOD,
-                IIActdHOD: IIActdHOD,
-                IIActTotalHOD: IIActTotalHOD,
-              
-              });
+            const existingData = docSnap.data() ? docSnap.data() : {};
+            const data ={
+              IIActaSemHOD: IIActaSemHOD,
+              IIActbSemHOD: IIActbSemHOD,
+              IIActcSemHOD: IIActcSemHOD,
+              IIActdSemHOD: IIActdSemHOD,
+              IIActaHOD: IIActaHOD,
+              IIActbHOD: IIActbHOD,
+              IIActcHOD: IIActcHOD,
+              IIActdHOD: IIActdHOD,
+              IIActTotalHOD: IIActTotalHOD,
             }
-            alert("Data Saved");
+            
+            if (IIActaHOD === '' || IIActbHOD === '' || IIActcHOD === '' || IIActdHOD === '') {
+              alert("Please fill all the fields!");
+              return;
+            }
+            if (IIActaHOD < 0 || IIActbHOD < 0 || IIActcHOD < 0 || IIActdHOD < 0) {
+              alert("Please enter valid values!");
+              return;
+            }
+            else if (isNaN(IIActTotalHOD)) {
+              alert("Please enter valid values!");
+              return;
+            }
+            await updateDoc(docRef, data);
+            alert("Data Submitted!");
+            // navigate('/form2chod', { state: { facultyUID: facultyUID } });
+            // console.log("Document written with ID: ", facultyUID);
           }
 
           const handleForm2AHODNavigation = async (e) => {
@@ -216,6 +219,8 @@ function Form2BHOD() {
                           <th>Natural of Activity</th>
                           <th>Semester</th>
                           <th>MAX API Score alloted</th>
+                          <th>Self apprasial Score</th>
+                          <th>Supporting Documents</th>
                           <th>Verified API Score</th>
                         </tr>
                       </thead>
@@ -223,28 +228,44 @@ function Form2BHOD() {
                         <tr>
                           <td>a.</td>
                           <td>
-                            <Col>
-                            <Col>Contribution to Corporate life and management of Institution- </Col>
+                            Contribution to Corporate life and management of Institution- 
                             <Col>List yearly or semester-wise responsibilities</Col>
-                            <Col>1.Collaboration with Human Ventures Pvt. Ltd for project</Col>
-                            <Col>2.Collaboration with Schaeffler Technology Solution Ltd. for projects</Col>
-                            <Col>3.Collaboration with Matoshree NGO for projects</Col>
-                            <Col>4.Collaboration with SATCOM India Pvt. Ltd for Placements</Col>
-                            <Col>5.Reviewer for ICAST -22</Col>
-                            <Col>6.HoD(EXTC)</Col>
-                            <Col>7.Convener(one week FDP on Cyber Security & Forensics)</Col>
-                            </Col>
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                            <Form.Text className="text-muted">
+                              (Minimum characters: 100, Maximum characters: 500)
+                            </Form.Text>
+                            <Form.Control
+                              as="textarea"
+                              rows={3}
+                              value={facultyData.responsibility}
+                              // onChange={(e) => setResponsibility(e.target.value)}
+                              // minLength={100}
+                              // maxLength={500}
+                              readOnly
+                            />
+                          </Form.Group>
                           </td>
                       <td>{facultyData.IIActaSem}</td>
+                      <td>
+              <p className='text-center'>25</p>
+              </td>
                       <td>{facultyData.IIActa}</td>
-                          {/* <td>
-                            <Form.Control
-                              type="text"
-                              placeholder=""
-                              value={IIActaSemHOD}
-                              onChange={(e) => setIIActaSemHOD(e.target.value)}
-                            />
-                          </td> */}
+                      <td>
+              <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Uploaded Document</Form.Label>
+            <br />
+            <a href={facultyData.documentB1} target="_blank">
+              View file here
+            </a>
+
+          </Form.Group>
+          </Col>
+          </Row>
+          </div>
+              </td>
                           <td>
                             <Form.Control
                               type="text"
@@ -256,7 +277,7 @@ function Form2BHOD() {
                         </tr>
                         <tr>
                           <td></td>
-                        <td colSpan={4}>
+                        <td colSpan={6}>
                           <Col>Evaluation Criteria:</Col>
                         <Col>a) Contribution to corporate life in colleges and universities through meetings/popular lectures/subject-related events/articles in college magazines and university volumes - 3 pts each</Col>
                         <Col>Institutional governance responsibilities like Vice-Principal, Deans, HOD, Director, IQAC Coordinator/T&P officer, Exam cell in charge, Admission cell in charge maximum of 25 points (or any other equivalent responsibility)</Col>
@@ -280,41 +301,107 @@ function Form2BHOD() {
                         <tr>
                           <td>b.</td>
                           <td>
-                            <Col>
-                            <Col>Extension, Co-curricular and field based activities </Col>
-                            <Col>a) Field studies / Educational Tour (other than subject related in 1.d)</Col>
-                            <Col>b) Placement activity (for coordinators 15 marks)</Col>
-                            <Col>c) Community Service, Social Orientation other (10 marks)</Col>
-                            <Col>d) IQAC members / DQC / PAC (10 marks)</Col>
-                            <Col>e) IIC members (10 marks)</Col>
-                            <Col>f) Alumni committee members (10 marks)</Col>
-                            <Col>g) Admission cell members (15 marks)</Col>
-                            <Col>h) ATF Coordinators Member & dept supports (5)</Col>
-                            <Col>i) NSS / NCC / NSO / other (15 marks)</Col>
-                            <Col>j) Exam coordinator (10)</Col>
-                            <Col>k) Time Table coordinator (10)</Col>
-                            <Col>l) Project Coordinators (5)</Col>
-                            <Col>m) Class teacher (10 marks for 1 semester)</Col>
-                            <Col>n) Proctor coordinator / NPTEL coordinator (max 3 marks)</Col>
-                            <Col>o) Project Competition Coordinators (5)</Col>
-                            <Col>p) IIIC Coordinators, IV Coordinators (5)</Col>
-                            <Col>q) Any other coordinators (marks based on activeness max 5 provided in the same is not repeated elsewhere)</Col>
+                            Extension, Co-curricular and field based activities:
+                            <Form.Check
+                  type="checkbox"
+                  label="a) Field studies / Educational Tour (other than subject related in 1.d)"
+                  
+                  checked={facultyData.check_2b.includes("a) Field studies / Educational Tour (other than subject related in 1.d)")}
+                  readOnly
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="b) Placement activity (for coordinators 15 marks)"
+                  checked={facultyData.check_2b.includes("b) Placement activity (for coordinators 15 marks)")}
+                  readOnly />
+                <Form.Check type="checkbox" 
+                label="c) Community Service, Social Orientation other (10 marks)"
+                checked={facultyData.check_2b.includes("c) Community Service, Social Orientation other (10 marks)")}
+                readOnly />
+                <Form.Check type="checkbox"
+                  label="d) IQAC members / DQC / PAC (10 marks)"
+                  checked={facultyData.check_2b.includes("d) IQAC members / DQC / PAC (10 marks)")}
+                  readOnly />
+                <Form.Check type="checkbox"
+                  label="e) IIC members (10 marks)"
+                  checked={facultyData.check_2b.includes("e) IIC members (10 marks)")}
+                  readOnly />
+                <Form.Check type="checkbox"
+                  label="f) Alumni committee members (10 marks)"
+                  checked={facultyData.check_2b.includes("f) Alumni committee members (10 marks)")}
+                  readOnly />
+                <Form.Check type="checkbox"
+                  label="g) Admission cell members (15 marks)"
+                  checked={facultyData.check_2b.includes("g) Admission cell members (15 marks)")} 
+                  readOnly />
+                <Form.Check type="checkbox"
+                  label="h) ATF Coordinators Member & dept supports (5)"
+                  checked={facultyData.check_2b.includes("h) ATF Coordinators Member & dept supports (5)")}
+                  readOnly />
+                <Form.Check type="checkbox"
+                  label="i) NSS / NCC / NSO / other (15 marks)"
+                  checked={facultyData.check_2b.includes("i) NSS / NCC / NSO / other (15 marks)")}
+                  readOnly />
+                <Form.Check type="checkbox"
+                  label="j) Exam coordinator (10)"
+                  checked={facultyData.check_2b.includes("j) Exam coordinator (10)")}
+                  readOnly />
+                <Form.Check type="checkbox"
+                  label="k) Time Table coordinator (10)"
+                  checked={facultyData.check_2b.includes("k) Time Table coordinator (10)")}
+                  readOnly />
+                <Form.Check type="checkbox"
+                  label="l) Project Coordinators (5)"
+                  checked={facultyData.check_2b.includes("l) Project Coordinators (5)")}
+                  readOnly />
+                <Form.Check type="checkbox"
+                  label="m) Class teacher (10 marks for 1 semester)"
+                  checked={facultyData.check_2b.includes("m) Class teacher (10 marks for 1 semester)")}
+                  readOnly />
+                <Form.Check type="checkbox"
+                  label="n) Proctor coordinator / NPTEL coordinator (max 3 marks)"
+                  checked={facultyData.check_2b.includes("n) Proctor coordinator / NPTEL coordinator (max 3 marks)")}
+                  readOnly />
+                <Form.Check type="checkbox"
+                  label="o) Project Competition Coordinators (5)"
+                  checked={facultyData.check_2b.includes("o) Project Competition Coordinators (5)")}
+                  readOnly />
+                <Form.Check type="checkbox"
+                  label="p) IIIC Coordinators, IV Coordinators (5)"
+                  checked={facultyData.check_2b.includes("p) IIIC Coordinators, IV Coordinators (5)")}
+                  readOnly />
+                <Form.Check type="checkbox"
+                  label="q) Any other coordinators (marks based on activeness max 5 provided in the same is not repeated elsewhere)"
+                  checked={facultyData.check_2b.includes("q) Any other coordinators (marks based on activeness max 5 provided in the same is not repeated elsewhere)")}
+                  readOnly />
+
                             <br/>
-                            <Col>All members have to take sign of coordinators of respective
+                            All members have to take sign of coordinators of respective
                               committee to validate description of job done. Marks
-                              allotted are based on involvement in work.</Col>
-                            </Col>
+                              allotted are based on involvement in work.
+                            
                           </td>
                           <td>{facultyData.IIActbSem}</td>
+                          <td>
+                      <p className='text-center'>25</p>
+                      </td>
                           <td>{facultyData.IIActb}</td>
-                          {/* <td>
-                            <Form.Control
-                              type="text"
-                              placeholder=""
-                              value={IIActbSemHOD}
-                              onChange={(e) => setIIActbSemHOD(e.target.value)}
-                            />
-                          </td> */}
+                          <td>
+              <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Uploaded Document</Form.Label>
+            <br />
+            <a href={facultyData.documentB2} target="_blank">
+              View file here
+            </a>
+
+          </Form.Group>
+          </Col>
+          </Row>
+          </div>
+              </td>
                           <td>
                             <Form.Control
                               type="text"
@@ -329,21 +416,38 @@ function Form2BHOD() {
                           <td>
                             <Col>
                               <Col>Students and Staff Related Socio Cultural and Sports Programs (intra/interdepartmental and intercollegiate)</Col>
-                              <Col>1. In charge for Score/Oscillations/Surge/Intech etc (Judge for project competition in Intech)</Col>
-                              <Col>2. Coordinators of different events based on complexity- (as recommended by in-charge) (coordinated Placement in 5 different companies and coordinated for collaboration with industries)</Col>
-        
-                            </Col>
+
+                            <Form.Check type="checkbox"
+                  label="1. In charge for Score/Oscillations/Surge/Intech etc (Judge for project competition in Intech)"
+                  checked={facultyData.check_2c.includes("In charge for Score/Oscillations/Surge/Intech etc (Judge for project competition in Intech)")}
+                  readOnly />
+                <Form.Check type="checkbox"
+                  label="2. Coordinators of different events based on complexity- (as recommended by in-charge) (coordinated Placement in 5 different companies and coordinated for collaboration with industries)"
+                  checked={facultyData.check_2c.includes("Coordinators of different events based on complexity- (as recommended by in-charge) (coordinated Placement in 5 different companies and coordinated for collaboration with industries)")}
+                  readOnly />
+                  </Col>
                           </td>
                           <td>{facultyData.IIActcSem}</td>
+                          <td>
+                      <p className='text-center'>20</p>
+                      </td>
                           <td>{facultyData.IIActc}</td>
-                          {/* <td>
-                            <Form.Control
-                              type="text"
-                              placeholder=""
-                              value={IIActcSemHOD}
-                              onChange={(e) => setIIActcSemHOD(e.target.value)}
-                            />
-                          </td> */}
+                          <td>
+              <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Uploaded Document</Form.Label>
+            <br />
+            <a href={facultyData.documentB3} target="_blank">
+              View file here
+            </a>
+
+          </Form.Group>
+          </Col>
+          </Row>
+          </div>
+              </td>
                           <td>
                             <Form.Control
                               type="text"
@@ -356,29 +460,67 @@ function Form2BHOD() {
                         <tr>
                           <td>d.</td>
                           <td>
-                            <Col>
-                            <Col>Professional Development Activities:</Col>
-                            <Col>  Coordinator of student chapters IEEE/IETE/IET/CSI/ISTE (5 points)</Col>
-                            <Col>- Media participation in profession-related talks/debates, etc (5 points)</Col>
-                            <Col>- Membership in profession-related committees at state and national levels (max 3)</Col>
-                            <Col>- Participation in subject associations, conferences, seminars without paper presentation (1 mark each, subject to a max of 3)</Col>
-                            <Col>- Participation in short-term training courses less than one-week duration:</Col>
-                            <Col>  <Col> 1. IIT/NIT/Govt college/TEQIP (10 each for external, 8 for local)</Col></Col>
-                            <Col>  <Col> 2. Industry-related (max 10 for outside Mumbai, 5 in Mumbai)</Col></Col>
-                            <Col>  <Col> 3. Not belonging to the above (5 for external, 4 for local)</Col></Col>
-                            <Col>- Boards of Studies, editorial committees of journals (5 points)</Col>
-                            </Col>
+                          
+                Professional Development Activities:
+                  <Form.Check type="checkbox"
+                  label="Coordinator of student chapters IEEE/IETE/IET/CSI/ISTE (5 points)"
+                  checked={facultyData.check_2d.includes("Coordinator of student chapters IEEE/IETE/IET/CSI/ISTE (5 points)")}
+                  readOnly />
+                <Form.Check type="checkbox"
+                  label="Media participation in profession-related talks/debates, etc (5 points)"
+                  checked={facultyData.check_2d.includes("Media participation in profession-related talks/debates, etc (5 points)")}
+                  readOnly />
+                <Form.Check type="checkbox"
+                  label="Membership in profession-related committees at state and national levels (max 3)"
+                  checked={facultyData.check_2d.includes("Membership in profession-related committees at state and national levels (max 3)")}
+                  readOnly />
+                <Form.Check type="checkbox"
+                  label="Participation in subject associations, conferences, seminars without paper presentation (1 mark each, subject to a max of 3)"
+                  checked={facultyData.check_2d.includes("Participation in subject associations, conferences, seminars without paper presentation (1 mark each, subject to a max of 3)")}
+                  readOnly />
+                  Participation in short-term training courses less than one-week duration:
+                  <Col>
+                  <Form.Check type="checkbox"
+                  label="1. IIT/NIT/Govt college/TEQIP (10 each for external, 8 for local)"
+                  checked={facultyData.check_2d.includes("1. IIT/NIT/Govt college/TEQIP (10 each for external, 8 for local)")}
+                  readOnly />
+                  <Form.Check type="checkbox"
+                  label="2. Industry-related (max 10 for outside Mumbai, 5 in Mumbai)"
+                  checked={facultyData.check_2d.includes("2. Industry-related (max 10 for outside Mumbai, 5 in Mumbai)")}
+                  readOnly />
+                  <Form.Check type="checkbox"
+                  label="3. Not belonging to the above (5 for external, 4 for local)"
+                  checked={facultyData.check_2d.includes("3. Not belonging to the above (5 for external, 4 for local)")}
+                  readOnly />
+                  </Col>
+                  <Form.Check type="checkbox"
+                  label="Boards of Studies, editorial committees of journals (5 points)"
+                  checked={facultyData.check_2d.includes("Boards of Studies, editorial committees of journals (5 points)")}
+                  readOnly />
+                            
+                           
                           </td>
                           <td>{facultyData.IIActdSem}</td>
+                          <td>
+                      <p className='text-center'>20</p>
+                      </td>
                           <td>{facultyData.IIActd}</td>
-                          {/* <td>
-                            <Form.Control
-                              type="text"
-                              placeholder=""
-                              value={IIActdSemHOD}
-                              onChange={(e) => setIIActdSemHOD(e.target.value)}
-                            />
-                          </td> */}
+                          <td>
+              <div className="text-center mb-3">
+            <Row>
+              <Col>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Uploaded Document</Form.Label>
+            <br />
+            <a href={facultyData.documentB4} target="_blank">
+              View file here
+            </a>
+
+          </Form.Group>
+          </Col>
+          </Row>
+          </div>
+              </td>
                           <td>
                             <Form.Control
                               type="text"
@@ -392,14 +534,18 @@ function Form2BHOD() {
                           <td></td>
                           <td>Total of Category II</td>
                           <td></td>
+                          <td>
+                      <p className='text-center'>100</p>
+                      </td>
                           <td>{facultyData.IIActTotal}</td>
+                          <td></td>
                           <td>
                             {IIActTotalHOD}
                           </td>
                         </tr>
                       </tbody>
                     </Table>
-                    <div className="text-center mb-3">
+                    {/* <div className="text-center mb-3">
             <Row>
               <Col>
           <Form.Group controlId="formFile" className="mb-3">
@@ -412,7 +558,7 @@ function Form2BHOD() {
           </Form.Group>
           </Col>
           </Row>
-          </div>
+          </div> */}
                     <div className="text-center mb-3">
                     {/* <Row>
                       <Col>
