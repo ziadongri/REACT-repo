@@ -20,7 +20,6 @@ function Form2A() {
   const [error, setError] = useState(null);
   const [theorysub, setTheorysub] = useState("");
   const [practicalsub, setPracticalsub] = useState("");
-  const [IActa, setIActa] = useState("");
   const [IActb, setIActb] = useState("");
   const [IActc, setIActc] = useState("");
   const [IActd, setIActd] = useState("");
@@ -43,13 +42,30 @@ function Form2A() {
   const [check_d, setCheck_d] = useState([]);
   const [check_e, setCheck_e] = useState([]);
   const [check_f, setCheck_f] = useState([]);
+  const [lecturesTaken, setLecturesTaken] = useState("");
 
   const navigate = useNavigate();
 
-  // const handleUpload = (e) => {
-  //   setUploadedFile(e.target.files[0]);
-  // };
- 
+  const calculateMarks = () => {
+    if (lecturesTaken > 90) {
+      return 50; // Score for lectures taken greater than 90%
+    } else if (lecturesTaken >= 80) {
+      return 40; // Score for lectures taken between 80% and 90%
+    } else if (lecturesTaken >= 70) {
+      return 30; // Score for lectures taken between 70% and 80%
+    } else {
+      return 0; // No score for lectures taken less than 70%
+    }
+  };
+
+  // Event handler to update lecturesTaken and calculate marks
+  const handleRadioChange = (e) => {
+    setLecturesTaken(Number(e.target.value));
+  };
+
+  // Calculate marks initially
+  const IActa = calculateMarks();
+
   const handleUpload = (e, documentIdentifier) => {
     const file = e.target.files[0];
   
@@ -273,7 +289,8 @@ function Form2A() {
       documentA8,
       check_d,
       check_e,
-      check_f
+      check_f,
+      lecturesTaken
     };
   
     // Add logic to handle document URLs here, if needed
@@ -331,7 +348,8 @@ function Form2A() {
         documentA8,
         check_d,
         check_e,
-        check_f
+        check_f,
+        lecturesTaken
       };
     
       // Add logic to handle document URLs here, if needed
@@ -374,7 +392,7 @@ function Form2A() {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         const data = docSnap.data();
-        setIActa(data.IActa || "");
+        
         setIActb(data.IActb || "");
         setIActc(data.IActc || "");
         setIActd(data.IActd || "");
@@ -395,6 +413,7 @@ function Form2A() {
         setCheck_d(data.check_d || []);
         setCheck_e(data.check_e || []);
         setCheck_f(data.check_f || []);
+        setLecturesTaken(data.lecturesTaken || 0);
       }
     } catch (error) {
       console.error(error);
@@ -411,7 +430,7 @@ function Form2A() {
   const calculateoddpercentage = (index) => {
     const newIOddsem = [...IOddsem];
     newIOddsem[index].percentage =
-      (newIOddsem[index].actualLectures / newIOddsem[index].lectures) * 100;
+      ((newIOddsem[index].actualLectures / newIOddsem[index].lectures) * 100).toFixed(2);
     setIOddsem(newIOddsem);
   };
 
@@ -449,7 +468,7 @@ function Form2A() {
   const calculateevenpercentage = (index) => {
     const newIEvensem = [...IEvensem];
     newIEvensem[index].percentage =
-      (newIEvensem[index].actualLectures / newIEvensem[index].lectures) * 100;
+      ((newIEvensem[index].actualLectures / newIEvensem[index].lectures) * 100).toFixed(2);
     setIEvensem(newIEvensem);
   };
 
@@ -774,24 +793,67 @@ function Form2A() {
                   undertaken taken as percentage of lectures allocated.
                 </Col>
                 <br/>
-                <Col>Total lectures conducted {">"} 90% score = 50</Col>
-                <Col>90% {">"} Lectures taken ≥ 80% = 40</Col>
-                <Col> 80% {">"} Lectures taken ≥ 70% = 30</Col>
+                {/* <Col>• Total lectures conducted {">"} 90% score = 50</Col>
+                <Col>• 90% {">"} Lectures taken ≥ 80% = 40</Col>
+                <Col>• 80% {">"} Lectures taken ≥ 70% = 30</Col>
                 <Col>
-                  No score if number of lectures taken is less than 70%{" "}
-                </Col>
+                • No score if number of lectures taken is less than 70%{" "}
+                </Col> */}
+
+<Col>
+        <Form.Check
+          type="radio"
+          name="lectures"
+          label="Total lectures conducted > 90% score = 50"
+          value={100}
+          onChange={handleRadioChange}
+        />
+      </Col>
+      <Col>
+        <Form.Check
+          type="radio"
+          name="lectures"
+          label="90% > Lectures taken ≥ 80% = 40"
+          value={90}
+          onChange={handleRadioChange}
+        />
+      </Col>
+      <Col>
+        <Form.Check
+          type="radio"
+          name="lectures"
+          label="80% > Lectures taken ≥ 70% = 30"
+          value={70}
+          onChange={handleRadioChange}
+        />
+      </Col>
+      <Col>
+        <Form.Check
+          type="radio"
+          name="lectures"
+          label="No score if number of lectures taken is less than 70%"
+          value={0}
+          onChange={handleRadioChange}
+        />
+      </Col>
+      
               </td>
               <td>
               <p className='text-center'>50</p>
               </td>
+    
               <td>
-                <Form.Control
-                  type="number"
-                  placeholder=""
-                  value={IActa}
-                  onChange={(e) => setIActa(e.target.value)}
-                />
-              </td>
+              <Col>
+        <Form.Control
+          type="text"
+          
+          value={IActa}
+          readOnly
+        />
+      </Col>
+              
+            </td>
+              
               <td>
               <Form.Group controlId="formFile" className="mb-3">
             
@@ -831,10 +893,11 @@ function Form2A() {
               </td>
               <td>
                 <Form.Control
-                  type="number"
+                  type="text"
                   placeholder=""
                   value={IActb}
-                  onChange={(e) => setIActb(e.target.value)}
+                  onChange={(e) => setIActb(Math.min(Number(e.target.value), 5))}
+                  max={5}
                 />
               </td>
               <td>
@@ -871,10 +934,11 @@ function Form2A() {
               </td>
               <td>
                 <Form.Control
-                  type="number"
+                  type="text"
                   placeholder=""
                   value={IActc}
-                  onChange={(e) => setIActc(e.target.value)}
+                  onChange={(e) => setIActc(Math.min(Number(e.target.value), 5))}
+                  max={5}
                 />
               </td>
               <td>
@@ -1016,10 +1080,11 @@ function Form2A() {
               </td>
               <td>
                 <Form.Control
-                  type="number"
+                  type="text"
                   placeholder=""
                   value={IActd}
-                  onChange={(e) => setIActd(e.target.value)}
+                  onChange={(e) => setIActd(Math.min(Number(e.target.value), 40))}
+                  max={40}
                 />
               </td>
               <td>
@@ -1148,10 +1213,11 @@ function Form2A() {
               </td>
               <td>
                 <Form.Control
-                  type="number"
+                  type="text"
                   placeholder=""
                   value={IActe}
-                  onChange={(e) => setIActe(e.target.value)}
+                  onChange={(e) => setIActe(Math.min(Number(e.target.value), 25))}
+                  max={25}
                 />
               </td>
               <td>
@@ -1229,10 +1295,11 @@ function Form2A() {
               </td>
               <td>
                 <Form.Control
-                  type="number"
+                  type="text"
                   placeholder=""
                   value={IActf}
-                  onChange={(e) => setIActf(e.target.value)}
+                  onChange={(e) => setIActf(Math.min(Number(e.target.value), 25))}
+                  max={25}
                 />
               </td>
               <td>

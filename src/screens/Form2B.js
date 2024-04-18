@@ -19,11 +19,41 @@ function Form2B() {
   const [check_2b, setCheck_2b] = useState(''); 
   const [check_2c, setCheck_2c] = useState('');
   const [check_2d, setCheck_2d] = useState('');
+  const [ sub2ba, setSub2ba] = useState('');
+  const [ sub2bb, setSub2bb] = useState('');
+  const [ sub2bc, setSub2bc] = useState('');
+  const [ sub2bd, setSub2bd] = useState('');
+  const [ sub2be, setSub2be] = useState('');
+  const [ sub2bf, setSub2bf] = useState('');
+  const [ sub2bg, setSub2bg] = useState('');
+  const [ sub2bh, setSub2bh] = useState('');
+  const [ sub2bi, setSub2bi] = useState('');
+  const [ sub2bj, setSub2bj] = useState('');
+  const [ sub2bk, setSub2bk] = useState('');
+  const [ sub2bl, setSub2bl] = useState('');
+  const [ sub2bm, setSub2bm] = useState('');
+  const [ sub2bn, setSub2bn] = useState('');
+  const [ sub2bo, setSub2bo] = useState('');
+  const [ sub2bp, setSub2bp] = useState('');
+  const [ sub2bq, setSub2bq] = useState('');
+  const [ sub2ca, setSub2ca] = useState('');
+  const [ sub2cb, setSub2cb] = useState('');
+  const [ sub2cc, setSub2cc] = useState('');
+  const [ sub2cd, setSub2cd] = useState('');
+  const [ sub2ce1, setSub2ce1] = useState('');
+  const [ sub2ce2, setSub2ce2] = useState('');
+  const [ sub2ce3, setSub2ce3] = useState('');
+  const [ sub2cf, setSub2cf] = useState('');
+  const [ sub2da, setSub2da] = useState('');
+  const [ sub2db, setSub2db] = useState('');
   const [documentB1, setDocumentB1] = useState('');
   const [documentB2, setDocumentB2] = useState('');
   const [documentB3, setDocumentB3] = useState('');
   const [documentB4, setDocumentB4] = useState('');
   const [responsibility, setResponsibility] = useState('');
+  const [totalsub2b, setTotalSub2b] = useState('');
+  const [totalsub2c, setTotalSub2c] = useState('');
+  const [totalsub2d, setTotalSub2d] = useState('');
   const [IIActTotal, setIIActTotal] = useState('');
   const [uploadedFile, setUploadedFile] = useState(null);
   // const [documentBURL, setDocumentBURL] = useState('');
@@ -114,11 +144,41 @@ function Form2B() {
         setCheck_2b(data.check_2b || '');
         setCheck_2c(data.check_2c || '');
         setCheck_2d(data.check_2d || '');
+        setSub2ba(data.sub2ba || '');
+        setSub2bb(data.sub2bb || '');
+        setSub2bc(data.sub2bc || '');
+        setSub2bd(data.sub2bd || '');
+        setSub2be(data.sub2be || '');
+        setSub2bf(data.sub2bf || '');
+        setSub2bg(data.sub2bg || '');
+        setSub2bh(data.sub2bh || '');
+        setSub2bi(data.sub2bi || '');
+        setSub2bj(data.sub2bj || '');
+        setSub2bk(data.sub2bk || '');
+        setSub2bl(data.sub2bl || '');
+        setSub2bm(data.sub2bm || '');
+        setSub2bn(data.sub2bn || '');
+        setSub2bo(data.sub2bo || '');
+        setSub2bp(data.sub2bp || '');
+        setSub2bq(data.sub2bq || '');
+        setSub2ca(data.sub2ca || '');
+        setSub2cb(data.sub2cb || '');
+        setSub2cc(data.sub2cc || '');
+        setSub2cd(data.sub2cd || '');
+        setSub2ce1(data.sub2ce1 || '');
+        setSub2ce2(data.sub2ce2 || '');
+        setSub2ce3(data.sub2ce3 || '');
+        setSub2cf(data.sub2cf || '');
+        setSub2da(data.sub2da || '');
+        setSub2db(data.sub2db || '');
         setDocumentB1(data.documentB1 || '');
         setDocumentB2(data.documentB2 || '');
         setDocumentB3(data.documentB3 || '');
         setDocumentB4(data.documentB4 || '');
         setIIActTotal(data.IIActTotal || '');
+        setTotalSub2b(data.totalsub2b || '');
+        setTotalSub2c(data.totalsub2c || '');
+        setTotalSub2d(data.totalsub2d || '');
         setResponsibility(data.responsibility || '');
         // setDocumentBURL(data.documentBURL || '');
       }
@@ -135,10 +195,70 @@ function Form2B() {
         parseFloat(IIActd)
     );
   };
-
   useEffect(() => {
     Total();
-  }, [IIActa, IIActb, IIActc, IIActd]);
+  }, [IIActa, IIActb, IIActc, IIActd], );
+
+  const Total2 = () => {
+    // Filter out NaN values and convert them to 0
+    const valuesToSum = [
+      sub2ba, sub2bb, sub2bc, sub2bd, sub2be, sub2bf, sub2bg, sub2bh, sub2bi,
+      sub2bj, sub2bk, sub2bl, sub2bm, sub2bn, sub2bo, sub2bp, sub2bq
+    ].filter(value => !isNaN(parseFloat(value)));
+  
+    // Sum the numeric values
+    const sum = valuesToSum.reduce((accumulator, currentValue) => {
+      return accumulator + parseFloat(currentValue);
+    }, 0);
+  
+    // Set the total value
+    setTotalSub2b(sum);
+  };
+  
+  useEffect(() => {
+    Total2();
+  }, [sub2ba, sub2bb, sub2bc, sub2bd, sub2be, sub2bf, sub2bg, sub2bh, sub2bi, sub2bj, sub2bk, sub2bl, sub2bm, sub2bn, sub2bo, sub2bp, sub2bq]);
+
+  const Total3 = () => {
+    // Filter out NaN values and convert them to 0
+    const valuesToSum = [
+      sub2ca, sub2cb, sub2cc, sub2cd, sub2ce1, sub2ce2, sub2ce3, sub2cf
+    ].filter(value => !isNaN(parseFloat(value)));
+
+    // Sum the numeric values
+    const sum = valuesToSum.reduce((accumulator, currentValue) => {
+      return accumulator + parseFloat(currentValue);
+    }, 0);
+
+    // Set the total value
+    setTotalSub2c(sum);
+  };
+
+  useEffect(() => {
+    Total3();
+  }, [sub2ca, sub2cb, sub2cc, sub2cd, sub2ce1, sub2ce2, sub2ce3, sub2cf]);
+
+  const Total4 = () => {
+    // Filter out NaN values and convert them to 0
+    const valuesToSum = [
+      sub2da, sub2db
+    ].filter(value => !isNaN(parseFloat(value)));
+
+    // Sum the numeric values
+    const sum = valuesToSum.reduce((accumulator, currentValue) => {
+      return accumulator + parseFloat(currentValue);
+    }, 0);
+
+    // Set the total value
+    setTotalSub2d(sum);
+  };
+
+  useEffect(() => {
+    Total4();
+  }
+  , [sub2da, sub2db]);
+
+
 
   const handleSave = async (e) => {
     e.preventDefault();
@@ -158,12 +278,43 @@ function Form2B() {
       check_2b,
       check_2c,
       check_2d,
+      sub2ba,
+      sub2bb,
+      sub2bc,
+      sub2bd,
+      sub2be,
+      sub2bf,
+      sub2bg,
+      sub2bh,
+      sub2bi,
+      sub2bj,
+      sub2bk,
+      sub2bl,
+      sub2bm,
+      sub2bn,
+      sub2bo,
+      sub2bp,
+      sub2bq,
+      totalsub2b,
+      sub2ca, 
+      sub2cb,
+      sub2cc,
+      sub2cd,
+      sub2ce1,
+      sub2ce2,
+      sub2ce3,
+      sub2cf,
+      totalsub2c,
+      sub2da,
+      sub2db,
+      totalsub2d,
       documentB1,
       documentB2,
       documentB3,
       documentB4
       // documentBURL,
     };
+
     // if (uploadedFile) {
     //   const storageRef = ref(storage, `documents/${uploadedFile.name}`);
     //   const uploadTask = uploadBytesResumable(storageRef, uploadedFile);
@@ -187,9 +338,9 @@ function Form2B() {
     //     }
     //   );
     // }
-    if (IIActaSem === "" || IIActbSem === "" || IIActcSem === "" || IIActdSem === "" || IIActa === "" || IIActb === "" || IIActc === "" || IIActd === "" || check_2b === "" || check_2c ==="" || check_2d ==="" || responsibility ==="" || IIActTotal === "") {
+    if (IIActaSem === "" || IIActbSem === "" || IIActcSem === "" || IIActdSem === "" || IIActa === "" || IIActb === "" || IIActc === "" || IIActd === "" || check_2b === "" || check_2c ==="" || check_2d ==="" || responsibility ==="" || totalsub2b==="" || totalsub2c==="" || totalsub2d==="" ||IIActTotal === "") {
       alert("Enter data in the form");
-    } else if (IIActaSem < 0 || IIActbSem < 0 || IIActcSem < 0 || IIActdSem < 0 || IIActa < 0 || IIActb < 0 || IIActc < 0 || IIActd < 0 || IIActTotal < 0) {
+    } else if (IIActaSem < 0 || IIActbSem < 0 || IIActcSem < 0 || IIActdSem < 0 || IIActa < 0 || IIActb < 0 || IIActc < 0 || IIActd < 0 || totalsub2b<0 || totalsub2c<0 || totalsub2d<0 || IIActTotal < 0) {
       alert("Negative values not allowed");
     } else if (!documentB1 || !documentB2 || !documentB3 || !documentB4) {
       alert("Please upload all the required documents");
@@ -217,6 +368,36 @@ function Form2B() {
       check_2b,
       check_2c,
       check_2d,
+      sub2ba,
+      sub2bb,
+      sub2bc,
+      sub2bd,
+      sub2be,
+      sub2bf,
+      sub2bg,
+      sub2bh,
+      sub2bi,
+      sub2bj,
+      sub2bk,
+      sub2bl,
+      sub2bm,
+      sub2bn,
+      sub2bo,
+      sub2bp,
+      sub2bq,
+      totalsub2b,
+      sub2ca,
+      sub2cb,
+      sub2cc,
+      sub2cd,
+      sub2ce1,
+      sub2ce2,
+      sub2ce3,
+      sub2cf,
+      totalsub2c,
+      sub2da,
+      sub2db,
+      totalsub2d,
       documentB1,
       documentB2,
       documentB3,
@@ -246,9 +427,9 @@ function Form2B() {
     //     }
     //   );
     // }
-    if (IIActaSem === "" || IIActbSem === "" || IIActcSem === "" || IIActdSem === "" || IIActa === "" || IIActb === "" || IIActc === "" || IIActd === "" || check_2b === "" || check_2c ==="" || check_2d ==="" || responsibility ==="" || IIActTotal === "") {
+    if (IIActaSem === "" || IIActbSem === "" || IIActcSem === "" || IIActdSem === "" || IIActa === "" || IIActb === "" || IIActc === "" || IIActd === "" || check_2b === "" || check_2c ==="" || check_2d ==="" || responsibility ==="" || totalsub2b==="" || totalsub2c==="" || totalsub2d==="" ||IIActTotal === "") {
       alert("Enter data in the form");
-    } else if (IIActaSem < 0 || IIActbSem < 0 || IIActcSem < 0 || IIActdSem < 0 || IIActa < 0 || IIActb < 0 || IIActc < 0 || IIActd < 0 || IIActTotal < 0) {
+    } else if (IIActaSem < 0 || IIActbSem < 0 || IIActcSem < 0 || IIActdSem < 0 || IIActa < 0 || IIActb < 0 || IIActc < 0 || IIActd < 0 || totalsub2b<0 || totalsub2c<0 ||  totalsub2d<0 ||IIActTotal < 0) {
       alert("Negative values not allowed");
     } else if (!documentB1 || !documentB2 || !documentB3 || !documentB4) {
       alert("Please upload all the required documents");
@@ -296,7 +477,7 @@ function Form2B() {
                 <tr>
                   <th>Sr. No.</th>
                   <th>Natural of Activity</th>
-                  <th>Semester</th>
+                  <th>Spilt-Up Marks Total</th>
                   <th>MAX API Score alloted</th>
                   <th>Self apprasial Score</th>
                   <th>Upload Supporting Documents</th>
@@ -328,22 +509,18 @@ function Form2B() {
                   </td>
               
                   <td>
-                    <Form.Control
-                      type="number"
-                      placeholder=""
-                      value={IIActaSem}
-                      onChange={(e) => setIIActaSem(e.target.value)}
-                    />
+                  <p className='text-center'>-</p>
                   </td>
                   <td>
               <p className='text-center'>35</p>
               </td>
                   <td>
                     <Form.Control
-                      type="number"
+                      type="text"
                       placeholder=""
                       value={IIActa}
-                      onChange={(e) => setIIActa(e.target.value)}
+                      onChange={(e) => setIIActa(Math.min(Number(e.target.value), 35))}
+                      max={35}
                     />
                   </td>
                   <td>
@@ -366,10 +543,11 @@ function Form2B() {
           </Form.Group>
                   </td>
                 </tr>
+
                 <tr>
                   <td></td>
-                <td colSpan={5}>
-                  Evaluation Criteria:
+                <td colSpan={5} >
+                  <Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
                 <Col>a) Contribution to corporate life in colleges and universities through meetings/popular lectures/subject-related events/articles in college magazines and university volumes - 3 pts each</Col>
                 <Col>Institutional governance responsibilities like Vice-Principal, Deans, HOD, Director, IQAC Coordinator/T&P officer, Exam cell in charge, Admission cell in charge maximum of 25 points (or any other equivalent responsibility)</Col>
                <p></p>
@@ -379,7 +557,7 @@ function Form2B() {
                 <Col><Col>1. One week or more - 10 points</Col></Col>
                 <Col><Col>2. Less than a week but greater than two days - 5 points</Col></Col>
                 <Col><Col>3. One to two days - 3 points</Col></Col>
-                <Col><Col>4. Committee member of ICAST - ( )</Col></Col>
+                <Col><Col>4. Committee member of ICAST - 2 points</Col></Col>
                 <Col><Col>5. Seminars - 1 point</Col></Col>
                 <Col>3. Delivering Lecture/conducting workshop (not paper presentation)</Col>
                 <Col><Col>1. At college level for faculty - 3 points</Col></Col>
@@ -390,12 +568,14 @@ function Form2B() {
 
                       </td>
                 </tr>
+
                 <tr>
                   <td>b.</td>
                   <td>
                     
                     Extension, Co-curricular and field based activities:
-                    <Form.Check
+                    <tr>
+                      <td><Form.Check
                   type="checkbox"
                   label="a) Field studies / Educational Tour (other than subject related in 1.d)"
                   value="a) Field studies / Educational Tour (other than subject related in 1.d)"
@@ -407,8 +587,17 @@ function Form2B() {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
-                 <Form.Check
+                /></td>
+                    <td><Form.Control
+                      type="text"                     
+                      value={sub2ba}
+                      onChange={(e) => setSub2ba(e.target.value)}
+                    /></td>
+                      
+                    </tr>
+                 
+                     <tr>
+                      <td><Form.Check
                   type="checkbox"
                   label="b) Placement activity (for coordinators 15 marks)"
                   value="b) Placement activity (for coordinators 15 marks)"
@@ -420,8 +609,18 @@ function Form2B() {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
                   }}
-                />  
-                <Form.Check
+                /></td>
+                     <td>
+                      <Form.Control
+                        type="text"
+                        value={sub2bb}
+                        onChange={(e) => setSub2bb(e.target.value)}
+                      />
+                     </td>
+                     </tr>
+                   
+                   <tr>
+                    <td> <Form.Check
                   type="checkbox"
                   label="c) Community Service, Social Orientation other (10 marks)"
                   value="c) Community Service, Social Orientation other (10 marks)"
@@ -433,8 +632,18 @@ function Form2B() {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
                   }}
-                /> 
-                 <Form.Check
+                /></td>
+                    <td>
+                      <Form.Control
+                        type="text"
+                        value={sub2bc}
+                        onChange={(e) => setSub2bc(e.target.value)}
+                      />
+                    </td>
+                   </tr>
+                
+                <tr>
+                  <td><Form.Check
                   type="checkbox"
                   label="d) IQAC members / DQC / PAC (10 marks)"
                   value="d) IQAC members / DQC / PAC (10 marks)"
@@ -446,8 +655,18 @@ function Form2B() {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
                   }}
-                />  
-                  <Form.Check
+                /> </td>
+                  <td>
+                    <Form.Control
+                      type="text"
+                      value={sub2bd}
+                      onChange={(e) => setSub2bd(e.target.value)}
+                    />
+                  </td>
+                </tr>
+                  
+                  <tr>
+                    <td><Form.Check
                   type="checkbox"
                   label="e) IIC members (10 marks)"
                   value="e) IIC members (10 marks)"
@@ -459,8 +678,18 @@ function Form2B() {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
                   }}
-                /> 
-                <Form.Check
+                /> </td>
+                    <td>
+                      <Form.Control
+                        type="text"
+                        value={sub2be}
+                        onChange={(e) => setSub2be(e.target.value)}
+                      />
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td><Form.Check
                   type="checkbox"
                   label="f) Alumni committee members (10 marks)"
                   value="f) Alumni committee members (10 marks)"
@@ -472,8 +701,18 @@ function Form2B() {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
-                <Form.Check
+                /></td>
+                    <td>
+                      <Form.Control
+                        type="text"
+                        value={sub2bf}
+                        onChange={(e) => setSub2bf(e.target.value)}
+                      />
+                    </td>
+                  </tr>
+                
+                <tr>
+                  <td><Form.Check
                   type="checkbox"
                   label="g) Admission cell members (15 marks)"
                   value="g) Admission cell members (15 marks)"
@@ -485,8 +724,19 @@ function Form2B() {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
-                <Form.Check
+                /></td>
+                  <td>
+                    <Form.Control
+                      type="text"
+                      value={sub2bg}
+                      onChange={(e) => setSub2bg(e.target.value)}
+                    />
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <Form.Check
                   type="checkbox"
                   label="h) ATF Coordinators Member & dept supports (5)"
                   value="h) ATF Coordinators Member & dept supports (5)"
@@ -499,7 +749,18 @@ function Form2B() {
                     }
                   }}
                 />
-                <Form.Check
+                  </td>
+                  <td>
+                    <Form.Control
+                      type="text"
+                      value={sub2bh}
+                      onChange={(e) => setSub2bh(e.target.value)}
+                    />
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td><Form.Check
                   type="checkbox"
                   label="i) NSS / NCC / NSO / other (15 marks)"
                   value="i) NSS / NCC / NSO / other (15 marks)"
@@ -511,8 +772,18 @@ function Form2B() {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
-                <Form.Check
+                /></td>
+                  <td>
+                    <Form.Control
+                      type="text"
+                      value={sub2bi}
+                      onChange={(e) => setSub2bi(e.target.value)}
+                    />
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td><Form.Check
                   type="checkbox"
                   label="j) Exam coordinator (10)"
                   value="j) Exam coordinator (10)"
@@ -524,8 +795,18 @@ function Form2B() {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
-                <Form.Check
+                /></td>
+                  <td>
+                    <Form.Control
+                      type="text"
+                      value={sub2bj}
+                      onChange={(e) => setSub2bj(e.target.value)}
+                    />
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td><Form.Check
                   type="checkbox"
                   label="k) Time Table coordinator (10)"
                   value="k) Time Table coordinator (10)"
@@ -537,8 +818,18 @@ function Form2B() {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
-                <Form.Check
+                /></td>
+                  <td>
+                    <Form.Control
+                      type="text"
+                      value={sub2bk}
+                      onChange={(e) => setSub2bk(e.target.value)}
+                    />
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td><Form.Check
                   type="checkbox"
                   label="l) Project Coordinators (5)"
                   value="l) Project Coordinators (5)"
@@ -550,9 +841,18 @@ function Form2B() {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
+                /></td>
+                  <td>
+                    <Form.Control
+                      type="text"
+                      value={sub2bl}
+                      onChange={(e) => setSub2bl(e.target.value)}
+                    />
+                  </td>
+                </tr>
                 
-                <Form.Check
+                <tr>
+                  <td><Form.Check
                   type="checkbox"
                   label="m) Class teacher (10 marks for 1 semester)"
                   value="m) Class teacher (10 marks for 1 semester)"
@@ -564,8 +864,18 @@ function Form2B() {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
-                <Form.Check
+                /></td>
+                  <td>
+                    <Form.Control
+                      type="text"
+                      value={sub2bm}
+                      onChange={(e) => setSub2bm(e.target.value)}
+                    />
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td><Form.Check
                   type="checkbox"
                   label="n) Proctor coordinator / NPTEL coordinator (max 3 marks)"
                   value="n) Proctor coordinator / NPTEL coordinator (max 3 marks)"
@@ -577,8 +887,18 @@ function Form2B() {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
-                <Form.Check
+                /></td>
+                  <td>
+                    <Form.Control
+                      type="text"
+                      value={sub2bn}
+                      onChange={(e) => setSub2bn(e.target.value)}
+                    />
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td><Form.Check
                   type="checkbox"
                   label="o) Project Competition Coordinators (5)"
                   value="o) Project Competition Coordinators (5)"
@@ -590,8 +910,18 @@ function Form2B() {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
-                <Form.Check
+                /></td>
+                  <td>
+                    <Form.Control
+                      type="text"
+                      value={sub2bo}
+                      onChange={(e) => setSub2bo(e.target.value)}
+                    />
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td><Form.Check
                   type="checkbox"
                   label="p) IIIC Coordinators, IV Coordinators (5)"
                   value="p) IIIC Coordinators, IV Coordinators (5)"
@@ -603,8 +933,18 @@ function Form2B() {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
-                <Form.Check
+                /></td>
+                  <td>
+                    <Form.Control
+                      type="text"
+                      value={sub2bp}
+                      onChange={(e) => setSub2bp(e.target.value)}
+                    />
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td><Form.Check
                   type="checkbox"
                   label="q) Any other coordinators (marks based on activeness max 5 provided in the same is not repeated elsewhere)"
                   value="q) Any other coordinators (marks based on activeness max 5 provided in the same is not repeated elsewhere)"
@@ -616,7 +956,16 @@ function Form2B() {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
+                /></td>
+                  <td>
+                    <Form.Control
+                      type="text"
+                      value={sub2bq}
+                      onChange={(e) => setSub2bq(e.target.value)}
+                    />
+                  </td>
+                </tr>
+                
                     <p></p>
                     All members have to take sign of coordinators of respective
                       committee to validate description of job done. Marks
@@ -624,22 +973,23 @@ function Form2B() {
                     
                   </td>
                   <td>
-                    <Form.Control
-                      type="number"
+                  <Form.Control
+                      type="text"
                       placeholder=""
-                      value={IIActbSem}
-                      onChange={(e) => setIIActbSem(e.target.value)}
+                      value={totalsub2b}
                     />
                   </td>
+                  
                   <td>
                       <p className='text-center'>25</p>
                       </td>
                   <td>
                     <Form.Control
-                      type="number"
+                      type="text"
                       placeholder=""
                       value={IIActb}
-                      onChange={(e) => setIIActb(e.target.value)}
+                      onChange={(e) => setIIActb(Math.min(Number(e.target.value), 25))}
+                      max={25}
                     />
                   </td>
                   <td>
@@ -662,12 +1012,16 @@ function Form2B() {
           </Form.Group>
                   </td>
                 </tr>
+
+
                 <tr>
                   <td>c.</td>
                   <td>
                     
                       Students and Staff Related Socio Cultural and Sports Programs (intra/interdepartmental and intercollegiate):
-                      <Form.Check
+
+                      <tr>
+                        <td><Form.Check
                   type="checkbox"
                   label="1. In charge for Score/Oscillations/Surge/Intech etc (Judge for project competition in Intech)"
                   value="In charge for Score/Oscillations/Surge/Intech etc (Judge for project competition in Intech)"
@@ -680,8 +1034,18 @@ function Form2B() {
                       setCheck_2c(check_2c.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
-                <Form.Check
+                /></td>
+                        <td>
+                        <Form.Control
+                          type="text"
+                          value={sub2da}
+                          onChange={(e) => setSub2da(e.target.value)}
+                        />
+                        </td>
+                      </tr>
+                      
+                  <tr>
+                    <td><Form.Check
                 type = "checkbox"
                 label = "2. Coordinators of different events based on complexity- (as recommended by in-charge) (coordinated Placement in 5 different companies and coordinated for collaboration with industries)"
                 value = "Coordinators of different events based on complexity- (as recommended by in-charge) (coordinated Placement in 5 different companies and coordinated for collaboration with industries)"
@@ -695,45 +1059,22 @@ function Form2B() {
                   }
                 }
                 }
-                />
-                      {/* <Form.Check
-                  type="checkbox"
-                  label = "1. In charge for Score/Oscillations/Surge/Intech etc (Judge for project competition in Intech)"
-                  value = "In charge for Score/Oscillations/Surge/Intech etc (Judge for project competition in Intech)"
-                  checked={check_2c.includes("1. In charge for Score/Oscillations/Surge/Intech etc (Judge for project competition in Intech)")}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setCheck_2c([...check_2c, e.target.value]);
-                    }
-                    else {
-                      setCheck_2c(check_2c.filter((c) => c !== e.target.value));
-                    }
-                  }}
-                /> */}
-                {/* <Form.Check
-                type = "checkbox"
-                label = "2. Coordinators of different events based on complexity- (as recommended by in-charge) (coordinated Placement in 5 different companies and coordinated for collaboration with industries)"
-                value = "Coordinators of different events based on complexity- (as recommended by in-charge) (coordinated Placement in 5 different companies and coordinated for collaboration with industries)"
-                checked={check_2c.includes("2. Coordinators of different events based on complexity- (as recommended by in-charge) (coordinated Placement in 5 different companies and coordinated for collaboration with industries)")}
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    setCheck_2c([...check_2c, e.target.value]);
-                  }
-                  else {
-                    setCheck_2c(check_2c.filter((c) => c !== e.target.value));
-                  }
-                }
-                }
-                /> */}
-                
+                /></td>
+                    <td>
+                    <Form.Control
+                      type="text"
+                      value={sub2db}
+                      onChange={(e) => setSub2db(e.target.value)}
+                    />
+                    </td>
+                  </tr>
                     
                   </td>
                   <td>
-                    <Form.Control
-                      type="number"
+                  <Form.Control
+                      type="text"
                       placeholder=""
-                      value={IIActcSem}
-                      onChange={(e) => setIIActcSem(e.target.value)}
+                      value={totalsub2d}
                     />
                   </td>
                   <td>
@@ -741,10 +1082,11 @@ function Form2B() {
                       </td>
                   <td>
                     <Form.Control
-                      type="number"
+                      type="text"
                       placeholder=""
                       value={IIActc}
-                      onChange={(e) => setIIActc(e.target.value)}
+                      onChange={(e) => setIIActc(Math.min(Number(e.target.value), 20))}
+                      max={20}
                     />
                   </td>
                   <td>
@@ -767,13 +1109,14 @@ function Form2B() {
           </Form.Group>
                   </td>
                 </tr>
+
                 <tr>
                   <td>d.</td>
                   <td>
                     
                     Professional Development Activities:
-                    
-                    <Form.Check
+                    <tr>
+                      <td><Form.Check
                   type="checkbox"
                   label="Coordinator of student chapters IEEE/IETE/IET/CSI/ISTE (5 points)"
                   value="Coordinator of student chapters IEEE/IETE/IET/CSI/ISTE (5 points)"
@@ -785,8 +1128,18 @@ function Form2B() {
                       setCheck_2d(check_2d.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
-                <Form.Check
+                /></td>
+                      <td>
+                      <Form.Control
+                        type="text"
+                        value={sub2ca}
+                        onChange={(e) => setSub2ca(e.target.value)}
+                      />
+                      </td>
+                    </tr>
+                    
+                    <tr>
+                      <td><Form.Check
                   type="checkbox"
                   label="Media participation in profession-related talks/debates, etc (5 points)"
                   value="Media participation in profession-related talks/debates, etc (5 points)"
@@ -798,8 +1151,18 @@ function Form2B() {
                       setCheck_2d(check_2d.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
-                <Form.Check
+                /></td>
+                      <td>
+                      <Form.Control
+                        type="text"
+                        value={sub2cb}
+                        onChange={(e) => setSub2cb(e.target.value)}
+                      />
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td><Form.Check
                   type="checkbox"
                   label="Membership in profession-related committees at state and national levels (max 3)"
                   value="Membership in profession-related committees at state and national levels (max 3)"
@@ -811,8 +1174,18 @@ function Form2B() {
                       setCheck_2d(check_2d.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
-                <Form.Check
+                /></td>
+                      <td>
+                      <Form.Control
+                        type="text"
+                        value={sub2cc}
+                        onChange={(e) => setSub2cc(e.target.value)}
+                      />
+                      </td>
+                    </tr>
+                
+                <tr>
+                  <td><Form.Check
                   type="checkbox"
                   label="Participation in subject associations, conferences, seminars without paper presentation (1 mark each, subject to a max of 3)"
                   value="Participation in subject associations, conferences, seminars without paper presentation (1 mark each, subject to a max of 3)"
@@ -824,10 +1197,22 @@ function Form2B() {
                       setCheck_2d(check_2d.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
+                /></td>
+                  <td>
+                    <Form.Control
+                      type="text"
+                      value={sub2cd}
+                      onChange={(e) => setSub2cd(e.target.value)}
+                    />
+
+                  </td>
+                </tr>
+                
+                
                 Participation in short-term training courses less than one-week duration:
                     <Col>
-                <Form.Check
+                    <tr>
+                      <td><Form.Check
                   type="checkbox"
                   label="1. IIT/NIT/Govt college/TEQIP (10 each for external, 8 for local)"
                   value="1. IIT/NIT/Govt college/TEQIP (10 each for external, 8 for local)"
@@ -839,8 +1224,18 @@ function Form2B() {
                       setCheck_2d(check_2d.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
-                <Form.Check
+                /></td>
+                      <td>
+                      <Form.Control
+                        type="number"
+                        value={sub2ce1}
+                        onChange={(e) => setSub2ce1(e.target.value)}
+                      />
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td><Form.Check
                   type="checkbox"
                   label="2. Industry-related (max 10 for outside Mumbai, 5 in Mumbai)"
                   value="2. Industry-related (max 10 for outside Mumbai, 5 in Mumbai)"
@@ -852,8 +1247,18 @@ function Form2B() {
                       setCheck_2d(check_2d.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
-                <Form.Check
+                /></td>
+                      <td>
+                      <Form.Control
+                        type="number"
+                        value={sub2ce2}
+                        onChange={(e) => setSub2ce2(e.target.value)}
+                      />
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td><Form.Check
                   type="checkbox"
                   label="3. Not belonging to the above (5 for external, 4 for local)"
                   value="3. Not belonging to the above (5 for external, 4 for local)"
@@ -865,9 +1270,19 @@ function Form2B() {
                       setCheck_2d(check_2d.filter((c) => c !== e.target.value));
                     }
                   }}
-                />                    
+                /> </td>
+                      <td>
+                      <Form.Control
+                        type="number"
+                        value={sub2ce3}
+                        onChange={(e) => setSub2ce3(e.target.value)}
+                      />
+                      </td>
+                    </tr>                                  
                     </Col>
-                    <Form.Check
+
+                    <tr>
+                      <td><Form.Check
                   type="checkbox"
                   label="Boards of Studies, editorial committees of journals (5 points)"
                   value="Boards of Studies, editorial committees of journals (5 points)"
@@ -879,14 +1294,22 @@ function Form2B() {
                       setCheck_2d(check_2d.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
+                /></td>
+                      <td>
+                      <Form.Control
+                        type="text"
+                        value={sub2cf}
+                        onChange={(e) => setSub2cf(e.target.value)}
+                      />
+                      </td>
+                    </tr>
+                    
                   </td>
                   <td>
-                    <Form.Control
-                      type="number"
+                  <Form.Control
+                      type="text"
                       placeholder=""
-                      value={IIActdSem}
-                      onChange={(e) => setIIActdSem(e.target.value)}
+                      value={totalsub2c}
                     />
                   </td>
                   <td>
@@ -895,10 +1318,11 @@ function Form2B() {
                   
                   <td>
                     <Form.Control
-                      type="number"
+                      type="text"
                       placeholder=""
                       value={IIActd}
-                      onChange={(e) => setIIActd(e.target.value)}
+                      onChange={(e) => setIIActd(Math.min(Number(e.target.value), 20))}
+                      max={20}
                     />
                   </td>
                   <td>

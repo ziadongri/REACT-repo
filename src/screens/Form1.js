@@ -24,6 +24,7 @@ function Form1() {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         setUser(user);
+        await fetchData(user.uid); // Call fetchData after user is set
       } else {
         navigate('/login');
       }
@@ -31,34 +32,32 @@ function Form1() {
     setLoading(false);
     return unsubscribe;
   }, []);
-
+  
   const fetchData = async (uid) => {
     const docRef = doc(db, 'faculty', uid);
-    getDoc(docRef)
-      .then((docSnap) => {
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          setName(data.name);
-          setDepartment(data.department);
-          setDesignation(data.designation);
-          setDOLpromotion(data.DOLpromotion);
-          setAddress(data.address);
-          setContact(data.contact);
-          setEmail(data.email);
-          setFreshQualification(data.freshQualification);
-          setYear(data.year);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  useEffect(() => {
-    if (user) {
-      fetchData(user.uid);
+    
+    try {
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        setName(data.name);
+        setDepartment(data.department);
+        setDesignation(data.designation);
+        setDOLpromotion(data.DOLpromotion);
+        setAddress(data.address);
+        setContact(data.contact);
+        setEmail(data.email);
+        setFreshQualification(data.freshQualification);
+        setYear(data.year);
+      } else {
+        console.log("Document does not exist");
+      }
+    } catch (error) {
+      console.log("Error fetching document:", error);
     }
-  }, [user]);
+  };
+  
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -109,6 +108,8 @@ function Form1() {
     }
   };
 
+
+
   if (loading) {
     return (
       <Container>
@@ -155,28 +156,15 @@ function Form1() {
           </li>
         </ul>
       </li>
-      {/* Add more form links as needed */}
     </ul>
   </Col>
+
+
         <Col md={6}>
           <h1>Part A: General Information</h1>
           <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3 align-item-center" controlId="name">
-            <Row>
-          <Col md={3} className="form-label">
-            <Form.Label>Name</Form.Label>
-          </Col>
-          <Col md={9}>
-            <Form.Control
-              type="text"
-              placeholder="Enter Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </Col>
-        </Row>
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="department">
+
+          <Form.Group className="mb-3" controlId="department">
               <Row>
                 <Col md={3} className="form-label">
               <Form.Label>Department</Form.Label>
@@ -196,6 +184,23 @@ function Form1() {
               </Col>
               </Row>
             </Form.Group>
+
+            <Form.Group className="mb-3 align-item-center" controlId="name">
+            <Row>
+          <Col md={3} className="form-label">
+            <Form.Label>Name</Form.Label>
+          </Col>
+          <Col md={9}>
+            <Form.Control
+              type="text"
+              
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </Col>
+        </Row>
+            </Form.Group>
+
             <Form.Group className="mb-3" controlId="designation">
             <Row>
                 <Col md={3} className="form-label">
@@ -211,6 +216,7 @@ function Form1() {
               </Col>
               </Row>
             </Form.Group>
+
             <Form.Group className="mb-3" controlId="DOLpromotion">
             <Row>
                 <Col md={3} className="form-label">
@@ -220,12 +226,13 @@ function Form1() {
               <Form.Control
                 type="date"
                 placeholder="Enter date of last promotion"
-                value={DOLpromotion}
-                onChange={(e) => setDOLpromotion(e.target.value)}
-              />
+                 value={DOLpromotion}
+              onChange={(e) =>  setDOLpromotion(e.target.value)}
+            />
               </Col>
               </Row>
             </Form.Group>
+
             <Form.Group className="mb-3" controlId="address">
             <Row>
                 <Col md={3} className="form-label">
@@ -236,11 +243,12 @@ function Form1() {
                 type="text"
                 placeholder="Enter address"
                 value={address}
-                onChange={(e) => setAddress(e.target.value)}
-              />
+              onChange={(e) => setAddress(e.target.value)}
+            />
               </Col>
               </Row>
             </Form.Group>
+            
             <Form.Group className="mb-3" controlId="contact">
             <Row>
                 <Col md={3} className="form-label">
@@ -259,6 +267,7 @@ function Form1() {
               </Col>
               </Row>
             </Form.Group>
+
             <Form.Group className="mb-3" controlId="email">
             <Row>
                 <Col md={3} className="form-label">
@@ -274,6 +283,7 @@ function Form1() {
               </Col>
               </Row>
             </Form.Group>
+
             <Form.Group className="mb-3" controlId="freshQualification">
             <Row>
                 <Col md={3} className="form-label">
@@ -289,36 +299,38 @@ function Form1() {
               </Col>
               </Row>
             </Form.Group>
+
             {/* <Button variant="primary" type="submit">
               <Link to="/form2a" className="text-decoration-none text-white">
                 Next
               </Link>
             </Button> */}
             <Form.Group className="mb-3" controlId="year">
-            <Row>
-                <Col md={3} className="form-label">
-              <Form.Label>Year</Form.Label>
-              </Col>
-              <Col md={9}>
-              <Form.Control
-                as="select"
-                value={year}
-                onChange={(e) => setYear(e.target.value)}
-              >
-               <option value="">Select Year</option>
-                <option value="2022-23">2022-23</option>
-                <option value="2023-24">2023-24</option>
-                <option value="2024-25">2024-25</option>
-                <option value="2025-26">2025-26</option>
-                <option value="2026-27">2026-27</option>
-                <option value="2027-28">2027-28</option>
-                <option value="2028-29">2028-29</option>
-                <option value="2029-30">2029-30</option>
+  <Row>
+    <Col md={3} className="form-label">
+      <Form.Label>Year</Form.Label>
+    </Col>
+    <Col md={9}>
+      <Form.Control
+        as="select"
+        value={year}
+        onChange={(e) => setYear(e.target.value)}
+      >
+        <option value="">Select Year</option>
+        <option value="2022-23">2022-23</option>
+        <option value="2023-24">2023-24</option>
+        <option value="2024-25">2024-25</option>
+        <option value="2025-26">2025-26</option>
+        <option value="2026-27">2026-27</option>
+        <option value="2027-28">2027-28</option>
+        <option value="2028-29">2028-29</option>
+        <option value="2029-30">2029-30</option>
+      </Form.Control>
+    </Col>
+  </Row>
+        </Form.Group>
 
-              </Form.Control>
-              </Col>
-              </Row>
-              </Form.Group>
+
           </Form>
           <div className="text-center">
             <Row>

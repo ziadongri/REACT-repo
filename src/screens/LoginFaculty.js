@@ -11,7 +11,7 @@ function LoginFaculty({setIsAuth}) {
     const [error, setError] = useState(null)
     const [userData, setUserData] = useState(null)
     const [user, setUser] = useState(null)
-
+    
     let navigate = useNavigate()
 
     const handleSignIn = () => {
@@ -100,6 +100,7 @@ function LoginFaculty({setIsAuth}) {
         }
       }
       , [userData])
+
 
   return (
     <Container>

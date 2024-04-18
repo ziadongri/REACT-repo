@@ -10,6 +10,7 @@ function Form2C(){
     const [user, setUser]= useState(null)
     const [loading, setLoading]= useState(true)
     const [error, setError]= useState(null)
+    const [facultyData, setFacultyData] = useState(null);
     const [ResearchPublication, setResearchPublication]= useState([])
     const [ ResearchArticle, setResearchArticle]= useState([])
     const [ ResearchProjectON, setResearchProjectON]= useState([])
@@ -263,10 +264,10 @@ useEffect(() => {
         alert('Please fill all the fields with positive values only!');
         return;
       }
-      else if (!documentC1 || !documentC2 || !documentC3 || !documentC4 || !documentC5 || !documentC6 || !documentC7 || !documentC8 || !documentC9 || !documentC10) {
-        alert("Please upload all the required documents");
-        return;
-      }
+      // else if (!documentC1 || !documentC2 || !documentC3 || !documentC4 || !documentC5 || !documentC6 || !documentC7 || !documentC8 || !documentC9 || !documentC10) {
+      //   alert("Please upload all the required documents");
+      //   return;
+      // }
       
       await setDoc(docRef, data);
       
@@ -274,6 +275,128 @@ useEffect(() => {
     };
 
     const handleSubmit = async (e) => {
+      // e.preventDefault();
+      // const facultyRef = doc(db, "faculty", user.uid);
+      // const docRef = doc(facultyRef, "partB", "CategoryC");
+      // const data = {
+      //   ResearchPublication,
+      //   ResearchArticle,
+      //   ResearchProjectON,
+      //   ResearchProjectCOMP,
+      //   ResearchNeedProject,
+      //   ResearchGuidance,
+      //   TrainingCourse,
+      //   PaperPresentConference,
+      //   InvitedLecture,
+      //   Award,
+      //   IIISelfTotal,
+      //   documentC1,
+      //   documentC2,
+      //   documentC3,
+      //   documentC4,
+      //   documentC5,
+      //   documentC6,
+      //   documentC7,
+      //   documentC8,
+      //   documentC9,
+      //   documentC10
+      // };
+      
+      // if (
+      //   [
+      //     ResearchPublication, ResearchArticle, ResearchProjectON, ResearchProjectCOMP, ResearchNeedProject, ResearchGuidance, TrainingCourse,
+      //     PaperPresentConference, InvitedLecture, Award, IIISelfTotal
+      //   ].some(field => field === '' || (Array.isArray(field) && field.some(item => item === '')))
+      // ) {
+      //   alert('Please fill in all the fields!');
+      //   return;
+      // }
+      // else if (ResearchPublication < 0 || ResearchArticle < 0 || ResearchProjectON < 0 || ResearchProjectCOMP < 0 || ResearchNeedProject < 0 || ResearchGuidance < 0 || TrainingCourse < 0 || PaperPresentConference < 0 || InvitedLecture < 0 || Award < 0 || IIISelfTotal < 0) {
+      //   alert('Please fill in all the fields with positive values only!');
+      //   return;
+      // } 
+      // else if (isNaN(IIISelfTotal)) {
+      //   alert('Please fill in numeric values only!');
+      // }
+
+      // else if (ResearchPublication.some((item) => item.title === '' || item.sci==='' || item.wos==='' || item.esci ==='' || item.scopus==='' || item.ugccare ==='' || item.isbnissn ==='' || item.proceedings ==='' || item.guidementor ==='' || item.selfscore === '')) {
+      //   alert('Please fill all the fields in the research publication!');
+      //   return;
+      // } else if (ResearchPublication.some((item) => item.selfscore < 0)) {
+      //   alert('Please fill all the fields with positive values only!');
+      //   return;
+      // }
+
+      //   else if (ResearchArticle.some((item) => item.title === '' || item.booktitle === '' || item.isbn === '' || item.peerreview === '' || item.coauthor === '' || item.selfscore === '')) {
+      //   alert('Please fill all the fields in the research article!');
+      //   return;
+      // } else if (ResearchArticle.some((item) => item.selfscore < 0)) {
+      //   alert('Please fill all the fields with positive values only!');
+      //   return;
+      // }
+
+      // else if (ResearchProjectON.some((item) => item.title === '' || item.agency === '' || item.period === '' || item.amount === '' || item.selfscore === '')) {
+      //   alert('Please fill all the fields in the research project!');
+      //   return;
+      // } else if (ResearchProjectON.some((item) => item.selfscore < 0)) {
+      //   alert('Please fill all the fields with positive values only!');
+      //   return;
+      // }
+       
+      // else  if (ResearchProjectCOMP.some((item) => item.title === '' || item.agency === '' || item.period === '' || item.amount === '' || item.selfscore === '')) {
+      //   alert('Please fill all the fields in the research project!');
+      //   return;
+      // } else if (ResearchProjectCOMP.some((item) => item.selfscore < 0)) {
+      //   alert('Please fill all the fields with positive values only!');
+      //   return;
+      // }
+       
+      // else  if (ResearchNeedProject.some((item) => item.title === '' || item.agency === '' || item.period === '' || item.amount === '' || item.selfscore === '')) {
+      //   alert('Please fill all the fields in the research project!');
+      //   return;
+      // }
+      // else if (ResearchNeedProject.some((item) => item.selfscore < 0)) {
+      //   alert('Please fill all the fields with positive values only!');
+      //   return;
+      // }
+  
+      // else if (TrainingCourse.some((item) => item.programme === '' || item.duration === '' || item.organizedby === '' || item.selfscore === '')) {
+      //   alert('Please fill all the fields in the training course!');
+      //   return;
+      // }
+      // else if (TrainingCourse.some((item) => item.selfscore < 0)) {
+      //   alert('Please fill all the fields with positive values only!');
+      //   return;
+      // }
+  
+      // else if (PaperPresentConference.some((item) => item.titlepaper === '' || item.titleseminar === '' || item.organisedby === '' || item.level === '' || item.selfscore === '')) {
+      //   alert('Please fill all the fields in the paper presented in conference!');
+      //   return;
+      // }
+      // else if (PaperPresentConference.some((item) => item.selfscore < 0)) {
+      //   alert('Please fill all the fields with positive values only!');
+      //   return;
+      // }
+  
+      // else if (InvitedLecture.some((item) => item.titlelecture === '' || item.titleconference === '' || item.organisedby === '' || item.level === '' || item.selfscore === '')) {
+      //   alert('Please fill all the fields in the invited lecture!');
+      //   return;
+      // }
+      // else if (InvitedLecture.some((item) => item.selfscore < 0)) {
+      //   alert('Please fill all the fields with positive values only!');
+      //   return;
+      // }
+  
+      // else if (Award.some((item) => item.award === '' || item.agencyinvolved === '' || item.level === '' || item.discipline === '' || item.selfscore === '')) {
+      //   alert('Please fill all the fields in the award!');
+      //   return;
+      // }
+      // else if (Award.some((item) => item.selfscore < 0)) {
+      //   alert('Please fill all the fields with positive values only!');
+      //   return;
+      // }
+      
+      // await setDoc(docRef, data);
       e.preventDefault();
       const facultyRef = doc(db, "faculty", user.uid);
       const docRef = doc(facultyRef, "partB", "CategoryC");
@@ -323,6 +446,100 @@ useEffect(() => {
       //     }
       //   );
       // }
+      // if (
+      //   [
+      //     ResearchPublication, ResearchArticle, ResearchProjectON, ResearchProjectCOMP, ResearchNeedProject, ResearchGuidance, TrainingCourse,
+      //     PaperPresentConference, InvitedLecture, Award, IIISelfTotal
+      //   ].some(field => field === '' || (Array.isArray(field) && field.some(item => item === '')))
+      // ) {
+      //   alert('Please fill in all the fields!');
+      //   return;
+      // }
+      // else if (ResearchPublication < 0 || ResearchArticle < 0 || ResearchProjectON < 0 || ResearchProjectCOMP < 0 || ResearchNeedProject < 0 || ResearchGuidance < 0 || TrainingCourse < 0 || PaperPresentConference < 0 || InvitedLecture < 0 || Award < 0 || IIISelfTotal < 0) {
+      //   alert('Please fill in all the fields with positive values only!');
+      //   return;
+      // } 
+      // else if (isNaN(IIISelfTotal)) {
+      //   alert('Please fill in numeric values only!');
+      // }
+
+      // else if (ResearchPublication.some((item) => item.title === '' || item.sci==='' || item.wos==='' || item.esci ==='' || item.scopus==='' || item.ugccare ==='' || item.isbnissn ==='' || item.proceedings ==='' || item.guidementor ==='' || item.selfscore === '')) {
+      //   alert('Please fill all the fields in the research publication!');
+      //   return;
+      // } else if (ResearchPublication.some((item) => item.selfscore < 0)) {
+      //   alert('Please fill all the fields with positive values only!');
+      //   return;
+      // }
+
+      //   else if (ResearchArticle.some((item) => item.title === '' || item.booktitle === '' || item.isbn === '' || item.peerreview === '' || item.coauthor === '' || item.selfscore === '')) {
+      //   alert('Please fill all the fields in the research article!');
+      //   return;
+      // } else if (ResearchArticle.some((item) => item.selfscore < 0)) {
+      //   alert('Please fill all the fields with positive values only!');
+      //   return;
+      // }
+
+      // else if (ResearchProjectON.some((item) => item.title === '' || item.agency === '' || item.period === '' || item.amount === '' || item.selfscore === '')) {
+      //   alert('Please fill all the fields in the research project!');
+      //   return;
+      // } else if (ResearchProjectON.some((item) => item.selfscore < 0)) {
+      //   alert('Please fill all the fields with positive values only!');
+      //   return;
+      // }
+       
+      // else  if (ResearchProjectCOMP.some((item) => item.title === '' || item.agency === '' || item.period === '' || item.amount === '' || item.selfscore === '')) {
+      //   alert('Please fill all the fields in the research project!');
+      //   return;
+      // } else if (ResearchProjectCOMP.some((item) => item.selfscore < 0)) {
+      //   alert('Please fill all the fields with positive values only!');
+      //   return;
+      // }
+       
+      // else  if (ResearchNeedProject.some((item) => item.title === '' || item.agency === '' || item.period === '' || item.amount === '' || item.selfscore === '')) {
+      //   alert('Please fill all the fields in the research project!');
+      //   return;
+      // }
+      // else if (ResearchNeedProject.some((item) => item.selfscore < 0)) {
+      //   alert('Please fill all the fields with positive values only!');
+      //   return;
+      // }
+  
+      // else if (TrainingCourse.some((item) => item.programme === '' || item.duration === '' || item.organizedby === '' || item.selfscore === '')) {
+      //   alert('Please fill all the fields in the training course!');
+      //   return;
+      // }
+      // else if (TrainingCourse.some((item) => item.selfscore < 0)) {
+      //   alert('Please fill all the fields with positive values only!');
+      //   return;
+      // }
+  
+      // else if (PaperPresentConference.some((item) => item.titlepaper === '' || item.titleseminar === '' || item.organisedby === '' || item.level === '' || item.selfscore === '')) {
+      //   alert('Please fill all the fields in the paper presented in conference!');
+      //   return;
+      // }
+      // else if (PaperPresentConference.some((item) => item.selfscore < 0)) {
+      //   alert('Please fill all the fields with positive values only!');
+      //   return;
+      // }
+  
+      // else if (InvitedLecture.some((item) => item.titlelecture === '' || item.titleconference === '' || item.organisedby === '' || item.level === '' || item.selfscore === '')) {
+      //   alert('Please fill all the fields in the invited lecture!');
+      //   return;
+      // }
+      // else if (InvitedLecture.some((item) => item.selfscore < 0)) {
+      //   alert('Please fill all the fields with positive values only!');
+      //   return;
+      // }
+  
+      // else if (Award.some((item) => item.award === '' || item.agencyinvolved === '' || item.level === '' || item.discipline === '' || item.selfscore === '')) {
+      //   alert('Please fill all the fields in the award!');
+      //   return;
+      // }
+      // else if (Award.some((item) => item.selfscore < 0)) {
+      //   alert('Please fill all the fields with positive values only!');
+      //   return;
+      // }
+
       if (
         [
           ResearchPublication, ResearchArticle, ResearchProjectON, ResearchProjectCOMP, ResearchNeedProject, ResearchGuidance, TrainingCourse,
@@ -338,91 +555,15 @@ useEffect(() => {
       } 
       else if (isNaN(IIISelfTotal)) {
         alert('Please fill in numeric values only!');
-      }
-
-      else if (ResearchPublication.some((item) => item.title === '' || item.sci==='' || item.wos==='' || item.esci ==='' || item.scopus==='' || item.ugccare ==='' || item.isbnissn ==='' || item.proceedings ==='' || item.guidementor ==='' || item.selfscore === '')) {
-        alert('Please fill all the fields in the research publication!');
-        return;
-      } else if (ResearchPublication.some((item) => item.selfscore < 0)) {
-        alert('Please fill all the fields with positive values only!');
         return;
       }
 
-        else if (ResearchArticle.some((item) => item.title === '' || item.booktitle === '' || item.isbn === '' || item.peerreview === '' || item.coauthor === '' || item.selfscore === '')) {
-        alert('Please fill all the fields in the research article!');
-        return;
-      } else if (ResearchArticle.some((item) => item.selfscore < 0)) {
-        alert('Please fill all the fields with positive values only!');
-        return;
-      }
-
-      else if (ResearchProjectON.some((item) => item.title === '' || item.agency === '' || item.period === '' || item.amount === '' || item.selfscore === '')) {
-        alert('Please fill all the fields in the research project!');
-        return;
-      } else if (ResearchProjectON.some((item) => item.selfscore < 0)) {
-        alert('Please fill all the fields with positive values only!');
-        return;
-      }
-       
-      else  if (ResearchProjectCOMP.some((item) => item.title === '' || item.agency === '' || item.period === '' || item.amount === '' || item.selfscore === '')) {
-        alert('Please fill all the fields in the research project!');
-        return;
-      } else if (ResearchProjectCOMP.some((item) => item.selfscore < 0)) {
-        alert('Please fill all the fields with positive values only!');
-        return;
-      }
-       
-      else  if (ResearchNeedProject.some((item) => item.title === '' || item.agency === '' || item.period === '' || item.amount === '' || item.selfscore === '')) {
-        alert('Please fill all the fields in the research project!');
-        return;
-      }
-      else if (ResearchNeedProject.some((item) => item.selfscore < 0)) {
-        alert('Please fill all the fields with positive values only!');
-        return;
-      }
-  
-      else if (TrainingCourse.some((item) => item.programme === '' || item.duration === '' || item.organizedby === '' || item.selfscore === '')) {
-        alert('Please fill all the fields in the training course!');
-        return;
-      }
-      else if (TrainingCourse.some((item) => item.selfscore < 0)) {
-        alert('Please fill all the fields with positive values only!');
-        return;
-      }
-  
-      else if (PaperPresentConference.some((item) => item.titlepaper === '' || item.titleseminar === '' || item.organisedby === '' || item.level === '' || item.selfscore === '')) {
-        alert('Please fill all the fields in the paper presented in conference!');
-        return;
-      }
-      else if (PaperPresentConference.some((item) => item.selfscore < 0)) {
-        alert('Please fill all the fields with positive values only!');
-        return;
-      }
-  
-      else if (InvitedLecture.some((item) => item.titlelecture === '' || item.titleconference === '' || item.organisedby === '' || item.level === '' || item.selfscore === '')) {
-        alert('Please fill all the fields in the invited lecture!');
-        return;
-      }
-      else if (InvitedLecture.some((item) => item.selfscore < 0)) {
-        alert('Please fill all the fields with positive values only!');
-        return;
-      }
-  
-      else if (Award.some((item) => item.award === '' || item.agencyinvolved === '' || item.level === '' || item.discipline === '' || item.selfscore === '')) {
-        alert('Please fill all the fields in the award!');
-        return;
-      }
-      else if (Award.some((item) => item.selfscore < 0)) {
-        alert('Please fill all the fields with positive values only!');
-        return;
-      }
-      else if (!documentC1 || !documentC2 || !documentC3 || !documentC4 || !documentC5 || !documentC6 || !documentC7 || !documentC8 || !documentC9 || !documentC10) {
-        alert("Please upload all the required documents");
-        return;
-      }
+      // else if (!documentC1 || !documentC2 || !documentC3 || !documentC4 || !documentC5 || !documentC6 || !documentC7 || !documentC8 || !documentC9 || !documentC10) {
+      //   alert("Please upload all the required documents");
+      //   return;
+      // }
       
       await setDoc(docRef, data);
-      
        navigate('/formsubmission');
     };
 
@@ -895,6 +1036,22 @@ years score is considered for promotion as per UGC notification Feb
               </tbody>
         ))
       }
+            <tr>
+            <td></td>
+              <td colspan="6" ><Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
+                <Col>1. Refereed Journals
+                <Col>• SCI –- 40 / publication</Col>
+                <Col>• ESCI –- 30 / publication</Col>
+                <Col>• SCOPUS–- 20 / publication</Col>
+                <Col>• UGC CARE –- 15/ publication</Col>
+              </Col>
+              <Col>2. Non-refereed but recognized and reputable journals and periodicals, having ISBN/ISSN
+              numbers–- 10 / publication</Col>
+              <Col>3. Conference proceedings as full papers, etc. (Abstracts not to be included) –- 10/publication</Col>
+              <Col>4. Guide or mentor of the faculty gets 40% of the total points</Col>
+
+              </td>
+      </tr>
         </Table>
 
         <div className="text-center mb-3">
@@ -930,6 +1087,8 @@ years score is considered for promotion as per UGC notification Feb
             </Col>
           </Row>
         </div>
+
+
 
         <Table striped bordered hover>
         <thead>
@@ -1107,7 +1266,7 @@ years score is considered for promotion as per UGC notification Feb
       }
       <tr>
             <td></td>
-              <td colspan="6">Evaluation Criteria:
+              <td colspan="6" ><Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
               <Col>1. Text or Reference Books Published by International Publishers with an established peer review system---- 50 /sole author; 10 /chapter in an edited book</Col>
 <Col>2. Subjects Books by National level publishers/State and Central Govt. Publications with ISBN/ISSN numbers ---25 /sole author, and 5/ chapter in edited books</Col>
 <Col>3. Subject Books by Other local publishers with ISBN/ISSN numbers --- 15 / sole author, and 3 / chapter in edited book</Col>
@@ -1115,9 +1274,10 @@ years score is considered for promotion as per UGC notification Feb
 <Col>5. Chapters contributed to edited knowledge based volumes published by International Publishers
 - 10 /Chapter</Col>
 <Col>6. Chapters in knowledge based volumes by Indian/National level publishers with ISBN/ISSN numbers and with numbers of national and international directories ----5 / Chapter</Col>
-<Col>**API for joint publications is as follows:</Col>
-<Col>5. Guide or mentor of the faculty gets 40% of the total points</Col>
-<Col>6. Proceedings of conferences not considered as a book (example springer conference series). Also one publication is considered only under a single category.</Col>
+<p></p>
+<Col >**API for joint publications is as follows:</Col>
+<Col>1. Guide or mentor of the faculty gets 40% of the total points</Col>
+<Col>2. Proceedings of conferences not considered as a book (example springer conference series). Also one publication is considered only under a single category.</Col>
 
               </td>
       </tr>
@@ -1254,7 +1414,7 @@ years score is considered for promotion as per UGC notification Feb
       }
       <tr>
         <td></td>
-        <td colSpan="5"><Col>Evaluation Criteria:</Col>
+        <td colSpan="5"><Col style={{ fontWeight: 'bold' }} >Evaluation Criteria:</Col>
           <Col>a) Major Projects amount mobilized with grants above 20.0 lakhs 30 points</Col>
 <Col>a) Major Projects amount mobilized with grants above 5.0 lakhs 20 points</Col>
 <Col>b) Major Projects Amount mobilized with a minimum of Rs. 3.00 lakhs up to Rs. 5.00 lakhs 15 points</Col>
@@ -1398,7 +1558,7 @@ years score is considered for promotion as per UGC notification Feb
       }
       <tr>
         <td></td>
-        <td colSpan="5"><Col>Evaluation Criteria:</Col>
+        <td colSpan="5"><Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
           <Col>a) Major Projects amount mobilized with grants above 20.0 lakhs 30 points</Col>
 <Col>a) Major Projects amount mobilized with grants above 5.0 lakhs 20 points</Col>
 <Col>b) Major Projects Amount mobilized with a minimum of Rs. 3.00 lakhs up to Rs. 5.00 lakhs 15 points</Col>
@@ -1543,7 +1703,7 @@ years score is considered for promotion as per UGC notification Feb
       }
       <tr>
         <td></td>
-        <td colSpan="5"><Col>Evaluation Criteria:</Col>
+        <td colSpan="5"><Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
           <Col>a) Major Projects amount mobilized with grants above 20.0 lakhs 30 points</Col>
 <Col>a) Major Projects amount mobilized with grants above 5.0 lakhs 20 points</Col>
 <Col>b) Major Projects Amount mobilized with a minimum of Rs. 3.00 lakhs up to Rs. 5.00 lakhs 15 points</Col>
@@ -1674,7 +1834,7 @@ years score is considered for promotion as per UGC notification Feb
       }
       <tr>
         <td></td>
-        <td colSpan="4"><Col>Evaluation Criteria:</Col>
+        <td colSpan="4"><Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
           <Col>1) M. Phil /ME     <Col>Degree awarded–5 /each candidate</Col>
                                <Col>Thesis submitted–2 /each candidate</Col></Col>
 
@@ -1798,7 +1958,7 @@ years score is considered for promotion as per UGC notification Feb
       }
       <tr>
         <td></td>
-        <td colspan="4"><Col>Evaluation Criteria:</Col>
+        <td colspan="4"><Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
           <Col>a. courses (not less than three Weeks)/Workshops of not less than one week 20 / each event</Col>
 <Col>b. International conference/Seminar / Symposia 20 / each event</Col>
 <Col>c. National conference/Seminar / Symposia	10 / each event</Col>
@@ -1933,8 +2093,9 @@ years score is considered for promotion as per UGC notification Feb
     }
     <tr>
       <td></td>
-      <td colSpan="5"><Col>*Level – write I for International, N for National, S for state, R for regional, C for college or University</Col>
-      <Col>Evaluation Criteria:</Col>
+      <td colSpan="5"><Col style={{ fontWeight: 'bold' }}>*Level – write I for International, N for National, S for state, R for regional, C for college or University</Col>
+      <p></p>
+      <Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
       <Col>Participation and Presentation of research papers (oral/poster) in</Col>
       <Col>a)	International / Foreign conference etc.,---10/ each</Col>
       <Col>b)	National	–-7.5 / each</Col>
@@ -2069,7 +2230,7 @@ years score is considered for promotion as per UGC notification Feb
       }
       <tr>
         <td></td>
-        <td colspan="5"><Col>Evaluation Criteria:</Col>
+        <td colspan="5"><Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
         <Col>a)	International / Foreign conference etc.,---10/ each</Col>
         <Col>b)	National	–-7.5 / each</Col>
         <Col>c)	Regional/State level/local	–-5/ each</Col>
@@ -2203,25 +2364,29 @@ years score is considered for promotion as per UGC notification Feb
       }
       <tr>
         <td></td>
-        <td colspan="5"><Col>Evaluation Criteria:</Col>
-        <Col>Discipline specific Awards:</Col>
+        <td colspan="5"><Col style={{ fontWeight: 'bold' }} >Evaluation Criteria:</Col>
+        <Col style={{ fontWeight: 'bold' }}>III(F)(i) Discipline specific Awards:</Col>
         <Col>1.	Awards by Foreign Universities,AccreditedInternational Bodies-	--50 /each</Col>
         
         <Col>2.	By national bodies like by UGC,CSIR, DST, DBT, ICAR & other Government bodies and Professional Academies like Bhatnagar Award etc.	–- 50 /each</Col>
         <Col>3.	State level/university level	–-	20 /eachd) Regional / local		–- 10 /each</Col>
         <br/>
-        <Col>Honours/ Recognitions</Col>
+
+        <Col style={{ fontWeight: 'bold' }}>III(F)(ii) Honours/ Recognitions</Col>
         <Col>a.	Foreign countries Governments and International bodies like UNESCO etc. –--50 /each</Col>
         <Col>b.	National like Padma Sri etc.	–-- 50 /each</Col>
         <Col>c.	State level/university level	–-- 20 /each</Col>
         <Col>d.	Regional / local by GO/NGOs/Rotary/Lions etc.,	5 /each</Col>
         <Col>e.	Professional Subject Based associations	–-- 5 /each</Col>
         <br/>
-        <Col>Fellowship Titles</Col>
+
+        <Col style={{ fontWeight: 'bold' }}>III(F)(iii) Fellowship Titles</Col>
         <Col>a.	Foreign universities/bodies like FRCP, FRCS etc.,	50 /each</Col>
         <Col>b.	Indian Science and other Academies like Fellow of Indian National Science Academy FNA, FNASC, FAMS etc.,	50 /each</Col>
         <Col>c.	Discipline specific National level Associations	10 /each</Col>
-        <Col>Post-doctoral degrees</Col>
+        <br/>
+
+        <Col style={{ fontWeight: 'bold' }}>III(F)(iv) Post-doctoral degrees</Col>
         <Col>d.	D.Sc from an university based on post-doctoral thesis	50 /each</Col></td>
       </tr>
       </Table>
@@ -2269,6 +2434,7 @@ years score is considered for promotion as per UGC notification Feb
               <Form.Text style={{fontSize:'17px'}}>{IIISelfTotal}</Form.Text>               
             </td>
           </tr>
+          
         </tbody>
       </Table>
 
