@@ -167,7 +167,7 @@ function App() {
       <Container>
       <Row>
         <Col>
-         <h1 className="text-center"> Performa for Annual Self-Assessment of Faculty based on Performance Based Appraisal System </h1>
+         <h1 className="text-center large-heading"> Performa for Annual Self-Assessment of Faculty based on Performance Based Appraisal System </h1>
         </Col>
       </Row>
       </Container>

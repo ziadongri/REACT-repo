@@ -3,7 +3,7 @@ import { Container, Row, Col, Form, Button, Table } from 'react-bootstrap';
 import { auth, db, storage } from '../firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom';
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
 
 
 function Form2B() {
@@ -56,8 +56,6 @@ function Form2B() {
   const [totalsub2d, setTotalSub2d] = useState('');
   const [IIActTotal, setIIActTotal] = useState('');
   const [uploadedFile, setUploadedFile] = useState(null);
-  // const [documentBURL, setDocumentBURL] = useState('');
-
   const navigate = useNavigate();
 
   // const handleUpload = (e) => {
@@ -315,29 +313,6 @@ function Form2B() {
       // documentBURL,
     };
 
-    // if (uploadedFile) {
-    //   const storageRef = ref(storage, `documents/${uploadedFile.name}`);
-    //   const uploadTask = uploadBytesResumable(storageRef, uploadedFile);
-  
-    //   uploadTask.on(
-    //     "state_changed",
-    //     (snapshot) => {
-    //       const progress =
-    //         (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-    //     },
-    //     (error) => {
-    //       console.log(error);
-    //     },
-    //     () => {
-    //       getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-    //         console.log(url);
-    //         setDocumentBURL(url);
-    //         data.documentURL = url;
-    //         setDoc(docRef, data);
-    //       });
-    //     }
-    //   );
-    // }
     if (IIActaSem === "" || IIActbSem === "" || IIActcSem === "" || IIActdSem === "" || IIActa === "" || IIActb === "" || IIActc === "" || IIActd === "" || check_2b === "" || check_2c ==="" || check_2d ==="" || responsibility ==="" || totalsub2b==="" || totalsub2c==="" || totalsub2d==="" ||IIActTotal === "") {
       alert("Enter data in the form");
     } else if (IIActaSem < 0 || IIActbSem < 0 || IIActcSem < 0 || IIActdSem < 0 || IIActa < 0 || IIActb < 0 || IIActc < 0 || IIActd < 0 || totalsub2b<0 || totalsub2c<0 || totalsub2d<0 || IIActTotal < 0) {
@@ -444,32 +419,39 @@ function Form2B() {
     <Container fluid>
       <Row>
       <Col md={2} className="form-navigation">
+      <div className="sticky-navigation">
     <h3>Form Navigation</h3>
     <ul>
       <li>
-        <Link to="/form1">Part A</Link>
+      <span className="form1-subsection">Part A</span>
+      <Link to="/form1" className="nav-link">General Information</Link>
       </li>
       <li>
         <span className="form2-subsection">Part B</span>
         <ul className="form2-subsection-list">
           <li>
-            <Link to="/form2a" className="form2-subsection-link">Category A</Link>
+            <Link to="/form2a" className="form2-subsection-link nav-link">Category l</Link>
           </li>
           <li>
-            <Link to="/form2b" className="form2-subsection-link">Category B</Link>
+            <Link to="/form2b" className="form2-subsection-link nav-link">Category ll</Link>
           </li>
           <li>
-            <Link to="/form2c" className="form2-subsection-link">Category C</Link>
+            <Link to="/form2c" className="form2-subsection-link nav-link">Category lll</Link>
           </li>
         </ul>
       </li>
       {/* Add more form links as needed */}
     </ul>
+  </div>
   </Col>
         <Col md={9}>
-        <h1>Part B: Academic Performance Indicators</h1>
+        <h1 className="text-center">Part B: Academic Performance Indicators</h1>
           
-          <h4 style={{fontSize: 20}}>Category II: Co-Curricular, Extension and Profession related activities</h4>
+          <h4 style={{fontSize: 20}} className="text-center">Category II: Co-Curricular, Extension and Profession related activities</h4>
+
+          <p className='text-center'>
+        NOTE: Upload document for above activities. To change the document, upload new document again.
+      </p>
 
           <Form onSubmit={handleSubmit}>
             <Table striped bordered hover>
@@ -517,7 +499,7 @@ function Form2B() {
                   <td>
                     <Form.Control
                       type="text"
-                      placeholder=""
+                      style={{ textAlign: "center" }}
                       value={IIActa}
                       onChange={(e) => setIIActa(Math.min(Number(e.target.value), 35))}
                       max={35}
@@ -975,7 +957,7 @@ function Form2B() {
                   <td>
                   <Form.Control
                       type="text"
-                      placeholder=""
+                      style={{ textAlign: "center" }}
                       value={totalsub2b}
                     />
                   </td>
@@ -986,7 +968,7 @@ function Form2B() {
                   <td>
                     <Form.Control
                       type="text"
-                      placeholder=""
+                      style={{ textAlign: "center" }}
                       value={IIActb}
                       onChange={(e) => setIIActb(Math.min(Number(e.target.value), 25))}
                       max={25}
@@ -1073,7 +1055,7 @@ function Form2B() {
                   <td>
                   <Form.Control
                       type="text"
-                      placeholder=""
+                      style={{ textAlign: "center" }}
                       value={totalsub2d}
                     />
                   </td>
@@ -1083,7 +1065,7 @@ function Form2B() {
                   <td>
                     <Form.Control
                       type="text"
-                      placeholder=""
+                      style={{ textAlign: "center" }}
                       value={IIActc}
                       onChange={(e) => setIIActc(Math.min(Number(e.target.value), 20))}
                       max={20}
@@ -1308,7 +1290,7 @@ function Form2B() {
                   <td>
                   <Form.Control
                       type="text"
-                      placeholder=""
+                      style={{ textAlign: "center" }}
                       value={totalsub2c}
                     />
                   </td>
@@ -1319,7 +1301,7 @@ function Form2B() {
                   <td>
                     <Form.Control
                       type="text"
-                      placeholder=""
+                      style={{ textAlign: "center" }}
                       value={IIActd}
                       onChange={(e) => setIIActd(Math.min(Number(e.target.value), 20))}
                       max={20}
@@ -1357,38 +1339,16 @@ function Form2B() {
                   <td>
                     <Form.Control
                       type="text"
-                      placeholder=""
+                      style={{ textAlign: "center" }}
                       value={IIActTotal}
+                      readOnly
                     />
                   </td>
                 </tr>
               </tbody>
             </Table>
-          {/* <div className="text-center mb-3">
-            <Row>
-              <Col>
-          <Form.Group controlId="formFile" className="mb-3">
-            
-            {documentBURL && (
-              <>
-              <Form.Label>Doucment uploaded successfully</Form.Label>
-              <br />
-              <a href={documentBURL} target="_blank" rel="noreferrer">
-                View Document
-              </a>
-              </>
-            )}
-            {!documentBURL && (
-              <Form.Label>Upload supporting documents (pdf)</Form.Label>
-            )}
-            <Form.Control type="file" onChange={handleUpload} />
-          </Form.Group>
-          </Col>
-          </Row>
-          </div> */}
-          <p className='text-center'>
-        *Upload document for above activities. To change the document, upload new document again.
-      </p>
+          
+         
             <div className="text-center mb-4" >
               <Row>
                 <Col>

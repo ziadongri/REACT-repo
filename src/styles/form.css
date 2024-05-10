@@ -5,6 +5,10 @@
   padding-top: 20px;
 }
 
+.large-heading {
+  font-size: 33px; /* Adjust the font size as needed */
+}
+
 /* Style for form navigation sidebar */
 .form-navigation {
   background-color: #f8f9fa;
@@ -53,6 +57,11 @@ h1 {
   color: inherit;
 }
 
+.form1-subsection {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
 .form2-subsection {
   font-weight: bold;
   margin-bottom: 10px;
@@ -69,7 +78,28 @@ h1 {
 }
 
 .form2-subsection-link:hover {
-  text-decoration: underline;
+  text-decoration: none;
+}
+
+.nav-link {
+  color: black;
+}
+
+.sticky-navigation {
+  position: sticky;
+  top: 20px; /* Adjust as needed */
+  z-index: 1000; /* Adjust if necessary */
+  background-color: #fff; /* Set the background color */
+  border-radius: 10px; /* Adjust as needed */
+  border: 1px solid #000000; /* Add border for visual distinction */
+  padding: 15px; /* Add padding inside the box */
+}
+
+.content-box {
+  border: 1px solid #000000;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
 }
 
 /* Add more custom styles as needed */

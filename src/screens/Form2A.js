@@ -1,17 +1,9 @@
 import React, { useEffect, useState } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Form,
-  Button,
-  Alert,
-  Table,
-} from "react-bootstrap";
+import { Container,Row, Col,Form,Button, Alert, Table,} from "react-bootstrap";
 import { auth, db, storage } from "../firebase";
 import { doc, collection, getDoc, setDoc, updateDoc, addDoc } from "firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
 import { uploadBytes } from "@firebase/storage";
 
 function Form2A() {
@@ -30,19 +22,20 @@ function Form2A() {
   const [IActTotal, setIActTotal] = useState("");
   const [email, setEmail] = useState("");
   const [uploadedFile, setUploadedFile] = useState(null);
-  // const [documentAURL, setDocumentAURL] = useState([]);
   const [documentA1, setDocumentA1] = useState("");
   const [documentA2, setDocumentA2] = useState("");
   const [documentA3, setDocumentA3] = useState("");
   const [documentA4, setDocumentA4] = useState("");
   const [documentA5, setDocumentA5] = useState("");
   const [documentA6, setDocumentA6] = useState("");
-  const [documentA7, setDocumentA7] = useState("");
+  // const [documentA7, setDocumentA7] = useState("");
+  const [documentA7, setDocumentA7] = useState(null);
   const [documentA8, setDocumentA8] = useState("");
   const [check_d, setCheck_d] = useState([]);
   const [check_e, setCheck_e] = useState([]);
   const [check_f, setCheck_f] = useState([]);
   const [lecturesTaken, setLecturesTaken] = useState("");
+  const [selectedRadio, setSelectedRadio] = useState(null);
 
   const navigate = useNavigate();
 
@@ -66,15 +59,71 @@ function Form2A() {
   // Calculate marks initially
   const IActa = calculateMarks();
 
+  // const handleUpload = (e, documentIdentifier) => {
+  //   const file = e.target.files[0];
+  
+  //   // Your upload logic here...
+  
+  //   if (file) {
+  //     const storageRef = ref(storage, `documents/${file.name}`);
+  //     const uploadTask = uploadBytesResumable(storageRef, file);
+  
+  //     uploadTask.on(
+  //       "state_changed",
+  //       (snapshot) => {
+  //         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  //       },
+  //       (error) => {
+  //         console.log(error);
+  //       },
+  //       () => {
+  //         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+  //           console.log(url);           
+  //           switch (documentIdentifier) {
+  //             case 'documentA1':
+  //               setDocumentA1(url);
+  //               break;
+  //             case 'documentA2':
+  //               setDocumentA2(url);
+  //               break;
+  //             case 'documentA3':
+  //               setDocumentA3(url);
+  //               break;
+  //             case 'documentA4':
+  //               setDocumentA4(url);
+  //               break;
+  //             case 'documentA5':
+  //               setDocumentA5(url);
+  //               break;
+  //             case 'documentA6':
+  //               setDocumentA6(url);
+  //               break;
+  //             case 'documentA7':
+  //               setDocumentA7(url);
+  //               break;
+  //             case 'documentA8':
+  //               setDocumentA8(url);
+  //               break;
+
+
+  //             // Add cases for other document identifiers as needed
+  //             default: 
+
+  //               break;
+  //           }
+  //         });
+  //       }
+  //     );
+  //   }
+  // };
+
   const handleUpload = (e, documentIdentifier) => {
     const file = e.target.files[0];
-  
-    // Your upload logic here...
-  
+
     if (file) {
       const storageRef = ref(storage, `documents/${file.name}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
-  
+
       uploadTask.on(
         "state_changed",
         (snapshot) => {
@@ -86,45 +135,25 @@ function Form2A() {
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((url) => {
             console.log(url);
-            // Update the corresponding document state based on the identifier
-            switch (documentIdentifier) {
-              case 'documentA1':
-                setDocumentA1(url);
-                break;
-              case 'documentA2':
-                setDocumentA2(url);
-                break;
-              case 'documentA3':
-                setDocumentA3(url);
-                break;
-              case 'documentA4':
-                setDocumentA4(url);
-                break;
-              case 'documentA5':
-                setDocumentA5(url);
-                break;
-              case 'documentA6':
-                setDocumentA6(url);
-                break;
-              case 'documentA7':
-                setDocumentA7(url);
-                break;
-              case 'documentA8':
-                setDocumentA8(url);
-                break;
-
-
-              // Add cases for other document identifiers as needed
-              default: 
-
-                break;
-            }
+            setDocumentA7(url);
           });
         }
       );
     }
   };
 
+  const handleDelete = () => {
+    if (documentA7) {
+      const storageRef = ref(storage, `documents/documentA7`);
+      deleteObject(storageRef)
+        .then(() => {
+          setDocumentA7(null);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -154,117 +183,6 @@ function Form2A() {
     Total();
   }, [IActa, IActb, IActc, IActd, IActe, IActf]);
 
-  // const handleSave = async (e) => {
-  //   e.preventDefault();
-  //   const facultyRef = doc(db, "faculty", user.uid);
-  //   const docRef = doc(facultyRef, "partB", "CategoryA");
-  //   const data = {
-  //     IActa,
-  //     IActb,
-  //     IActc,
-  //     IActd,
-  //     IActe,
-  //     IActf,
-  //     IOddsem,
-  //     IEvensem,
-  //     IActTotal,
-  //     // documentAURL,
-  //     documentA1,
-  //     documentA2,
-  //     documentA3,
-  //     documentA4,
-  //     documentA5,
-  //     documentA6,
-  //     check_d,
-  //     check_e,
-  //     check_f
-  //   };
-
-  //   if (uploadedFile) {
-  //     const storageRef = ref(storage, `documents/${uploadedFile.name}`);
-  //     const uploadTask = uploadBytesResumable(storageRef, uploadedFile);
-
-  //     uploadTask.on(
-  //       "state_changed",
-  //       (snapshot) => {
-  //         const progress =
-  //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-  //       },
-  //       (error) => {
-  //         console.log(error);
-  //       },
-  //       () => {
-  //         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-  //           console.log(url);
-  //           setDocumentA1(url);
-  //           setDocumentA2(url);
-  //           setDocumentA3(url);
-  //           setDocumentA4(url);
-  //           setDocumentA5(url);
-  //           setDocumentA6(url);
-
-  //           // setDocumentAURL(url);
-  //           // setDocumentAURL([...documentAURL, url]);
-
-  //           data.documentURL = url;
-  //           setDoc(docRef, data);
-  //           // addDoc( collection(db, "partB"), data);
-  //             // .then(() => {
-  //             //   console.log("Document successfully written!");
-  //             //   navigate("/form2b");
-  //             // }
-  //             // )
-  //             // .catch((error) => {
-  //             //   console.error("Error writing document: ", error);
-  //             // });
-  //         });
-  //       }
-  //     );
-  //   }
-
-  //   if (IActa === "" || IActb === "" || IActc === "" || IActd === "" || IActe === "" || IActf === "" || IActTotal === "") {
-  //     alert("Please fill all the fields");
-  //     return;
-  //   } else if (IActa < 0 || IActb < 0 || IActc < 0 || IActd < 0 || IActe < 0 || IActf < 0 || IActTotal < 0) {
-  //     alert("Please enter valid numbers");
-  //     return;
-  //   } 
-  //   else if (check_d.length === 0 || check_e.length === 0 || check_f.length === 0) {
-  //     alert("Please select atleast one option in each category");
-  //     return;
-  //   }
-  //   else if (isNaN(IActTotal)) {
-  //     alert("Please enter valid numbers");
-  //     return;
-  //   } else if (documentA1 === "") {
-  //     alert("Please upload the document");
-  //     return;
-  //   } else if (documentA2 === "") {
-  //     alert("Please upload the document");
-  //     return;
-  //   }
-  //   else if (documentA3 === "") {
-  //     alert("Please upload the document");
-  //     return;
-  //   }
-  //   else if (documentA4 === "") {
-  //     alert("Please upload the document");
-  //     return;
-  //   }
-  //   else if (documentA5 === "") {
-  //     alert("Please upload the document");
-  //     return;
-  //   }
-  //   else if (documentA6 === "") {
-  //     alert("Please upload the document");
-  //     return;
-  //   }
-  //   else {
-  //   await setDoc(docRef, data);
-  //   }
-  //   // navigate('/form2');
-  // };
-  
   const handleSave = async (e) => {
     e.preventDefault();
     const facultyRef = doc(db, "faculty", user.uid);
@@ -320,9 +238,11 @@ function Form2A() {
   
     // Save data to Firestore
     await setDoc(docRef, data);
+    alert("Form saved");
+    console.log("Document saved");
   };
-  
 
+  
   const handleSubmit = async (e) => {
     {
       e.preventDefault();
@@ -377,11 +297,15 @@ function Form2A() {
         return;
       }
     
+    
       // Save data to Firestore
       await setDoc(docRef, data);
+      alert("Form saved");
     };
     navigate('/form2b');
   };
+
+  
    
 
   const fetchData = async (uid) => {
@@ -441,13 +365,6 @@ function Form2A() {
   }, [IOddsem]);
 
 
-
-  // useEffect(() => {
-  //   IOddsem.map((oddsem, index) => {
-  //     calculateoddpercentage(index);
-  //   });
-  // }, [IOddsem]);
-
   const handleAddIOddsem = () => {
     setIOddsem((prevIOddsem) => [
       ...prevIOddsem,
@@ -472,9 +389,7 @@ function Form2A() {
     setIEvensem(newIEvensem);
   };
 
-  // useEffect(() => {
-  //   calculateevenpercentage();
-  // }, [IEvensem]);
+
   
   useEffect(() => {
     IEvensem.map((evensem, index) => {
@@ -505,39 +420,47 @@ function Form2A() {
     <Container fluid >
       <Row>
       <Col md={2} className="form-navigation">
+      <div className="sticky-navigation">
     <h3>Form Navigation</h3>
     <ul>
       <li>
-        <Link to="/form1">Part A</Link>
+      <span className="form1-subsection">Part A</span>
+      <Link to="/form1" className="nav-link">General Information</Link>
       </li>
       <li>
         <span className="form2-subsection">Part B</span>
         <ul className="form2-subsection-list">
           <li>
-            <Link to="/form2a" className="form2-subsection-link">Category A</Link>
+            <Link to="/form2a" className="form2-subsection-link nav-link">Category l</Link>
           </li>
           <li>
-            <Link to="/form2b" className="form2-subsection-link">Category B</Link>
+            <Link to="/form2b" className="form2-subsection-link nav-link">Category ll</Link>
           </li>
           <li>
-            <Link to="/form2c" className="form2-subsection-link">Category C</Link>
+            <Link to="/form2c" className="form2-subsection-link nav-link">Category lll</Link>
           </li>
         </ul>
       </li>
       {/* Add more form links as needed */}
     </ul>
+    </div>  
   </Col>
         <Col md={9}>
-      <h1>Part B: Academic Performance Indicators</h1>
-      <h4 className="fw-lighter">Category I: Teaching, Learning and Evaluation related activities</h4>
-      <p>
-        *proof to be submitted for all claims and to be verified by HOD's in
-        presence of respective faculty
+      <h1 className="text-center">Part B: Academic Performance Indicators</h1>
+      <h4 style={{fontSize: 20}} className="text-center">Category I: Teaching, Learning and Evaluation related activities</h4>
+
+      <p className='text-center' >
+       NOTE: 1. Proof to be submitted for all claims and to be verified by HOD's in
+        presence of respective faculty.
+        <br />
+        2. Upload document for below activities. To change the document, upload new document again.
       </p>
+
       <Form onSubmit={handleSubmit}>
+      <div className="content-box">
         <Table striped bordered hover>
           <thead>
-            <tr>
+            <tr >
               <th></th>
               <th>Courses Taught Lecture / Practical code and name </th>
               <th>Class for which conducted</th>
@@ -548,14 +471,16 @@ function Form2A() {
           </thead>
 
           {IOddsem.map((oddsem, index) => (
-            <tbody key={index}>
-              <tr>
+            <tbody key={index} >
+              <tr >
                 <td>{index + 1}</td>
                 <td>
                   <Form.Control
                     type="text"
                     placeholder="Enter course"
+                    
                     value={oddsem.course}
+                    style={{ textAlign: "center" }}
                     onChange={(e) => {
                       const newIOddsem = [...IOddsem];
                       newIOddsem[index].course = e.target.value;
@@ -567,6 +492,7 @@ function Form2A() {
                   <Form.Control
                     type="text"
                     placeholder="Enter class"
+                    style={{ textAlign: "center" }}
                     value={oddsem.class}
                     onChange={(e) => {
                       const newIOddsem = [...IOddsem];
@@ -579,6 +505,7 @@ function Form2A() {
                   <Form.Control
                     type="text"
                     placeholder="Enter lectures"
+                    style={{ textAlign: "center" }}
                     value={oddsem.lectures}
                     onChange={(e) => {
                       const newIOddsem = [...IOddsem];
@@ -591,6 +518,7 @@ function Form2A() {
                   <Form.Control
                     type="text"
                     placeholder="Enter actual lectures"
+                    style={{ textAlign: "center" }}
                     value={oddsem.actualLectures}
                     onChange={(e) => {
                       const newIOddsem = [...IOddsem];
@@ -603,6 +531,7 @@ function Form2A() {
                   <Form.Control
                     type="text"
                     placeholder="Enter % of classes conducted"
+                    style={{ textAlign: "center" }}
                     value={oddsem.percentage}
                   />
                 </td>
@@ -620,11 +549,10 @@ function Form2A() {
           
         </Table>
        
-        <div className="text-center mb-3">
+        {/* <div className="text-center mb-3">
           <Row>
             <Col>
-            <Form.Group controlId="formFile" className="mb-3">
-            
+            <Form.Group controlId="formFile" className="mb-3">           
             {documentA7 && (
               <>
               <Form.Label>Doucment uploaded successfully</Form.Label>
@@ -637,12 +565,44 @@ function Form2A() {
             {!documentA7 && (
               <Form.Label>Upload supporting documents (pdf)</Form.Label>
             )}
-            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA7')} />
-            
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA7')} />           
           </Form.Group>
             </Col>
             </Row>
-          </div>
+          </div> */}
+
+<div className="text-center mb-3">
+      <Row>
+        <Col>
+          <Form.Group controlId="formFile" className="mb-3">
+            {documentA7 ? (
+              <>
+                <Form.Label>Document uploaded successfully</Form.Label>
+                <br />
+                <a href={documentA7} target="_blank" rel="noreferrer">
+                  View Document
+                </a>
+                <Button variant="danger" onClick={handleDelete} className="mx-2">
+                  Delete
+                </Button>
+              </>
+            ) : (
+              <>
+                <Form.Label>Upload supporting documents (pdf)</Form.Label>
+                <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA7')} />
+              </>
+            )}
+          </Form.Group>
+        </Col>
+      </Row>
+      {!documentA7 && (
+        <Row>
+          <Col>
+            <Button variant="secondary" disabled>View Document</Button>
+          </Col>
+        </Row>
+      )}
+    </div>
 
         <div className="text-center mb-3">
             <Row>
@@ -653,7 +613,9 @@ function Form2A() {
           </Col>
           </Row>
           </div>
+      </div>    
 
+      <div className="content-box">      
         <Table striped bordered hover>
           <thead>
             <tr>
@@ -673,6 +635,7 @@ function Form2A() {
                   <Form.Control
                     type="text"
                     placeholder="Enter course"
+                    style={{ textAlign: "center" }}
                     value={evensem.course}
                     onChange={(e) => {
                       const newIEvensem = [...IEvensem];
@@ -685,6 +648,7 @@ function Form2A() {
                   <Form.Control
                     type="text"
                     placeholder="Enter class"
+                    style={{ textAlign: "center" }}
                     value={evensem.class}
                     onChange={(e) => {
                       const newIEvensem = [...IEvensem];
@@ -697,6 +661,7 @@ function Form2A() {
                   <Form.Control
                     type="text"
                     placeholder="Enter lectures"
+                    style={{ textAlign: "center" }}
                     value={evensem.lectures}
                     onChange={(e) => {
                       const newIEvensem = [...IEvensem];
@@ -709,6 +674,7 @@ function Form2A() {
                   <Form.Control
                     type="text"
                     placeholder="Enter actual lectures"
+                    style={{ textAlign: "center" }}
                     value={evensem.actualLectures}
                     onChange={(e) => {
                       const newIEvensem = [...IEvensem];
@@ -721,6 +687,7 @@ function Form2A() {
                   <Form.Control
                     type="text"
                     placeholder="Enter % of classes conducted"
+                    style={{ textAlign: "center" }}
                     value={evensem.percentage}
                   />
                 </td>
@@ -771,6 +738,7 @@ function Form2A() {
           </Col>
           </Row>
           </div>
+      </div>
 
         <Table striped bordered hover>
           <thead>
@@ -793,14 +761,9 @@ function Form2A() {
                   undertaken taken as percentage of lectures allocated.
                 </Col>
                 <br/>
-                {/* <Col>• Total lectures conducted {">"} 90% score = 50</Col>
-                <Col>• 90% {">"} Lectures taken ≥ 80% = 40</Col>
-                <Col>• 80% {">"} Lectures taken ≥ 70% = 30</Col>
-                <Col>
-                • No score if number of lectures taken is less than 70%{" "}
-                </Col> */}
+                
 
-<Col>
+    <Col>
         <Form.Check
           type="radio"
           name="lectures"
@@ -846,7 +809,7 @@ function Form2A() {
               <Col>
         <Form.Control
           type="text"
-          
+          style={{ textAlign: "center" }}
           value={IActa}
           readOnly
         />
@@ -898,6 +861,7 @@ function Form2A() {
                   value={IActb}
                   onChange={(e) => setIActb(Math.min(Number(e.target.value), 5))}
                   max={5}
+                  style={{ textAlign: "center" }}
                 />
               </td>
               <td>
@@ -939,6 +903,7 @@ function Form2A() {
                   value={IActc}
                   onChange={(e) => setIActc(Math.min(Number(e.target.value), 5))}
                   max={5}
+                  style={{ textAlign: "center" }}
                 />
               </td>
               <td>
@@ -1085,6 +1050,7 @@ function Form2A() {
                   value={IActd}
                   onChange={(e) => setIActd(Math.min(Number(e.target.value), 40))}
                   max={40}
+                  style={{ textAlign: "center" }}
                 />
               </td>
               <td>
@@ -1218,6 +1184,7 @@ function Form2A() {
                   value={IActe}
                   onChange={(e) => setIActe(Math.min(Number(e.target.value), 25))}
                   max={25}
+                  style={{ textAlign: "center" }}
                 />
               </td>
               <td>
@@ -1299,8 +1266,11 @@ function Form2A() {
                   placeholder=""
                   value={IActf}
                   onChange={(e) => setIActf(Math.min(Number(e.target.value), 25))}
+                  min={0}
                   max={25}
+                  style={{ textAlign: "center" }}
                 />
+
               </td>
               <td>
               <Form.Group controlId="formFile" className="mb-3">
@@ -1328,56 +1298,20 @@ function Form2A() {
               <p className='text-center'>150</p>
               </td>
               <td>
-                <Form.Control type="text" placeholder="" value={IActTotal} />
+                <Form.Control type="text" 
+                readOnly
+                 value={IActTotal} 
+                 style={{ textAlign: "center" }}
+                 />
               </td>
             </tr>
           </tbody>
 
-          {/* <Row>
-            <Col>
-              <Button variant="primary" type="submit">
-                <Link to="/" className="btn btn-primary ms-2">
-                  Previous
-                </Link>
-              </Button>
-            </Col>
-            <Col>
-              <Button variant="primary" type="submit" onClick={handleSubmit}>
-                <Link to="/form2b" className="btn btn-primary ms-2">
-                  Next
-                </Link>
-              </Button>
-            </Col>
-          </Row> */}
-          {/* <Link to="/form2" className="btn btn-primary ms-2">Next</Link> */}
+          
         </Table>
       </Form>
-      {/* <div className="text-center mb-3">
-            <Row>
-              <Col>
-          <Form.Group controlId="formFile" className="mb-3">
-            
-            {documentAURL && (
-              <>
-              <Form.Label>Doucment uploaded successfully</Form.Label>
-              <br />
-              <a href={documentAURL} target="_blank" rel="noreferrer">
-                View Document
-              </a>
-              </>
-            )}
-            {!documentAURL && (
-              <Form.Label>Upload supporting documents (pdf)</Form.Label>
-            )}
-            <Form.Control type="file" onChange={handleUpload} />
-            
-          </Form.Group>
-          </Col>
-          </Row>
-          </div> */}
-          <p className='text-center'>
-        *Upload document for above activities. To change the document, upload new document again.
-      </p>
+      
+       
 
       <div className="text-center mb-4" >
         <Row>
@@ -1389,10 +1323,11 @@ function Form2A() {
             </Button>
           </Col>
           <Col>
-            <Button variant="primary" type="submit" onClick={handleSave}>
+            <Button variant="primary" type="submit" onClick={handleSave} >
               <Link className="text-decoration-none text-white">
                 Save
               </Link>
+              
             </Button>
           </Col>
           <Col>

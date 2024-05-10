@@ -137,31 +137,35 @@ function Form1() {
     <Container fluid>
       <Row>
       <Col md={2} className="form-navigation">
+      <div className="sticky-navigation">
     <h3>Form Navigation</h3>
     <ul>
+    
       <li>
-        <Link to="/form1">Part A</Link>
+        <span className="form1-subsection">Part A</span>
+        <Link to="/form1" className="nav-link">General Information</Link>
       </li>
       <li>
         <span className="form2-subsection">Part B</span>
         <ul className="form2-subsection-list">
           <li>
-            <Link to="/form2a" className="form2-subsection-link">Category A</Link>
+            <Link to="/form2a" className="form2-subsection-link nav-link">Category l</Link>
           </li>
           <li>
-            <Link to="/form2b" className="form2-subsection-link">Category B</Link>
+            <Link to="/form2b" className="form2-subsection-link nav-link">Category ll</Link>
           </li>
           <li>
-            <Link to="/form2c" className="form2-subsection-link">Category C</Link>
+            <Link to="/form2c" className="form2-subsection-link nav-link">Category lll</Link>
           </li>
         </ul>
       </li>
     </ul>
+  </div>
   </Col>
 
 
         <Col md={6}>
-          <h1>Part A: General Information</h1>
+          <h1 className="text-center" >Part A: General Information</h1>
           <Form onSubmit={handleSubmit}>
 
           <Form.Group className="mb-3" controlId="department">

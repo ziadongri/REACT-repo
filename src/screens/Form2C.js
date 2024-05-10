@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Container, Row, Col, Form, Button, Alert, Table } from 'react-bootstrap'
 import {auth, db, storage } from '../firebase'
 import {doc, collection, getDoc, setDoc, updateDoc} from 'firebase/firestore'
-import {Link, useNavigate} from 'react-router-dom'
+import {Link, useNavigate, useLocation} from 'react-router-dom'
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 
@@ -10,7 +10,7 @@ function Form2C(){
     const [user, setUser]= useState(null)
     const [loading, setLoading]= useState(true)
     const [error, setError]= useState(null)
-    const [facultyData, setFacultyData] = useState(null);
+    const [facultyData, setFacultyData] = useState({});
     const [ResearchPublication, setResearchPublication]= useState([])
     const [ ResearchArticle, setResearchArticle]= useState([])
     const [ ResearchProjectON, setResearchProjectON]= useState([])
@@ -36,12 +36,8 @@ function Form2C(){
     const [documentC10, setDocumentC10] = useState("");
   // const [documentCURL, setDocumentCURL] = useState("");
 
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
-    // const handleUpload = (e) => {
-    //   const file = e.target.files[0];
-    //   setUploadedFile(file);
-    // };
 
     const handleUpload = (e, documentIdentifier) => {
       const file = e.target.files[0];
@@ -148,34 +144,11 @@ useEffect(() => {
         documentC9,
         documentC10
       };
-      // if (uploadedFile) {
-      //   const storageRef = ref(storage, `documents/${uploadedFile.name}`);
-      //   const uploadTask = uploadBytesResumable(storageRef, uploadedFile);
-    
-      //   uploadTask.on(
-      //     "state_changed",
-      //     (snapshot) => {
-      //       const progress =
-      //         (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      //     },
-      //     (error) => {
-      //       console.log(error);
-      //     },
-      //     () => {
-      //       getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-      //         console.log(url);
-      //         setDocumentCURL(url);
-      //         data.documentCURL = url;
-      //         setDoc(docRef, data, { merge: true });
-      //       });
-      //     }
-      //   );
-      // }
+
       if (
         [
-          ResearchPublication, ResearchArticle, ResearchProjectON, ResearchProjectCOMP, ResearchNeedProject, ResearchGuidance, TrainingCourse,
-          PaperPresentConference, InvitedLecture, Award, IIISelfTotal
-        ].some(field => field === '' || (Array.isArray(field) && field.some(item => item === '')))
+          ResearchPublication, ResearchArticle, ResearchProjectON, ResearchProjectCOMP, ResearchNeedProject, ResearchGuidance, TrainingCourse, PaperPresentConference, InvitedLecture, Award, IIISelfTotal
+        ].some(field => field === 0 || (Array.isArray(field) && field.some(item => item === '')))
       ) {
         alert('Please fill in all the fields!');
         return;
@@ -188,7 +161,8 @@ useEffect(() => {
         alert('Please fill in numeric values only!');
       }
 
-      else if (ResearchPublication.some((item) => item.title === '' || item.sci==='' || item.wos==='' || item.esci ==='' || item.scopus==='' || item.ugccare ==='' || item.isbnissn ==='' || item.proceedings ==='' || item.guidementor ==='' || item.selfscore === '')) {
+      else if (ResearchPublication.some((item) => item.title === '' || 
+      item.journal==='' || item.volume==='' || item.page==='' || item.isbn==='' || item.sci==='' || item.wos==='' || item.esci ==='' || item.scopus==='' || item.ugccare ==='' || item.isbnissn ==='' || item.proceedings ==='' || item.guidementor ==='' || item.selfscore === '')) {
         alert('Please fill all the fields in the research publication!');
         return;
       } else if (ResearchPublication.some((item) => item.selfscore < 0)) {
@@ -196,7 +170,8 @@ useEffect(() => {
         return;
       }
 
-        else if (ResearchArticle.some((item) => item.title === '' || item.booktitle === '' || item.isbn === '' || item.peerreview === '' || item.coauthor === '' || item.selfscore === '')) {
+        else if (ResearchArticle.some((item) => item.title === '' || item.booktitle === '' || item.editor=== '' || item.publisher=== '' || item.isbn === '' || item.peerreview === '' || item.coauthor === '' || 
+        item.mainauthor=== ''|| item.selfscore === '')) {
         alert('Please fill all the fields in the research article!');
         return;
       } else if (ResearchArticle.some((item) => item.selfscore < 0)) {
@@ -204,7 +179,7 @@ useEffect(() => {
         return;
       }
 
-      else if (ResearchProjectON.some((item) => item.title === '' || item.agency === '' || item.period === '' || item.amount === '' || item.selfscore === '')) {
+      else if (ResearchProjectON.some((item) => item.title === '' || item.agency === '' || item.periodfrom === '' || item.periodto=== '' || item.amount === '' || item.selfscore === '')) {
         alert('Please fill all the fields in the research project!');
         return;
       } else if (ResearchProjectON.some((item) => item.selfscore < 0)) {
@@ -212,7 +187,7 @@ useEffect(() => {
         return;
       }
        
-      else  if (ResearchProjectCOMP.some((item) => item.title === '' || item.agency === '' || item.period === '' || item.amount === '' || item.selfscore === '')) {
+      else  if (ResearchProjectCOMP.some((item) => item.title === '' || item.agency === '' || item.periodfrom === '' || item.periodto=== '' || item.amount === '' || item.selfscore === '')) {
         alert('Please fill all the fields in the research project!');
         return;
       } else if (ResearchProjectCOMP.some((item) => item.selfscore < 0)) {
@@ -220,7 +195,7 @@ useEffect(() => {
         return;
       }
        
-      else  if (ResearchNeedProject.some((item) => item.title === '' || item.agency === '' || item.period === '' || item.amount === '' || item.selfscore === '')) {
+      else  if (ResearchNeedProject.some((item) => item.title === '' || item.agency === '' || item.periodfrom === '' || item.periodto=== '' || item.amount === '' || item.selfscore === '')) {
         alert('Please fill all the fields in the research project!');
         return;
       }
@@ -229,7 +204,7 @@ useEffect(() => {
         return;
       }
   
-      else if (TrainingCourse.some((item) => item.programme === '' || item.duration === '' || item.organizedby === '' || item.selfscore === '')) {
+      else if (TrainingCourse.some((item) => item.programme === '' || item.durationfrom === '' || item.durationto=== '' || item.organizedby === '' || item.selfscore === '')) {
         alert('Please fill all the fields in the training course!');
         return;
       }
@@ -264,309 +239,215 @@ useEffect(() => {
         alert('Please fill all the fields with positive values only!');
         return;
       }
-      // else if (!documentC1 || !documentC2 || !documentC3 || !documentC4 || !documentC5 || !documentC6 || !documentC7 || !documentC8 || !documentC9 || !documentC10) {
-      //   alert("Please upload all the required documents");
-      //   return;
-      // }
       
       await setDoc(docRef, data);
-      
-      // navigate('/form2');
     };
 
+    // const handleSubmit = async (e) => {
+    //   e.preventDefault();
+    //   const facultyRef = doc(db, "faculty", user.uid);
+    //   const docRef = doc(facultyRef, "partB", "CategoryC");
+    //   const data = {
+    //     ResearchPublication,
+    //     ResearchArticle,
+    //     ResearchProjectON,
+    //     ResearchProjectCOMP,
+    //     ResearchNeedProject,
+    //     ResearchGuidance,
+    //     TrainingCourse,
+    //     PaperPresentConference,
+    //     InvitedLecture,
+    //     Award,
+    //     IIISelfTotal,
+    //     documentC1,
+    //     documentC2,
+    //     documentC3,
+    //     documentC4,
+    //     documentC5,
+    //     documentC6,
+    //     documentC7,
+    //     documentC8,
+    //     documentC9,
+    //     documentC10
+    //   };
+
+    //   if (
+    //     [
+    //       ResearchPublication, ResearchArticle, ResearchProjectON, ResearchProjectCOMP, ResearchNeedProject, ResearchGuidance, TrainingCourse,
+    //       PaperPresentConference, InvitedLecture, Award, IIISelfTotal
+    //     ].some(field => field === '' || (Array.isArray(field) && field.some(item => item === '')))
+    //   ) {
+    //     alert('Please fill in all the fields!');
+    //     return;
+    //   }
+    //   else if (ResearchPublication < 0 || ResearchArticle < 0 || ResearchProjectON < 0 || ResearchProjectCOMP < 0 || ResearchNeedProject < 0 || ResearchGuidance < 0 || TrainingCourse < 0 || PaperPresentConference < 0 || InvitedLecture < 0 || Award < 0 || IIISelfTotal < 0) {
+    //     alert('Please fill in all the fields with positive values only!');
+    //     return;
+    //   } 
+    //   else if (isNaN(IIISelfTotal)) {
+    //     alert('Please fill in numeric values only!');
+    //   }
+
+    //   else if (ResearchPublication.some((item) => item.title === '' || 
+    //   item.journal==='' || item.volume===''|| item.page==='' || item.isbn==='' || item.sci==='' || item.wos==='' || item.esci ==='' || item.scopus==='' || item.ugccare ==='' || item.isbnissn ==='' || item.proceedings ==='' || item.guidementor ==='' || item.selfscore === '')) {
+    //     alert('Please fill all the fields in the research publication!');
+    //     return;
+    //   } else if (ResearchPublication.some((item) => item.selfscore < 0)) {
+    //     alert('Please fill all the fields with positive values only!');
+    //     return;
+    //   }
+
+    //     else if (ResearchArticle.some((item) => item.title === '' || item.booktitle === '' || item.editor=== '' || item.publisher=== '' || item.isbn === '' || item.peerreview === '' || item.coauthor === '' || 
+    //     item.mainauthor=== ''|| item.selfscore === '')) {
+    //     alert('Please fill all the fields in the research article!');
+    //     return;
+    //   } else if (ResearchArticle.some((item) => item.selfscore < 0)) {
+    //     alert('Please fill all the fields with positive values only!');
+    //     return;
+    //   }
+
+    //   else if (ResearchProjectON.some((item) => item.title === '' || item.agency === '' || item.periodfrom === '' || item.periodto=== '' || item.amount === '' || item.selfscore === '')) {
+    //     alert('Please fill all the fields in the research project!');
+    //     return;
+    //   } else if (ResearchProjectON.some((item) => item.selfscore < 0)) {
+    //     alert('Please fill all the fields with positive values only!');
+    //     return;
+    //   }
+       
+    //   else  if (ResearchProjectCOMP.some((item) => item.title === '' || item.agency === '' || item.periodfrom === '' || item.periodto=== '' || item.amount === '' || item.selfscore === '')) {
+    //     alert('Please fill all the fields in the research project!');
+    //     return;
+    //   } else if (ResearchProjectCOMP.some((item) => item.selfscore < 0)) {
+    //     alert('Please fill all the fields with positive values only!');
+    //     return;
+    //   }
+       
+    //   else  if (ResearchNeedProject.some((item) => item.title === '' || item.agency === '' || item.periodfrom === '' || item.periodto=== '' || item.amount === '' || item.selfscore === '')) {
+    //     alert('Please fill all the fields in the research project!');
+    //     return;
+    //   }
+    //   else if (ResearchNeedProject.some((item) => item.selfscore < 0)) {
+    //     alert('Please fill all the fields with positive values only!');
+    //     return;
+    //   }
+  
+    //   else if (TrainingCourse.some((item) => item.programme === '' || item.durationfrom === '' || item.durationto=== '' || item.organizedby === '' || item.selfscore === '')) {
+    //     alert('Please fill all the fields in the training course!');
+    //     return;
+    //   }
+    //   else if (TrainingCourse.some((item) => item.selfscore < 0)) {
+    //     alert('Please fill all the fields with positive values only!');
+    //     return;
+    //   }
+  
+    //   else if (PaperPresentConference.some((item) => item.titlepaper === '' || item.titleseminar === '' || item.organisedby === '' || item.level === '' || item.selfscore === '')) {
+    //     alert('Please fill all the fields in the paper presented in conference!');
+    //     return;
+    //   }
+    //   else if (PaperPresentConference.some((item) => item.selfscore < 0)) {
+    //     alert('Please fill all the fields with positive values only!');
+    //     return;
+    //   }
+  
+    //   else if (InvitedLecture.some((item) => item.titlelecture === '' || item.titleconference === '' || item.organisedby === '' || item.level === '' || item.selfscore === '')) {
+    //     alert('Please fill all the fields in the invited lecture!');
+    //     return;
+    //   }
+    //   else if (InvitedLecture.some((item) => item.selfscore < 0)) {
+    //     alert('Please fill all the fields with positive values only!');
+    //     return;
+    //   }
+  
+    //   else if (Award.some((item) => item.award === '' || item.agencyinvolved === '' || item.level === '' || item.discipline === '' || item.selfscore === '')) {
+    //     alert('Please fill all the fields in the award!');
+    //     return;
+    //   }
+    //   else if (Award.some((item) => item.selfscore < 0)) {
+    //     alert('Please fill all the fields with positive values only!');
+    //     return;
+    //   }
+    //   else if (isNaN(IIISelfTotal)) {
+    //     alert('Please fill in numeric values only!');
+    //     return;
+    //   }
+      
+    //   await setDoc(docRef, data);
+    //    navigate('/formsubmission');
+    // };
+
     const handleSubmit = async (e) => {
-      // e.preventDefault();
-      // const facultyRef = doc(db, "faculty", user.uid);
-      // const docRef = doc(facultyRef, "partB", "CategoryC");
-      // const data = {
-      //   ResearchPublication,
-      //   ResearchArticle,
-      //   ResearchProjectON,
-      //   ResearchProjectCOMP,
-      //   ResearchNeedProject,
-      //   ResearchGuidance,
-      //   TrainingCourse,
-      //   PaperPresentConference,
-      //   InvitedLecture,
-      //   Award,
-      //   IIISelfTotal,
-      //   documentC1,
-      //   documentC2,
-      //   documentC3,
-      //   documentC4,
-      //   documentC5,
-      //   documentC6,
-      //   documentC7,
-      //   documentC8,
-      //   documentC9,
-      //   documentC10
-      // };
-      
-      // if (
-      //   [
-      //     ResearchPublication, ResearchArticle, ResearchProjectON, ResearchProjectCOMP, ResearchNeedProject, ResearchGuidance, TrainingCourse,
-      //     PaperPresentConference, InvitedLecture, Award, IIISelfTotal
-      //   ].some(field => field === '' || (Array.isArray(field) && field.some(item => item === '')))
-      // ) {
-      //   alert('Please fill in all the fields!');
-      //   return;
-      // }
-      // else if (ResearchPublication < 0 || ResearchArticle < 0 || ResearchProjectON < 0 || ResearchProjectCOMP < 0 || ResearchNeedProject < 0 || ResearchGuidance < 0 || TrainingCourse < 0 || PaperPresentConference < 0 || InvitedLecture < 0 || Award < 0 || IIISelfTotal < 0) {
-      //   alert('Please fill in all the fields with positive values only!');
-      //   return;
-      // } 
-      // else if (isNaN(IIISelfTotal)) {
-      //   alert('Please fill in numeric values only!');
-      // }
-
-      // else if (ResearchPublication.some((item) => item.title === '' || item.sci==='' || item.wos==='' || item.esci ==='' || item.scopus==='' || item.ugccare ==='' || item.isbnissn ==='' || item.proceedings ==='' || item.guidementor ==='' || item.selfscore === '')) {
-      //   alert('Please fill all the fields in the research publication!');
-      //   return;
-      // } else if (ResearchPublication.some((item) => item.selfscore < 0)) {
-      //   alert('Please fill all the fields with positive values only!');
-      //   return;
-      // }
-
-      //   else if (ResearchArticle.some((item) => item.title === '' || item.booktitle === '' || item.isbn === '' || item.peerreview === '' || item.coauthor === '' || item.selfscore === '')) {
-      //   alert('Please fill all the fields in the research article!');
-      //   return;
-      // } else if (ResearchArticle.some((item) => item.selfscore < 0)) {
-      //   alert('Please fill all the fields with positive values only!');
-      //   return;
-      // }
-
-      // else if (ResearchProjectON.some((item) => item.title === '' || item.agency === '' || item.period === '' || item.amount === '' || item.selfscore === '')) {
-      //   alert('Please fill all the fields in the research project!');
-      //   return;
-      // } else if (ResearchProjectON.some((item) => item.selfscore < 0)) {
-      //   alert('Please fill all the fields with positive values only!');
-      //   return;
-      // }
-       
-      // else  if (ResearchProjectCOMP.some((item) => item.title === '' || item.agency === '' || item.period === '' || item.amount === '' || item.selfscore === '')) {
-      //   alert('Please fill all the fields in the research project!');
-      //   return;
-      // } else if (ResearchProjectCOMP.some((item) => item.selfscore < 0)) {
-      //   alert('Please fill all the fields with positive values only!');
-      //   return;
-      // }
-       
-      // else  if (ResearchNeedProject.some((item) => item.title === '' || item.agency === '' || item.period === '' || item.amount === '' || item.selfscore === '')) {
-      //   alert('Please fill all the fields in the research project!');
-      //   return;
-      // }
-      // else if (ResearchNeedProject.some((item) => item.selfscore < 0)) {
-      //   alert('Please fill all the fields with positive values only!');
-      //   return;
-      // }
-  
-      // else if (TrainingCourse.some((item) => item.programme === '' || item.duration === '' || item.organizedby === '' || item.selfscore === '')) {
-      //   alert('Please fill all the fields in the training course!');
-      //   return;
-      // }
-      // else if (TrainingCourse.some((item) => item.selfscore < 0)) {
-      //   alert('Please fill all the fields with positive values only!');
-      //   return;
-      // }
-  
-      // else if (PaperPresentConference.some((item) => item.titlepaper === '' || item.titleseminar === '' || item.organisedby === '' || item.level === '' || item.selfscore === '')) {
-      //   alert('Please fill all the fields in the paper presented in conference!');
-      //   return;
-      // }
-      // else if (PaperPresentConference.some((item) => item.selfscore < 0)) {
-      //   alert('Please fill all the fields with positive values only!');
-      //   return;
-      // }
-  
-      // else if (InvitedLecture.some((item) => item.titlelecture === '' || item.titleconference === '' || item.organisedby === '' || item.level === '' || item.selfscore === '')) {
-      //   alert('Please fill all the fields in the invited lecture!');
-      //   return;
-      // }
-      // else if (InvitedLecture.some((item) => item.selfscore < 0)) {
-      //   alert('Please fill all the fields with positive values only!');
-      //   return;
-      // }
-  
-      // else if (Award.some((item) => item.award === '' || item.agencyinvolved === '' || item.level === '' || item.discipline === '' || item.selfscore === '')) {
-      //   alert('Please fill all the fields in the award!');
-      //   return;
-      // }
-      // else if (Award.some((item) => item.selfscore < 0)) {
-      //   alert('Please fill all the fields with positive values only!');
-      //   return;
-      // }
-      
-      // await setDoc(docRef, data);
       e.preventDefault();
+  
+      // Define docRef and data variables
       const facultyRef = doc(db, "faculty", user.uid);
       const docRef = doc(facultyRef, "partB", "CategoryC");
       const data = {
-        ResearchPublication,
-        ResearchArticle,
-        ResearchProjectON,
-        ResearchProjectCOMP,
-        ResearchNeedProject,
-        ResearchGuidance,
-        TrainingCourse,
-        PaperPresentConference,
-        InvitedLecture,
-        Award,
-        IIISelfTotal,
-        documentC1,
-        documentC2,
-        documentC3,
-        documentC4,
-        documentC5,
-        documentC6,
-        documentC7,
-        documentC8,
-        documentC9,
-        documentC10
+          ResearchPublication,
+          ResearchArticle,
+          ResearchProjectON,
+          ResearchProjectCOMP,
+          ResearchNeedProject,
+          ResearchGuidance,
+          TrainingCourse,
+          PaperPresentConference,
+          InvitedLecture,
+          Award,
+          IIISelfTotal,
+          documentC1,
+          documentC2,
+          documentC3,
+          documentC4,
+          documentC5,
+          documentC6,
+          documentC7,
+          documentC8,
+          documentC9,
+          documentC10
       };
-      // if (uploadedFile) {
-      //   const storageRef = ref(storage, `documents/${uploadedFile.name}`);
-      //   const uploadTask = uploadBytesResumable(storageRef, uploadedFile);
-    
-      //   uploadTask.on(
-      //     "state_changed",
-      //     (snapshot) => {
-      //       const progress =
-      //         (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      //     },
-      //     (error) => {
-      //       console.log(error);
-      //     },
-      //     () => {
-      //       getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-      //         console.log(url);
-      //         setDocumentCURL(url);
-      //         data.documentCURL = url;
-      //         setDoc(docRef, data, { merge: true });
-      //       });
-      //     }
-      //   );
-      // }
-      // if (
-      //   [
-      //     ResearchPublication, ResearchArticle, ResearchProjectON, ResearchProjectCOMP, ResearchNeedProject, ResearchGuidance, TrainingCourse,
-      //     PaperPresentConference, InvitedLecture, Award, IIISelfTotal
-      //   ].some(field => field === '' || (Array.isArray(field) && field.some(item => item === '')))
-      // ) {
-      //   alert('Please fill in all the fields!');
-      //   return;
-      // }
-      // else if (ResearchPublication < 0 || ResearchArticle < 0 || ResearchProjectON < 0 || ResearchProjectCOMP < 0 || ResearchNeedProject < 0 || ResearchGuidance < 0 || TrainingCourse < 0 || PaperPresentConference < 0 || InvitedLecture < 0 || Award < 0 || IIISelfTotal < 0) {
-      //   alert('Please fill in all the fields with positive values only!');
-      //   return;
-      // } 
-      // else if (isNaN(IIISelfTotal)) {
-      //   alert('Please fill in numeric values only!');
-      // }
-
-      // else if (ResearchPublication.some((item) => item.title === '' || item.sci==='' || item.wos==='' || item.esci ==='' || item.scopus==='' || item.ugccare ==='' || item.isbnissn ==='' || item.proceedings ==='' || item.guidementor ==='' || item.selfscore === '')) {
-      //   alert('Please fill all the fields in the research publication!');
-      //   return;
-      // } else if (ResearchPublication.some((item) => item.selfscore < 0)) {
-      //   alert('Please fill all the fields with positive values only!');
-      //   return;
-      // }
-
-      //   else if (ResearchArticle.some((item) => item.title === '' || item.booktitle === '' || item.isbn === '' || item.peerreview === '' || item.coauthor === '' || item.selfscore === '')) {
-      //   alert('Please fill all the fields in the research article!');
-      //   return;
-      // } else if (ResearchArticle.some((item) => item.selfscore < 0)) {
-      //   alert('Please fill all the fields with positive values only!');
-      //   return;
-      // }
-
-      // else if (ResearchProjectON.some((item) => item.title === '' || item.agency === '' || item.period === '' || item.amount === '' || item.selfscore === '')) {
-      //   alert('Please fill all the fields in the research project!');
-      //   return;
-      // } else if (ResearchProjectON.some((item) => item.selfscore < 0)) {
-      //   alert('Please fill all the fields with positive values only!');
-      //   return;
-      // }
-       
-      // else  if (ResearchProjectCOMP.some((item) => item.title === '' || item.agency === '' || item.period === '' || item.amount === '' || item.selfscore === '')) {
-      //   alert('Please fill all the fields in the research project!');
-      //   return;
-      // } else if (ResearchProjectCOMP.some((item) => item.selfscore < 0)) {
-      //   alert('Please fill all the fields with positive values only!');
-      //   return;
-      // }
-       
-      // else  if (ResearchNeedProject.some((item) => item.title === '' || item.agency === '' || item.period === '' || item.amount === '' || item.selfscore === '')) {
-      //   alert('Please fill all the fields in the research project!');
-      //   return;
-      // }
-      // else if (ResearchNeedProject.some((item) => item.selfscore < 0)) {
-      //   alert('Please fill all the fields with positive values only!');
-      //   return;
-      // }
   
-      // else if (TrainingCourse.some((item) => item.programme === '' || item.duration === '' || item.organizedby === '' || item.selfscore === '')) {
-      //   alert('Please fill all the fields in the training course!');
-      //   return;
-      // }
-      // else if (TrainingCourse.some((item) => item.selfscore < 0)) {
-      //   alert('Please fill all the fields with positive values only!');
-      //   return;
-      // }
+      // Check if any required array field is empty
+      const requiredArrays = [
+          { name: 'ResearchPublication', data: ResearchPublication },
+          { name: 'ResearchArticle', data: ResearchArticle },
+          { name: 'ResearchProjectON', data: ResearchProjectON },
+          { name: 'ResearchProjectCOMP', data: ResearchProjectCOMP },
+          { name: 'ResearchNeedProject', data: ResearchNeedProject },
+          { name: 'ResearchGuidance', data: ResearchGuidance },
+          { name: 'TrainingCourse', data: TrainingCourse },
+          { name: 'PaperPresentConference', data: PaperPresentConference },
+          { name: 'InvitedLecture', data: InvitedLecture },
+          { name: 'Award', data: Award }
+      ];
   
-      // else if (PaperPresentConference.some((item) => item.titlepaper === '' || item.titleseminar === '' || item.organisedby === '' || item.level === '' || item.selfscore === '')) {
-      //   alert('Please fill all the fields in the paper presented in conference!');
-      //   return;
-      // }
-      // else if (PaperPresentConference.some((item) => item.selfscore < 0)) {
-      //   alert('Please fill all the fields with positive values only!');
-      //   return;
-      // }
+      for (const requiredArray of requiredArrays) {
+          if (requiredArray.data.length === 0 || requiredArray.data.some(item => Object.values(item).some(value => value === ''))) {
+              alert(`Please fill all the fields in the ${requiredArray.name} section!`);
+              return;
+          }
+      }
   
-      // else if (InvitedLecture.some((item) => item.titlelecture === '' || item.titleconference === '' || item.organisedby === '' || item.level === '' || item.selfscore === '')) {
-      //   alert('Please fill all the fields in the invited lecture!');
-      //   return;
-      // }
-      // else if (InvitedLecture.some((item) => item.selfscore < 0)) {
-      //   alert('Please fill all the fields with positive values only!');
-      //   return;
-      // }
-  
-      // else if (Award.some((item) => item.award === '' || item.agencyinvolved === '' || item.level === '' || item.discipline === '' || item.selfscore === '')) {
-      //   alert('Please fill all the fields in the award!');
-      //   return;
-      // }
-      // else if (Award.some((item) => item.selfscore < 0)) {
-      //   alert('Please fill all the fields with positive values only!');
-      //   return;
-      // }
-
-      if (
-        [
-          ResearchPublication, ResearchArticle, ResearchProjectON, ResearchProjectCOMP, ResearchNeedProject, ResearchGuidance, TrainingCourse,
-          PaperPresentConference, InvitedLecture, Award, IIISelfTotal
-        ].some(field => field === '' || (Array.isArray(field) && field.some(item => item === '')))
+      // Additional validation checks
+      if (ResearchPublication.some(item => item.selfscore < 0) ||
+          ResearchArticle.some(item => item.selfscore < 0) ||
+          ResearchProjectON.some(item => item.selfscore < 0) ||
+          ResearchProjectCOMP.some(item => item.selfscore < 0) ||
+          ResearchNeedProject.some(item => item.selfscore < 0) ||
+          TrainingCourse.some(item => item.selfscore < 0) ||
+          PaperPresentConference.some(item => item.selfscore < 0) ||
+          InvitedLecture.some(item => item.selfscore < 0) ||
+          Award.some(item => item.selfscore < 0) ||
+          IIISelfTotal < 0 ||
+          isNaN(IIISelfTotal)
       ) {
-        alert('Please fill in all the fields!');
-        return;
+          alert('Please fill all the numeric fields with positive values only!');
+          return;
       }
-      else if (ResearchPublication < 0 || ResearchArticle < 0 || ResearchProjectON < 0 || ResearchProjectCOMP < 0 || ResearchNeedProject < 0 || ResearchGuidance < 0 || TrainingCourse < 0 || PaperPresentConference < 0 || InvitedLecture < 0 || Award < 0 || IIISelfTotal < 0) {
-        alert('Please fill in all the fields with positive values only!');
-        return;
-      } 
-      else if (isNaN(IIISelfTotal)) {
-        alert('Please fill in numeric values only!');
-        return;
-      }
-
-      // else if (!documentC1 || !documentC2 || !documentC3 || !documentC4 || !documentC5 || !documentC6 || !documentC7 || !documentC8 || !documentC9 || !documentC10) {
-      //   alert("Please upload all the required documents");
-      //   return;
-      // }
-      
-      await setDoc(docRef, data);
-       navigate('/formsubmission');
-    };
-
+  else {await setDoc(docRef, data);
+      navigate('/formsubmission');
+    }  
+  };
+  
+  
 
     const fetchData = async (uid) => {
       const facultyRef = doc(db, "faculty", uid);
@@ -620,8 +501,7 @@ useEffect(() => {
     }
     
     useEffect(() => {
-      Total()
-    }, [ResearchPublication, ResearchArticle, ResearchProjectON, ResearchProjectCOMP,  ResearchNeedProject, ResearchGuidance, TrainingCourse, PaperPresentConference, InvitedLecture, Award])
+      Total()}, [ResearchPublication, ResearchArticle, ResearchProjectON, ResearchProjectCOMP,  ResearchNeedProject, ResearchGuidance, TrainingCourse, PaperPresentConference, InvitedLecture, Award])
 
     useEffect(() => {
       if (user) {
@@ -630,17 +510,17 @@ useEffect(() => {
     }, [user]);
 
     const handleAddResearchPublication = () => {
-      if (ResearchPublication.some((item) => item.title === '' || item.sci==='' || item.wos==='' || item.esci ==='' || item.scopus==='' || item.ugccare ==='' || item.isbnissn ==='' || item.proceedings ==='' || item.guidementor ==='' || item.selfscore === '')) {
+      if (ResearchPublication.some((item) => item.title === '' || item.journal==='' || item.volume===''|| item.page==='' || item.isbn==='' || item.sci==='' || item.wos==='' || item.esci ==='' || item.scopus==='' || item.ugccare ==='' || item.isbnissn ==='' || item.proceedings ==='' || item.guidementor ==='' || item.selfscore === '')) {
         alert('Please fill all the fields in the research publication!');
-        return;
-      } else if (ResearchPublication.some((item) => item.selfscore < 0)) {
-        alert('Please fill all the fields with positive values only!');
-        return;
-      }
+        return;     } 
+        // else if (ResearchPublication.some((item) => item.selfscore < 0)) {
+        // alert('Please fill all the fields with positive values only!');
+        // return;
+      // }
       else {
       setResearchPublication((prevResearchPublication) => [
         ...prevResearchPublication,
-        { sci: '', wos: '', esci: '', scopus: '', ugccare: '', isbnissn: '', proceedings: '', guidementor: '', selfscore: '' },
+        { title:'', journal:'', volume:'', page:'', isbn:'', sci: '', wos: '', esci: '', scopus: '', ugccare: '', isbnissn: '', proceedings: '', guidementor: '', selfscore: '' },
       ]);}
     };
 
@@ -652,17 +532,18 @@ useEffect(() => {
 
 
     const handleAddResearchArticle = () => {
-      if (ResearchArticle.some((item) => item.title === '' || item.booktitle === '' || item.isbn === '' || item.peerreview === '' || item.coauthor === '' || item.mainauthor==='' || item.selfscore === '')) {
+      if (ResearchArticle.some((item) => item.title === '' || item.booktitle === '' || item.editor=== '' || item.publisher=== '' || item.isbn === '' || item.peerreview === '' || item.coauthor === '' || item.mainauthor==='' || item.selfscore === '')) {
         alert('Please fill all the fields in the research article!');
         return;
-      } else if (ResearchArticle.some((item) => item.selfscore < 0)) {
-        alert('Please fill all the fields with positive values only!');
-        return;
-      }
+      } 
+      // else if (ResearchArticle.some((item) => item.selfscore < 0)) {
+      //   alert('Please fill all the fields with positive values only!');
+      //   return;
+      // }
       else {
       setResearchArticle((prevResearchArticle) => [
         ...prevResearchArticle,
-        { title: '', booktitle: '', isbn: '', peerreview: '', coauthor: '', mainauthor: '', selfscore: '' },
+        { title: '', booktitle: '', editor:'', publisher:'', isbn: '', peerreview: '', coauthor: '', mainauthor: '', selfscore: '' },
       ]);
     }
     };
@@ -674,19 +555,17 @@ useEffect(() => {
     };
 
     const handleAddResearchProjectON = () => {
-      if (ResearchProjectON.some((item) => item.title === '' || item.agency === '' || item.period === '' || item.amount === '' || item.selfscore === '')) {
+      if (ResearchProjectON.some((item) => item.title === '' || item.agency === '' || item.periodfrom === '' || item.periodto=== '' || item.amount === '' || item.selfscore === '')) {
         alert('Please fill all the fields in the research project!');
-        return;
-      } else if (ResearchProjectON.some((item) => item.selfscore < 0)) {
-        alert('Please fill all the fields with positive values only!');
-        return;
-      }
+        return;      } 
+      //   else if (ResearchProjectON.some((item) => item.selfscore < 0)) {
+      //   alert('Please fill all the fields with positive values only!');
+      //   return;
+      // }
       else {
-
       setResearchProjectON((prevResearchProjectON) => [
-
         ...prevResearchProjectON,
-        { title: '', agency: '', period: '', amount:'', selfscore: '' , ResearchProjectONHOD:'' },
+        { title: '', agency: '', periodfrom: '', periodto:'', amount:'', selfscore: '' , ResearchProjectONHOD:'' },
       ]);
     }
     }
@@ -698,17 +577,17 @@ useEffect(() => {
     }
 
     const handleAddResearchProjectCOMP = () => {
-      if (ResearchProjectCOMP.some((item) => item.title === '' || item.agency === '' || item.period === '' || item.amount === '' || item.selfscore === '')) {
+      if (ResearchProjectCOMP.some((item) => item.title === '' || item.agency === '' || item.periodfrom === '' || item.periodto=== ''|| item.amount === '' || item.selfscore === '')) {
         alert('Please fill all the fields in the research project!');
-        return;
-      } else if (ResearchProjectCOMP.some((item) => item.selfscore < 0)) {
-        alert('Please fill all the fields with positive values only!');
-        return;
-      }
+        return;      } 
+      //   else if (ResearchProjectCOMP.some((item) => item.selfscore < 0)) {
+      //   alert('Please fill all the fields with positive values only!');
+      //   return;
+      // }
       else {
       setResearchProjectCOMP((prevResearchProjectCOMP) => [
         ...prevResearchProjectCOMP,
-        { title: '', agency: '', period: '', amount: '', selfscore: '' },
+        { title: '', agency: '', periodfrom: '', periodto:'', amount: '', selfscore: '' },
       ]);
     }
     }
@@ -720,19 +599,18 @@ useEffect(() => {
     }
 
     const handleAddResearchNeedProject = () => {
-      if (ResearchNeedProject.some((item) => item.title === '' || item.agency === '' || item.period === '' || item.amount === '' || item.selfscore === '')) {
+      if (ResearchNeedProject.some((item) => item.title === '' || item.agency === '' || item.periodfrom === '' || item.periodto=== '' || item.amount === '' || item.selfscore === '')) {
         alert('Please fill all the fields in the research project!');
-        return;
-      }
-      else if (ResearchNeedProject.some((item) => item.selfscore < 0)) {
-        alert('Please fill all the fields with positive values only!');
-        return;
-      }
+        return;      }
+      // else if (ResearchNeedProject.some((item) => item.selfscore < 0)) {
+      //   alert('Please fill all the fields with positive values only!');
+      //   return;
+      // }
       else {
 
       setResearchNeedProject((prevResearchNeedProject) => [
         ...prevResearchNeedProject,
-        { title: '', agency: '', period: '', amount: '', selfscore: '' },
+        { title: '', agency: '', periodfrom: '', periodto:'', amount: '', selfscore: '' },
       ]);
     }
     }
@@ -746,12 +624,11 @@ useEffect(() => {
     const handleAddResearchGuidance = () => {
       if (ResearchGuidance.some((item) => item.enrolled === '' || item.thesis === '' || item.degree === '' || item.selfscore === '')) {
         alert('Please fill all the fields in the research guidance!');
-        return;
-      }
-      else if (ResearchGuidance.some((item) => item.selfscore < 0)) {
-        alert('Please fill all the fields with positive values only!');
-        return;
-      }
+        return;      }
+      // else if (ResearchGuidance.some((item) => item.selfscore < 0)) {
+      //   alert('Please fill all the fields with positive values only!');
+      //   return;
+      // }
       else {
 
       setResearchGuidance((prevResearchGuidance) => [
@@ -767,18 +644,17 @@ useEffect(() => {
     }
 
     const handleAddTrainingCourse = () => {
-      if (TrainingCourse.some((item) => item.programme === '' || item.duration === '' || item.organizedby === '' || item.selfscore === '')) {
+      if (TrainingCourse.some((item) => item.programme === '' || item.durationfrom === '' || item.durationto=== '' || item.organizedby === '' || item.selfscore === '')) {
         alert('Please fill all the fields in the training course!');
-        return;
-      }
-      else if (TrainingCourse.some((item) => item.selfscore < 0)) {
-        alert('Please fill all the fields with positive values only!');
-        return;
-      }
+        return;      }
+      // else if (TrainingCourse.some((item) => item.selfscore < 0)) {
+      //   alert('Please fill all the fields with positive values only!');
+      //   return;
+      // }
       else {
       setTrainingCourse((prevTrainingCourse) => [
         ...prevTrainingCourse,
-        { programme: '', duration: '', organizedby: '', selfscore: '' },
+        { programme: '', durationfrom: '', durationto:'',organizedby: '', selfscore: '' },
       ]);}
     }
 
@@ -791,12 +667,11 @@ useEffect(() => {
     const handleAddPaperPresentConference = () => {
       if (PaperPresentConference.some((item) => item.titlepaper === '' || item.titleseminar === '' || item.organisedby === '' || item.level === '' || item.selfscore === '')) {
         alert('Please fill all the fields in the paper presented in conference!');
-        return;
-      }
-      else if (PaperPresentConference.some((item) => item.selfscore < 0)) {
-        alert('Please fill all the fields with positive values only!');
-        return;
-      }
+        return;     }
+      // else if (PaperPresentConference.some((item) => item.selfscore < 0)) {
+      //   alert('Please fill all the fields with positive values only!');
+      //   return;
+      // }
       else {
       setPaperPresentConference((prevPaperPresentConference) => [
         ...prevPaperPresentConference,
@@ -813,12 +688,11 @@ useEffect(() => {
     const handleAddInvitedLecture = () => {
       if (InvitedLecture.some((item) => item.titlelecture === '' || item.titleconference === '' || item.organisedby === '' || item.level === '' || item.selfscore === '')) {
         alert('Please fill all the fields in the invited lecture!');
-        return;
-      }
-      else if (InvitedLecture.some((item) => item.selfscore < 0)) {
-        alert('Please fill all the fields with positive values only!');
-        return;
-      }
+        return;      }
+      // else if (InvitedLecture.some((item) => item.selfscore < 0)) {
+      //   alert('Please fill all the fields with positive values only!');
+      //   return;
+      // }
       else {
       setInvitedLecture((prevInvitedLecture) => [
         ...prevInvitedLecture,
@@ -835,12 +709,11 @@ useEffect(() => {
     const handleAddAward = () => {
       if (Award.some((item) => item.award === '' || item.agencyinvolved === '' || item.level === '' || item.discipline === '' || item.selfscore === '')) {
         alert('Please fill all the fields in the award!');
-        return;
-      }
-      else if (Award.some((item) => item.selfscore < 0)) {
-        alert('Please fill all the fields with positive values only!');
-        return;
-      }
+        return;     }
+      // else if (Award.some((item) => item.selfscore < 0)) {
+      //   alert('Please fill all the fields with positive values only!');
+      //   return;
+      // }
       else {
 
       setAward((prevAward) => [
@@ -855,53 +728,68 @@ useEffect(() => {
       ]);
     }
 
+
     return(
-      
-         <Container fluid>
+      <Container fluid>
       <Row>
       <Col md={2} className="form-navigation">
+      <div className="sticky-navigation">
     <h3>Form Navigation</h3>
     <ul>
       <li>
-        <Link to="/form1">Part A</Link>
+      <span className="form1-subsection">Part A</span>
+      <Link to="/form1" className="nav-link">General Information</Link>
       </li>
       <li>
         <span className="form2-subsection">Part B</span>
         <ul className="form2-subsection-list">
           <li>
-            <Link to="/form2a" className="form2-subsection-link">Category A</Link>
+            <Link to="/form2a" className="form2-subsection-link nav-link">Category l</Link>
           </li>
           <li>
-            <Link to="/form2b" className="form2-subsection-link">Category B</Link>
+            <Link to="/form2b" className="form2-subsection-link nav-link">Category ll</Link>
           </li>
           <li>
-            <Link to="/form2c" className="form2-subsection-link">Category C</Link>
+            <Link to="/form2c" className="form2-subsection-link nav-link">Category lll</Link>
           </li>
         </ul>
       </li>
       {/* Add more form links as needed */}
     </ul>
+  </div>
   </Col>
   <Col md={9}>
-  <h1>Part B: Academic Performance Indicators</h1>
+  <h1 className="text-center">Part B: Academic Performance Indicators</h1>
         {/* style={{fontWeigth:'bold'}} */}
-        <h4  style={{fontSize: 20}}>Category III: (Assessment must be based on evidence produced by the teacher such as: copy of publications, project sanction letter, utilization and completion certificates issued by the University and acknowledgements for patent filing and approval letters, students’ Ph.D. award letter, etc.)</h4>
-        <Form onSubmit={handleSubmit}></Form>
+        <h4  style={{fontSize: 20}} className="text-center">Category III: (Assessment must be based on evidence produced by the teacher such as: copy of publications, project sanction letter, utilization and completion certificates issued by the University and acknowledgements for patent filing and approval letters, students’ Ph.D. award letter, etc.)</h4>
 
+        <p className='text-center'>
+        NOTE: 1. If a paper presented in Conference/Seminar is published in the form of Proceedings, the points would accrue for the publication (III(a) and not under presentation (III(e)(ii))).
+        <br/>
+        2. Upload document for above activities. To change the document, upload new document again.
+      </p>
+      <p></p>
+
+        <Form onSubmit={handleSubmit}></Form>
+        <div className="content-box">
         <Table striped bordered hover>
         <thead>
         <tr>
-        <th rowSpan="2">III (a)</th>
-      <th colSpan="1">Research Publications (Journals)</th>
-      <th colSpan="2">Max API Score allotted: No maximum score. A percentage of three
+        <th rowSpan="2" style={{ textAlign: "center", verticalAlign: "middle" }}>III (a)</th>
+
+      <th colSpan="1" style={{ textAlign: "center", verticalAlign: "middle" }}>Research Publications (Journals)</th>
+
+      <th colSpan="2" style={{ textAlign: "center", verticalAlign: "middle" }}>Max API Score allotted: No maximum score. A percentage of three
 years score is considered for promotion as per UGC notification Feb
 2018</th>
     </tr>
 
     <tr>
-      <th>Title with Journal name , Volume No., page No., ISS/ISBN No.</th>
-      <th>Index (indicate serial numbers against applicable)</th>
-      <th>Self Appraisal Score</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Title with Journal name , Volume No., page No., ISS/ISBN No.</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Index (indicate serial numbers against applicable)</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Self Appraisal Score</th>
         </tr>
       </thead>
 
@@ -911,9 +799,10 @@ years score is considered for promotion as per UGC notification Feb
             <tr>
               <td>{index + 1}</td>
               <td>
+                Enter Title:
                 <Form.Control
                   type="text"
-                  placeholder="Enter title"
+                  style={{ textAlign: "center" }}
                   value={researchpublication.title}
                   onChange={(e) => {
                     const newResearchPublication = [...ResearchPublication]
@@ -921,15 +810,65 @@ years score is considered for promotion as per UGC notification Feb
                     setResearchPublication(newResearchPublication)
                   }}
                   required/>
+
+                <br/>
+                Enter Journal Name:
+                <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={researchpublication.journal}
+                  onChange={(e) => {
+                    const newResearchPublication = [...ResearchPublication]
+                    newResearchPublication[index].journal = e.target.value
+                    setResearchPublication(newResearchPublication)
+                  }}
+                  required/>
+
+                <br/>
+                Enter Volume No.:
+                <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={researchpublication.volume}
+                  onChange={(e) => {
+                    const newResearchPublication = [...ResearchPublication]
+                    newResearchPublication[index].volume = e.target.value
+                    setResearchPublication(newResearchPublication)
+                  }}
+                  required/>
+
+                <br/>
+                Enter Page No.:
+                <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={researchpublication.page}
+                  onChange={(e) => {
+                    const newResearchPublication = [...ResearchPublication]
+                    newResearchPublication[index].page = e.target.value
+                    setResearchPublication(newResearchPublication)
+                  }}
+                  required/>
+
+                <br/>
+                Enter ISBN/ISSN No.:
+                <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={researchpublication.isbn}
+                  onChange={(e) => {
+                    const newResearchPublication = [...ResearchPublication]
+                    newResearchPublication[index].isbn = e.target.value
+                    setResearchPublication(newResearchPublication)
+                  }}
+                  required/>
               </td>
 
               <td>
-               
-               
+                Enter SCI:
                 <Form.Control
-                
                 type="text"
-                placeholder="Enter sci"
+                style={{ textAlign: "center" }}
                 value={researchpublication.sci || ''}
                 onChange={(e) => {
                   const newResearchPublication = [...ResearchPublication]
@@ -938,9 +877,11 @@ years score is considered for promotion as per UGC notification Feb
                 } }
                 required/>
 
+                <br/>
+                Enter WOS:
                 <Form.Control
                 type="text"
-                placeholder="Enter wos"
+                style={{ textAlign: "center" }}
                 value={researchpublication.wos || ''}
                 onChange={(e) => {
                   const newResearchPublication = [...ResearchPublication]
@@ -948,9 +889,12 @@ years score is considered for promotion as per UGC notification Feb
                   setResearchPublication(newResearchPublication)
                 } }
                 required/>
+
+                <br/>
+                Enter ESCI:
                 <Form.Control
                 type="text"
-                placeholder="Enter esci"
+                style={{ textAlign: "center" }}
                 value={researchpublication.esci || ''}
                 onChange={(e) => {
                   const newResearchPublication = [...ResearchPublication]
@@ -958,9 +902,12 @@ years score is considered for promotion as per UGC notification Feb
                   setResearchPublication(newResearchPublication)
                 } }
                 required/>
+
+                <br/>
+                Enter SCOPUS:
                 <Form.Control
                 type="text"
-                placeholder="Enter scopus"
+                style={{ textAlign: "center" }}
                 value={researchpublication.scopus || ''}
                 onChange={(e) => {
                   const newResearchPublication = [...ResearchPublication]
@@ -968,9 +915,12 @@ years score is considered for promotion as per UGC notification Feb
                   setResearchPublication(newResearchPublication)
                 } }
                 required/>
+
+                <br/>
+                Enter UGC CARE:
                 <Form.Control
                 type="text"
-                placeholder="Enter ugccare"
+                style={{ textAlign: "center" }}
                 value={researchpublication.ugccare || ''}
                 onChange={(e) => {
                   const newResearchPublication = [...ResearchPublication]
@@ -978,9 +928,12 @@ years score is considered for promotion as per UGC notification Feb
                   setResearchPublication(newResearchPublication)
                 } }
                 required/>
+
+                <br/>
+                Having ISBN/ISSN:
                 <Form.Control
                 type="text"
-                placeholder="Enter isbnissn"
+                style={{ textAlign: "center" }}
                 value={researchpublication.isbnissn || ''}
                 onChange={(e) => {
                   const newResearchPublication = [...ResearchPublication]
@@ -988,9 +941,12 @@ years score is considered for promotion as per UGC notification Feb
                   setResearchPublication(newResearchPublication)
                 } }
                 required/>
+
+                <br/>
+                Enter Proceedings:
                 <Form.Control
                 type="text"
-                placeholder="Enter proceedings"
+                style={{ textAlign: "center" }}
                 value={researchpublication.proceedings || ''}
                 onChange={(e) => {
                   const newResearchPublication = [...ResearchPublication]
@@ -998,9 +954,12 @@ years score is considered for promotion as per UGC notification Feb
                   setResearchPublication(newResearchPublication)
                 } }
                 required/>
+
+                <br/>
+                Enter Guide/Mentor (mention serial no. of paper):
                 <Form.Control
                 type="text"
-                placeholder="Enter guidementor"
+                style={{ textAlign: "center" }}
                 value={researchpublication.guidementor || ''  }
                 onChange={(e) => {
                   const newResearchPublication = [...ResearchPublication]
@@ -1014,7 +973,7 @@ years score is considered for promotion as per UGC notification Feb
               <td>
                 <Form.Control
                 type="number"
-                placeholder="Enter selfscore"
+                style={{ textAlign: "center" }}
                 value={researchpublication.selfscore}
                 onChange={(e) => {
                   const newResearchPublication = [...ResearchPublication]
@@ -1087,23 +1046,31 @@ years score is considered for promotion as per UGC notification Feb
             </Col>
           </Row>
         </div>
+      </div>
 
 
-
+        <div className="content-box">
         <Table striped bordered hover>
         <thead>
         <tr>
-        <th rowSpan="2">III (b)</th>
-      <th colSpan="3">Articles/ Chapters published in books</th>
-      <th colSpan="3">Max API Score allotted</th>
+        <th rowSpan="2" style={{ textAlign: "center", verticalAlign: "middle" }}>III (b)</th>
+
+      <th colSpan="3" style={{ textAlign: "center", verticalAlign: "middle" }}>Books/Articles/ Chapters published in books</th>
+
+      <th colSpan="3" style={{ textAlign: "center", verticalAlign: "middle" }}>Max API Score allotted</th>
     </tr>
     <tr>
-      <th>Title with Page No.</th>
-      <th>Book Title, editor and publisher</th>
-      <th>ISS/ISBN No.</th>
-      <th>Whether Peer Reviewed?</th>
-      <th>No of Coauthors. Specify if main author.</th>
-      <th>Self Appraisal Score</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Title with Page No.</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Book Title, editor and publisher</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>ISS/ISBN No.</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Whether Peer Reviewed?</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>No of Coauthors. Specify if first author.</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}> Self Appraisal Score</th>
         </tr>
       </thead>
 
@@ -1113,9 +1080,10 @@ years score is considered for promotion as per UGC notification Feb
             <tr>
               <td>{index + 1}</td>
               <td>
+                Enter title with Page No.:
                 <Form.Control
                   type="text"
-                  placeholder="Enter title"
+                  style={{ textAlign: "center" }}
                   value={researcharticle.title}
                   onChange={(e) =>{
                     const newResearchArticle = [...ResearchArticle]
@@ -1124,23 +1092,51 @@ years score is considered for promotion as per UGC notification Feb
                   } }
                   required/>
               </td>
+
               <td>
-              
+                Enter Book Title:  
                 <Form.Control
                 type="text"
-                placeholder="Enter booktitle"
+                style={{ textAlign: "center" }}
                 value={researcharticle.booktitle}
                 onChange={(e) =>{
                   const newResearchArticle = [...ResearchArticle]
                   newResearchArticle[index].booktitle = e.target.value
                   setResearchArticle(newResearchArticle)
                 } }/>
+                
+                <br/>
+              Enter Editor/Editors:
+              <Form.Control
+                type="text"
+                style={{ textAlign: "center" }}
+                value={researcharticle.editor}
+                onChange={(e) =>{
+                  const newResearchArticle = [...ResearchArticle]
+                  newResearchArticle[index].editor = e.target.value
+                  setResearchArticle(newResearchArticle)
+                } }/>
+
+              <br/>
+              Enter Publisher:
+              <Form.Control
+                type="text"
+                style={{ textAlign: "center" }}
+                value={researcharticle.publisher}
+                onChange={(e) =>{
+                  const newResearchArticle = [...ResearchArticle]
+                  newResearchArticle[index].publisher = e.target.value
+                  setResearchArticle(newResearchArticle)
+                } }/>
               </td>
+
+              
+
               <td>
               
                 <Form.Control
                 type="text"
-                placeholder="Enter isbn"
+                style={{ textAlign: "center" }}
                 value={researcharticle.isbn}
                 onChange={(e) =>{
                   const newResearchArticle = [...ResearchArticle]
@@ -1190,14 +1186,15 @@ years score is considered for promotion as per UGC notification Feb
               <td>
                 <Form.Control
                 type="text"
-                placeholder="Enter coauthor"
+                style={{ textAlign: "center" }}
                 value={researcharticle.coauthor}
                 onChange={(e) =>{
                   const newResearchArticle = [...ResearchArticle]
                   newResearchArticle[index].coauthor = e.target.value
                   setResearchArticle(newResearchArticle)
                 } }/>
-                <Form.Label>Main:</Form.Label>
+                <br/>
+                <Form.Label>First Author:</Form.Label>
 
                 <Form.Check
                   type="radio"
@@ -1239,7 +1236,7 @@ years score is considered for promotion as per UGC notification Feb
               <td>
                 <Form.Control
                 type="number"
-                placeholder="Enter selfscore"
+                style={{ textAlign: "center" }}
                 value={researcharticle.selfscore}
                 onChange={(e) =>{
                   const newResearchArticle = [...ResearchArticle]
@@ -1316,21 +1313,26 @@ years score is considered for promotion as per UGC notification Feb
           </Col>
           </Row>
           </div>
+         </div>
 
-         
-
+      <div className="content-box">
       <Table striped bordered hover>
         <thead>
         <tr>
-        <th rowSpan="2">III (c)</th>
-      <th colSpan="5">Research Projects (Ongoing)</th>
+        <th rowSpan="2" style={{ textAlign: "center", verticalAlign: "middle" }}>III (c)</th>
+
+      <th colSpan="5" style={{ textAlign: "center", verticalAlign: "middle" }}>Research Projects (Ongoing)</th>
     </tr>
     <tr>
-      <th>Title</th>
-      <th>Agency</th>
-      <th>Period</th>
-      <th>Grant/Amount Mobilized (in Lakhs)</th>
-      <th>Self appraisal Score</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Title</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Agency</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Period</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Grant/Amount Mobilized (in Lakhs)</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Self appraisal Score</th>
         </tr>
       </thead>
 
@@ -1342,7 +1344,7 @@ years score is considered for promotion as per UGC notification Feb
               <td>
                 <Form.Control
                   type="text"
-                  placeholder="Enter title"
+                  style={{ textAlign: "center"}}
                   value={researchprojecton.title}
                   onChange={(e) =>{
                     const newResearchProjectON = [...ResearchProjectON]
@@ -1350,11 +1352,11 @@ years score is considered for promotion as per UGC notification Feb
                     setResearchProjectON(newResearchProjectON)
                   } }/>
               </td> 
+
               <td>
-              
                 <Form.Control
                 type="text"
-                placeholder="Enter agency"
+                style={{ textAlign: "center"}}
                 value={researchprojecton.agency}
                 onChange={(e) =>{
                   const newResearchProjectON = [...ResearchProjectON]
@@ -1362,23 +1364,36 @@ years score is considered for promotion as per UGC notification Feb
                   setResearchProjectON(newResearchProjectON)
                 } }/>
               </td> 
-              <td>
-              
+
+              <td>   
+                From:          
                 <Form.Control
-                type="text"
-                placeholder="Enter period"
-                value={researchprojecton.period}
+                type="date"
+                style={{ textAlign: "center"}}
+                value={researchprojecton.periodfrom}
                 onChange={(e) =>{
                   const newResearchProjectON = [...ResearchProjectON]
                   newResearchProjectON[index].period = e.target.value
                   setResearchProjectON(newResearchProjectON)
                 } }/> 
+
+                <br/>
+                To:
+                <Form.Control
+                type="date"
+                style={{ textAlign: "center"}}
+                value={researchprojecton.periodto}
+                onChange={(e) =>{
+                  const newResearchProjectON = [...ResearchProjectON]
+                  newResearchProjectON[index].period = e.target.value
+                  setResearchProjectON(newResearchProjectON)
+                } }/>
               </td>
-              <td>
-              
+
+              <td>            
                 <Form.Control
                 type="text"
-                placeholder="Enter amount"
+                style={{ textAlign: "center"}}
                 value={researchprojecton.amount}
                 onChange={(e) =>{
                   const newResearchProjectON = [...ResearchProjectON]
@@ -1390,7 +1405,7 @@ years score is considered for promotion as per UGC notification Feb
               <td>
                 <Form.Control
                 type="text"
-                placeholder="Enter selfscore"
+                style={{ textAlign: "center"}}
                 value={researchprojecton.selfscore}
                 onChange={(e) =>{
                   const newResearchProjectON = [...ResearchProjectON]
@@ -1462,19 +1477,26 @@ years score is considered for promotion as per UGC notification Feb
           </Col>
           </Row>
           </div>
+          </div>
 
+          <div className="content-box">
       <Table striped bordered hover>
         <thead>
         <tr>
-        <th rowSpan="2">III (c)</th>
-      <th colSpan="5">Research Projects (Completed)</th>
+        <th rowSpan="2" style={{ textAlign: "center", verticalAlign: "middle" }}>III (c)</th>
+
+      <th colSpan="5" style={{ textAlign: "center", verticalAlign: "middle" }}>Research Projects (Completed)</th>
     </tr>
     <tr>
-      <th>Title</th>
-      <th>Agency</th>
-      <th>Period</th>
-      <th>Grant/Amount Mobilized (in Lakhs)</th>
-      <th>Self appraisal Score</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Title</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Agency</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Period</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Grant/Amount Mobilized (in Lakhs)</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Self appraisal Score</th>
         </tr>
       </thead>
 
@@ -1486,7 +1508,7 @@ years score is considered for promotion as per UGC notification Feb
               <td>
                 <Form.Control
                   type="text"
-                  placeholder="Enter title"
+                  style={{ textAlign: "center"}}
                   value={researchprojectcomp.title}
                   onChange={(e) =>{
                     const newResearchProjectCOMP = [...ResearchProjectCOMP]
@@ -1494,11 +1516,10 @@ years score is considered for promotion as per UGC notification Feb
                     setResearchProjectCOMP(newResearchProjectCOMP)
                   } }/>
               </td> 
-              <td>
-              
+              <td>            
                 <Form.Control
                 type="text"
-                placeholder="Enter agency"
+                style={{ textAlign: "center"}}
                 value={researchprojectcomp.agency}
                 onChange={(e) =>{
                   const newResearchProjectCOMP = [...ResearchProjectCOMP]
@@ -1507,22 +1528,34 @@ years score is considered for promotion as per UGC notification Feb
                 } }/>
               </td> 
               <td>
-              
+                 From:
                 <Form.Control
-                type="text"
-                placeholder="Enter period"
-                value={researchprojectcomp.period}
+                type="date"
+                style={{ textAlign: "center" }}
+                value={researchprojectcomp.periodfrom}
                 onChange={(e) =>{
                   const newResearchProjectCOMP = [...ResearchProjectCOMP]
                   newResearchProjectCOMP[index].period = e.target.value
                   setResearchProjectCOMP(newResearchProjectCOMP)
                 } }/> 
+
+                <br/>
+                To:
+                <Form.Control
+                type="date"
+                style={{ textAlign: "center" }}
+                value={researchprojectcomp.periodto}
+                onChange={(e) =>{
+                  const newResearchProjectCOMP = [...ResearchProjectCOMP]
+                  newResearchProjectCOMP[index].period = e.target.value
+                  setResearchProjectCOMP(newResearchProjectCOMP)
+                } }/>
               </td>
-              <td>
-              
+
+              <td>             
                 <Form.Control
                 type="text"
-                placeholder="Enter amount"
+                style={{ textAlign: "center"}}
                 value={researchprojectcomp.amount}
                 onChange={(e) =>{
                   const newResearchProjectCOMP = [...ResearchProjectCOMP]
@@ -1534,7 +1567,7 @@ years score is considered for promotion as per UGC notification Feb
               <td>
                 <Form.Control
                 type="text"
-                placeholder="Enter selfscore"
+                style={{ textAlign: "center"}}
                 value={researchprojectcomp.selfscore}
                 onChange={(e) =>{
                   const newResearchProjectCOMP = [...ResearchProjectCOMP]
@@ -1605,19 +1638,26 @@ years score is considered for promotion as per UGC notification Feb
           </Col>
           </Row>
           </div>
+          </div>
 
+          <div className="content-box">
           <Table striped bordered hover>
         <thead>
         <tr>
-        <th rowSpan="2">III (c)</th>
-      <th colSpan="5">Need Based Projects of the Institute completed without Sponsorship and approved by Institute authorities</th>
+        <th rowSpan="2" style={{ textAlign: "center", verticalAlign: "middle" }}>III (c)</th>
+
+      <th colSpan="5" style={{ textAlign: "center", verticalAlign: "middle" }}>Need Based Projects of the Institute completed without Sponsorship and approved by Institute authorities</th>
     </tr>
     <tr>
-      <th>Title</th>
-      <th>Agency</th>
-      <th>Period</th>
-      <th>Grant/Amount Mobilized (in Lakhs)</th>
-      <th>Self appraisal Score</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Title</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Agency</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Period</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Grant/Amount Mobilized (in Lakhs)</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Self appraisal Score</th>
 
         </tr>
       </thead>
@@ -1631,7 +1671,7 @@ years score is considered for promotion as per UGC notification Feb
                 <Form.Control
 
                   type="text"
-                  placeholder="Enter title"
+                  style={{ textAlign: "center"}}
                   value={researchneedproject.title}
                   onChange={(e) =>{
                     const newResearchNeedProject = [...ResearchNeedProject]
@@ -1643,7 +1683,7 @@ years score is considered for promotion as per UGC notification Feb
             
                 <Form.Control
                 type="text"
-                placeholder="Enter agency"
+                style={{ textAlign: "center"}}
                 value={researchneedproject.agency}
                 onChange={(e) =>{
                   const newResearchNeedProject = [...ResearchNeedProject]
@@ -1652,22 +1692,35 @@ years score is considered for promotion as per UGC notification Feb
                 } }/>
               </td>
               <td>
-
+                From:
                 <Form.Control
-                type="text"
-                placeholder="Enter period"
-                value={researchneedproject.period}
+                type="date"
+                style={{ textAlign: "center"}}
+                value={researchneedproject.periodfrom}
                 onChange={(e) =>{
                   const newResearchNeedProject = [...ResearchNeedProject]
                   newResearchNeedProject[index].period = e.target.value
                   setResearchNeedProject(newResearchNeedProject)
                 } }/>
+
+                <br/>
+                To:
+                <Form.Control
+                type="date"
+                style={{ textAlign: "center"}}
+                value={researchneedproject.periodto}
+                onChange={(e) =>{
+                  const newResearchNeedProject = [...ResearchNeedProject]
+                  newResearchNeedProject[index].period = e.target.value
+                  setResearchNeedProject(newResearchNeedProject)
+                } }/>
+
               </td>
               <td>
 
                 <Form.Control
                 type="text"
-                placeholder="Enter amount"
+                style={{ textAlign: "center"}}
                 value={researchneedproject.amount}
                 onChange={(e) =>{
                   const newResearchNeedProject = [...ResearchNeedProject]
@@ -1679,7 +1732,7 @@ years score is considered for promotion as per UGC notification Feb
               <td>
                 <Form.Control
                 type="text"
-                placeholder="Enter selfscore"
+                style={{ textAlign: "center"}}
                 value={researchneedproject.selfscore}
                 onChange={(e) =>{
                   const newResearchNeedProject = [...ResearchNeedProject]
@@ -1750,21 +1803,25 @@ years score is considered for promotion as per UGC notification Feb
           </Col>
           </Row>
           </div>
+          </div>
 
-
-
+          <div className="content-box">
       <Table striped bordered hover>
         <thead>
         <tr>
-        <th rowSpan="2">III (d)</th>
-      <th colSpan="4">Research Guidance ( For ME and PhD guides only) </th>
+        <th rowSpan="2" style={{ textAlign: "center", verticalAlign: "middle" }}>III (d)</th>
+
+      <th colSpan="4" style={{ textAlign: "center", verticalAlign: "middle" }}>Research Guidance ( For ME and PhD guides only) </th>
       
     </tr>
     <tr>
-      <th> No: Enrolled</th>
-      <th>Thesis Submitted</th>
-      <th>Degree Awarded</th>
-      <th>Self appraisal Score</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}> No: Enrolled</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Thesis Submitted</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Degree Awarded</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Self appraisal Score</th>
         </tr>
       </thead>
       
@@ -1776,7 +1833,7 @@ years score is considered for promotion as per UGC notification Feb
             <td>
               <Form.Control
                 type="text"
-                placeholder="Enter enrolled"
+                style={{ textAlign: "center" }}
                 value={researchguidance.enrolled}
                 onChange={(e) =>{
                   const newResearchGuidance = [...ResearchGuidance]
@@ -1788,7 +1845,7 @@ years score is considered for promotion as per UGC notification Feb
             <td>
               <Form.Control
                 type="text"
-                placeholder="Enter thesis"
+                style={{ textAlign: "center" }}
                 value={researchguidance.thesis}
                 onChange={(e) =>{
                   const newResearchGuidance = [...ResearchGuidance]
@@ -1800,7 +1857,7 @@ years score is considered for promotion as per UGC notification Feb
             <td>
               <Form.Control
                 type="text"
-                placeholder="Enter degree"
+                style={{ textAlign: "center" }}
                 value={researchguidance.degree}
                 onChange={(e) =>{
                   const newResearchGuidance = [...ResearchGuidance]
@@ -1812,7 +1869,7 @@ years score is considered for promotion as per UGC notification Feb
                 <td>
                 <Form.Control
                 type="text"
-                placeholder="Enter selfscore"
+                style={{ textAlign: "center"}}
                 value={researchguidance.selfscore}
                 onChange={(e) =>{
                   const newResearchGuidance = [...ResearchGuidance]
@@ -1878,18 +1935,24 @@ years score is considered for promotion as per UGC notification Feb
           </Col>
           </Row>
           </div>
+          </div>
 
+          <div className="content-box">
       <Table striped bordered hover>
         <thead>
         <tr>
-        <th rowSpan="2">III (e-i)</th>
-      <th colSpan="4">TRAINING COURSES AND Faculty Development Programs (not less than one week) max 30pts</th>
+        <th rowSpan="2" style={{ textAlign: "center", verticalAlign: "middle" }}>III (e-i)</th>
+
+      <th colSpan="4" style={{ textAlign: "center", verticalAlign: "middle" }}>TRAINING COURSES AND Faculty Development Programs (not less than one week) max 30pts</th>
       </tr>
       <tr>
-      <th>Programme</th>
-      <th>Duration</th>
-      <th>Organized by</th>
-      <th>Self Appraisal Score</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Programme</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Duration</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Organized by</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Self Appraisal Score</th>
         </tr>
       </thead>
       {
@@ -1900,7 +1963,7 @@ years score is considered for promotion as per UGC notification Feb
               <td>
                 <Form.Control
                   type="text"
-                  placeholder="Enter programme"
+                  style={{ textAlign: "center"}}
                   value={trainingcourse.programme}
                   onChange={(e) =>{
                     const newTrainingCourse = [...TrainingCourse]
@@ -1908,11 +1971,25 @@ years score is considered for promotion as per UGC notification Feb
                     setTrainingCourse(newTrainingCourse)
                   } }/>
               </td>
+
               <td>
+                From:
                 <Form.Control
-                  type="text"
-                  placeholder="Enter duration"
-                  value={trainingcourse.duration}
+                  type="date"
+                  style={{ textAlign: "center"}}
+                  value={trainingcourse.durationfrom}
+                  onChange={(e) =>{
+                    const newTrainingCourse = [...TrainingCourse]
+                    newTrainingCourse[index].duration = e.target.value
+                    setTrainingCourse(newTrainingCourse)
+                  } }/>
+
+                  <br/>
+                  To:
+                  <Form.Control
+                  type="date"
+                  style={{ textAlign: "center"}}
+                  value={trainingcourse.durationto}
                   onChange={(e) =>{
                     const newTrainingCourse = [...TrainingCourse]
                     newTrainingCourse[index].duration = e.target.value
@@ -1922,7 +1999,7 @@ years score is considered for promotion as per UGC notification Feb
               <td>
                 <Form.Control
                   type="text"
-                  placeholder="Enter organizedby"
+                  style={{ textAlign: "center"}}
                   value={trainingcourse.organizedby}
                   onChange={(e) =>{
                     const newTrainingCourse = [...TrainingCourse]
@@ -1935,7 +2012,7 @@ years score is considered for promotion as per UGC notification Feb
                 <Form.Control
 
                   type="text"
-                  placeholder="Enter selfscore"
+                  style={{ textAlign: "center"}}
                   value={trainingcourse.selfscore}
                   onChange={(e) =>{
                     const newTrainingCourse = [...TrainingCourse]
@@ -2001,19 +2078,26 @@ years score is considered for promotion as per UGC notification Feb
           </Col>
           </Row>
           </div>
+          </div>
 
+          <div className="content-box">
       <Table striped bordered hover>
         <thead>
         <tr>
-        <th rowSpan="2">III (e-ii)</th>
-      <th colSpan="5">PAPER PRESENTATIONS IN CONFERENCES AND SEMINARS</th>
+        <th rowSpan="2" style={{ textAlign: "center", verticalAlign: "middle" }}>III (e-ii)</th>
+
+      <th colSpan="5" style={{ textAlign: "center", verticalAlign: "middle" }}>PAPER PRESENTATIONS IN CONFERENCES AND SEMINARS</th>
     </tr>
     <tr>
-      <th>Title of Paper Presented</th>
-      <th>Title of Seminar/Conference</th>
-      <th>Organized by</th>
-      <th>Level</th>
-      <th>Self Appraisal Score</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Title of Paper Presented</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Title of Seminar/Conference</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Organized by</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Level</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Self Appraisal Score</th>
         </tr>
       </thead>
 
@@ -2025,7 +2109,7 @@ years score is considered for promotion as per UGC notification Feb
             <td>
               <Form.Control
                 type="text"
-                placeholder="Enter titlepaper"
+                style={{ textAlign: "center" }}
                 value={paperpresentconference.titlepaper}
                 onChange={(e) =>{
                   const newPaperPresentConference = [...PaperPresentConference]
@@ -2036,7 +2120,7 @@ years score is considered for promotion as per UGC notification Feb
             <td>
               <Form.Control
                 type="text"
-                placeholder="Enter titleseminar"
+                style={{ textAlign: "center"}}
                 value={paperpresentconference.titleseminar}
                 onChange={(e) =>{
                   const newPaperPresentConference = [...PaperPresentConference]
@@ -2047,7 +2131,7 @@ years score is considered for promotion as per UGC notification Feb
             <td>
               <Form.Control
                 type="text"
-                placeholder="Enter organisedby"
+                style={{ textAlign: "center"}}
                 value={paperpresentconference.organisedby}
                 onChange={(e) =>{
                   const newPaperPresentConference = [...PaperPresentConference]
@@ -2058,7 +2142,7 @@ years score is considered for promotion as per UGC notification Feb
             <td>
               <Form.Control
                 type="text"
-                placeholder="Enter level"
+                style={{ textAlign: "center"}}
                 value={paperpresentconference.level}
                 onChange={(e) =>{
                   const newPaperPresentConference = [...PaperPresentConference]
@@ -2070,7 +2154,7 @@ years score is considered for promotion as per UGC notification Feb
                 <td>
                 <Form.Control
                 type="text"
-                placeholder="Enter selfscore"
+                style={{ textAlign: "center"}}
                 value={paperpresentconference.selfscore}
                 onChange={(e) =>{
                   const newPaperPresentConference = [...PaperPresentConference]
@@ -2138,19 +2222,26 @@ years score is considered for promotion as per UGC notification Feb
           </Col>
           </Row>
           </div>
- 
+          </div>
+
+          <div className="content-box">
     <Table striped bordered hover>
         <thead>
         <tr>
-        <th rowSpan="2">III (e-iii)</th>
-      <th colSpan="5">INVITED LECTURES AND CHAIRMANSHIP AT NATIONAL OR INTERNATIONAL CONFERENCE/SEMINAR</th>
+        <th rowSpan="2" style={{ textAlign: "center", verticalAlign: "middle" }}>III (e-iii)</th>
+
+      <th colSpan="5" style={{ textAlign: "center", verticalAlign: "middle" }}>INVITED LECTURES AND CHAIRMANSHIP AT NATIONAL OR INTERNATIONAL CONFERENCE/SEMINAR</th>
     </tr>
     <tr>
-      <th>Title of Lecture</th>
-      <th>Title of Seminar/Conference</th>
-      <th>Organized by</th>
-      <th>Level</th>
-      <th>Self Appraisal Score</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Title of Lecture</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Title of Seminar/Conference</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Organized by</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Level</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Self Appraisal Score</th>
         </tr>
       </thead>
 
@@ -2162,7 +2253,7 @@ years score is considered for promotion as per UGC notification Feb
               <td>
                 <Form.Control
                   type="text"
-                  placeholder="Enter titlelecture"
+                  style={{ textAlign: "center"}}
                   value={invitedlecture.titlelecture}
                   onChange={(e) =>{
                     const newInvitedLecture = [...InvitedLecture]
@@ -2173,7 +2264,7 @@ years score is considered for promotion as per UGC notification Feb
               <td>
                 <Form.Control
                   type="text"
-                  placeholder="Enter titleconference"
+                  style={{ textAlign: "center"}}
                   value={invitedlecture.titleconference}
                   onChange={(e) =>{
                     const newInvitedLecture = [...InvitedLecture]
@@ -2184,7 +2275,7 @@ years score is considered for promotion as per UGC notification Feb
               <td>
                 <Form.Control
                   type="text"
-                  placeholder="Enter organisedby"
+                  style={{ textAlign: "center"}}
                   value={invitedlecture.organisedby}
                   onChange={(e) =>{
                     const newInvitedLecture = [...InvitedLecture]
@@ -2195,7 +2286,7 @@ years score is considered for promotion as per UGC notification Feb
               <td>
                 <Form.Control
                   type="text"
-                  placeholder="Enter level"
+                  style={{ textAlign: "center"}}
                   value={invitedlecture.level}
                   onChange={(e) =>{
                     const newInvitedLecture = [...InvitedLecture]
@@ -2207,7 +2298,7 @@ years score is considered for promotion as per UGC notification Feb
                   <td>
                 <Form.Control
                 type="text"
-                placeholder="Enter selfscore"
+                style={{ textAlign: "center"}}
                 value={invitedlecture.selfscore}
                 onChange={(e) =>{
                   const newInvitedLecture = [...InvitedLecture]
@@ -2271,19 +2362,26 @@ years score is considered for promotion as per UGC notification Feb
           </Col>
           </Row>
           </div>
+          </div>
 
+          <div className="content-box">
       <Table striped bordered hover>
         <thead>
         <tr>
-        <th rowSpan="2">III (F)</th>
-      <th colSpan="5">AWARDS AND HONOURS (Maximum 50 points)</th>
+        <th rowSpan="2" style={{ textAlign: "center", verticalAlign: "middle" }}>III (F)</th>
+
+      <th colSpan="5" style={{ textAlign: "center", verticalAlign: "middle" }}>AWARDS AND HONOURS (Maximum 50 points)</th>
     </tr>
     <tr>
-      <th>Award</th>
-      <th>Agency Involved</th>
-      <th>Level</th>
-      <th>Discipline</th>
-      <th>Self Appraisal Score</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Award</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Agency Involved</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Level</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Discipline</th>
+
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Self Appraisal Score</th>
         </tr>
       </thead>
 
@@ -2295,7 +2393,7 @@ years score is considered for promotion as per UGC notification Feb
               <td>
                 <Form.Control
                   type="text"
-                  placeholder="Enter award"
+                  style={{ textAlign: "center"}}
                   value={award.award}
                   onChange={(e) =>{
                     const newAward = [...Award]
@@ -2306,7 +2404,7 @@ years score is considered for promotion as per UGC notification Feb
               <td>
                 <Form.Control
                   type="text"
-                  placeholder="Enter agencyinvolved"
+                  style={{ textAlign: "center"}}
                   value={award.agencyinvolved}
                   onChange={(e) =>{
                     const newAward = [...Award]
@@ -2317,7 +2415,7 @@ years score is considered for promotion as per UGC notification Feb
               <td>
                 <Form.Control
                   type="text"
-                  placeholder="Enter level"
+                  style={{ textAlign: "center"}}
                   value={award.level}
                   onChange={(e) =>{
                     const newAward = [...Award]
@@ -2328,7 +2426,7 @@ years score is considered for promotion as per UGC notification Feb
               <td>
                 <Form.Control
                   type="text"
-                  placeholder="Enter discipline"
+                  style={{ textAlign: "center"}}
                   value={award.discipline}
                   onChange={(e) =>{
                     const newAward = [...Award]
@@ -2340,7 +2438,7 @@ years score is considered for promotion as per UGC notification Feb
                   <td>
                 <Form.Control
                 type="text"
-                placeholder="Enter selfscore"
+                style={{ textAlign: "center"}}
                 value={award.selfscore}
                 onChange={(e) =>{
                   const newAward = [...Award]
@@ -2348,7 +2446,6 @@ years score is considered for promotion as per UGC notification Feb
                   setAward(newAward)
                 }
                 }/>
-
                   </td>
 
               <td>
@@ -2424,6 +2521,7 @@ years score is considered for promotion as per UGC notification Feb
           </Col>
           </Row>
           </div>
+          </div>
 
       <Table striped bordered hover>
         
@@ -2439,35 +2537,8 @@ years score is considered for promotion as per UGC notification Feb
       </Table>
 
 
-
-      {/* <div className="text-center mb-3">
-            <Row>
-              <Col>
-          <Form.Group controlId="formFile" className="mb-3">
-            {/* <Form.Label>Upload supporting documents (pdf)</Form.Label>
-            <Form.Control type="file" onChange={handleUpload} /> */}
-            {/* {documentCURL && (
-              <>
-              <Form.Label>Doucment uploaded successfully</Form.Label>
-              <br />
-              <a href={documentCURL} target="_blank" rel="noreferrer">
-                View Document
-              </a>
-              </>
-            )}
-            {!documentCURL && (
-              <Form.Label>Upload supporting documents (pdf)</Form.Label>
-            )}
-            <Form.Control type="file" onChange={handleUpload} />
-          </Form.Group>
-          </Col>
-          </Row>
-          </div> */} 
           
-          <p className='text-center'>
-        *Upload document for above activities. To change the document, upload new document again.
-      </p>
-      <p>*If a paper presented in Conference/Seminar is published in the form of Proceedings, the points would accrue for the publication (III(a) and not under presentation (III(e)(ii))).</p>
+         
        
       <div className='text-center mb-4'>
         <Row>
