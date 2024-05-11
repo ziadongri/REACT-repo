@@ -3,7 +3,7 @@ import { Container, Row, Col, Form, Button, Table } from 'react-bootstrap';
 import { auth, db, storage } from '../firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom';
-import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 
 function Form2B() {
@@ -46,27 +46,22 @@ function Form2B() {
   const [ sub2cf, setSub2cf] = useState('');
   const [ sub2da, setSub2da] = useState('');
   const [ sub2db, setSub2db] = useState('');
-  const [documentB1, setDocumentB1] = useState('');
-  const [documentB2, setDocumentB2] = useState('');
-  const [documentB3, setDocumentB3] = useState('');
-  const [documentB4, setDocumentB4] = useState('');
+  const [documentB1, setDocumentB1] = useState("");
+  const [documentB2, setDocumentB2] = useState("");
+  const [documentB3, setDocumentB3] = useState("");
+  const [documentB4, setDocumentB4] = useState("");
+  const [uploadedFile, setUploadedFile] = useState(null);
   const [responsibility, setResponsibility] = useState('');
   const [totalsub2b, setTotalSub2b] = useState('');
   const [totalsub2c, setTotalSub2c] = useState('');
   const [totalsub2d, setTotalSub2d] = useState('');
   const [IIActTotal, setIIActTotal] = useState('');
-  const [uploadedFile, setUploadedFile] = useState(null);
+  
   const navigate = useNavigate();
-
-  // const handleUpload = (e) => {
-  //   const file = e.target.files[0];
-  //   setUploadedFile(file);
-  // };
 
   const handleUpload = (e, documentIdentifier) => {
     const file = e.target.files[0];
-  
-    // Your upload logic here...
+
   
     if (file) {
       const storageRef = ref(storage, `documents/${file.name}`);
@@ -83,26 +78,26 @@ function Form2B() {
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((url) => {
             console.log(url);
-            // Update the corresponding document state based on the identifier
+
             switch (documentIdentifier) {
-              case "documentB1":
+              case 'documentB1':
                 setDocumentB1(url);
+                alert("Document uploaded successfully!"); // Prompt for successful upload
                 break;
-              case "documentB2":
+              case 'documentB2':
                 setDocumentB2(url);
+                alert("Document uploaded successfully!"); // Prompt for successful upload
                 break;
-              case "documentB3":
+              case 'documentB3':
                 setDocumentB3(url);
+                alert("Document uploaded successfully!"); // Prompt for successful upload
                 break;
-              case "documentB4":
+              case 'documentB4':
                 setDocumentB4(url);
+                alert("Document uploaded successfully!"); // Prompt for successful upload
                 break;
-                
 
-
-              // Add cases for other document identifiers as needed
               default: 
-
                 break;
             }
           });
@@ -260,80 +255,13 @@ function Form2B() {
 
   const handleSave = async (e) => {
     e.preventDefault();
+
+    // Calculate IIActTotal based on IIActa, IIActb, IIActc, and IIActd
+    const IIActTotal = IIActa + IIActb + IIActc + IIActd;
+
     const facultyRef = doc(db, "faculty", user.uid);
     const docRef = doc(facultyRef, "partB", "CategoryB");
     const data = {
-      IIActaSem,
-      IIActbSem,
-      IIActcSem,
-      IIActdSem,
-      IIActa,
-      IIActb,
-      IIActc,
-      IIActd,
-      IIActTotal,
-      responsibility,
-      check_2b,
-      check_2c,
-      check_2d,
-      sub2ba,
-      sub2bb,
-      sub2bc,
-      sub2bd,
-      sub2be,
-      sub2bf,
-      sub2bg,
-      sub2bh,
-      sub2bi,
-      sub2bj,
-      sub2bk,
-      sub2bl,
-      sub2bm,
-      sub2bn,
-      sub2bo,
-      sub2bp,
-      sub2bq,
-      totalsub2b,
-      sub2ca, 
-      sub2cb,
-      sub2cc,
-      sub2cd,
-      sub2ce1,
-      sub2ce2,
-      sub2ce3,
-      sub2cf,
-      totalsub2c,
-      sub2da,
-      sub2db,
-      totalsub2d,
-      documentB1,
-      documentB2,
-      documentB3,
-      documentB4
-      // documentBURL,
-    };
-
-    if (IIActaSem === "" || IIActbSem === "" || IIActcSem === "" || IIActdSem === "" || IIActa === "" || IIActb === "" || IIActc === "" || IIActd === "" || check_2b === "" || check_2c ==="" || check_2d ==="" || responsibility ==="" || totalsub2b==="" || totalsub2c==="" || totalsub2d==="" ||IIActTotal === "") {
-      alert("Enter data in the form");
-    } else if (IIActaSem < 0 || IIActbSem < 0 || IIActcSem < 0 || IIActdSem < 0 || IIActa < 0 || IIActb < 0 || IIActc < 0 || IIActd < 0 || totalsub2b<0 || totalsub2c<0 || totalsub2d<0 || IIActTotal < 0) {
-      alert("Negative values not allowed");
-    } else if (!documentB1 || !documentB2 || !documentB3 || !documentB4) {
-      alert("Please upload all the required documents");
-      return;
-    }
-    await setDoc(docRef, data);
-    // navigate('/form2c');
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const facultyRef = doc(db, "faculty", user.uid);
-    const docRef = doc(facultyRef, "partB", "CategoryB");
-    const data = {
-      IIActaSem,
-      IIActbSem,
-      IIActcSem,
-      IIActdSem,
       IIActa,
       IIActb,
       IIActc,
@@ -379,40 +307,176 @@ function Form2B() {
       documentB4
       // documentBURL,
     };
-    // if (uploadedFile) {
-    //   const storageRef = ref(storage, `documents/${uploadedFile.name}`);
-    //   const uploadTask = uploadBytesResumable(storageRef, uploadedFile);
-  
-    //   uploadTask.on(
-    //     "state_changed",
-    //     (snapshot) => {
-    //       const progress =
-    //         (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-    //     },
-    //     (error) => {
-    //       console.log(error);
-    //     },
-    //     () => {
-    //       getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-    //         console.log(url);
-    //         setDocumentBURL(url);
-    //         data.documentURL = url;
-    //         setDoc(docRef, data);
-    //       });
-    //     }
-    //   );
-    // }
-    if (IIActaSem === "" || IIActbSem === "" || IIActcSem === "" || IIActdSem === "" || IIActa === "" || IIActb === "" || IIActc === "" || IIActd === "" || check_2b === "" || check_2c ==="" || check_2d ==="" || responsibility ==="" || totalsub2b==="" || totalsub2c==="" || totalsub2d==="" ||IIActTotal === "") {
-      alert("Enter data in the form");
-    } else if (IIActaSem < 0 || IIActbSem < 0 || IIActcSem < 0 || IIActdSem < 0 || IIActa < 0 || IIActb < 0 || IIActc < 0 || IIActd < 0 || totalsub2b<0 || totalsub2c<0 ||  totalsub2d<0 ||IIActTotal < 0) {
-      alert("Negative values not allowed");
-    } else if (!documentB1 || !documentB2 || !documentB3 || !documentB4) {
+
+    // Check if any required field is empty or invalid
+    if (
+      IIActa === "" ||
+      IIActb === "" ||
+      IIActc === "" ||
+      IIActd === "" ||
+      responsibility === "" ||
+      totalsub2b === "" ||
+      totalsub2c === "" ||
+      totalsub2d === "" ||
+      IIActTotal === "" ||
+      isNaN(IIActTotal) ||
+      IIActTotal < 0 ||
+      check_2b.length === 0 ||
+      check_2c.length === 0 ||
+      check_2d.length === 0 ||
+      IIActa < 0 ||
+      IIActb < 0 ||
+      IIActc < 0 ||
+      IIActd < 0 ||
+      totalsub2b < 0 ||
+      totalsub2c < 0 ||
+      totalsub2d < 0
+    ) {
+      alert("Please fill out all fields correctly");
+      return;
+    }
+
+    // Check if all required documents are uploaded
+    if (!documentB1 || !documentB2 || !documentB3 || !documentB4) {
       alert("Please upload all the required documents");
       return;
     }
+
+    // Check if check_2d is selected before navigating
+    if (check_2d.length === 0) {
+      alert("Please select an option for check_2d");
+      return;
+    }
+
+    if (check_2b.length === 0) {
+      alert("Please select an option for check_2b");
+      return;
+    }
+
+    if (check_2c.length === 0) {
+      alert("Please select an option for check_2c");
+      return;
+    }
+
+    // All checks passed, save the form data and navigate to the next page
     await setDoc(docRef, data);
-     navigate('/form2c');
+    alert("Form saved");
+    // navigate('/form2c');
   };
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Calculate IIActTotal based on IIActa, IIActb, IIActc, and IIActd
+    const IIActTotal = IIActa + IIActb + IIActc + IIActd;
+
+    const facultyRef = doc(db, "faculty", user.uid);
+    const docRef = doc(facultyRef, "partB", "CategoryB");
+    const data = {
+      IIActa,
+      IIActb,
+      IIActc,
+      IIActd,
+      IIActTotal,
+      responsibility,
+      check_2b,
+      check_2c,
+      check_2d,
+      sub2ba,
+      sub2bb,
+      sub2bc,
+      sub2bd,
+      sub2be,
+      sub2bf,
+      sub2bg,
+      sub2bh,
+      sub2bi,
+      sub2bj,
+      sub2bk,
+      sub2bl,
+      sub2bm,
+      sub2bn,
+      sub2bo,
+      sub2bp,
+      sub2bq,
+      totalsub2b,
+      sub2ca,
+      sub2cb,
+      sub2cc,
+      sub2cd,
+      sub2ce1,
+      sub2ce2,
+      sub2ce3,
+      sub2cf,
+      totalsub2c,
+      sub2da,
+      sub2db,
+      totalsub2d,
+      documentB1,
+      documentB2,
+      documentB3,
+      documentB4
+      // documentBURL,
+    };
+
+    // Check if any required field is empty or invalid
+    if (
+      IIActa === "" ||
+      IIActb === "" ||
+      IIActc === "" ||
+      IIActd === "" ||
+      responsibility === "" ||
+      totalsub2b === "" ||
+      totalsub2c === "" ||
+      totalsub2d === "" ||
+      IIActTotal === "" ||
+      isNaN(IIActTotal) ||
+      IIActTotal < 0 ||
+      check_2b.length === 0 ||
+      check_2c.length === 0 ||
+      check_2d.length === 0 ||
+      IIActa < 0 ||
+      IIActb < 0 ||
+      IIActc < 0 ||
+      IIActd < 0 ||
+      totalsub2b < 0 ||
+      totalsub2c < 0 ||
+      totalsub2d < 0
+    ) {
+      alert("Please fill out all fields correctly");
+      return;
+    }
+
+    // Check if all required documents are uploaded
+    if (!documentB1 || !documentB2 || !documentB3 || !documentB4) {
+      alert("Please upload all the required documents");
+      return;
+    }
+
+    // Check if check_2d is selected before navigating
+    if (check_2d.length === 0) {
+      alert("Please select an option for check_2d");
+      return;
+    }
+
+    if (check_2b.length === 0) {
+      alert("Please select an option for check_2b");
+      return;
+    }
+
+    if (check_2c.length === 0) {
+      alert("Please select an option for check_2c");
+      return;
+    }
+
+    // All checks passed, save the form data and navigate to the next page
+    await setDoc(docRef, data);
+    alert("Form saved");
+    navigate('/form2c');
+};
+
+
 
 
   return (
@@ -444,7 +508,8 @@ function Form2B() {
     </ul>
   </div>
   </Col>
-        <Col md={9}>
+
+            <Col md={9}>
         <h1 className="text-center">Part B: Academic Performance Indicators</h1>
           
           <h4 style={{fontSize: 20}} className="text-center">Category II: Co-Curricular, Extension and Profession related activities</h4>
@@ -475,14 +540,14 @@ function Form2B() {
                     
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
           <Form.Text className="text-muted">
-            (Minimum characters: 100, Maximum characters: 500)
+            (Minimum characters: 50, Maximum characters: 500)
           </Form.Text>
           <Form.Control
             as="textarea"
             rows={3}
             value={responsibility}
             onChange={(e) => setResponsibility(e.target.value)}
-            minLength={100}
+            minLength={50}
             maxLength={500}
           />
         </Form.Group>
@@ -556,6 +621,9 @@ function Form2B() {
                   <td>
                     
                     Extension, Co-curricular and field based activities:
+                    <p> <br/>
+                      *Tick the applicable activities and enter the score.
+                    </p>
                     <tr>
                       <td><Form.Check
                   type="checkbox"
@@ -570,13 +638,23 @@ function Form2B() {
                     }
                   }}
                 /></td>
-                    <td><Form.Control
-                      type="text"                     
-                      value={sub2ba}
-                      onChange={(e) => setSub2ba(e.target.value)}
-                    /></td>
-                      
+                    <td>
+                    <Form.Control
+                      type="text"    
+                      style={{ textAlign: "center" }}                 
+                      value={sub2ba >= 0 ? sub2ba : 0}
+                      onChange={(e) => {
+                        const value = parseInt(e.target.value);
+                        if (!isNaN(value)) {
+                          setSub2ba(Math.max(0, value));
+                        } else {
+                          setSub2ba(0);
+                        }
+                      }}
+                    />
+                    </td>  
                     </tr>
+                    
                  
                      <tr>
                       <td><Form.Check
@@ -593,11 +671,19 @@ function Form2B() {
                   }}
                 /></td>
                      <td>
-                      <Form.Control
-                        type="text"
-                        value={sub2bb}
-                        onChange={(e) => setSub2bb(e.target.value)}
-                      />
+                    <Form.Control
+                      type="text"
+                      style={{ textAlign: "center" }}
+                      value={sub2bb >= 0 ? sub2bb : 0}
+                      onChange={(e) => {
+                        const value = parseInt(e.target.value);
+                        if (!isNaN(value)) {
+                          setSub2bb(Math.max(0, value));
+                        } else {
+                          setSub2bb(0);
+                        }
+                      }}
+                    />
                      </td>
                      </tr>
                    
@@ -618,8 +704,16 @@ function Form2B() {
                     <td>
                       <Form.Control
                         type="text"
-                        value={sub2bc}
-                        onChange={(e) => setSub2bc(e.target.value)}
+                        style={{ textAlign: "center" }}
+                        value={sub2bc >= 0 ? sub2bc : 0}
+                        onChange={(e) => {
+                          const value = parseInt(e.target.value);
+                          if (!isNaN(value)) {
+                            setSub2bc(Math.max(0, value));
+                          } else {
+                            setSub2bc(0);
+                          }
+                        }}
                       />
                     </td>
                    </tr>
@@ -641,8 +735,16 @@ function Form2B() {
                   <td>
                     <Form.Control
                       type="text"
-                      value={sub2bd}
-                      onChange={(e) => setSub2bd(e.target.value)}
+                      style={{ textAlign: "center" }}
+                      value={sub2bd >= 0 ? sub2bd : 0}
+                      onChange={(e) => {
+                        const value = parseInt(e.target.value);
+                        if (!isNaN(value)) {
+                          setSub2bd(Math.max(0, value));
+                        } else {
+                          setSub2bd(0);
+                        }
+                      }}
                     />
                   </td>
                 </tr>
@@ -664,8 +766,16 @@ function Form2B() {
                     <td>
                       <Form.Control
                         type="text"
-                        value={sub2be}
-                        onChange={(e) => setSub2be(e.target.value)}
+                        style={{ textAlign: "center" }}
+                        value={sub2be >= 0 ? sub2be : 0}
+                        onChange={(e) => {
+                          const value = parseInt(e.target.value);
+                          if (!isNaN(value)) {
+                            setSub2be(Math.max(0, value));
+                          } else {
+                            setSub2be(0);
+                          }
+                        }}
                       />
                     </td>
                   </tr>
@@ -687,8 +797,16 @@ function Form2B() {
                     <td>
                       <Form.Control
                         type="text"
-                        value={sub2bf}
-                        onChange={(e) => setSub2bf(e.target.value)}
+                        style={{ textAlign: "center" }}
+                        value={sub2bf >= 0 ? sub2bf : 0}
+                        onChange={(e) => {
+                          const value = parseInt(e.target.value);
+                          if (!isNaN(value)) {
+                            setSub2bf(Math.max(0, value));
+                          } else {
+                            setSub2bf(0);
+                          }
+                        }}
                       />
                     </td>
                   </tr>
@@ -710,8 +828,16 @@ function Form2B() {
                   <td>
                     <Form.Control
                       type="text"
-                      value={sub2bg}
-                      onChange={(e) => setSub2bg(e.target.value)}
+                      style={{ textAlign: "center" }}
+                      value={sub2bg >= 0 ? sub2bg : 0}
+                      onChange={(e) => {
+                        const value = parseInt(e.target.value);
+                        if (!isNaN(value)) {
+                          setSub2bg(Math.max(0, value));
+                        } else {
+                          setSub2bg(0);
+                        }
+                      }}
                     />
                   </td>
                 </tr>
@@ -735,8 +861,16 @@ function Form2B() {
                   <td>
                     <Form.Control
                       type="text"
-                      value={sub2bh}
-                      onChange={(e) => setSub2bh(e.target.value)}
+                      style={{ textAlign: "center" }}
+                      value={sub2bh >= 0 ? sub2bh : 0}
+                      onChange={(e) => {
+                        const value = parseInt(e.target.value);
+                        if (!isNaN(value)) {
+                          setSub2bh(Math.max(0, value));
+                        } else {
+                          setSub2bh(0);
+                        }
+                      }}
                     />
                   </td>
                 </tr>
@@ -758,8 +892,17 @@ function Form2B() {
                   <td>
                     <Form.Control
                       type="text"
-                      value={sub2bi}
-                      onChange={(e) => setSub2bi(e.target.value)}
+                      style={{ textAlign: "center" }}
+                      value={sub2bi >= 0 ? sub2bi : 0}
+                      onChange={(e) => {
+                        const value = parseInt(e.target.value);
+                        if (!isNaN(value)) {
+                          setSub2bi(Math.max(0, value));
+                        } else {
+                          setSub2bi(0);
+                        }
+                      }}
+
                     />
                   </td>
                 </tr>
@@ -781,8 +924,16 @@ function Form2B() {
                   <td>
                     <Form.Control
                       type="text"
-                      value={sub2bj}
-                      onChange={(e) => setSub2bj(e.target.value)}
+                      style={{ textAlign: "center" }}
+                      value={sub2bj >= 0 ? sub2bj : 0}
+                      onChange={(e) => {
+                        const value = parseInt(e.target.value);
+                        if (!isNaN(value)) {
+                          setSub2bj(Math.max(0, value));
+                        } else {
+                          setSub2bj(0);
+                        }
+                      }}
                     />
                   </td>
                 </tr>
@@ -804,8 +955,16 @@ function Form2B() {
                   <td>
                     <Form.Control
                       type="text"
-                      value={sub2bk}
-                      onChange={(e) => setSub2bk(e.target.value)}
+                      style={{ textAlign: "center" }}
+                      value={sub2bk >= 0 ? sub2bk : 0}
+                      onChange={(e) => {
+                        const value = parseInt(e.target.value);
+                        if (!isNaN(value)) {
+                          setSub2bk(Math.max(0, value));
+                        } else {
+                          setSub2bk(0);
+                        }
+                      }}
                     />
                   </td>
                 </tr>
@@ -827,8 +986,16 @@ function Form2B() {
                   <td>
                     <Form.Control
                       type="text"
-                      value={sub2bl}
-                      onChange={(e) => setSub2bl(e.target.value)}
+                      style={{ textAlign: "center" }}
+                      value={sub2bl >= 0 ? sub2bl : 0}
+                      onChange={(e) => {
+                        const value = parseInt(e.target.value);
+                        if (!isNaN(value)) {
+                          setSub2bl(Math.max(0, value));
+                        } else {
+                          setSub2bl(0);
+                        }
+                      }}
                     />
                   </td>
                 </tr>
@@ -850,8 +1017,16 @@ function Form2B() {
                   <td>
                     <Form.Control
                       type="text"
-                      value={sub2bm}
-                      onChange={(e) => setSub2bm(e.target.value)}
+                      style={{ textAlign: "center" }}
+                      value={sub2bm >= 0 ? sub2bm : 0}
+                      onChange={(e) => {
+                        const value = parseInt(e.target.value);
+                        if (!isNaN(value)) {
+                          setSub2bm(Math.max(0, value));
+                        } else {
+                          setSub2bm(0);
+                        }
+                      }}
                     />
                   </td>
                 </tr>
@@ -873,8 +1048,16 @@ function Form2B() {
                   <td>
                     <Form.Control
                       type="text"
-                      value={sub2bn}
-                      onChange={(e) => setSub2bn(e.target.value)}
+                      style={{ textAlign: "center" }}
+                      value={sub2bn >= 0 ? sub2bn : 0}
+                      onChange={(e) => {
+                        const value = parseInt(e.target.value);
+                        if (!isNaN(value)) {
+                          setSub2bn(Math.max(0, value));
+                        } else {
+                          setSub2bn(0);
+                        }
+                      }}
                     />
                   </td>
                 </tr>
@@ -896,8 +1079,16 @@ function Form2B() {
                   <td>
                     <Form.Control
                       type="text"
-                      value={sub2bo}
-                      onChange={(e) => setSub2bo(e.target.value)}
+                      style={{ textAlign: "center" }}
+                      value={sub2bo >= 0 ? sub2bo : 0}
+                      onChange={(e) => {
+                        const value = parseInt(e.target.value);
+                        if (!isNaN(value)) {
+                          setSub2bo(Math.max(0, value));
+                        } else {
+                          setSub2bo(0);
+                        }
+                      }}
                     />
                   </td>
                 </tr>
@@ -919,8 +1110,16 @@ function Form2B() {
                   <td>
                     <Form.Control
                       type="text"
-                      value={sub2bp}
-                      onChange={(e) => setSub2bp(e.target.value)}
+                      style={{ textAlign: "center" }}
+                      value={sub2bp >= 0 ? sub2bp : 0}
+                      onChange={(e) => {
+                        const value = parseInt(e.target.value);
+                        if (!isNaN(value)) {
+                          setSub2bp(Math.max(0, value));
+                        } else {
+                          setSub2bp(0);
+                        }
+                      }}
                     />
                   </td>
                 </tr>
@@ -942,8 +1141,16 @@ function Form2B() {
                   <td>
                     <Form.Control
                       type="text"
-                      value={sub2bq}
-                      onChange={(e) => setSub2bq(e.target.value)}
+                      style={{ textAlign: "center" }}
+                      value={sub2bq >= 0 ? sub2bq : 0}
+                      onChange={(e) => {
+                        const value = parseInt(e.target.value);
+                        if (!isNaN(value)) {
+                          setSub2bq(Math.max(0, value));
+                        } else {
+                          setSub2bq(0);
+                        }
+                      }}
                     />
                   </td>
                 </tr>
@@ -1002,6 +1209,10 @@ function Form2B() {
                     
                       Students and Staff Related Socio Cultural and Sports Programs (intra/interdepartmental and intercollegiate):
 
+                      <p><br/>
+                      *Tick the applicable activities and enter the score.
+                    </p>
+
                       <tr>
                         <td><Form.Check
                   type="checkbox"
@@ -1020,8 +1231,16 @@ function Form2B() {
                         <td>
                         <Form.Control
                           type="text"
-                          value={sub2da}
-                          onChange={(e) => setSub2da(e.target.value)}
+                          style={{ textAlign: "center" }}
+                          value={sub2da >= 0 ? sub2da : 0}
+                          onChange={(e) => {
+                            const value = parseInt(e.target.value);
+                            if (!isNaN(value)) {
+                              setSub2da(Math.max(0, value));
+                            } else {
+                              setSub2da(0);
+                            }
+                          }}
                         />
                         </td>
                       </tr>
@@ -1045,8 +1264,16 @@ function Form2B() {
                     <td>
                     <Form.Control
                       type="text"
-                      value={sub2db}
-                      onChange={(e) => setSub2db(e.target.value)}
+                      style={{ textAlign: "center" }}
+                      value={sub2db >= 0 ? sub2db : 0}
+                      onChange={(e) => {
+                        const value = parseInt(e.target.value);
+                        if (!isNaN(value)) {
+                          setSub2db(Math.max(0, value));
+                        } else {
+                          setSub2db(0);
+                        }
+                      }}
                     />
                     </td>
                   </tr>
@@ -1097,6 +1324,9 @@ function Form2B() {
                   <td>
                     
                     Professional Development Activities:
+                    <p> <br/>
+                      *Tick the applicable activities and enter the score.
+                    </p>
                     <tr>
                       <td><Form.Check
                   type="checkbox"
@@ -1114,8 +1344,16 @@ function Form2B() {
                       <td>
                       <Form.Control
                         type="text"
-                        value={sub2ca}
-                        onChange={(e) => setSub2ca(e.target.value)}
+                        style={{ textAlign: "center" }}
+                        value={sub2ca >= 0 ? sub2ca : 0}
+                        onChange={(e) => {
+                          const value = parseInt(e.target.value);
+                          if (!isNaN(value)) {
+                            setSub2ca(Math.max(0, value));
+                          } else {
+                            setSub2ca(0);
+                          }
+                        }}
                       />
                       </td>
                     </tr>
@@ -1137,8 +1375,16 @@ function Form2B() {
                       <td>
                       <Form.Control
                         type="text"
-                        value={sub2cb}
-                        onChange={(e) => setSub2cb(e.target.value)}
+                        style={{ textAlign: "center" }}
+                        value={sub2cb >= 0 ? sub2cb : 0}
+                        onChange={(e) => {
+                          const value = parseInt(e.target.value);
+                          if (!isNaN(value)) {
+                            setSub2cb(Math.max(0, value));
+                          } else {
+                            setSub2cb(0);
+                          }
+                        }}
                       />
                       </td>
                     </tr>
@@ -1160,8 +1406,16 @@ function Form2B() {
                       <td>
                       <Form.Control
                         type="text"
-                        value={sub2cc}
-                        onChange={(e) => setSub2cc(e.target.value)}
+                        style={{ textAlign: "center" }}
+                        value={sub2cc >= 0 ? sub2cc : 0}
+                        onChange={(e) => {
+                          const value = parseInt(e.target.value);
+                          if (!isNaN(value)) {
+                            setSub2cc(Math.max(0, value));
+                          } else {
+                            setSub2cc(0);
+                          }
+                        }}
                       />
                       </td>
                     </tr>
@@ -1183,15 +1437,26 @@ function Form2B() {
                   <td>
                     <Form.Control
                       type="text"
-                      value={sub2cd}
-                      onChange={(e) => setSub2cd(e.target.value)}
+                      style={{ textAlign: "center" }}
+                      value={sub2cd >= 0 ? sub2cd : 0}
+                      onChange={(e) => {
+                        const value = parseInt(e.target.value);
+                        if (!isNaN(value)) {
+                          setSub2cd(Math.max(0, value));
+                        } else {
+                          setSub2cd(0);
+                        }
+                      }}
                     />
 
                   </td>
                 </tr>
-                
-                
+    
                 Participation in short-term training courses less than one-week duration:
+                <p> <br/>
+                      *Tick the applicable activities and enter the score.
+                    </p>
+
                     <Col>
                     <tr>
                       <td><Form.Check
@@ -1209,9 +1474,18 @@ function Form2B() {
                 /></td>
                       <td>
                       <Form.Control
-                        type="number"
-                        value={sub2ce1}
-                        onChange={(e) => setSub2ce1(e.target.value)}
+                        type="text"
+                        style={{ textAlign: "center" }}
+                        value={sub2ce1 >= 0 ? sub2ce1 : 0}
+                        onChange={(e) => {
+                          const value = parseInt(e.target.value);
+                          if (!isNaN(value)) {
+                            setSub2ce1(Math.max(0, value));
+                          } else {
+                            setSub2ce1(0);
+                          }
+                        }
+                        }
                       />
                       </td>
                     </tr>
@@ -1232,9 +1506,18 @@ function Form2B() {
                 /></td>
                       <td>
                       <Form.Control
-                        type="number"
-                        value={sub2ce2}
-                        onChange={(e) => setSub2ce2(e.target.value)}
+                        type="text"
+                        style={{ textAlign: "center" }}
+                        value={sub2ce2 >= 0 ? sub2ce2 : 0}
+                        onChange={(e) => {
+                          const value = parseInt(e.target.value);
+                          if (!isNaN(value)) {
+                            setSub2ce2(Math.max(0, value));
+                          } else {
+                            setSub2ce2(0);
+                          }
+                        }
+                        }
                       />
                       </td>
                     </tr>
@@ -1255,9 +1538,18 @@ function Form2B() {
                 /> </td>
                       <td>
                       <Form.Control
-                        type="number"
-                        value={sub2ce3}
-                        onChange={(e) => setSub2ce3(e.target.value)}
+                        type="text"
+                        style={{ textAlign: "center" }}
+                        value={sub2ce3 >= 0 ? sub2ce3 : 0}
+                        onChange={(e) => {
+                          const value = parseInt(e.target.value);
+                          if (!isNaN(value)) {
+                            setSub2ce3(Math.max(0, value));
+                          } else {
+                            setSub2ce3(0);
+                          }
+                        }
+                        }
                       />
                       </td>
                     </tr>                                  
@@ -1280,8 +1572,17 @@ function Form2B() {
                       <td>
                       <Form.Control
                         type="text"
-                        value={sub2cf}
-                        onChange={(e) => setSub2cf(e.target.value)}
+                        style={{ textAlign: "center" }}
+                        value={sub2cf >= 0 ? sub2cf : 0}
+                        onChange={(e) => {
+                          const value = parseInt(e.target.value);
+                          if (!isNaN(value)) {
+                            setSub2cf(Math.max(0, value));
+                          } else {
+                            setSub2cf(0);
+                          }
+                        }
+                        }
                       />
                       </td>
                     </tr>
@@ -1385,6 +1686,8 @@ function Form2B() {
             </div>
           </Form>
         </Col>
+
+
       </Row>
     </Container>
   );

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Container,Row, Col,Form,Button, Alert, Table,} from "react-bootstrap";
+import { Container,Row, Col,Form,Button, Alert, Table} from "react-bootstrap";
 import { auth, db, storage } from "../firebase";
 import { doc, collection, getDoc, setDoc, updateDoc, addDoc } from "firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
-import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { uploadBytes } from "@firebase/storage";
 
 function Form2A() {
@@ -28,12 +28,32 @@ function Form2A() {
   const [documentA4, setDocumentA4] = useState("");
   const [documentA5, setDocumentA5] = useState("");
   const [documentA6, setDocumentA6] = useState("");
-  // const [documentA7, setDocumentA7] = useState("");
-  const [documentA7, setDocumentA7] = useState(null);
+  const [documentA7, setDocumentA7] = useState("");
   const [documentA8, setDocumentA8] = useState("");
-  const [check_d, setCheck_d] = useState([]);
-  const [check_e, setCheck_e] = useState([]);
-  const [check_f, setCheck_f] = useState([]);
+  const [check_d, setCheck_d] = useState('');
+  const [check_e, setCheck_e] = useState('');
+  const [check_f, setCheck_f] = useState('');
+  const [sub1_d1, setSub1_d1] = useState("");
+  const [sub1_d2, setSub1_d2] = useState("");
+  const [sub1_d3, setSub1_d3] = useState("");
+  const [sub1_d4, setSub1_d4] = useState("");
+  const [sub1_d5, setSub1_d5] = useState("");
+  const [sub1_d6, setSub1_d6] = useState("");
+  const [sub1_d7, setSub1_d7] = useState("");
+  const [sub1_d8, setSub1_d8] = useState("");
+  const [sub1_e1, setSub1_e1] = useState("");
+  const [sub1_e2, setSub1_e2] = useState("");
+  const [sub1_e3, setSub1_e3] = useState("");
+  const [sub1_e41, setSub1_e41] = useState("");
+  const [sub1_e42, setSub1_e42] = useState("");
+  const [sub1_e5, setSub1_e5] = useState("");
+  const [sub1_e6, setSub1_e6] = useState("");
+  const [sub1_f1, setSub1_f1] = useState("");
+  const [sub1_f2, setSub1_f2] = useState("");
+  const [sub1_f3, setSub1_f3] = useState("");
+  const [totalsub1d, setTotalsub1d] = useState("");
+  const [totalsub1e, setTotalsub1e] = useState("");
+  const [totalsub1f, setTotalsub1f] = useState("");
   const [lecturesTaken, setLecturesTaken] = useState("");
   const [selectedRadio, setSelectedRadio] = useState(null);
 
@@ -59,64 +79,6 @@ function Form2A() {
   // Calculate marks initially
   const IActa = calculateMarks();
 
-  // const handleUpload = (e, documentIdentifier) => {
-  //   const file = e.target.files[0];
-  
-  //   // Your upload logic here...
-  
-  //   if (file) {
-  //     const storageRef = ref(storage, `documents/${file.name}`);
-  //     const uploadTask = uploadBytesResumable(storageRef, file);
-  
-  //     uploadTask.on(
-  //       "state_changed",
-  //       (snapshot) => {
-  //         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-  //       },
-  //       (error) => {
-  //         console.log(error);
-  //       },
-  //       () => {
-  //         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-  //           console.log(url);           
-  //           switch (documentIdentifier) {
-  //             case 'documentA1':
-  //               setDocumentA1(url);
-  //               break;
-  //             case 'documentA2':
-  //               setDocumentA2(url);
-  //               break;
-  //             case 'documentA3':
-  //               setDocumentA3(url);
-  //               break;
-  //             case 'documentA4':
-  //               setDocumentA4(url);
-  //               break;
-  //             case 'documentA5':
-  //               setDocumentA5(url);
-  //               break;
-  //             case 'documentA6':
-  //               setDocumentA6(url);
-  //               break;
-  //             case 'documentA7':
-  //               setDocumentA7(url);
-  //               break;
-  //             case 'documentA8':
-  //               setDocumentA8(url);
-  //               break;
-
-
-  //             // Add cases for other document identifiers as needed
-  //             default: 
-
-  //               break;
-  //           }
-  //         });
-  //       }
-  //     );
-  //   }
-  // };
-
   const handleUpload = (e, documentIdentifier) => {
     const file = e.target.files[0];
 
@@ -128,6 +90,7 @@ function Form2A() {
         "state_changed",
         (snapshot) => {
           const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          // You can update a progress state here if needed
         },
         (error) => {
           console.log(error);
@@ -135,25 +98,50 @@ function Form2A() {
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((url) => {
             console.log(url);
-            setDocumentA7(url);
+            switch (documentIdentifier) {
+
+              case 'documentA1':
+                setDocumentA1(url);
+                alert("Document uploaded successfully!"); // Prompt for successful upload
+                break;
+              case 'documentA2':
+                setDocumentA2(url);
+                alert("Document uploaded successfully!"); // Prompt for successful upload
+                break;
+              case 'documentA3':
+                setDocumentA3(url);
+                alert("Document uploaded successfully!"); // Prompt for successful upload
+                break;
+              case 'documentA4':
+                setDocumentA4(url);
+                alert("Document uploaded successfully!"); // Prompt for successful upload
+                break;
+              case 'documentA5':
+                setDocumentA5(url);
+                alert("Document uploaded successfully!"); // Prompt for successful upload
+                break;
+              case 'documentA6':
+                setDocumentA6(url);
+                alert("Document uploaded successfully!"); // Prompt for successful upload
+                break;
+              case 'documentA7':
+                setDocumentA7(url);
+                alert("Document uploaded successfully!"); // Prompt for successful upload
+                break;
+              case 'documentA8':
+                setDocumentA8(url);
+                alert("Document uploaded successfully!"); // Prompt for successful upload
+                break;
+
+              default:
+                break;
+            }
           });
         }
       );
     }
   };
 
-  const handleDelete = () => {
-    if (documentA7) {
-      const storageRef = ref(storage, `documents/documentA7`);
-      deleteObject(storageRef)
-        .then(() => {
-          setDocumentA7(null);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  };
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -183,63 +171,131 @@ function Form2A() {
     Total();
   }, [IActa, IActb, IActc, IActd, IActe, IActf]);
 
+  const Total2 =() => {
+    const valuesToSum = [sub1_d1, sub1_d2, sub1_d3, sub1_d4, sub1_d5, sub1_d6, sub1_d7, sub1_d8].filter((value) => !isNaN(parseFloat(value)));
+
+    const sum = valuesToSum.reduce((accumulator, currentValue) => {
+      return accumulator + parseFloat(currentValue);
+    }, 0);
+
+    setTotalsub1d(sum);
+  };
+
+  useEffect(() => {
+    Total2();
+  }, [sub1_d1, sub1_d2, sub1_d3, sub1_d4, sub1_d5, sub1_d6, sub1_d7, sub1_d8]);
+
+  const Total3 =() => {
+    const valuesToSum = [sub1_e1, sub1_e2, sub1_e3, sub1_e41, sub1_e42, sub1_e5, sub1_e6].filter((value) => !isNaN(parseFloat(value)));
+
+    const sum = valuesToSum.reduce((accumulator, currentValue) => {
+      return accumulator + parseFloat(currentValue);
+    }, 0);
+
+    setTotalsub1e(sum);
+  };
+
+  useEffect(() => {
+    Total3();
+  }, [sub1_e1, sub1_e2, sub1_e3, sub1_e41, sub1_e42, sub1_e5, sub1_e6]);
+
+  const Total4 =() => {
+    const valuesToSum = [sub1_f1, sub1_f2, sub1_f3].filter((value) => !isNaN(parseFloat(value)));
+
+    const sum = valuesToSum.reduce((accumulator, currentValue) => {
+      return accumulator + parseFloat(currentValue);
+    }, 0);
+
+    setTotalsub1f(sum);
+  };
+
+  useEffect(() => {
+    Total4();
+  }, [sub1_f1, sub1_f2, sub1_f3]);
+
   const handleSave = async (e) => {
-    e.preventDefault();
-    const facultyRef = doc(db, "faculty", user.uid);
-    const docRef = doc(facultyRef, "partB", "CategoryA");
-    const data = {
-      IActa,
-      IActb,
-      IActc,
-      IActd,
-      IActe,
-      IActf,
-      IOddsem,
-      IEvensem,
-      IActTotal,
-      documentA1,
-      documentA2,
-      documentA3,
-      documentA4,
-      documentA5,
-      documentA6,
-      documentA7,
-      documentA8,
-      check_d,
-      check_e,
-      check_f,
-      lecturesTaken
+    {
+      e.preventDefault();
+      const facultyRef = doc(db, "faculty", user.uid);
+      const docRef = doc(facultyRef, "partB", "CategoryA");
+      const data = {
+        IActa,
+        IActb,
+        IActc,
+        IActd,
+        IActe,
+        IActf,
+        IOddsem,
+        IEvensem,
+        IActTotal,
+        documentA1,
+        documentA2,
+        documentA3,
+        documentA4,
+        documentA5,
+        documentA6,
+        documentA7,
+        documentA8,
+        check_d,
+        check_e,
+        check_f,
+        lecturesTaken,
+        sub1_d1,
+        sub1_d2,
+        sub1_d3,
+        sub1_d4,
+        sub1_d5,
+        sub1_d6,
+        sub1_d7,
+        sub1_d8,
+        sub1_e1,
+        sub1_e2,
+        sub1_e3,
+        sub1_e41,
+        sub1_e42,
+        sub1_e5,
+        sub1_e6,
+        sub1_f1,
+        sub1_f2,
+        sub1_f3,
+        totalsub1d,
+        totalsub1e,
+        totalsub1f
+      };
+
+      if (
+        IActa === "" ||
+        IActb === "" ||
+        IActc === "" ||
+        IActd === "" ||
+        IActe === "" ||
+        IActf === "" ||
+        IActTotal === "" ||
+        totalsub1d === "" || totalsub1e === "" || totalsub1f === "" || totalsub1d < 0 || totalsub1e < 0 || totalsub1f < 0
+      ) {
+        alert("Please fill all the fields");
+        return;
+      } 
+      else if (isNaN(IActTotal) || IActTotal < 0) {
+        alert("Please enter a valid number for 'Total'");
+        return;
+      } 
+      else if (check_d.length === 0 || check_e.length === 0 || check_f.length === 0) {
+        alert("Please select at least one option in each category");
+        return;
+      } 
+      else if (!documentA1 || !documentA2 || !documentA3 || !documentA4 || !documentA5 || !documentA6 || !documentA7 || !documentA8) {
+        alert("Please upload all the required documents");
+        return;
+      }
+    
+    
+      // Save data to Firestore
+      await setDoc(docRef, data);
+      alert("Form saved");
+       console.log("Document saved");
     };
-  
-    // Add logic to handle document URLs here, if needed
-  
-    // Ensure the required fields are filled and valid
-    if (
-      IActa === "" ||
-      IActb === "" ||
-      IActc === "" ||
-      IActd === "" ||
-      IActe === "" ||
-      IActf === "" ||
-      IActTotal === ""
-    ) {
-      alert("Please fill all the fields");
-      return;
-    } else if (isNaN(IActTotal) || IActTotal < 0) {
-      alert("Please enter a valid number for 'Total'");
-      return;
-    } else if (check_d.length === 0 || check_e.length === 0 || check_f.length === 0) {
-      alert("Please select at least one option in each category");
-      return;
-    } else if (!documentA1 || !documentA2 || !documentA3 || !documentA4 || !documentA5 || !documentA6 || !documentA7 || !documentA8) {
-      alert("Please upload all the required documents");
-      return;
-    }
-  
-    // Save data to Firestore
-    await setDoc(docRef, data);
-    alert("Form saved");
-    console.log("Document saved");
+    // navigate('/form2b');
   };
 
   
@@ -269,12 +325,30 @@ function Form2A() {
         check_d,
         check_e,
         check_f,
-        lecturesTaken
+        lecturesTaken,
+        sub1_d1,
+        sub1_d2,
+        sub1_d3,
+        sub1_d4,
+        sub1_d5,
+        sub1_d6,
+        sub1_d7,
+        sub1_d8,
+        sub1_e1,
+        sub1_e2,
+        sub1_e3,
+        sub1_e41,
+        sub1_e42,
+        sub1_e5,
+        sub1_e6,
+        sub1_f1,
+        sub1_f2,
+        sub1_f3,
+        totalsub1d,
+        totalsub1e,
+        totalsub1f
       };
-    
-      // Add logic to handle document URLs here, if needed
-    
-      // Ensure the required fields are filled and valid
+
       if (
         IActa === "" ||
         IActb === "" ||
@@ -282,17 +356,21 @@ function Form2A() {
         IActd === "" ||
         IActe === "" ||
         IActf === "" ||
-        IActTotal === ""
+        IActTotal === "" ||
+        totalsub1d === "" || totalsub1e === "" || totalsub1f === "" || totalsub1d < 0 || totalsub1e < 0 || totalsub1f < 0
       ) {
         alert("Please fill all the fields");
         return;
-      } else if (isNaN(IActTotal) || IActTotal < 0) {
+      } 
+      else if (isNaN(IActTotal) || IActTotal < 0) {
         alert("Please enter a valid number for 'Total'");
         return;
-      } else if (check_d.length === 0 || check_e.length === 0 || check_f.length === 0) {
+      } 
+      else if (check_d.length === 0 || check_e.length === 0 || check_f.length === 0) {
         alert("Please select at least one option in each category");
         return;
-      } else if (!documentA1 || !documentA2 || !documentA3 || !documentA4 || !documentA5 || !documentA6 || !documentA7 || !documentA8) {
+      } 
+      else if (!documentA1 || !documentA2 || !documentA3 || !documentA4 || !documentA5 || !documentA6 || !documentA7 || !documentA8) {
         alert("Please upload all the required documents");
         return;
       }
@@ -304,9 +382,6 @@ function Form2A() {
     };
     navigate('/form2b');
   };
-
-  
-   
 
   const fetchData = async (uid) => {
     const facultyRef = doc(db, "faculty", uid);
@@ -338,6 +413,28 @@ function Form2A() {
         setCheck_e(data.check_e || []);
         setCheck_f(data.check_f || []);
         setLecturesTaken(data.lecturesTaken || 0);
+        setSub1_d1(data.sub1_d1 || "");
+        setSub1_d2(data.sub1_d2 || "");
+        setSub1_d3(data.sub1_d3 || "");
+        setSub1_d4(data.sub1_d4 || "");
+        setSub1_d5(data.sub1_d5 || "");
+        setSub1_d6(data.sub1_d6 || "");
+        setSub1_d7(data.sub1_d7 || "");
+        setSub1_d8(data.sub1_d8 || "");
+        setSub1_e1(data.sub1_e1 || "");
+        setSub1_e2(data.sub1_e2 || "");
+        setSub1_e3(data.sub1_e3 || "");
+        setSub1_e41(data.sub1_e41 || "");
+        setSub1_e42(data.sub1_e42 || "");
+        setSub1_e5(data.sub1_e5 || "");
+        setSub1_e6(data.sub1_e6 || "");
+        setSub1_f1(data.sub1_f1 || "");
+        setSub1_f2(data.sub1_f2 || "");
+        setSub1_f3(data.sub1_f3 || "");
+        setTotalsub1d(data.totalsub1d || "");
+        setTotalsub1e(data.totalsub1e || "");
+        setTotalsub1f(data.totalsub1f || "");
+
       }
     } catch (error) {
       console.error(error);
@@ -445,7 +542,8 @@ function Form2A() {
     </ul>
     </div>  
   </Col>
-        <Col md={9}>
+  
+            <Col md={9}>
       <h1 className="text-center">Part B: Academic Performance Indicators</h1>
       <h4 style={{fontSize: 20}} className="text-center">Category I: Teaching, Learning and Evaluation related activities</h4>
 
@@ -548,60 +646,28 @@ function Form2A() {
           ))}
           
         </Table>
-       
-        {/* <div className="text-center mb-3">
-          <Row>
-            <Col>
-            <Form.Group controlId="formFile" className="mb-3">           
-            {documentA7 && (
-              <>
-              <Form.Label>Doucment uploaded successfully</Form.Label>
-              <br />
-              <a href={documentA7} target="_blank" rel="noreferrer">
-                View Document
-              </a>
-              </>
-            )}
-            {!documentA7 && (
-              <Form.Label>Upload supporting documents (pdf)</Form.Label>
-            )}
-            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA7')} />           
-          </Form.Group>
-            </Col>
-            </Row>
-          </div> */}
+      
 
 <div className="text-center mb-3">
       <Row>
         <Col>
           <Form.Group controlId="formFile" className="mb-3">
-            {documentA7 ? (
+            {documentA7 && (
               <>
                 <Form.Label>Document uploaded successfully</Form.Label>
                 <br />
                 <a href={documentA7} target="_blank" rel="noreferrer">
                   View Document
                 </a>
-                <Button variant="danger" onClick={handleDelete} className="mx-2">
-                  Delete
-                </Button>
-              </>
-            ) : (
-              <>
-                <Form.Label>Upload supporting documents (pdf)</Form.Label>
-                <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA7')} />
               </>
             )}
+            {!documentA7 && (
+              <Form.Label>Upload supporting documents (pdf)</Form.Label>
+            )}
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA7')} />
           </Form.Group>
         </Col>
       </Row>
-      {!documentA7 && (
-        <Row>
-          <Col>
-            <Button variant="secondary" disabled>View Document</Button>
-          </Col>
-        </Row>
-      )}
     </div>
 
         <div className="text-center mb-3">
@@ -745,6 +811,7 @@ function Form2A() {
             <tr>
               <th>Sr. No.</th>
               <th>Natural of Activity</th>
+              <th>Spilt-Up Marks Total</th>
               <th>MAX API Score alloted</th>
               <th>Self appraisal Score</th>
               <th>Upload Supporting Documents</th>
@@ -801,6 +868,9 @@ function Form2A() {
       </Col>
       
               </td>
+              
+              <td className='text-center'> - </td>
+
               <td>
               <p className='text-center'>50</p>
               </td>
@@ -851,6 +921,9 @@ function Form2A() {
                   classes for diploma students may be given 5 marks.
                 </Col>
               </td>
+
+              <td className='text-center'> - </td>
+
               <td>
               <p className='text-center'>5</p>
               </td>
@@ -893,6 +966,9 @@ function Form2A() {
                   mentioned in 1.a).
                 </Col>
               </td>
+
+              <td className='text-center'> - </td>
+
               <td>
               <p className='text-center'>5</p>
               </td>
@@ -932,8 +1008,11 @@ function Form2A() {
                   Learning material prepared for students: Provide short
                   description of each work done in separate sheet.
                 </Col>
-                <Col>Evaluation Criteria:</Col>
-                <Form.Check
+                <br/>
+                <p>*Tick the applicable activities and enter the score.<br/>Evaluation Criteria:</p>
+                
+                <tr>
+                  <td> <Form.Check
                   type="checkbox"
                   label="1. Quality PPT made by self (5)"
                   value="Quality PPT made by self (5)"
@@ -945,8 +1024,25 @@ function Form2A() {
                       setCheck_d(check_d.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
-                <Form.Check
+                /></td>
+                  <td>
+                  <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={sub1_d1 >= 0 ? sub1_d1 : 0}
+                  onChange={(e) => {
+                    const value= parseInt(e.target.value);
+                  if (!isNaN(value)) {
+                    setSub1_d1(Math.max(0, value));
+                  } else {
+                    setSub1_d1(0);
+                  }
+                  }} />
+                  </td>
+                </tr>
+
+                <tr>
+                  <td><Form.Check
                   type="checkbox"
                   label="2. Animations/virtual labs/website (10)"
                   value="Animations/virtual labs/website (10)"
@@ -958,8 +1054,25 @@ function Form2A() {
                       setCheck_d(check_d.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
-                <Form.Check
+                /></td>
+
+                  <td>
+                  <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={sub1_d2 >= 0 ? sub1_d2 : 0}
+                  onChange={(e) => {
+                    const value= parseInt(e.target.value);
+                  if (!isNaN(value)) {
+                    setSub1_d2(Math.max(0, value));
+                  } else {
+                    setSub1_d2(0);
+                  } }} />
+                  </td>
+                </tr>
+
+                <tr>
+                  <td><Form.Check
                   type="checkbox"
                   label="3. Good quality video lectures available on public platforms (recorded online lectures not to be considered) (10)"
                   value="Good quality video lectures available on public platforms"
@@ -971,8 +1084,24 @@ function Form2A() {
                       setCheck_d(check_d.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
-                <Form.Check
+                /></td>
+                  <td>
+                  <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={sub1_d3 >= 0 ? sub1_d3 : 0}
+                  onChange={(e) => {
+                    const value= parseInt(e.target.value);
+                  if (!isNaN(value)) {
+                    setSub1_d3(Math.max(0, value));
+                  } else {
+                    setSub1_d3(0);
+                  } }} />
+                  </td>
+                </tr>
+
+                <tr>
+                  <td><Form.Check
                   type="checkbox"
                   label="4. Arranged guest lecture (2 points per lecture. The guest should be external faculty from reputed institute or industry)"
                   value="Arranged guest lecture (2 points per lecture. The guest should be external faculty from reputed institute or industry)"
@@ -984,8 +1113,25 @@ function Form2A() {
                       setCheck_d(check_d.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
-                <Form.Check
+                /></td>
+
+                  <td>
+                  <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={sub1_d4 >= 0 ? sub1_d4 : 0}
+                  onChange={(e) => {
+                    const value= parseInt(e.target.value);
+                  if (!isNaN(value)) {
+                    setSub1_d4(Math.max(0, value));
+                  } else {
+                    setSub1_d4(0);
+                  } }} />
+                  </td>
+                </tr>
+               
+                <tr>
+                  <td><Form.Check
                   type="checkbox"
                   label="5. Arranged subject related Industrial Visit (2 pts)"
                   value="Arranged subject related Industrial Visit (2 pts)"
@@ -997,8 +1143,25 @@ function Form2A() {
                       setCheck_d(check_d.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
-                <Form.Check
+                /></td>
+
+                  <td>
+                  <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={sub1_d5 >= 0 ? sub1_d5 : 0}
+                  onChange={(e) => {
+                    const value= parseInt(e.target.value);
+                  if (!isNaN(value)) {
+                    setSub1_d5(Math.max(0, value));
+                  } else {
+                    setSub1_d5(0);
+                  } }} />
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td><Form.Check
                   type="checkbox"
                   label="6. Use of ICT (max 2)"
                   value="Use of ICT (max 2)"
@@ -1010,9 +1173,25 @@ function Form2A() {
                       setCheck_d(check_d.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
+                /></td>
+
+                  <td>
+                  <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={sub1_d6 >= 0 ? sub1_d6 : 0}
+                  onChange={(e) => {
+                    const value= parseInt(e.target.value);
+                  if (!isNaN(value)) {
+                    setSub1_d6(Math.max(0, value));
+                  } else {
+                    setSub1_d6(0);
+                  } }} />
+                  </td>
+                </tr>
                 
-                <Form.Check
+                <tr>
+                  <td><Form.Check
                   type="checkbox"
                   label="7. Innovative pedagogy (max 2)"
                   value="Innovative pedagogy (max 2)"
@@ -1024,8 +1203,26 @@ function Form2A() {
                       setCheck_d(check_d.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
-                <Form.Check
+                /></td>
+                
+                  <td>
+                  <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={sub1_d7 >= 0 ? sub1_d7 : 0}
+                  onChange={(e) => {
+                    const value= parseInt(e.target.value);
+                  if (!isNaN(value)) {
+                    setSub1_d7(Math.max(0, value));
+                  } else {
+                    setSub1_d7(0);
+                  } }} />
+
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td><Form.Check
                   type="checkbox"
                   label="8. Content beyond syllabus(max 2)"
                   value="Content beyond syllabus(max 2)"
@@ -1037,9 +1234,33 @@ function Form2A() {
                       setCheck_d(check_d.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
+                /></td>
 
+                  <td>
+                  <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={sub1_d8 >= 0 ? sub1_d8 : 0}
+                  onChange={(e) => {
+                    const value= parseInt(e.target.value);
+                  if (!isNaN(value)) {
+                    setSub1_d8(Math.max(0, value));
+                  } else {
+                    setSub1_d8(0);
+                  } }} />
+
+                  </td>
+
+                </tr>
               </td>
+
+              <td className='text-center'> 
+              <Form.Control
+                      type="text"
+                      style={{ textAlign: "center" }}
+                      value={totalsub1d}
+                    /> </td>
+
               <td>
               <p className='text-center'>40</p>
               </td>
@@ -1075,8 +1296,10 @@ function Form2A() {
             <tr>
               <td>e.</td>
               <td>
-                <Col>Updating of subject content course improvement etc</Col>
-                <Form.Check
+                <Col>Updating of subject content course improvement etc.</Col>
+
+                  <tr>
+                    <td><Form.Check
                   type="checkbox"
                   label="1. Updated lecture notes (max 3)"
                   value="Updated lecture notes (max 3)"
@@ -1088,8 +1311,26 @@ function Form2A() {
                       setCheck_e(check_e.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
-                <Form.Check
+                /></td>
+
+                    <td>
+                    <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={sub1_e1 >= 0 ? sub1_e1 : 0}
+                  onChange={(e) => {
+                    const value= parseInt(e.target.value);
+                  if (!isNaN(value)) {
+                    setSub1_e1(Math.max(0, value));
+                  } else {
+                    setSub1_e1(0);
+                  }
+                  }} />
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td> <Form.Check
                   type="checkbox"
                   label="2. Updated lab manual (max 3)"
                   value="Updated lab manual (max 3)"
@@ -1101,8 +1342,26 @@ function Form2A() {
                       setCheck_e(check_e.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
-                <Form.Check
+                /></td>
+
+                    <td>
+                    <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={sub1_e2 >= 0 ? sub1_e2 : 0}
+                  onChange={(e) => {
+                    const value= parseInt(e.target.value);
+                  if (!isNaN(value)) {
+                    setSub1_e2(Math.max(0, value));
+                  } else {
+                    setSub1_e2(0);
+                  }
+                  }} />
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td><Form.Check
                   type="checkbox"
                   label="3. Question bank (2 marks)"
                   value="Question bank (2 marks)"
@@ -1114,13 +1373,29 @@ function Form2A() {
                       setCheck_e(check_e.filter((c) => c !== e.target.value));
                     }
                   }}
-                />  
-                <Col>4. Question Paper solution</Col>
-                                 
-                  <Col>
-                  <Form.Check
+                />  </td>
+                    <td>
+                    <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={sub1_e3 >= 0 ? sub1_e3 : 0}
+                  onChange={(e) => {
+                    const value= parseInt(e.target.value);
+                  if (!isNaN(value)) {
+                    setSub1_e3(Math.max(0, value));
+                  } else {
+                    setSub1_e3(0);
+                  }
+                  }} />
+                    </td>
+                  </tr>
+                
+               <tr> 4. Question Paper solution
+                <Col>
+                               <tr>
+                 <td><Form.Check
                   type="checkbox"
-                  label="1. Term Test (1 each max 2)"
+                  label="1. Term Test (1 each max 2) "
                   value="Term Test (1 each max 2)"
                   checked={check_e.includes("Term Test (1 each max 2)")}
                   onChange={(e) => {
@@ -1130,8 +1405,25 @@ function Form2A() {
                       setCheck_e(check_e.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
-                <Form.Check
+                /></td>
+                <td>
+                <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={sub1_e41 >= 0 ? sub1_e41 : 0}
+                  onChange={(e) => {
+                    const value= parseInt(e.target.value);
+                  if (!isNaN(value)) {
+                    setSub1_e41(Math.max(0, value));
+                  } else {
+                    setSub1_e41(0);
+                  }
+                  }} />
+                </td>
+               </tr>
+
+               <tr>
+                <td><Form.Check
                   type="checkbox"
                   label="2. Model University solution (5)"
                   value="Model University solution (5)"
@@ -1143,9 +1435,29 @@ function Form2A() {
                       setCheck_e(check_e.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
-                  </Col>
-                <Form.Check
+                /></td>
+
+                <td>
+                <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={sub1_e42 >= 0 ? sub1_e42 : 0}
+                  onChange={(e) => {
+                    const value= parseInt(e.target.value);
+                  if (!isNaN(value)) {
+                    setSub1_e42(Math.max(0, value));
+                  } else {
+                    setSub1_e42(0);
+                  }
+                  }} />
+                </td>
+               </tr>
+                </Col>  
+
+             </tr>
+
+             <tr>
+              <td><Form.Check
                   type="checkbox"
                   label="5. Assignment solution (1 each max 2)"
                   value="Assignment solution (1 each max 2)"
@@ -1157,8 +1469,26 @@ function Form2A() {
                       setCheck_e(check_e.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
-                <Form.Check
+                /></td>
+
+              <td>
+              <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={sub1_e5 >= 0 ? sub1_e5 : 0}
+                  onChange={(e) => {
+                    const value= parseInt(e.target.value);
+                  if (!isNaN(value)) {
+                    setSub1_e5(Math.max(0, value));
+                  } else {
+                    setSub1_e5(0);
+                  }
+                  }} />
+              </td>
+              </tr>                                                                         
+                
+              <tr>
+                <td><Form.Check
                   type="checkbox"
                   label="6. Syllabus setting (5 marks each)(max 2)"
                   value="Syllabus setting (5 marks each)(max 2)"
@@ -1170,10 +1500,35 @@ function Form2A() {
                       setCheck_e(check_e.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
+                /></td>
+                <td>
+                <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={sub1_e6 >= 0 ? sub1_e6 : 0}
+                  onChange={(e) => {
+                    const value= parseInt(e.target.value);
+                  if (!isNaN(value)) {
+                    setSub1_e6(Math.max(0, value));
+                  } else {
+                    setSub1_e6(0);
+                  }
+                  }} />
+                </td>
+                </tr>    
+                
+                
                 
                 <Col>*quality of notes/solution to be considered</Col>
               </td>
+
+              <td > 
+              <Form.Control
+                      type="text"
+                      style={{ textAlign: "center" }}
+                      value={totalsub1e}
+                    /> </td>
+
               <td>
               <p className='text-center'>25</p>
               </td>
@@ -1213,7 +1568,9 @@ function Form2A() {
                 <Col>
                   Examination duties (invigilation; Question paper setting, evaluation/ assessment of answer scripts) as per allotment.
                 </Col>
-                <Form.Check
+
+                  <tr>
+                    <td><Form.Check
                   type="checkbox"
                   label="1. Invigilation (flying squad duties/Joint CC/any exam related duties) (max 5 points)"
                   value="Invigilation (flying squad duties/Joint CC/any exam related duties) (max 5 points)"
@@ -1228,8 +1585,27 @@ function Form2A() {
                 />               
                 <Col>
                   100% compliance: 5, 80% compliance: 3, less than 80%: no score
-                </Col>
-                <Form.Check
+                </Col></td>
+
+                    <td>
+                    <Form.Control
+                          type="text"
+                          style={{ textAlign: "center" }}
+                          value={sub1_f1 >= 0 ? sub1_f1 : 0}
+                          onChange={(e) => {
+                            const value = parseInt(e.target.value);
+                            if (!isNaN(value)) {
+                              setSub1_f1(Math.max(0, value));
+                            } else {
+                              setSub1_f1(0);
+                            }
+                          }}
+                        />
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>     <Form.Check
                   type="checkbox"
                   label="2. Evaluation of answer script, preparation of result list on time as specified by Examination Section (max 10 points)"
                   value="Evaluation of answer script, preparation of result list on time as specified by Examination Section (max 10 points)"
@@ -1242,8 +1618,28 @@ function Form2A() {
                     }
                   }}
                 />
-                <Col>100% compliance: 5, less than 100%: no score.</Col>
-                <Form.Check
+                <Col>100% compliance: 5, less than 100%: no score.</Col></td>
+                    <td>
+                    
+                    <Form.Control
+                          type="text"
+                          style={{ textAlign: "center" }}
+                          value={sub1_f2 >= 0 ? sub1_f2 : 0}
+                          onChange={(e) => {
+                            const value = parseInt(e.target.value);
+                            if (!isNaN(value)) {
+                              setSub1_f2(Math.max(0, value));
+                            } else {
+                              setSub1_f2(0);
+                            }
+                          }}
+                        />
+                    
+                    </td>
+                  </tr>
+
+                <tr>
+                  <td><Form.Check
                   type="checkbox"
                   label="3. Question paper setting (5 each, max score 10)"
                   value="Question paper setting (5 each, max score 10)"
@@ -1255,8 +1651,35 @@ function Form2A() {
                       setCheck_f(check_f.filter((c) => c !== e.target.value));
                     }
                   }}
-                />
+                /></td>
+                  <td>
+                  
+                    <Form.Control
+                          type="text"
+                          style={{ textAlign: "center" }}
+                          value={sub1_f3 >= 0 ? sub1_f3 : 0}
+                          onChange={(e) => {
+                            const value = parseInt(e.target.value);
+                            if (!isNaN(value)) {
+                              setSub1_f3(Math.max(0, value));
+                            } else {
+                              setSub1_f3(0);
+                            }
+                          }}
+                        />
+                    
+                  </td>
+                </tr>
+
               </td>
+
+              <td > 
+              <Form.Control
+                      type="text"
+                      style={{ textAlign: "center" }}
+                      value={totalsub1f}
+                    /> </td>
+
               <td>
               <p className='text-center'>25</p>
               </td>
@@ -1294,6 +1717,7 @@ function Form2A() {
             <tr>
               <td></td>
               <td>Total of Category I</td>
+              <td></td>
               <td>
               <p className='text-center'>150</p>
               </td>
@@ -1340,6 +1764,9 @@ function Form2A() {
           </Row>
           </div>
       </Col>
+
+
+
       </Row>
       </Container>
   );

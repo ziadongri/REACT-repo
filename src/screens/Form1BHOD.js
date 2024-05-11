@@ -117,37 +117,12 @@ function Form1BHOD() {
   }
 
   return (
+  <div className="container">
     <Container fluid>
       <Row>
-        <Col md={2} className="form-navigation">
-          <h3>Form Navigation</h3>
-          <ul>
-            <li>
-              <Link to="/form1bhod">Part A</Link>
-            </li>
-            <li>
-              <span className="form2-subsection">Part B</span>
-              <ul className="form2-subsection-list">
-                <li>
-                  <Link onClick={() => navigate('/form2ahod', { state: {facultyUID: facultyData[0].uid} })}
-                  className="form2-subsection-link">Category A</Link>
-                </li>
-                <li>
-                  <Link onClick={() => navigate('/form2bhod', { state: {facultyUID: facultyData[0].uid} })} className="form2-subsection-link">Category B</Link>
-                </li>
-                <li>
-                  <Link onClick={() => navigate('/form2chod', { state: {facultyUID: facultyData[0].uid} })} className="form2-subsection-link">Category C</Link>
-                </li>
-              </ul>
-            </li>
-            <li>
-            <Link onClick={() => navigate('/form3', { state: {facultyUID: facultyData[0].uid} })}>Part C</Link> 
-          </li>
-            {/* Add more form links as needed */}
-          </ul>
-        </Col>
-        <Col md={6}>
-          <h1>Part A: General Information</h1>
+      
+        <Col md={9}>
+          <h1 className="text-center">Part A: General Information</h1>
           <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="year">
               <Row>
@@ -169,6 +144,7 @@ function Form1BHOD() {
                     <option value="2027-28">2027-28</option>
                     <option value="2028-29">2028-29</option>
                     <option value="2029-30">2029-30</option>
+
                   </Form.Control>
                 </Col>
               </Row>
@@ -370,6 +346,7 @@ function Form1BHOD() {
         </Col>
       </Row>
     </Container>
+  </div>
   );
 }
 

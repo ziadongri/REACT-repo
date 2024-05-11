@@ -103,11 +103,12 @@ function Form1AHOD() {
   }
 
     return (
+      <div className="container">
         <Container fluid>
       <Row>
       
-        <Col >
-          <h1>Part A: General Information</h1>
+        <Col md={9} >
+          <h1 className="text-center">Part A: General Information</h1>
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3 align-item-center" controlId="name">
             <Row>
@@ -294,6 +295,7 @@ function Form1AHOD() {
         </Col>
       </Row>
     </Container>
+    </div>
     )
 }
 
