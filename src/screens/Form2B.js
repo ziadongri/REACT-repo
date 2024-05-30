@@ -476,9 +476,6 @@ function Form2B() {
     navigate('/form2c');
 };
 
-
-
-
   return (
     <Container fluid>
       <Row>
@@ -521,22 +518,22 @@ function Form2B() {
           <Form onSubmit={handleSubmit}>
             <Table striped bordered hover>
               <thead>
-                <tr>
-                  <th>Sr. No.</th>
-                  <th>Natural of Activity</th>
-                  <th>Spilt-Up Marks Total</th>
-                  <th>MAX API Score alloted</th>
-                  <th>Self apprasial Score</th>
-                  <th>Upload Supporting Documents</th>
+                <tr className="text-center">
+                <th style={{ verticalAlign: 'middle'}}>Sr. No.</th>
+                <th style={{ verticalAlign: 'middle'}}>Natural of Activity</th>
+                <th style={{ verticalAlign: 'middle'}}>Spilt-Up Marks Total</th>
+                <th style={{ verticalAlign: 'middle'}}>MAX API Score alloted</th>
+                <th style={{ verticalAlign: 'middle'}}>Self apprasial Score</th>
+                <th style={{ verticalAlign: 'middle'}}>Upload Supporting Documents</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>a.</td>
+                  <td className="text-center">a.</td>
                   <td>
                     
-                    Contribution to Corporate life and management of Institution- 
-                    <Col>List yearly or semester-wise responsibilities</Col>
+                    Contribution to Corporate life and management of Institution - 
+                    <p>List yearly or semester-wise responsibilities</p>
                     
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
           <Form.Text className="text-muted">
@@ -550,9 +547,7 @@ function Form2B() {
             minLength={50}
             maxLength={500}
           />
-        </Form.Group>
-                    
-                    
+        </Form.Group>                                        
                   </td>
               
                   <td>
@@ -612,16 +607,14 @@ function Form2B() {
                 <Col><Col>3. International - 15 points</Col></Col>
                 <Col>Establishing labs with the help of industry/industry/another organization</Col>
                 <Col>Max 5 per individual if a group is involved - 10 if only 1 person is involved</Col>
-
-                      </td>
-                </tr>
+                      </td></tr>               
 
                 <tr>
-                  <td>b.</td>
+                  <td className="text-center">b.</td>
                   <td>
                     
                     Extension, Co-curricular and field based activities:
-                    <p> <br/>
+                    <p> 
                       *Tick the applicable activities and enter the score.
                     </p>
                     <tr>
@@ -638,6 +631,7 @@ function Form2B() {
                     }
                   }}
                 /></td>
+
                     <td>
                     <Form.Control
                       type="text"    
@@ -654,8 +648,7 @@ function Form2B() {
                     />
                     </td>  
                     </tr>
-                    
-                 
+                                     
                      <tr>
                       <td><Form.Check
                   type="checkbox"
@@ -1202,14 +1195,13 @@ function Form2B() {
                   </td>
                 </tr>
 
-
                 <tr>
-                  <td>c.</td>
+                  <td className="text-center">c.</td>
                   <td>
                     
                       Students and Staff Related Socio Cultural and Sports Programs (intra/interdepartmental and intercollegiate):
 
-                      <p><br/>
+                      <p>
                       *Tick the applicable activities and enter the score.
                     </p>
 
@@ -1320,11 +1312,11 @@ function Form2B() {
                 </tr>
 
                 <tr>
-                  <td>d.</td>
+                  <td className="text-center">d.</td>
                   <td>
                     
                     Professional Development Activities:
-                    <p> <br/>
+                    <p> 
                       *Tick the applicable activities and enter the score.
                     </p>
                     <tr>
@@ -1453,11 +1445,11 @@ function Form2B() {
                 </tr>
     
                 Participation in short-term training courses less than one-week duration:
-                <p> <br/>
+                <p> 
                       *Tick the applicable activities and enter the score.
                     </p>
 
-                    <Col>
+                    <>
                     <tr>
                       <td><Form.Check
                   type="checkbox"
@@ -1553,7 +1545,7 @@ function Form2B() {
                       />
                       </td>
                     </tr>                                  
-                    </Col>
+                    </>
 
                     <tr>
                       <td><Form.Check

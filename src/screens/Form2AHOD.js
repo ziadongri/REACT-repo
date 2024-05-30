@@ -174,58 +174,35 @@ const fetchData = async () => {
   return (
     <Container fluid >
       <Row>
-      <Col md={2} className="form-navigation">
-          <h3>Form Navigation</h3>
-          <ul>
-            <li>
-              <Link to="/form1bhod">Part A</Link>
-            </li>
-            <li>
-              <span className="form2-subsection">Part B</span>
-              <ul className="form2-subsection-list">
-                <li>
-                  <Link 
-                  to = "/form2ahod"
-                  className="form2-subsection-link">Category A</Link>
-                </li>
-                <li>
-                  <Link onClick={handleForm2BHODNavigation} className="form2-subsection-link">Category B</Link>
-                </li>
-                <li>
-                  <Link onClick={handleForm2CHODNavigation} className="form2-subsection-link">Category C</Link>
-                </li>
-              </ul>
-            </li>
-            <li>
-            <Link onClick={handleForm3HODNavigation}>Part C</Link>
-          </li>
-            {/* Add more form links as needed */}
-          </ul>
-        </Col>
-        
-        <Col md={9}>
-      <h1>Part B: Academic Performance Indicators</h1>
-      <h4 className="fw-lighter">Category I: Teaching, Learning and Evaluation related activities</h4>
-      <p>
-        *proof to be submitted for all claims and to be verified by HOD's in
-        presence of respective faculty
+ 
+        <Col md={11} className="mx-auto text-center" >
+      <h1 className="text-center">Part B: Academic Performance Indicators</h1>
+      <h4 style={{fontSize: 20}} className="text-center">Category I: Teaching, Learning and Evaluation related activities</h4>
+
+      <p className='text-center' >
+       NOTE: 1. Proof to be submitted for all claims and to be verified by HOD's in
+        presence of respective faculty.
+        <br />
+        2. Upload document for below activities. To change the document, upload new document again.
       </p>
-        <Table striped bordered hover>
+
+      <div className="content-box">
+               <Table striped bordered hover>
           <thead>
-            <tr>
-              <th></th>
-              <th>Courses Taught code and name</th>
-              <th>Class for which conducted</th>
-              <th>Target Lectures/ Practical</th>
-              <th>Lectures/ Practical Actually conducted</th>
-              <th>% of Classes conducted</th>
+            <tr className="text-center">
+            <th style={{ verticalAlign: 'middle'}}>Sr. No.</th>
+            <th style={{ verticalAlign: 'middle'}}>Courses Taught code and name</th>
+            <th style={{ verticalAlign: 'middle'}}>Class for which conducted</th>
+            <th style={{ verticalAlign: 'middle'}}>Target Lectures/ Practical</th>
+            <th style={{ verticalAlign: 'middle'}}>Lectures/ Practical Actually conducted</th>
+            <th style={{ verticalAlign: 'middle'}}>% of Classes conducted</th>
             </tr>
           </thead>
           {facultyData.IOddsem.map((data, index) => (
             <tbody key={index}>
-              <tr>
-                <td>{index + 1}</td>
-                <td>{data.course}</td>
+              <tr className="text-center">
+                <td >{index + 1}</td>
+                <td >{data.course}</td>
                 <td>{data.class}</td>
                 <td>{data.lectures}</td>
                 <td>{data.actualLectures}</td>
@@ -248,22 +225,24 @@ const fetchData = async () => {
           </Form.Group>
           </Col>
           </Row>
-          </div>
-
-        <Table striped bordered hover>
+          </div> 
+      </div>
+      
+      <div className="content-box">
+               <Table striped bordered hover>
           <thead>
-            <tr>
-              <th></th>
-              <th>Courses Taught code and name</th>
-              <th>Class for which conducted</th>
-              <th>Target Lectures/ Practical</th>
-              <th>Lectures/ Practical Actually conducted</th>
-              <th>% of Classes conducted</th>
+            <tr className="text-center">
+            <th style={{ verticalAlign: 'middle'}}>Sr. No.</th>
+            <th style={{ verticalAlign: 'middle'}}>Courses Taught code and name</th>
+            <th style={{ verticalAlign: 'middle'}}>Class for which conducted</th>
+            <th style={{ verticalAlign: 'middle'}}>Target Lectures/ Practical</th>
+            <th style={{ verticalAlign: 'middle'}}>Lectures/ Practical Actually conducted</th>
+            <th style={{ verticalAlign: 'middle'}}>% of Classes conducted</th>
             </tr>
           </thead>
           {facultyData.IEvensem.map((data, index) => (
             <tbody key={index}>
-              <tr>
+              <tr className="text-center">
                 <td>{index + 1}</td>
                 <td>{data.course}</td>
                 <td>{data.class}</td>
@@ -288,34 +267,37 @@ const fetchData = async () => {
           </Form.Group>
           </Col>
           </Row>
-          </div>
+          </div> 
+      </div>
 
         <Table striped bordered hover>
           <thead>
-            <tr>
-              <th>Sr. No.</th>
-              <th>Natural of Activity</th>
-              <th>MAX API Score alloted</th>
-              <th>Self appraisal Score</th>
-              <th>Supporting Documents</th>
-              <th>Verified API Score</th>
+            <tr className="text-center">
+            <th style={{ verticalAlign: 'middle'}}>Sr. No.</th>
+            <th style={{ verticalAlign: 'middle'}}>Natural of Activity</th>
+            <th style={{ verticalAlign: 'middle'}}>Spilt-Up Marks Total</th>
+            <th style={{ verticalAlign: 'middle'}}>MAX API Score alloted</th>
+            <th style={{ verticalAlign: 'middle'}}>Self appraisal Score</th>
+            <th style={{ verticalAlign: 'middle'}}>Supporting Documents</th>
+            <th style={{ verticalAlign: 'middle'}}>Verified API Score</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
+          <tbody >
+            <tr >
               <td>a.</td>
-              <td>
-                <Col>
+              <td style={{ textAlign: "left" }}>
+                <Col >
                   Lectures, Seminars, tutorials, practical, contact hours
                   undertaken taken as percentage of lectures allocated
                 </Col>
-                <Col>Total lectures conducted {">"} 90% score = 50</Col>
-                <Col>90% {">"} Lectures taken ≥ 80% = 40</Col>
-                <Col> 80% {">"} Lectures taken ≥ 70% = 30</Col>
-                <Col>
-                  no score if number of lectures taken is less than 70%{" "}
+                <Col>- Total lectures conducted {">"} 90% score = 50</Col>
+                <Col>- 90% {">"} Lectures taken ≥ 80% = 40</Col>
+                <Col>- 80% {">"} Lectures taken ≥ 70% = 30</Col>
+                <Col>- no score if number of lectures taken is less than 70%{" "}
                 </Col>
               </td>
+              <td className='text-center'> - </td>
+
               <td><p className='text-center'>50</p></td>
               <td><p className='text-center'>{facultyData.IActa}</p></td>
 
@@ -335,18 +317,20 @@ const fetchData = async () => {
           </Row>
           </div>
               </td>
-              <td>
+              <td >
                 <Form.Control
                   type="text"
+                  style={{ textAlign: "center" }}
                   value={IActaHOD}
-                  onChange={(e) => setIActaHOD(e.target.value)}
+                  onChange={(e) => setIActaHOD(Math.min(Number(e.target.value), 50))}
+                  max={50}
                 />
               </td>
             </tr>
 
-            <tr>
+            <tr >
               <td>b.</td>
-              <td>
+              <td style={{ textAlign: "left" }}>
                 <Col> Lectures or lab in excess of UGC norms </Col>
                 <Col>(One point for each extra class) </Col>
                 <Col>
@@ -356,6 +340,8 @@ const fetchData = async () => {
                   classes for diploma students may be given 5 marks
                 </Col>
               </td>
+              <td className='text-center'> - </td>
+
               <td>
               <p className='text-center'>5</p>
               </td>
@@ -379,15 +365,17 @@ const fetchData = async () => {
               <td>
                 <Form.Control
                   type="text"
+                  style={{ textAlign: "center" }}
                   value={IActbHOD}
-                  onChange={(e) => setIActbHOD(e.target.value)}
+                  onChange={(e) => setIActbHOD(Math.min(Number(e.target.value), 5))}
+                  max={5}
                 />
               </td>
             </tr>
 
             <tr>
               <td>c.</td>
-              <td>
+              <td style={{ textAlign: "left" }}>
                 <Col>
                   {" "}
                   Remedial lectures or Revision Lectures actually conducted for
@@ -395,6 +383,8 @@ const fetchData = async () => {
                   mentioned in 1.a)
                 </Col>
               </td>
+              <td className='text-center'> - </td>
+
               <td>
               <p className='text-center'>5</p>
               </td>
@@ -420,138 +410,176 @@ const fetchData = async () => {
               <td>
                 <Form.Control
                   type="text"
+                  style={{ textAlign: "center" }}
                   value={IActcHOD}
-                  onChange={(e) => setIActcHOD(e.target.value)}
+                  onChange={(e) => setIActcHOD(Math.min(Number(e.target.value), 5))}
+                  max={5}
                 />
               </td>
             </tr>
 
             <tr>
               <td>d.</td>
-              <td>
+              <td style={{ textAlign: "left" }}>
                 <Col>
                   Learning material prepared for students: Provide short
                   description of each work done in separate sheet
                 </Col>
-                <Col>Evaluation Criteria:</Col>
+                <br/>
+                <p>*Tick the applicable activities and enter the score.<br/>Evaluation Criteria:</p>
               
-                <Form.Check
+                    <tr>
+                      <td><Form.Check
                   type="checkbox"
                   label="1. Quality PPT made by self (5)"
-                  // value="Quality PPT made by self (5)"
+                 
                   checked={facultyData.check_d.includes("Quality PPT made by self (5)")}
                   readOnly
-                  // onChange={(e) => {
-                  //   if (e.target.checked) {
-                  //     setCheck_d([...check_d, e.target.value]);
-                  //   } else {
-                  //     setCheck_d(check_d.filter((c) => c !== e.target.value));
-                  //   }
-                  // }}
-                />
-                <Form.Check
+                 
+                /></td>
+                      <td>
+                      <Form.Control
+                      type="text"
+                      style={{ textAlign: "center" }}
+                      value={facultyData.sub1_d1 >= 0 ? facultyData.sub1_d1 : 0}
+                      readOnly
+                    />
+
+                      </td>
+                    </tr>
+
+                <tr>
+                  <td><Form.Check
                   type="checkbox"
                   label="2. Animations/virtual labs/website (10)"
-                  // value="Animations/virtual labs/website (10)"
+                 
                   checked={facultyData.check_d.includes("Animations/virtual labs/website (10)")}
-                  readOnly
-                  // onChange={(e) => {
-                  //   if (e.target.checked) {
-                  //     setCheck_d([...check_d, e.target.value]);
-                  //   } else {
-                  //     setCheck_d(check_d.filter((c) => c !== e.target.value));
-                  //   }
-                  // }}
+                  readOnly                 
                 />
-                <Form.Check
+                  </td>
+                  <td>
+                  <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={facultyData.sub1_d2 >= 0 ? facultyData.sub1_d2 : 0}
+                  readOnly  
+                /></td>
+                 </tr>
+                  
+               <tr>
+                <td><Form.Check
                   type="checkbox"
                   label="3. Good quality video lectures available on public platforms (recorded online lectures not to be considered) (10)"
-                  // value="Good quality video lectures available on public platforms"
+              
                   checked={facultyData.check_d.includes("Good quality video lectures available on public platforms")}
                   readOnly
-                  // onChange={(e) => {
-                  //   if (e.target.checked) {
-                  //     setCheck_d([...check_d, e.target.value]);
-                  //   } else {
-                  //     setCheck_d(check_d.filter((c) => c !== e.target.value));
-                  //   }
-                  // }}
+                /></td>
+                <td>
+                <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={facultyData.sub1_d3 >= 0 ? facultyData.sub1_d3 : 0}
+                  readOnly
                 />
-                <Form.Check
+                </td>
+               </tr>
+                
+                <tr>
+                  <td></td>
+                  <td></td>
+                </tr>
+
+                <tr>
+                  <td><Form.Check
                   type="checkbox"
                   label="4. Arranged guest lecture (2 points per lecture. The guest
-                    should be external faculty from reputed institute or industry)"
-                  // value="Arranged guest lecture (2 points per lecture. The guest
-                  //   should be external faculty from reputed institute or industry)"
+                    should be external faculty from reputed institute or industry)"                 
                   checked={facultyData.check_d.includes("Arranged guest lecture (2 points per lecture. The guest should be external faculty from reputed institute or industry)")}
                   readOnly
-                  // onChange={(e) => {
-                  //   if (e.target.checked) {
-                  //     setCheck_d([...check_d, e.target.value]);
-                  //   } else {
-                  //     setCheck_d(check_d.filter((c) => c !== e.target.value));
-                  //   }
-                  // }}
-                />
-                <Form.Check
-                  type="checkbox"
-                  label="5. Arranged subject related Industrial Visit (2 pts)"
-                  // value="Arranged subject related Industrial Visit (2 pts)"
-                  checked={facultyData.check_d.includes("Arranged subject related Industrial Visit (2 pts)")}
+                /></td>
+                  <td>
+                  <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={facultyData.sub1_d4 >= 0 ? facultyData.sub1_d4 : 0}
                   readOnly
-                  // onChange={(e) => {
-                  //   if (e.target.checked) {
-                  //     setCheck_d([...check_d, e.target.value]);
-                  //   } else {
-                  //     setCheck_d(check_d.filter((c) => c !== e.target.value));
-                  //   }
-                  // }}
                 />
-                <Form.Check
-                  type="checkbox"
-                  label="6. Use of ICT (max 2)"
-                  // value="Use of ICT (max 2)"
-                  checked={facultyData.check_d.includes("Use of ICT (max 2)")}
-                  readOnly
-                  // onChange={(e) => {
-                  //   if (e.target.checked) {
-                  //     setCheck_d([...check_d, e.target.value]);
-                  //   } else {
-                  //     setCheck_d(check_d.filter((c) => c !== e.target.value));
-                  //   }
-                  // }}
-                />
+                  </td>
+                </tr>
                 
-                <Form.Check
+                <tr>
+                  <td><Form.Check
                   type="checkbox"
-                  label="7. Innovative pedagogy (max 2)"
-                  // value="Innovative pedagogy (max 2)"
-                  checked={facultyData.check_d.includes("Innovative pedagogy (max 2)")}
+                  label="5. Arranged subject related Industrial Visit (2 pts)"                
+                  checked={facultyData.check_d.includes("Arranged subject related Industrial Visit (2 pts)")}
+                  readOnly               
+                /></td>
+                  <td>
+                  <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={facultyData.sub1_d5 >= 0 ? facultyData.sub1_d5 : 0}
                   readOnly
-                  // onChange={(e) => {
-                  //   if (e.target.checked) {
-                  //     setCheck_d([...check_d, e.target.value]);
-                  //   } else {
-                  //     setCheck_d(check_d.filter((c) => c !== e.target.value));
-                  //   }
-                  // }}
                 />
-                <Form.Check
-                  type="checkbox"
-                  label="8. Content beyond syllabus(max 2)"
-                  // value="Content beyond syllabus(max 2)"
-                  checked={facultyData.check_d.includes("Content beyond syllabus(max 2)")}
-                  readOnly
-                  // onChange={(e) => {
-                  //   if (e.target.checked) {
-                  //     setCheck_d([...check_d, e.target.value]);
-                  //   } else {
-                  //     setCheck_d(check_d.filter((c) => c !== e.target.value));
-                  //   }
-                  // }}
-                />
+                  </td>
+                </tr>
 
+                <tr>
+                  <td><Form.Check
+                  type="checkbox"
+                  label="6. Use of ICT (max 2)"                 
+                  checked={facultyData.check_d.includes("Use of ICT (max 2)")}
+                  readOnly                  
+                /></td>
+                  <td>
+                  <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={facultyData.sub1_d6 >= 0 ? facultyData.sub1_d6 : 0}
+                  readOnly
+                />                   
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td><Form.Check
+                  type="checkbox"
+                  label="7. Innovative pedagogy (max 2)"                  
+                  checked={facultyData.check_d.includes("Innovative pedagogy (max 2)")}
+                  readOnly                
+                /></td>
+                  <td>
+                  <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={facultyData.sub1_d7 >= 0 ? facultyData.sub1_d7 : 0}
+                  readOnly
+                />
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td><Form.Check
+                  type="checkbox"
+                  label="8. Content beyond syllabus(max 2)"                
+                  checked={facultyData.check_d.includes("Content beyond syllabus(max 2)")}
+                  readOnly                  
+                /></td>
+                <td>
+                <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={facultyData.sub1_d8 >= 0 ? facultyData.sub1_d8 : 0}
+                  readOnly
+                />
+                </td>
+                </tr>
+                
               </td>
+              
+              <td className='text-center'> 
+                  {facultyData.totalsub1d}</td>
+
               <td>
               <p className='text-center'>40</p>
               </td>
@@ -577,65 +605,140 @@ const fetchData = async () => {
               <td>
                 <Form.Control
                   type="text"
+                  style={{ textAlign: "center" }}
                   value={IActdHOD}
-                  onChange={(e) => setIActdHOD(e.target.value)}
+                  onChange={(e) => setIActdHOD(Math.min(Number(e.target.value), 40))}
+                  max={40}
                 />
               </td>
             </tr>
 
             <tr>
               <td>e.</td>
-              <td>
+              <td style={{ textAlign: "left" }}>
                 <Col>Updating of subject content course improvement etc</Col>
-                
-                <Form.Check
+
+                <tr>
+                  <td>                <Form.Check
                   type="checkbox"
                   label="1. Updated lecture notes (max 3)"
                   checked={facultyData.check_e.includes("Updated lecture notes (max 3)")}
                   readOnly
+                /></td>
+                <td>
+                <Form.Control
+                  type="text"
+                  value={facultyData.sub1_e1 >= 0 ? facultyData.sub1_e1 : 0}
+                  readOnly
                 />
-                <Form.Check
+                </td>
+                </tr>
+
+                <tr>
+                  <td><Form.Check
                   type="checkbox"
                   label="2. Updated lab manual (max 3)"
                   checked={facultyData.check_e.includes("Updated lab manual (max 3)")}
                   readOnly
+                /></td>
+                <td>
+                <Form.Control
+                  type="text"
+                  value={facultyData.sub1_e2 >= 0 ? facultyData.sub1_e2 : 0}
+                  readOnly
                 />
-                <Form.Check
+                </td>
+                </tr>
+                
+                <tr>
+                  <td><Form.Check
                   type="checkbox"
                   label="3. Question bank (2 marks)"
                   checked={facultyData.check_e.includes("Question bank (2 marks)")}
                   readOnly
+                /></td>
+                <td>
+                <Form.Control
+                  type="text"
+                  value={facultyData.sub1_e3 >= 0 ? facultyData.sub1_e3 : 0}
+                  readOnly
                 />
-                <Col>
-                  4. Question Paper solution</Col>
+                </td>
+                </tr>
+
+                <tr>4. Question Paper solution:
                   <Col>
-                    <Form.Check
+                
+                <tr>
+                  <td><Form.Check
                       type="checkbox"
                       label="1. Term Test (1 each max 2)"
                       checked={facultyData.check_e.includes("Term Test (1 each max 2)")}
                       readOnly
+                    /></td>
+                    <td>
+                    <Form.Control
+                      type="text"
+                      value={facultyData.sub1_e41 >= 0 ? facultyData.sub1_e41 : 0}
+                      readOnly
                     />
-                    <Form.Check
+                    </td>
+                </tr>
+
+                <tr>
+                  <td><Form.Check
                       type="checkbox"
                       label="2. Model University solution (5)"
                       checked={facultyData.check_e.includes("Model University solution (5)")}
                       readOnly
+                    /></td>
+                    <td>
+                    <Form.Control
+                      type="text"
+                      value={facultyData.sub1_e42 >= 0 ? facultyData.sub1_e42 : 0}
+                      readOnly
                     />
-                  </Col>
-                <Form.Check
+                    </td>
+                </tr>
+                </Col>
+
+                </tr>
+                
+                <tr>
+                  <td><Form.Check
                   type="checkbox"
                   label="5. Assignment solution (1 each max 2)"
                   checked={facultyData.check_e.includes("Assignment solution (1 each max 2)")}
                   readOnly
+                /></td>
+                <td>
+                <Form.Control
+                  type="text"
+                  value={facultyData.sub1_e5 >= 0 ? facultyData.sub1_e5 : 0}
+                  readOnly
                 />
-                <Form.Check
+                </td>
+                </tr>
+
+                 <tr>
+                  <td><Form.Check
                   type="checkbox"
                   label="6. Syllabus setting (5 marks each)(max 2)"
                   checked={facultyData.check_e.includes("Syllabus setting (5 marks each)(max 2)")}
                   readOnly
-                  />
+                  /></td>
+                  <td>
+                  <Form.Control
+                  type="text"
+                  value={facultyData.sub1_e6 >= 0 ? facultyData.sub1_e6 : 0}
+                  readOnly
+                />
+                  </td>
+                  </tr> 
+
                 <Col>*quality of notes/solution to be considered</Col>
               </td>
+              <td className='text-center'> {facultyData.totalsub1e} </td>
               <td>
               <p className='text-center'>25</p>
               </td>
@@ -661,19 +764,22 @@ const fetchData = async () => {
                 <Form.Control
                   type="text"
                   value={IActeHOD}
-                  onChange={(e) => setIActeHOD(e.target.value)}
+                  style={{ textAlign: "center" }}
+                  onChange={(e) => setIActeHOD(Math.min(Number(e.target.value), 25))}
+                  max={25}
                 />
               </td>
             </tr>
 
             <tr>
               <td>f.</td>
-              <td>
+              <td style={{ textAlign: "left" }}>
                 <Col>
                   Examination duties (invigilation; Question paper setting, evaluation/ assessment of answer scripts) as per allotment.
                 </Col>
                 
-                <Form.Check
+                <tr>
+                  <td><Form.Check
                   type="checkbox"
                   label="1. Invigilation (flying squad duties/Joint CC/any exam related duties) (max 5 points)"
                   checked={facultyData.check_f.includes("Invigilation (flying squad duties/Joint CC/any exam related duties) (max 5 points)")}
@@ -681,26 +787,50 @@ const fetchData = async () => {
                 />
                 <Col>
                   100% compliance: 5, 80% compliance: 3, less than 80%: no score
-                </Col>
-                {/* <Col>
-                  2. Evaluation of answer script, preparation of result list on
-                  time as specified by Examination Section (max 10 points)
-                </Col> */}
-                <Form.Check
+                </Col></td>
+                <td>
+                  <Form.Control
+                  type="text"
+                  value={facultyData.sub1_f1 >= 0 ? facultyData.sub1_f1 : 0}
+                  readOnly
+                />
+                </td>
+                </tr>
+
+                <tr>
+                    <td><Form.Check
                   type="checkbox"
                   label="2. Evaluation of answer script, preparation of result list on time as specified by Examination Section (max 10 points)"
                   checked={facultyData.check_f.includes("Evaluation of answer script, preparation of result list on time as specified by Examination Section (max 10 points)")}
                   readOnly
                 />
-                <Col>100% compliance: 5, less than 100%: no score.</Col>
-                {/* <Col>Question paper setting (5 each, max score 10)</Col> */}
-                <Form.Check
+                <Col>100% compliance: 5, less than 100%: no score.</Col></td>
+                <td>
+                  <Form.Control
+                  type="text"
+                  value={facultyData.sub1_f2 >= 0 ? facultyData.sub1_f2 : 0}
+                  readOnly
+                />
+                </td>
+                </tr>
+
+                <tr>
+                  <td><Form.Check
                   type="checkbox"
                   label="Question paper setting (5 each, max score 10)"
                   checked={facultyData.check_f.includes("Question paper setting (5 each, max score 10)")}
                   readOnly
+                /></td>
+                <td>
+                  <Form.Control
+                  type="text"
+                  value={facultyData.sub1_f3 >= 0 ? facultyData.sub1_f3 : 0}
+                  readOnly
                 />
+                </td>
+                </tr>
               </td>
+              <td className='text-center'> {facultyData.totalsub1f} </td>
               <td>
               <p className='text-center'>25</p>
               </td>
@@ -725,7 +855,9 @@ const fetchData = async () => {
                 <Form.Control
                   type="text"
                   value={IActfHOD}
-                  onChange={(e) => setIActfHOD(e.target.value)}
+                  style={{ textAlign: "center" }}
+                  onChange={(e) => setIActfHOD(Math.min(Number(e.target.value), 25))}
+                  max={25}
                 />
               </td>
             </tr>
@@ -733,6 +865,7 @@ const fetchData = async () => {
             <tr>
               <td></td>
               <td>Total of Category I</td>
+              <td></td>
               <td>
               <p className='text-center'>150</p>
               </td>
@@ -742,20 +875,7 @@ const fetchData = async () => {
             </tr>
           </tbody>
         </Table>
-        {/* <div className="text-center mb-3">
-            <Row>
-              <Col>
-          <Form.Group controlId="formFile" className="mb-3">
-            <Form.Label>Uploaded Document</Form.Label>
-            <br />
-            <a href={facultyData.documentAURL} target="_blank">
-              File
-            </a>
 
-          </Form.Group>
-          </Col>
-          </Row>
-          </div> */}
 
         <div className="text-center mb-4" >
         <Row>

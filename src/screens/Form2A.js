@@ -292,7 +292,7 @@ function Form2A() {
     
       // Save data to Firestore
       await setDoc(docRef, data);
-      alert("Form saved");
+      alert("Data saved");
        console.log("Document saved");
     };
     // navigate('/form2b');
@@ -378,7 +378,7 @@ function Form2A() {
     
       // Save data to Firestore
       await setDoc(docRef, data);
-      alert("Form saved");
+      alert("Data saved");
     };
     navigate('/form2b');
   };
@@ -555,23 +555,24 @@ function Form2A() {
       </p>
 
       <Form onSubmit={handleSubmit}>
+
       <div className="content-box">
         <Table striped bordered hover>
           <thead>
-            <tr >
-              <th></th>
-              <th>Courses Taught Lecture / Practical code and name </th>
-              <th>Class for which conducted</th>
-              <th>Target Lectures / Practicals</th>
-              <th>Lectures / Practicals Actually conducted</th>
-              <th>% of Classes / Labs conducted</th>
+            <tr className='text-center'>
+            <th style={{ verticalAlign: 'middle'}}>Sr. No.</th>
+            <th style={{ verticalAlign: 'middle'}}>Courses Taught Lecture / Practical code and name </th>
+            <th style={{ verticalAlign: 'middle'}}>Class for which conducted</th>
+            <th style={{ verticalAlign: 'middle'}}>Target Lectures / Practicals</th>
+            <th style={{ verticalAlign: 'middle'}}>Lectures / Practicals Actually conducted</th>
+            <th style={{ verticalAlign: 'middle'}}>% of Classes / Labs conducted</th>
             </tr>
           </thead>
 
           {IOddsem.map((oddsem, index) => (
             <tbody key={index} >
               <tr >
-                <td>{index + 1}</td>
+                <td className='text-center'>{index + 1}</td>
                 <td>
                   <Form.Control
                     type="text"
@@ -684,19 +685,19 @@ function Form2A() {
       <div className="content-box">      
         <Table striped bordered hover>
           <thead>
-            <tr>
-              <th></th>
-              <th>Courses Taught Lecture / Practical code and name </th>
-              <th>Class for which conducted</th>
-              <th>Target Lectures / Practicals</th>
-              <th>Lectures / Practicals Actually conducted</th>
-              <th>% of Classes / Labs conducted</th>
+            <tr className='text-center'>
+              <th style={{ verticalAlign: 'middle'}}>Sr. No.</th>
+              <th style={{ verticalAlign: 'middle'}}>Courses Taught Lecture / Practical code and name </th>
+              <th style={{ verticalAlign: 'middle'}}>Class for which conducted</th>
+              <th style={{ verticalAlign: 'middle'}}>Target Lectures / Practicals</th>
+              <th style={{ verticalAlign: 'middle'}}>Lectures / Practicals Actually conducted</th>
+              <th style={{ verticalAlign: 'middle'}}>% of Classes / Labs conducted</th>
             </tr>
           </thead>
           {IEvensem.map((evensem, index) => (
             <tbody key={index}>
               <tr>
-                <td>{index + 1}</td>
+                <td className='text-center'>{index + 1}</td>
                 <td>
                   <Form.Control
                     type="text"
@@ -808,13 +809,13 @@ function Form2A() {
 
         <Table striped bordered hover>
           <thead>
-            <tr>
-              <th>Sr. No.</th>
-              <th>Natural of Activity</th>
-              <th>Spilt-Up Marks Total</th>
-              <th>MAX API Score alloted</th>
-              <th>Self appraisal Score</th>
-              <th>Upload Supporting Documents</th>
+            <tr className='text-center' >
+              <th style={{ verticalAlign: 'middle'}}>Sr. No.</th>
+              <th style={{ verticalAlign: 'middle'}}>Natural of Activity</th>
+              <th style={{ verticalAlign: 'middle'}}>Spilt-Up Marks Total</th>
+              <th style={{ verticalAlign: 'middle'}}>MAX API Score alloted</th>
+              <th style={{ verticalAlign: 'middle'}}>Self appraisal Score</th>
+              <th style={{ verticalAlign: 'middle'}}>Upload Supporting Documents</th>
             </tr>
           </thead>
 
@@ -930,7 +931,6 @@ function Form2A() {
               <td>
                 <Form.Control
                   type="text"
-                  placeholder=""
                   value={IActb}
                   onChange={(e) => setIActb(Math.min(Number(e.target.value), 5))}
                   max={5}
@@ -1007,9 +1007,9 @@ function Form2A() {
                 <Col>
                   Learning material prepared for students: Provide short
                   description of each work done in separate sheet.
-                </Col>
                 <br/>
-                <p>*Tick the applicable activities and enter the score.<br/>Evaluation Criteria:</p>
+                <p>*Tick the applicable activities and enter the score.<br/>Evaluation Criteria:</p></Col>
+                
                 
                 <tr>
                   <td> <Form.Check
@@ -1390,7 +1390,7 @@ function Form2A() {
                     </td>
                   </tr>
                 
-               <tr> 4. Question Paper solution
+               <tr> 4. Question Paper solution:
                 <Col>
                                <tr>
                  <td><Form.Check
@@ -1485,8 +1485,8 @@ function Form2A() {
                   }
                   }} />
               </td>
-              </tr>                                                                         
-                
+              </tr>                                                      
+
               <tr>
                 <td><Form.Check
                   type="checkbox"
@@ -1516,9 +1516,6 @@ function Form2A() {
                   }} />
                 </td>
                 </tr>    
-                
-                
-                
                 <Col>*quality of notes/solution to be considered</Col>
               </td>
 

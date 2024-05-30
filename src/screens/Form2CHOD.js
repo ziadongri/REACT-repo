@@ -288,7 +288,7 @@ const fetchData = async () => {
   return (
     <Container fluid>
       <Row>
-      <Col md={2} className="form-navigation">
+      {/* <Col md={2} className="form-navigation">
           <h3>Form Navigation</h3>
           <ul>
             <li>
@@ -314,13 +314,21 @@ const fetchData = async () => {
             <li>
             <Link onClick={handleForm3HODNavigation}>Part C</Link>
           </li>
-            {/* Add more form links as needed */}
+           
           </ul>
-        </Col>
+        </Col> */}
    
-  <Col md={9}>
+  <Col md={11} className="mx-auto text-center" >
 
-        <h1>Category III: (Assessment must be based on evidence produced by the teacher such as: copy of publications, project sanction letter, utilization and completion certificates issued by the University and acknowledgements for patent filing and approval letters, students’ Ph.D. award letter, etc.)</h1>
+  <h1 className="text-center">Part B: Academic Performance Indicators</h1>
+        
+        <h4  style={{fontSize: 20}} className="text-center">Category III: (Assessment must be based on evidence produced by the teacher such as: copy of publications, project sanction letter, utilization and completion certificates issued by the University and acknowledgements for patent filing and approval letters, students’ Ph.D. award letter, etc.)</h4>
+
+        <p className='text-center'>
+        NOTE: 1. If a paper presented in Conference/Seminar is published in the form of Proceedings, the points would accrue for the publication (III(a) and not under presentation (III(e)(ii))).
+        <br/>
+        2. Upload document for above activities. To change the document, upload new document again.
+      </p>
         <Form onSubmit={handleSubmit}></Form>
 
         

@@ -108,31 +108,6 @@ function Form1() {
     }
   };
 
-
-
-  // if (loading) {
-  //   return (
-  //     <Container>
-  //       <Row>
-  //         <Col md={{ span: 6, offset: 3 }}>
-  //           <h1>Loading...</h1>
-  //         </Col>
-  //       </Row>
-  //     </Container>
-  //   );
-  // }
-  // if (error) {
-  //   return (
-  //     <Container>
-  //       <Row>
-  //         <Col md={{ span: 6, offset: 3 }}>
-  //           <Alert variant="danger">{error}</Alert>
-  //         </Col>
-  //       </Row>
-  //     </Container>
-  //   );
-  // }
-
   return (
     <Container fluid>
       <Row>
@@ -164,7 +139,7 @@ function Form1() {
   </Col>
 
 
-        <Col md={9}>
+        <Col md={9} >
           <h1 className="text-center" >Part A: General Information</h1>
           <Form onSubmit={handleSubmit}>
 
@@ -338,7 +313,7 @@ function Form1() {
           </Form>
           <div className="text-center">
             <Row>
-            <Col>
+            <Col >
             <Button variant="primary" type="submit" onClick={handleSave}>
               <Link className="text-decoration-none text-white">
                 Save

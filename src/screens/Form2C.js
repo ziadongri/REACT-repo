@@ -592,7 +592,7 @@ useEffect(() => {
   
   <Col md={9}>
   <h1 className="text-center">Part B: Academic Performance Indicators</h1>
-        {/* style={{fontWeigth:'bold'}} */}
+        
         <h4  style={{fontSize: 20}} className="text-center">Category III: (Assessment must be based on evidence produced by the teacher such as: copy of publications, project sanction letter, utilization and completion certificates issued by the University and acknowledgements for patent filing and approval letters, students’ Ph.D. award letter, etc.)</h4>
 
         <p className='text-center'>
@@ -600,7 +600,7 @@ useEffect(() => {
         <br/>
         2. Upload document for above activities. To change the document, upload new document again.
       </p>
-      <p></p>
+      
 
         <Form onSubmit={handleSubmit}></Form>
         <div className="content-box">
