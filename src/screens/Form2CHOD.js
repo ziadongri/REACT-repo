@@ -331,22 +331,22 @@ const fetchData = async () => {
       </p>
         <Form onSubmit={handleSubmit}></Form>
 
-        
+        <div className="content-box">
         <Table striped bordered hover>
         <thead>
         <tr>
-        <th rowSpan="2">III (a)</th>
-      <th colSpan="1">Research Publications (Journals)</th>
-      <th colSpan="3">Max API Score allotted: No maximum score. A percentage of three
+        <th rowSpan="2" style={{ textAlign: "center", verticalAlign: "middle" }}>III (a)</th>
+      <th colSpan="1" style={{ textAlign: "center", verticalAlign: "middle" }}>Research Publications (Journals)</th>
+      <th colSpan="3" style={{ textAlign: "center", verticalAlign: "middle" }}>Max API Score allotted: No maximum score. A percentage of three
 years score is considered for promotion as per UGC notification Feb
 2018</th>
     </tr>
 
     <tr>
-      <th>Title with Journal name , Volume No., page No., ISS/ISBN No.</th>
-      <th>Index (indicate serial numbers against applicable)</th>
-      <th>Self Appraisal Score</th>
-      <th>Verified API Score</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Title with Journal name , Volume No., page No., ISS/ISBN No.</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Index (indicate serial numbers against applicable)</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Self Appraisal Score</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Verified API Score</th>
     </tr>
       </thead>
       
@@ -354,24 +354,31 @@ years score is considered for promotion as per UGC notification Feb
 
     {facultyData.ResearchPublication.map((data, index) => (
   <tbody key={index}>
-    <tr>
-      <td>{index + 1}</td>
-      <td>{data.title}</td>
-      <><Col>SCI: {data.sci || ''}</Col>
-      <Col>WOS: {data.wos || ''}</Col>
-      <Col>ESCI: {data.esci || ''}</Col>
-      <Col>SCOPUS: {data.scopus || ''}</Col>
-      <Col>UGC CARE: {data.ugccare || ''}</Col>
-      <Col>Having ISBN/ISSN: {data.isbnissn || ''}</Col>
-      <Col>Proceedings: {data.proceedings || ''}</Col>
-      <Col>guide/mentor (mention serial number of paper): {data.guidementor || ''}</Col> </>
+    <tr style={{ textAlign: "left" }}>
+      <td style={{ textAlign: "center" }}>{index + 1}</td>
+      <td><Col>• Paper Title: {data.title}</Col>
+      <Col>• Enter Journal Name: {data.journal}</Col>
+      <Col>• Enter Volume No.: {data.volume}</Col>
+     <Col>• Enter Page No.: {data.page}</Col>
+      <Col>• Enter ISBN/ISSN No.: {data.isbn}</Col></td>
+
+      <td><Col>• SCI: {data.sci || ''}</Col>
+      <Col>• WOS: {data.wos || ''}</Col>
+      <Col>• ESCI: {data.esci || ''}</Col>
+      <Col>• SCOPUS: {data.scopus || ''}</Col>
+      <Col>• UGC CARE: {data.ugccare || ''}</Col>
+      <Col>• Having ISBN/ISSN: {data.isbnissn || ''}</Col>
+      <Col>• Proceedings: {data.proceedings || ''}</Col>
+      <Col>• Guide/Mentor (mention serial number of paper): {data.guidementor || ''}</Col> </td>     
       
-      <td>{data.selfscore}</td>
+      
+      <td style={{ textAlign: "center" }}>{data.selfscore}</td>
       <td>
       <Form.Control
       key={index}
   type="text"
   placeholder=""
+  style={{ textAlign: "center" }}
   value={(ResearchPublicationHOD && ResearchPublicationHOD[index]) || ''}
   onChange={(e) => handleResearchPublicationInputChange(e.target.value, index)}
 />
@@ -382,21 +389,21 @@ years score is considered for promotion as per UGC notification Feb
   </tbody>
 ))}
 
-            <tr>
+            <tr style={{ textAlign: "left" }}>
               <td></td>
-              <td colspan="4"><Col>Evaluation Criteria:</Col>
-              <Col>1. Refereed Journals</Col>
-              <Col>   • SCI –- 40 / publication</Col>
-              <Col>   • ESCI –- 30 / publication</Col>
-              <Col>   • SCOPUS –- 20 / publication</Col>
-              <Col>   • UGC CARE –- 15 / publication</Col>
-
-              <Col>2. Non-refereed but recognized and reputable journals and periodicals, having ISBN/ISSN numbers –- 10 / publication</Col>
-              <Col>3. Conference proceedings as full papers, etc. (Abstracts not to be included) –- 10 / publication</Col>
+              <td colspan="6" ><Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
+                <Col>1. Refereed Journals
+                <Col>• SCI –- 40 / publication</Col>
+                <Col>• ESCI –- 30 / publication</Col>
+                <Col>• SCOPUS–- 20 / publication</Col>
+                <Col>• UGC CARE –- 15/ publication</Col>
+              </Col>
+              <Col>2. Non-refereed but recognized and reputable journals and periodicals, having ISBN/ISSN
+              numbers–- 10 / publication</Col>
+              <Col>3. Conference proceedings as full papers, etc. (Abstracts not to be included) –- 10/publication</Col>
               <Col>4. Guide or mentor of the faculty gets 40% of the total points</Col>
               </td>
-              
-            </tr>
+              </tr>
         
         </Table>
 
@@ -414,42 +421,49 @@ years score is considered for promotion as per UGC notification Feb
           </Col>
           </Row>
           </div>
-        
+        </div>  
 
+        <div className="content-box">        
         <Table striped bordered hover>
         <thead>
         <tr>
-        <th rowSpan="2">III (b)</th>
-      <th colSpan="3">Research Projects</th>
-      <th colSpan="4">Max API Score allotted: 100</th>
+        <th rowSpan="2" style={{ textAlign: "center", verticalAlign: "middle" }}>III (b)</th>
+
+      <th colSpan="3" style={{ textAlign: "center", verticalAlign: "middle" }}>Books/Articles/ Chapters published in books</th>
+
+      <th colSpan="4" style={{ textAlign: "center", verticalAlign: "middle" }}>Max API Score allotted</th>
     </tr>
+
     <tr>
-      <th>Title</th>
-      <th>Book Title</th>
-      <th>ISBN</th>
-      <th>Peer Review</th>
-      <th>Co-author</th>
-      <th>Self Appraisal Score</th>
-      <th>Verified API Score</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Title with Page No.</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Book Title, editor and publisher</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>ISS/ISBN No.</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Whether Peer Reviewed?</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>No of Coauthors. Specify if first author.</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Self Appraisal Score</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Verified API Score</th>
         </tr>
       </thead>
 
       {facultyData.ResearchArticle.map((data, index) => (
   <tbody key={index}>
-    <tr>
-      <td>{index + 1}</td>
-      <td>{data.title}</td>
-      <td>{data.booktitle}</td>
-      <td>{data.isbn}</td>
-      <td>{data.peerreview}</td>
-      <><Col>{data.coauthor}</Col>
-      <Col>Main: {data.mainauthor}</Col></>
+    <tr  style={{ textAlign: "left" }}>
+      <td style={{ textAlign: "center" }}>{index + 1}</td>
+      <td>• Enter title with Page No.:{data.title}</td>
+      <td>
+      <Col>• Enter Book Title:{data.booktitle}</Col>
+      <Col>• Enter Editor/Editors: {data.editor}</Col>
+      <Col>• Enter Publisher: {data.publisher}</Col></td>
+      <td style={{ textAlign: "center" }}>{data.isbn}</td>
+      <td style={{ textAlign: "center" }}>{data.peerreview}</td>
+      <td style={{ textAlign: "center" }}><Col>{data.coauthor}</Col>
+      <Col>• First Author: {data.mainauthor}</Col></td>
       
-      <td>{data.selfscore}</td>
+      <td style={{ textAlign: "center" }}>{data.selfscore}</td>
       <td>
          <Form.Control
           type="text"
-          placeholder=""
+          style={{ textAlign: "center" }}
           value={(ResearchArticleHOD && ResearchArticleHOD[index]) || ''}
           onChange={(e) => handleResearchArticleInputChange(e.target.value, index)}
         /> 
@@ -458,9 +472,9 @@ years score is considered for promotion as per UGC notification Feb
   </tbody>
 ))}
 
-      <tr>
+<tr style={{ textAlign: "left" }}>
             <td></td>
-              <td colspan="7">Evaluation Criteria:
+              <td colspan="7" ><Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
               <Col>1. Text or Reference Books Published by International Publishers with an established peer review system---- 50 /sole author; 10 /chapter in an edited book</Col>
 <Col>2. Subjects Books by National level publishers/State and Central Govt. Publications with ISBN/ISSN numbers ---25 /sole author, and 5/ chapter in edited books</Col>
 <Col>3. Subject Books by Other local publishers with ISBN/ISSN numbers --- 15 / sole author, and 3 / chapter in edited book</Col>
@@ -468,9 +482,10 @@ years score is considered for promotion as per UGC notification Feb
 <Col>5. Chapters contributed to edited knowledge based volumes published by International Publishers
 - 10 /Chapter</Col>
 <Col>6. Chapters in knowledge based volumes by Indian/National level publishers with ISBN/ISSN numbers and with numbers of national and international directories ----5 / Chapter</Col>
-<Col>**API for joint publications is as follows:</Col>
-<Col>5. Guide or mentor of the faculty gets 40% of the total points</Col>
-<Col>6. Proceedings of conferences not considered as a book (example springer conference series). Also one publication is considered only under a single category.</Col>
+<p></p>
+<Col >**API for joint publications is as follows:</Col>
+<Col>1. Guide or mentor of the faculty gets 40% of the total points</Col>
+<Col>2. Proceedings of conferences not considered as a book (example springer conference series). Also one publication is considered only under a single category.</Col>
 
               </td>
       </tr>
@@ -490,22 +505,23 @@ years score is considered for promotion as per UGC notification Feb
           </Col>
           </Row>
           </div>
-
+          </div>
       
-
-       <Table striped bordered hover>
+      <div className="content-box">
+              <Table striped bordered hover>
         <thead>
         <tr>
-        <th rowSpan="2">III (c)</th>
-      <th colSpan="6">Research Projects (Ongoing)</th>
+        <th rowSpan="2" style={{ textAlign: "center", verticalAlign: "middle" }}>III (c)</th>
+
+      <th colSpan="6" style={{ textAlign: "center", verticalAlign: "middle" }}>Research Projects (Ongoing)</th>
     </tr>
     <tr>
-      <th>Title</th>
-      <th>Agency</th>
-      <th>Period</th>
-      <th>Amount</th>
-      <th>Self Appraisal Score</th>
-      <th>Verified API Score</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Title</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Agency</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Period</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Amount</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Self Appraisal Score</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Verified API Score</th>
         </tr>
       </thead>
 
@@ -514,7 +530,7 @@ years score is considered for promotion as per UGC notification Feb
           <tbody key={index}> 
           <tr>
               <td>{index + 1}</td>
-              <td>{data.title}</td>
+              <td >{data.title}</td>
               <td>{data.agency}</td>
               <td>{data.period}</td>
               <td>{data.amount}</td>
@@ -523,18 +539,18 @@ years score is considered for promotion as per UGC notification Feb
               
                 <Form.Control
                   type="text"
-                  placeholder=""
+                  style={{ textAlign: "center"}}
                   value={(ResearchProjectONHOD && ResearchProjectONHOD[index]) || ''}
-                  onChange={(e) => setResearchProjectONHOD(e.target.value)}/>
+                  onChange={(e) => handleResearchProjectONInputChange(e.target.value, index)}/>
                  
               </td>
             </tr>
           </tbody>
         ))
       }
-      <tr>
+      <tr style={{ textAlign: "left"}}>
         <td></td>
-        <td colSpan="6"><Col>Evaluation Criteria:</Col>
+        <td colSpan="6"><Col style={{ fontWeight: 'bold' }} >Evaluation Criteria:</Col>
           <Col>a) Major Projects amount mobilized with grants above 20.0 lakhs 30 points</Col>
 <Col>a) Major Projects amount mobilized with grants above 5.0 lakhs 20 points</Col>
 <Col>b) Major Projects Amount mobilized with a minimum of Rs. 3.00 lakhs up to Rs. 5.00 lakhs 15 points</Col>
@@ -562,22 +578,25 @@ years score is considered for promotion as per UGC notification Feb
           </Form.Group>
           </Col>
           </Row>
-          </div>
+          </div> 
+        </div>
 
-
-      <Table striped bordered hover>
+        <div className="content-box">
+                <Table striped bordered hover>
         <thead>
         <tr>
-        <th rowSpan="2">III (c)</th>
-      <th colSpan="6">Research Projects (Completed)</th>
+        <th rowSpan="2" style={{ textAlign: "center", verticalAlign: "middle" }}>III (c)</th>
+
+      <th colSpan="6" style={{ textAlign: "center", verticalAlign: "middle" }}>Research Projects (Completed)</th>
     </tr>
+
     <tr>
-      <th>Title</th>
-      <th>Agency</th>
-      <th>Period</th>
-      <th>Amount</th>
-      <th>Self Appraisal Score</th>
-      <th>Verified API Score</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Title</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Agency</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Period</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Amount</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Self Appraisal Score</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Verified API Score</th>
         </tr>
       </thead>
 
@@ -594,7 +613,7 @@ years score is considered for promotion as per UGC notification Feb
               <td>
                 <Form.Control
                   type="text"
-                  placeholder=""
+                  style={{ textAlign: "center"}}
                  value= {(ResearchProjectCOMPHOD && ResearchProjectCOMPHOD[index]) || ''}
                   onChange={(e) => handleResearchProjectCOMPInputChange(e.target.value, index)}/>
               </td>
@@ -603,9 +622,9 @@ years score is considered for promotion as per UGC notification Feb
           </tbody>
         ))
       }
-      <tr>
+      <tr style={{ textAlign: "left"}}>
         <td></td>
-        <td colSpan="6"><Col>Evaluation Criteria:</Col>
+        <td colSpan="6"><Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
           <Col>a) Major Projects amount mobilized with grants above 20.0 lakhs 30 points</Col>
 <Col>a) Major Projects amount mobilized with grants above 5.0 lakhs 20 points</Col>
 <Col>b) Major Projects Amount mobilized with a minimum of Rs. 3.00 lakhs up to Rs. 5.00 lakhs 15 points</Col>
@@ -633,20 +652,22 @@ years score is considered for promotion as per UGC notification Feb
           </Col>
           </Row>
           </div>
+          </div>
 
-       <Table striped bordered hover>
+        <div className="content-box">
+                <Table striped bordered hover>
         <thead>
         <tr>
-        <th rowSpan="2">III (c)</th>
-      <th colSpan="6">Need Based Projects of the Institute completed without Sponsorship and approved by Institute authorities</th>
+        <th rowSpan="2" style={{ textAlign: "center", verticalAlign: "middle" }}>III (c)</th>
+      <th colSpan="6" style={{ textAlign: "center", verticalAlign: "middle" }}>Need Based Projects of the Institute completed without Sponsorship and approved by Institute authorities</th>
     </tr>
     <tr>
-      <th>Title</th>
-      <th>Agency</th>
-      <th>Period</th>
-      <th>Grant/Amount Mobilized (in Lakhs)</th>
-      <th>Self Appraisal Score</th>
-      <th>Verified API Score</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Title</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Agency</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Period</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Grant/Amount Mobilized (in Lakhs)</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Self Appraisal Score</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Verified API Score</th>
         </tr>
       </thead>
 
@@ -663,7 +684,7 @@ years score is considered for promotion as per UGC notification Feb
               <td>
                 <Form.Control
                   type="text"
-                  placeholder=""
+                  style={{ textAlign: "center"}}
                   value={(ResearchNeedProjectHOD && ResearchNeedProjectHOD[index]) || ''}
                   onChange={(e) => handleResearchNeedProjectInputChange(e.target.value, index)}/>
               </td>
@@ -672,9 +693,9 @@ years score is considered for promotion as per UGC notification Feb
           </tbody>
         ))
       }
-      <tr>
+      <tr  style={{ textAlign: "left"}}>
         <td></td>
-        <td colSpan="6"><Col>Evaluation Criteria:</Col>
+        <td colSpan="6"><Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
           <Col>a) Major Projects amount mobilized with grants above 20.0 lakhs 30 points</Col>
 <Col>a) Major Projects amount mobilized with grants above 5.0 lakhs 20 points</Col>
 <Col>b) Major Projects Amount mobilized with a minimum of Rs. 3.00 lakhs up to Rs. 5.00 lakhs 15 points</Col>
@@ -682,11 +703,12 @@ years score is considered for promotion as per UGC notification Feb
 <Col>d) Consultancy Projects amount mobilized with grants above 2.0 lakhs 10 points</Col>
 <Col>e) Consultancy Projects completed-Major above 5 lakhs (Acceptance from the funding agency) 20 points</Col>
 <Col>f) Consultancy Projects completed- Minor below 3 lakhs (Acceptance from the funding agency) 20 points</Col>
-<Col>g) Projects Outcome /Outputs in the form of Patent/Technology transfer/ Product/Process 30 points at the National level and 50 at the international level</Col>
+<Col>g) Projects Outcome /Outputs in the form of Patent/Technology transfer/ Product/Process 30 points at the National level and 50 at the international level</Col>  
 <Col>h) Need-based projects of the college 10 points</Col>
       </td>
       </tr>
       </Table> 
+
       <div className="text-center mb-3">
             <Row>
               <Col>
@@ -700,22 +722,23 @@ years score is considered for promotion as per UGC notification Feb
           </Form.Group>
           </Col>
           </Row>
-          </div>
-      
+          </div> 
+        </div>
 
-       <Table striped bordered hover>
+        <div className="content-box">
+                 <Table striped bordered hover>
         <thead>
         <tr>
-        <th rowSpan="2">III (d)</th>
-      <th colSpan="5">Research Guidance</th>
+        <th rowSpan="2" style={{ textAlign: "center", verticalAlign: "middle" }}>III (d)</th>
+      <th colSpan="5" style={{ textAlign: "center", verticalAlign: "middle" }}>Research Guidance</th>
       
     </tr>
     <tr>
-      <th>Enrolled</th>
-      <th>Thesis Submitted</th>
-      <th>Degree Awarded</th>
-      <th>Self Appraisal Score</th>
-      <th>Verified API Score</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Enrolled</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Thesis Submitted</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Degree Awarded</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Self Appraisal Score</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Verified API Score</th>
         </tr>
       </thead>
       
@@ -731,7 +754,7 @@ years score is considered for promotion as per UGC notification Feb
             <td>
               <Form.Control
                 type="text"
-                placeholder=""
+                style={{ textAlign: "center"}}
                  value={(ResearchGuidanceHOD && ResearchGuidanceHOD[index]) || ''}
                 onChange={(e) => handleResearchGuidanceInputChange(e.target.value, index)}/>
             </td>
@@ -739,9 +762,9 @@ years score is considered for promotion as per UGC notification Feb
           </tbody>
         ))     
       }
-      <tr>
+      <tr style={{ textAlign: "left"}}>
         <td></td>
-        <td colSpan="5"><Col>Evaluation Criteria:</Col>
+        <td colSpan="5"><Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
           <Col>1) M. Phil /ME     <Col>Degree awarded–5 /each candidate</Col>
                                <Col>Thesis submitted–2 /each candidate</Col></Col>
 
@@ -766,19 +789,21 @@ years score is considered for promotion as per UGC notification Feb
           </Col>
           </Row>
           </div>
-
-       <Table striped bordered hover>
+        </div>
+      
+      <div className="content-box">
+               <Table striped bordered hover>
         <thead>
         <tr>
-        <th rowSpan="2">III (e-i)</th>
-      <th colSpan="5">TRAINING COURSES AND Faculty Development Programs (not less than one week) max 30pts</th>
+        <th rowSpan="2" style={{ textAlign: "center", verticalAlign: "middle" }}>III (e-i)</th>
+      <th colSpan="5" style={{ textAlign: "center", verticalAlign: "middle" }}>TRAINING COURSES AND Faculty Development Programs (not less than one week) max 30pts</th>
       </tr>
       <tr>
-      <th>Programme</th>
-      <th>Duration</th>
-      <th>Organized by</th>
-      <th>Self Appraisal Score</th>
-      <th>Verified API Score</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Programme</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Duration</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Organized by</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Self Appraisal Score</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Verified API Score</th>
         </tr>
       </thead>
       {
@@ -793,7 +818,7 @@ years score is considered for promotion as per UGC notification Feb
               <td>
                 <Form.Control
                   type="text"
-                  placeholder=""
+                  style={{ textAlign: "center"}}
                   value= {(TrainingCourseHOD && TrainingCourseHOD[index]) || ''}
                   onChange={(e) => handleTrainingCourseInputChange(e.target.value, index)}/>
               </td>
@@ -801,9 +826,9 @@ years score is considered for promotion as per UGC notification Feb
           </tbody>
         ))
       }
-      <tr>
+      <tr  style={{ textAlign: "left"}}>
         <td></td>
-        <td colspan="5"><Col>Evaluation Criteria:</Col>
+        <td colspan="5"><Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
           <Col>a. courses (not less than three Weeks)/Workshops of not less than one week 20 / each event</Col>
 <Col>b. International conference/Seminar / Symposia 20 / each event</Col>
 <Col>c. National conference/Seminar / Symposia	10 / each event</Col>
@@ -827,21 +852,22 @@ years score is considered for promotion as per UGC notification Feb
           </Col>
           </Row>
           </div>
-     
+        </div>
 
-       <Table striped bordered hover>
+      <div className='content-box'>
+              <Table striped bordered hover>
         <thead>
         <tr>
-        <th rowSpan="2">III (e-ii)</th>
-      <th colSpan="6">PAPER PRESENTATIONS IN CONFERENCES AND SEMINARS</th>
+        <th rowSpan="2" style={{ textAlign: "center", verticalAlign: "middle" }}>III (e-ii)</th>
+      <th colSpan="6" style={{ textAlign: "center", verticalAlign: "middle" }}>PAPER PRESENTATIONS IN CONFERENCES AND SEMINARS</th>
     </tr>
     <tr>
-      <th>Title of paper</th>
-      <th>Title of Seminar/Conference</th>
-      <th>Organized by</th>
-      <th>Level</th>
-      <th>Self Appraisal Score</th>
-      <th>Verified API Score</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Title of paper</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Title of Seminar/Conference</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Organized by</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Level</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Self Appraisal Score</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Verified API Score</th>
         </tr>
       </thead>
 
@@ -858,7 +884,7 @@ years score is considered for promotion as per UGC notification Feb
             <td>
               <Form.Control
                 type="text"
-                placeholder=""
+                style={{ textAlign: "center"}}
                 value={(PaperPresentConferenceHOD && PaperPresentConferenceHOD[index]) || ''}
                 onChange={(e) => handlePaperPresentConferenceInputChange(e.target.value, index)}/>
             </td>
@@ -866,10 +892,11 @@ years score is considered for promotion as per UGC notification Feb
         </tbody>
       ))
     }
-    <tr>
-      <td></td>
-      <td colSpan="6"><Col>*Level – write I for International, N for National, S for state, R for regional, C for college or University</Col>
-      <Col>Evaluation Criteria:</Col>
+    <tr  style={{ textAlign: "left"}}>
+    <td></td>
+      <td colSpan="6"><Col style={{ fontWeight: 'bold' }}>*Level – write I for International, N for National, S for state, R for regional, C for college or University</Col>
+      <p></p>
+      <Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
       <Col>Participation and Presentation of research papers (oral/poster) in</Col>
       <Col>a)	International / Foreign conference etc.,---10/ each</Col>
       <Col>b)	National	–-7.5 / each</Col>
@@ -892,22 +919,23 @@ years score is considered for promotion as per UGC notification Feb
           </Form.Group>
           </Col>
           </Row>
-          </div>
-    
- 
-     <Table striped bordered hover>
+          </div> 
+      </div>
+
+      <div className='content-box'>
+             <Table striped bordered hover>
         <thead>
         <tr>
-        <th rowSpan="2">III (e-iii)</th>
-      <th colSpan="6">INVITED LECTURES AND CHAIRMANSHIP AT NATIONAL OR INTERNATIONAL CONFERENCE/SEMINAR</th>
+        <th rowSpan="2" style={{ textAlign: "center", verticalAlign: "middle" }}>III (e-iii)</th>
+      <th colSpan="6" style={{ textAlign: "center", verticalAlign: "middle" }}>INVITED LECTURES AND CHAIRMANSHIP AT NATIONAL OR INTERNATIONAL CONFERENCE/SEMINAR</th>
     </tr>
     <tr>
-      <th>Title of Lecture</th>
-      <th>Title of Seminar/Conference</th>
-      <th>Organized by</th>
-      <th>Level</th>
-      <th>Self Appraisal Score</th>
-      <th>Verified API Score</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Title of Lecture</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Title of Seminar/Conference</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Organized by</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Level</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Self Appraisal Score</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Verified API Score</th>
         </tr>
       </thead>
 
@@ -917,14 +945,14 @@ years score is considered for promotion as per UGC notification Feb
             <tr>
               <td>{index + 1}</td>
               <td>{data.titlelecture}</td>
-              <td>{data.titleseminar}</td>
+              <td>{data.titleconference}</td>
               <td>{data.organisedby}</td>
               <td>{data.level}</td>
               <td>{data.selfscore}</td>
               <td>
                 <Form.Control
                   type="text"
-                  placeholder=""
+                  style={{ textAlign: "center" }}
                    value={(InvitedLectureHOD && InvitedLectureHOD[index]) || ''}
                   onChange={(e) => handleInvitedLectureInputChange(e.target.value, index)}/>
               </td>
@@ -932,9 +960,9 @@ years score is considered for promotion as per UGC notification Feb
           </tbody>
         ))
       }
-      <tr>
+      <tr style={{ textAlign: "left" }}>
         <td></td>
-        <td colspan="6"><Col>Evaluation Criteria:</Col>
+        <td colspan="6"><Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
         <Col>a)	International / Foreign conference etc.,---10/ each</Col>
         <Col>b)	National	–-7.5 / each</Col>
         <Col>c)	Regional/State level/local	–-5/ each</Col>
@@ -956,21 +984,22 @@ years score is considered for promotion as per UGC notification Feb
           </Col>
           </Row>
           </div>
-      
+      </div>
 
-      <Table striped bordered hover>
+      <div className='content-box'>
+             <Table striped bordered hover>
         <thead>
         <tr>
-        <th rowSpan="2">III (F)</th>
-      <th colSpan="6">AWARDS AND HONOURS (Maximum 50 points)</th>
+        <th rowSpan="2" style={{ textAlign: "center", verticalAlign: "middle" }}>III (F)</th>
+      <th colSpan="6" style={{ textAlign: "center", verticalAlign: "middle" }}>AWARDS AND HONOURS (Maximum 50 points)</th>
     </tr>
     <tr>
-      <th>Award</th>
-      <th>Agency Involved</th>
-      <th>Level</th>
-      <th>Discipline</th>
-      <th>Self Appraisal Score</th>
-      <th>Verified API Score</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Award</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Agency Involved</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Level</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Discipline</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Self Appraisal Score</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Verified API Score</th>
         </tr>
       </thead>
 
@@ -987,7 +1016,7 @@ years score is considered for promotion as per UGC notification Feb
               <td>
                 <Form.Control
                   type="text"
-                  placeholder=""
+                  style={{ textAlign: "center" }}
                   value= {(AwardHOD && AwardHOD[index]) || ''}
                   onChange={(e) => handleAwardInputChange(e.target.value, index)}/>
                 </td>        
@@ -995,27 +1024,31 @@ years score is considered for promotion as per UGC notification Feb
           </tbody>
         ))
       }
-      <tr>
+      <tr style={{ textAlign: "left" }}>
         <td></td>
-        <td colspan="6"><Col>Evaluation Criteria:</Col>
-        <Col>Discipline specific Awards:</Col>
+        <td colspan="6"><Col style={{ fontWeight: 'bold' }} >Evaluation Criteria:</Col>
+        <Col style={{ fontWeight: 'bold' }}>III(F)(i) Discipline specific Awards:</Col>
         <Col>1.	Awards by Foreign Universities,AccreditedInternational Bodies-	--50 /each</Col>
         
         <Col>2.	By national bodies like by UGC,CSIR, DST, DBT, ICAR & other Government bodies and Professional Academies like Bhatnagar Award etc.	–- 50 /each</Col>
         <Col>3.	State level/university level	–-	20 /eachd) Regional / local		–- 10 /each</Col>
         <br/>
-        <Col>Honours/ Recognitions</Col>
+
+        <Col style={{ fontWeight: 'bold' }}>III(F)(ii) Honours/ Recognitions</Col>
         <Col>a.	Foreign countries Governments and International bodies like UNESCO etc. –--50 /each</Col>
         <Col>b.	National like Padma Sri etc.	–-- 50 /each</Col>
         <Col>c.	State level/university level	–-- 20 /each</Col>
         <Col>d.	Regional / local by GO/NGOs/Rotary/Lions etc.,	5 /each</Col>
         <Col>e.	Professional Subject Based associations	–-- 5 /each</Col>
         <br/>
-        <Col>Fellowship Titles</Col>
+
+        <Col style={{ fontWeight: 'bold' }}>III(F)(iii) Fellowship Titles</Col>
         <Col>a.	Foreign universities/bodies like FRCP, FRCS etc.,	50 /each</Col>
         <Col>b.	Indian Science and other Academies like Fellow of Indian National Science Academy FNA, FNASC, FAMS etc.,	50 /each</Col>
         <Col>c.	Discipline specific National level Associations	10 /each</Col>
-        <Col>Post-doctoral degrees</Col>
+        <br/>
+
+        <Col style={{ fontWeight: 'bold' }}>III(F)(iv) Post-doctoral degrees</Col>
         <Col>d.	D.Sc from an university based on post-doctoral thesis	50 /each</Col></td>
       </tr>
       </Table> 
@@ -1033,9 +1066,9 @@ years score is considered for promotion as per UGC notification Feb
           </Form.Group>
           </Col>
           </Row>
-          </div>
+          </div> 
+      </div>
       
-
       <Table striped bordered hover>
         
         <tbody>
@@ -1050,23 +1083,6 @@ years score is considered for promotion as per UGC notification Feb
           </tr>
         </tbody>
       </Table>
-
-
-
-
-
-      {/* <div className="text-center mb-3">
-            <Row>
-              <Col>
-          <Form.Group controlId="formFile" className="mb-3">
-            <Form.Label>Upload supporting documents (pdf)</Form.Label>
-            <Form.Control type="file" onChange={handleUpload} />
-          </Form.Group>
-          </Col>
-          </Row>
-          </div> */}
-
-      <p>*If a paper presented in Conference/Seminar is published in the form of Proceedings, the points would accrue for the publication (III(a) and not under presentation (III(e)(ii)).</p>
        
       <div className='text-center mb-4'>
         <Row>
@@ -1094,11 +1110,8 @@ years score is considered for promotion as per UGC notification Feb
             </Button>
           </Col>
 
-          
-
         </Row>
           </div>
-          {/* <Link to="/form2" className="btn btn-primary ms-2">Next</Link> */}
         </Col>
       </Row>
     </Container>

@@ -162,40 +162,6 @@ function Form3HOD() {
     }
     }
 
-  //   const handleSave = async (e) => {
-  //     e.preventDefault();
-  //     const facultyRef = doc(db, "faculty", facultyUID);
-  //     const docRef = doc(facultyRef, "partC", "partC");
-  //     const docSnap = await getDoc(docRef);
-
-  //     if((justification.length > 100 && justification.length < 500) && (commentshod.length > 100 && commentshod.length < 500) && (suggestion.length > 50 && suggestion.length < 500)){
-  //     if (docSnap.exists()) {
-  //       await updateDoc(docRef, {
-  //         teaching: teachingData,
-  //         extension: extensionData,
-  //         research: researchData,
-  //         administration: administrationData,
-  //         justification: justification,
-  //         commentsHOD: commentshod,
-  //         suggestion: suggestion,
-  //       });
-        
-  //     } else {
-  //       await setDoc(docRef, {
-  //         teaching: teachingData,
-  //         extension: extensionData,
-  //         research: researchData,
-  //         administration: administrationData,
-  //         justification: justification,
-  //         commentsHOD: commentshod,
-  //         suggestion: suggestion,
-
-  //       });
-  //     }
-  //       alert("Data saved successfully!");
-  //   }
-  // }
-
     const handleForm2AHODNavigation = async (e) => {
       e.preventDefault();
       navigate('/form2ahod', { state: { facultyUID: facultyUID } });
@@ -211,20 +177,15 @@ function Form3HOD() {
       navigate('/form2chod', { state: { facultyUID: facultyUID } });
     }
 
-    
-
     if (loading) {
       return <h1>Loading...</h1>;
     }
 
-    // if (!facultyData) {
-    //   return <p>Faculty not found!</p>;
-    // }
 
   return(
     <Container>
       <Row>
-      <Col md={2} className="form-navigation">
+      {/* <Col md={2} className="form-navigation">
           <h3>Form Navigation</h3>
           <ul>
             <li>
@@ -250,12 +211,11 @@ function Form3HOD() {
             to = "/form3hod"
             >Part C</Link>
           </li>
-            {/* Add more form links as needed */}
           </ul>
-        </Col>
+        </Col> */}
 
-     <Col md={9}>
-     <h1>Part C: Assessment by Head of Department</h1>
+     <Col md={11} className="mx-auto text-center">
+     <h1 className="text-center">Part C: Assessment by Head of Department</h1>
 
         <p>(Adverse remarks as well as remarks of appreciation of any outstanding work shall be brought to the notice of the person concerned by the Principal or Head of the Department with a view to make improvement in the work, by the person concerned.)</p>
 
@@ -265,7 +225,7 @@ function Form3HOD() {
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th rowSpan="2">Grade</th>
+              <th rowSpan="2" style={{ textAlign: "center", verticalAlign: "middle" }}>Grade</th>
               <th colSpan="2">Verified API Score</th>
             </tr>
             <tr>
@@ -341,11 +301,12 @@ function Form3HOD() {
             </tr>
           </thead>
           <tbody>
-          <tr>
+          <tr style={{ textAlign: "center", verticalAlign: "middle" }}>
             <td>Teaching</td>
             <td>
               <Form.Control
                 type="text"
+                style={{ textAlign: "center"}}
                 value={teachingData}
                 onChange={(e) => setTeachingData(e.target.value)}
               />
@@ -357,6 +318,7 @@ function Form3HOD() {
             <td>
               <Form.Control
                 type="text"
+                style={{ textAlign: "center"}}
                 value={extensionData}
                 onChange={(e) => setExtensionData(e.target.value)}
               />
@@ -368,6 +330,7 @@ function Form3HOD() {
             <td>
               <Form.Control
                 type="text"
+                style={{ textAlign: "center"}}
                 value={researchData}
                 onChange={(e) => setResearchData(e.target.value)}
               />
@@ -379,6 +342,7 @@ function Form3HOD() {
             <td>
               <Form.Control
                 type="text"
+                style={{ textAlign: "center"}}
                 value={administrationData}
                 onChange={(e) => setAdministrationData(e.target.value)}
               />

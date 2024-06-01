@@ -165,35 +165,7 @@ function Form2BHOD() {
           return (
             <Container fluid>
               <Row>
-              {/* <Col md={2} className="form-navigation">
-          <h3>Form Navigation</h3>
-          <ul>
-            <li>
-              <Link to="/form1bhod">Part A</Link>
-            </li>
-            <li>
-              <span className="form2-subsection">Part B</span>
-              <ul className="form2-subsection-list">
-                <li>
-                  <Link onClick={handleForm2AHODNavigation}
-                  className="form2-subsection-link">Category A</Link>
-                </li>
-                <li>
-                  <Link 
-                  to = "/form2bhod" 
-                  className="form2-subsection-link">Category B</Link>
-                </li>
-                <li>
-                  <Link onClick={handleForm2CHODNavigation} className="form2-subsection-link">Category C</Link>
-                </li>
-              </ul>
-            </li>
-            <li>
-            <Link onClick={handleForm3HODNavigation}>Part C</Link>
-          </li>
-          </ul>
-        </Col> */}
-        
+              
                 <Col md={11} className="mx-auto text-center" >
                 <h1 className="text-center">Part B: Academic Performance Indicators</h1>
                   

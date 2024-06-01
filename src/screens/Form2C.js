@@ -36,6 +36,7 @@ function Form2C(){
     const [documentC8, setDocumentC8] = useState("");
     const [documentC9, setDocumentC9] = useState("");
     const [documentC10, setDocumentC10] = useState("");
+    
     const navigate = useNavigate()
 
     const [grandTotal, setGrandTotal] = useState(0);
@@ -891,6 +892,7 @@ years score is considered for promotion as per UGC notification Feb
 
       <th colSpan="3" style={{ textAlign: "center", verticalAlign: "middle" }}>Max API Score allotted</th>
     </tr>
+
     <tr>
       <th style={{ textAlign: "center", verticalAlign: "middle" }}>Title with Page No.</th>
 
@@ -1155,6 +1157,7 @@ years score is considered for promotion as per UGC notification Feb
 
       <th colSpan="5" style={{ textAlign: "center", verticalAlign: "middle" }}>Research Projects (Ongoing)</th>
     </tr>
+
     <tr>
       <th style={{ textAlign: "center", verticalAlign: "middle" }}>Title</th>
 
@@ -2134,15 +2137,6 @@ years score is considered for promotion as per UGC notification Feb
                   } }/>
               </td>
               <td>
-                {/* <Form.Control
-                  type="text"
-                  style={{ textAlign: "center"}}
-                  value={invitedlecture.level}
-                  onChange={(e) =>{
-                    const newInvitedLecture = [...InvitedLecture]
-                    newInvitedLecture[index].level = e.target.value
-                    setInvitedLecture(newInvitedLecture)
-                  } }/> */}
                   <Form.Select
                     style={{ textAlign: "center" }}
                     value={invitedlecture.level}
