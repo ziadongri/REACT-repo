@@ -103,17 +103,17 @@ function Form1AHOD() {
   }
 
     return (
-      <div className="container">
+      
         <Container fluid>
       <Row>
       
-        <Col md={9} >
+        <Col md={11} className="mx-auto " >
           <h1 className="text-center">Part A: General Information</h1>
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3 align-item-center" controlId="name">
             <Row>
           <Col md={3} className="form-label">
-            <Form.Label>Name</Form.Label>
+            <Form.Label>Name: </Form.Label>
           </Col>
           <Col md={9}>
             <Form.Control
@@ -125,10 +125,11 @@ function Form1AHOD() {
           </Col>
         </Row>
             </Form.Group>
+
             <Form.Group className="mb-3" controlId="department">
               <Row>
                 <Col md={3} className="form-label">
-              <Form.Label>Department</Form.Label>
+              <Form.Label>Department: </Form.Label>
               </Col>
               <Col md={9}>
               <Form.Control
@@ -145,10 +146,11 @@ function Form1AHOD() {
               </Col>
               </Row>
             </Form.Group>
+
             <Form.Group className="mb-3" controlId="designation">
             <Row>
                 <Col md={3} className="form-label">
-              <Form.Label>Designation</Form.Label>
+              <Form.Label>Designation: </Form.Label>
               </Col>
               <Col md={9}>
               <Form.Control
@@ -160,10 +162,11 @@ function Form1AHOD() {
               </Col>
               </Row>
             </Form.Group>
+
             <Form.Group className="mb-3" controlId="DOLpromotion">
             <Row>
                 <Col md={3} className="form-label">
-              <Form.Label>Date of last promotion</Form.Label>
+              <Form.Label>Date of last promotion: </Form.Label>
               </Col>
               <Col md={9}>
               <Form.Control
@@ -175,10 +178,11 @@ function Form1AHOD() {
               </Col>
               </Row>
             </Form.Group>
+
             <Form.Group className="mb-3" controlId="address">
             <Row>
                 <Col md={3} className="form-label">
-              <Form.Label>Address</Form.Label>
+              <Form.Label>Address:</Form.Label>
               </Col>
               <Col md={9}>
               <Form.Control
@@ -190,10 +194,11 @@ function Form1AHOD() {
               </Col>
               </Row>
             </Form.Group>
+
             <Form.Group className="mb-3" controlId="contact">
             <Row>
                 <Col md={3} className="form-label">
-              <Form.Label>Contact</Form.Label>
+              <Form.Label>Contact:</Form.Label>
               </Col>
               <Col md={9}>
               <Form.Control
@@ -208,10 +213,11 @@ function Form1AHOD() {
               </Col>
               </Row>
             </Form.Group>
+
             <Form.Group className="mb-3" controlId="email">
             <Row>
                 <Col md={3} className="form-label">
-              <Form.Label>Email</Form.Label>
+              <Form.Label>Email:</Form.Label>
               </Col>
               <Col md={9}>
               <Form.Control
@@ -223,10 +229,11 @@ function Form1AHOD() {
               </Col>
               </Row>
             </Form.Group>
+
             <Form.Group className="mb-3" controlId="freshQualification">
             <Row>
                 <Col md={3} className="form-label">
-              <Form.Label>Fresh Qualification</Form.Label>
+              <Form.Label>Fresh Qualification:</Form.Label>
               </Col>
               <Col md={9}>
               <Form.Control
@@ -238,11 +245,12 @@ function Form1AHOD() {
               </Col>
               </Row>
             </Form.Group>
+
             <Form.Group className="mb-3" controlId="year">
             <Row>
 
                 <Col md={3} className="form-label">
-              <Form.Label>Year</Form.Label>
+              <Form.Label>Year: </Form.Label>
               </Col>
               <Col md={9}>
               <Form.Control
@@ -295,7 +303,7 @@ function Form1AHOD() {
         </Col>
       </Row>
     </Container>
-  </div>
+  
   
   )
 }

@@ -121,13 +121,13 @@ function Form1BHOD() {
     <Container fluid>
       <Row>
       
-        <Col md={9}>
+        <Col md={11} className="mx-auto ">
           <h1 className="text-center">Part A: General Information</h1>
           <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="year">
               <Row>
                 <Col md={3} className="form-label">
-                  <Form.Label>Year</Form.Label>
+                  <Form.Label>Year: </Form.Label>
                 </Col>
                 <Col md={9}>
                   <Form.Control
@@ -145,14 +145,16 @@ function Form1BHOD() {
                     <option value="2028-29">2028-29</option>
                     <option value="2029-30">2029-30</option>
 
+
                   </Form.Control>
                 </Col>
               </Row>
             </Form.Group>
+
             <Form.Group className="mb-3 align-item-center" controlId="name">
               <Row>
                 <Col md={3} className="form-label">
-                  <Form.Label>Name</Form.Label>
+                  <Form.Label>Name: </Form.Label>
                 </Col>
                 <Col md={9}>
                   <Form.Control
@@ -202,7 +204,7 @@ function Form1BHOD() {
                     <Form.Group className="mb-3" controlId="name">
                       <Row>
                         <Col md={3} className="form-label">
-                          <Form.Label>Name</Form.Label>
+                          <Form.Label>Name: </Form.Label>
                         </Col>
                         <Col md={9}>
                           <Form.Control
@@ -216,7 +218,7 @@ function Form1BHOD() {
                     <Form.Group className='mb-3' controlId='department'>
                       <Row>
                         <Col md={3} className="form-label">
-                          <Form.Label>Department</Form.Label>
+                          <Form.Label>Department:</Form.Label>
                         </Col>
                         <Col md={9}>
                           <Form.Control
@@ -230,7 +232,7 @@ function Form1BHOD() {
                     <Form.Group className='mb-3' controlId='designation'>
                       <Row>
                         <Col md={3} className="form-label">
-                          <Form.Label>Designation</Form.Label>
+                          <Form.Label>Designation:</Form.Label>
                         </Col>
                         <Col md={9}>
                           <Form.Control
@@ -244,7 +246,7 @@ function Form1BHOD() {
                     <Form.Group className='mb-3' controlId='DOLpromotion'>
                       <Row>
                         <Col md={3} className="form-label">
-                          <Form.Label>Date of Last Promotion</Form.Label>
+                          <Form.Label>Date of Last Promotion:</Form.Label>
                         </Col>
                         <Col md={9}>
                           <Form.Control
@@ -258,7 +260,7 @@ function Form1BHOD() {
                     <Form.Group className='mb-3' controlId='address'>
                       <Row>
                         <Col md={3} className="form-label">
-                          <Form.Label>Address</Form.Label>
+                          <Form.Label>Address:</Form.Label>
                         </Col>
                         <Col md={9}>
                           <Form.Control
@@ -272,7 +274,7 @@ function Form1BHOD() {
                     <Form.Group className='mb-3' controlId='contact'>
                       <Row>
                         <Col md={3} className="form-label">
-                          <Form.Label>Contact</Form.Label>
+                          <Form.Label>Contact:</Form.Label>
                         </Col>
                         <Col md={9}>
                           <Form.Control
@@ -286,7 +288,7 @@ function Form1BHOD() {
                     <Form.Group className='mb-3' controlId='email'>
                       <Row>
                         <Col md={3} className="form-label">
-                          <Form.Label>Email</Form.Label>
+                          <Form.Label>Email:</Form.Label>
                         </Col>
                         <Col md={9}>
                           <Form.Control
@@ -300,7 +302,7 @@ function Form1BHOD() {
                     <Form.Group className='mb-3' controlId='freshqualification'>
                       <Row>
                         <Col md={3} className="form-label">
-                          <Form.Label>Fresh Qualification</Form.Label>
+                          <Form.Label>Fresh Qualification:</Form.Label>
                         </Col>
                         <Col md={9}>
                           <Form.Control

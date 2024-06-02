@@ -138,6 +138,7 @@ const fetchData = async () => {
       alert("Data saved successfully!");
       navigate('/form3HOD', {state: {facultyUID: facultyUID}});
     }
+
     
     const handleSave = async (e) => {
       e.preventDefault();
@@ -374,17 +375,40 @@ years score is considered for promotion as per UGC notification Feb
       
       <td style={{ textAlign: "center" }}>{data.selfscore}</td>
       <td>
-      <Form.Control
+      {/* <Form.Control
       key={index}
   type="text"
   placeholder=""
   style={{ textAlign: "center" }}
   value={(ResearchPublicationHOD && ResearchPublicationHOD[index]) || ''}
   onChange={(e) => handleResearchPublicationInputChange(e.target.value, index)}
-/>
+  /> */}
+
+<Form.Control
+  key={index}
+  type="text"
+  placeholder=""
+  style={{ textAlign: "center" }}
+  value={(ResearchPublicationHOD && ResearchPublicationHOD[index]) || '0'}
+  onChange={(e) => {
+    const value = e.target.value;
+    const updatedValues = [...ResearchPublicationHOD];
     
-      </td>
-              </tr>
+    if (value === '') {
+      updatedValues[index] = 0; 
+    } else {
+      const numericValue = Number(value);
+      if (!isNaN(numericValue) && numericValue >= 0) {
+        updatedValues[index] = numericValue;
+      }
+    }
+    setResearchPublicationHOD(updatedValues);
+  }}
+  pattern="\d*" // Ensure that only numeric input is allowed
+  min={0} 
+/>
+  </td>
+  </tr>
 
   </tbody>
 ))}
@@ -462,10 +486,26 @@ years score is considered for promotion as per UGC notification Feb
       <td style={{ textAlign: "center" }}>{data.selfscore}</td>
       <td>
          <Form.Control
+         key={index}
           type="text"
           style={{ textAlign: "center" }}
-          value={(ResearchArticleHOD && ResearchArticleHOD[index]) || ''}
-          onChange={(e) => handleResearchArticleInputChange(e.target.value, index)}
+          value={(ResearchArticleHOD && ResearchArticleHOD[index]) || '0'}
+          onChange={(e) => {
+            const value = e.target.value;
+            const updatedValues = [...ResearchArticleHOD];
+            
+            if (value === '') {
+              updatedValues[index] = 0; 
+            } else {
+              const numericValue = Number(value);
+              if (!isNaN(numericValue) && numericValue >= 0) {
+                updatedValues[index] = numericValue;
+              }
+            }
+            setResearchArticleHOD(updatedValues);
+          } }
+          pattern="\d*" 
+          min={0}
         /> 
       </td>
     </tr>
@@ -538,11 +578,27 @@ years score is considered for promotion as per UGC notification Feb
               <td>
               
                 <Form.Control
+                key={index}
                   type="text"
                   style={{ textAlign: "center"}}
-                  value={(ResearchProjectONHOD && ResearchProjectONHOD[index]) || ''}
-                  onChange={(e) => handleResearchProjectONInputChange(e.target.value, index)}/>
-                 
+                  value={(ResearchProjectONHOD && ResearchProjectONHOD[index]) || '0'}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    const updatedValues = [...ResearchProjectONHOD];
+                    
+                    if (value === '') {
+                      updatedValues[index] = 0; 
+                    } else {
+                      const numericValue = Number(value);
+                      if (!isNaN(numericValue) && numericValue >= 0) {
+                        updatedValues[index] = numericValue;
+                      }
+                    }
+                    setResearchProjectONHOD(updatedValues);
+                  }}
+                  pattern="\d*"
+                  min={0}
+                  />                
               </td>
             </tr>
           </tbody>
@@ -612,10 +668,27 @@ years score is considered for promotion as per UGC notification Feb
               <td>{data.selfscore}</td>
               <td>
                 <Form.Control
+                key={index}
                   type="text"
                   style={{ textAlign: "center"}}
-                 value= {(ResearchProjectCOMPHOD && ResearchProjectCOMPHOD[index]) || ''}
-                  onChange={(e) => handleResearchProjectCOMPInputChange(e.target.value, index)}/>
+                 value= {(ResearchProjectCOMPHOD && ResearchProjectCOMPHOD[index]) || '0'}
+                  onChange= {(e) => {
+                    const value = e.target.value;
+                    const updatedValues = [...ResearchProjectCOMPHOD];
+                    
+                    if (value === '') {
+                      updatedValues[index] = 0; 
+                    } else {
+                      const numericValue = Number(value);
+                      if (!isNaN(numericValue) && numericValue >= 0) {
+                        updatedValues[index] = numericValue;
+                      }
+                    }
+                    setResearchProjectCOMPHOD(updatedValues);
+                  }}
+                  pattern="\d*"
+                  min={0}
+                  />
               </td>
               
             </tr>
@@ -683,10 +756,27 @@ years score is considered for promotion as per UGC notification Feb
               <td>{data.selfscore}</td>
               <td>
                 <Form.Control
+                key={index}
                   type="text"
                   style={{ textAlign: "center"}}
-                  value={(ResearchNeedProjectHOD && ResearchNeedProjectHOD[index]) || ''}
-                  onChange={(e) => handleResearchNeedProjectInputChange(e.target.value, index)}/>
+                  value={(ResearchNeedProjectHOD && ResearchNeedProjectHOD[index]) || '0'}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    const updatedValues = [...ResearchNeedProjectHOD];
+                    
+                    if (value === '') {
+                      updatedValues[index] = 0; 
+                    } else {
+                      const numericValue = Number(value);
+                      if (!isNaN(numericValue) && numericValue >= 0) {
+                        updatedValues[index] = numericValue;
+                      }
+                    }
+                    setResearchNeedProjectHOD(updatedValues);
+                  }}
+                 pattern="\d*"
+                  min={0}
+                 />
               </td>
               
             </tr>
@@ -753,10 +843,27 @@ years score is considered for promotion as per UGC notification Feb
             <td>{data.selfscore}</td>
             <td>
               <Form.Control
+              key={index}
                 type="text"
                 style={{ textAlign: "center"}}
-                 value={(ResearchGuidanceHOD && ResearchGuidanceHOD[index]) || ''}
-                onChange={(e) => handleResearchGuidanceInputChange(e.target.value, index)}/>
+                value={(ResearchGuidanceHOD && ResearchGuidanceHOD[index]) || '0'}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  const updatedValues = [...ResearchGuidanceHOD];
+                  
+                  if (value === '') {
+                    updatedValues[index] = 0; 
+                  } else {
+                    const numericValue = Number(value);
+                    if (!isNaN(numericValue) && numericValue >= 0) {
+                      updatedValues[index] = numericValue;
+                    }
+                  }
+                  setResearchGuidanceHOD(updatedValues);
+                }}
+                pattern="\d*"
+                min={0}
+                />
             </td>
           </tr>
           </tbody>
@@ -817,10 +924,27 @@ years score is considered for promotion as per UGC notification Feb
               <td>{data.selfscore}</td>
               <td>
                 <Form.Control
+                key={index}
                   type="text"
                   style={{ textAlign: "center"}}
-                  value= {(TrainingCourseHOD && TrainingCourseHOD[index]) || ''}
-                  onChange={(e) => handleTrainingCourseInputChange(e.target.value, index)}/>
+                  value={(TrainingCourseHOD && TrainingCourseHOD[index]) || '0'}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    const updatedValues = [...TrainingCourseHOD];
+                    
+                    if (value === '') {
+                      updatedValues[index] = 0; 
+                    } else {
+                      const numericValue = Number(value);
+                      if (!isNaN(numericValue) && numericValue >= 0) {
+                        updatedValues[index] = numericValue;
+                      }
+                    }
+                    setTrainingCourseHOD(updatedValues);
+                  }}
+                  pattern="\d*"
+                  min={0}
+                  />
               </td>
             </tr>
           </tbody>
@@ -883,10 +1007,27 @@ years score is considered for promotion as per UGC notification Feb
             <td>{data.selfscore}</td>
             <td>
               <Form.Control
+              key={index}
                 type="text"
                 style={{ textAlign: "center"}}
-                value={(PaperPresentConferenceHOD && PaperPresentConferenceHOD[index]) || ''}
-                onChange={(e) => handlePaperPresentConferenceInputChange(e.target.value, index)}/>
+                value={(PaperPresentConferenceHOD && PaperPresentConferenceHOD[index]) || '0'}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  const updatedValues = [...PaperPresentConferenceHOD];
+                  
+                  if (value === '') {
+                    updatedValues[index] = 0; 
+                  } else {
+                    const numericValue = Number(value);
+                    if (!isNaN(numericValue) && numericValue >= 0) {
+                      updatedValues[index] = numericValue;
+                    }
+                  }
+                  setPaperPresentConferenceHOD(updatedValues);
+                }}
+                pattern="\d*"
+                min={0}
+                />
             </td>
           </tr>
         </tbody>
@@ -951,10 +1092,27 @@ years score is considered for promotion as per UGC notification Feb
               <td>{data.selfscore}</td>
               <td>
                 <Form.Control
+                key={index}
                   type="text"
                   style={{ textAlign: "center" }}
-                   value={(InvitedLectureHOD && InvitedLectureHOD[index]) || ''}
-                  onChange={(e) => handleInvitedLectureInputChange(e.target.value, index)}/>
+                  value={(InvitedLectureHOD && InvitedLectureHOD[index]) || '0'}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    const updatedValues = [...InvitedLectureHOD];
+                    
+                    if (value === '') {
+                      updatedValues[index] = 0; 
+                    } else {
+                      const numericValue = Number(value);
+                      if (!isNaN(numericValue) && numericValue >= 0) {
+                        updatedValues[index] = numericValue;
+                      }
+                    }
+                    setInvitedLectureHOD(updatedValues);
+                  }}
+                  pattern="\d*"
+                  min={0}
+                 />
               </td>
             </tr>              
           </tbody>
@@ -1015,10 +1173,27 @@ years score is considered for promotion as per UGC notification Feb
               <td>{data.selfscore}</td>
               <td>
                 <Form.Control
+                key={index}
                   type="text"
                   style={{ textAlign: "center" }}
-                  value= {(AwardHOD && AwardHOD[index]) || ''}
-                  onChange={(e) => handleAwardInputChange(e.target.value, index)}/>
+                  value={(AwardHOD && AwardHOD[index]) || '0'}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    const updatedValues = [...AwardHOD];
+                    
+                    if (value === '') {
+                      updatedValues[index] = 0; 
+                    } else {
+                      const numericValue = Number(value);
+                      if (!isNaN(numericValue) && numericValue >= 0) {
+                        updatedValues[index] = numericValue;
+                      }
+                    }
+                    setAwardHOD(updatedValues);
+                  }}
+                  pattern="\d*"
+                  min={0}
+                 />
                 </td>        
             </tr>           
           </tbody>
@@ -1069,8 +1244,7 @@ years score is considered for promotion as per UGC notification Feb
           </div> 
       </div>
       
-      <Table striped bordered hover>
-        
+      <Table striped bordered hover>       
         <tbody>
           <tr>
             <td>Total of Category III</td>

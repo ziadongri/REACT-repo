@@ -805,7 +805,7 @@ years score is considered for promotion as per UGC notification Feb
 
               <td>
                 <Form.Control
-                type="number"
+                type="text"
                 style={{ textAlign: "center" }}
                 value={researchpublication.selfscore}
                 onChange={(e) => {
@@ -1069,7 +1069,7 @@ years score is considered for promotion as per UGC notification Feb
 
               <td>
                 <Form.Control
-                type="number"
+                type="text"
                 style={{ textAlign: "center" }}
                 value={researcharticle.selfscore}
                 onChange={(e) =>{

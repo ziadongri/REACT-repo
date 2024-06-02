@@ -129,15 +129,16 @@ const fetchData = async () => {
     if (IActaHOD === "" || IActbHOD === "" || IActcHOD === "" || IActdHOD === "" || IActeHOD === "" || IActfHOD === "") {
       alert("Please fill all the fields");
       return;
-    } else if ( IActaHOD < 0 || IActbHOD < 0 || IActcHOD < 0 || IActdHOD < 0 || IActeHOD < 0 || IActfHOD < 0) {
+    } 
+    else if ( IActaHOD < 0 || IActbHOD < 0 || IActcHOD < 0 || IActdHOD < 0 || IActeHOD < 0 || IActfHOD < 0) {
       alert("Please enter positive values only");
       return;
-    } else if (isNaN(IActTotalHOD)) {
+    } 
+    else if (isNaN(IActTotalHOD)) {
       alert("Please fill numbers only");
       return;
     } 
     await setDoc(docRef, data, { merge: true });
-
     alert("Data Saved");
     navigate('/form2bhod', { state: { facultyUID: facultyUID } });
     // console.log(facultyAUID)

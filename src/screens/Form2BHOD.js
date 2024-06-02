@@ -85,21 +85,21 @@ function Form2BHOD() {
               IIActcHOD: IIActcHOD,
               IIActdHOD: IIActdHOD,
               IIActTotalHOD: IIActTotalHOD,
-            }
+            };
             
-            if (IIActaHOD === '' || IIActbHOD === '' || IIActcHOD === '' || IIActdHOD === '') {
+            if (IIActaHOD === "" || IIActbHOD === "" || IIActcHOD === "" || IIActdHOD === ""  ) {
               alert("Please fill all the fields!");
               return;
             }
            else if (IIActaHOD < 0 || IIActbHOD < 0 || IIActcHOD < 0 || IIActdHOD < 0) {
-              alert("Please enter valid values!");
+              alert("Please enter positive values only!");
               return;
             }
             else if (isNaN(IIActTotalHOD)) {
               alert("Please enter valid values!");
               return;
             }
-            await updateDoc(docRef, data);
+            await setDoc(docRef, data, {merge:true});
             alert("Data Saved!");
             navigate('/form2chod', { state: { facultyUID: facultyUID } });
             // console.log("Document written with ID: ", facultyUID);
@@ -772,10 +772,11 @@ function Form2BHOD() {
                           <td>
                             <Form.Control
                               type="text"
-                              placeholder=""
+                              style={{ textAlign: "center" }}
                               value={IIActdHOD}
                               onChange={(e) => setIIActdHOD(Math.min(Number(e.target.value), 20))}
-                      max={20}
+                              max={20}
+                              pattern="\d*"
                             />
                           </td>
                         </tr>
