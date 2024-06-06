@@ -139,6 +139,7 @@ const fetchData = async () => {
       return;
     } 
     await setDoc(docRef, data, { merge: true });
+
     alert("Data Saved");
     navigate('/form2bhod', { state: { facultyUID: facultyUID } });
     // console.log(facultyAUID)
@@ -199,6 +200,7 @@ const fetchData = async () => {
             <th style={{ verticalAlign: 'middle'}}>% of Classes conducted</th>
             </tr>
           </thead>
+
           {facultyData.IOddsem.map((data, index) => (
             <tbody key={index}>
               <tr className="text-center">
@@ -241,6 +243,7 @@ const fetchData = async () => {
             <th style={{ verticalAlign: 'middle'}}>% of Classes conducted</th>
             </tr>
           </thead>
+
           {facultyData.IEvensem.map((data, index) => (
             <tbody key={index}>
               <tr className="text-center">
@@ -283,6 +286,7 @@ const fetchData = async () => {
             <th style={{ verticalAlign: 'middle'}}>Verified API Score</th>
             </tr>
           </thead>
+
           <tbody >
             <tr >
               <td>a.</td>
@@ -297,6 +301,7 @@ const fetchData = async () => {
                 <Col>- no score if number of lectures taken is less than 70%{" "}
                 </Col>
               </td>
+
               <td className='text-center'> - </td>
 
               <td><p className='text-center'>50</p></td>
@@ -318,6 +323,7 @@ const fetchData = async () => {
           </Row>
           </div>
               </td>
+
               <td >
                 <Form.Control
                   type="text"
@@ -341,12 +347,14 @@ const fetchData = async () => {
                   classes for diploma students may be given 5 marks
                 </Col>
               </td>
+
               <td className='text-center'> - </td>
 
               <td>
               <p className='text-center'>5</p>
               </td>
               <td><p className='text-center'>{facultyData.IActb}</p></td>
+
               <td>
               <div className="text-center mb-3">
             <Row>
@@ -384,14 +392,15 @@ const fetchData = async () => {
                   mentioned in 1.a)
                 </Col>
               </td>
-              <td className='text-center'> - </td>
 
+              <td className='text-center'> - </td>
               <td>
               <p className='text-center'>5</p>
               </td>
               <td>
               <p className='text-center'>{facultyData.IActc}</p>
               </td>
+
               <td>
               <div className="text-center mb-3">
             <Row>
@@ -438,6 +447,7 @@ const fetchData = async () => {
                   readOnly
                  
                 /></td>
+
                       <td>
                       <Form.Control
                       type="text"
@@ -580,13 +590,13 @@ const fetchData = async () => {
               
               <td className='text-center'> 
                   {facultyData.totalsub1d}</td>
-
               <td>
               <p className='text-center'>40</p>
               </td>
               <td>
               <p className='text-center'>{facultyData.IActd}</p>
               </td>
+
               <td>
               <div className="text-center mb-3">
             <Row>
@@ -603,6 +613,7 @@ const fetchData = async () => {
           </Row>
           </div>
               </td>
+
               <td>
                 <Form.Control
                   type="text"
@@ -629,6 +640,7 @@ const fetchData = async () => {
                 <td>
                 <Form.Control
                   type="text"
+                  style={{ textAlign: "center" }}
                   value={facultyData.sub1_e1 >= 0 ? facultyData.sub1_e1 : 0}
                   readOnly
                 />
@@ -645,6 +657,7 @@ const fetchData = async () => {
                 <td>
                 <Form.Control
                   type="text"
+                  style={{ textAlign: "center" }}
                   value={facultyData.sub1_e2 >= 0 ? facultyData.sub1_e2 : 0}
                   readOnly
                 />
@@ -661,6 +674,7 @@ const fetchData = async () => {
                 <td>
                 <Form.Control
                   type="text"
+                  style={{ textAlign: "center" }}
                   value={facultyData.sub1_e3 >= 0 ? facultyData.sub1_e3 : 0}
                   readOnly
                 />
@@ -680,6 +694,7 @@ const fetchData = async () => {
                     <td>
                     <Form.Control
                       type="text"
+                      style={{ textAlign: "center" }}
                       value={facultyData.sub1_e41 >= 0 ? facultyData.sub1_e41 : 0}
                       readOnly
                     />
@@ -696,6 +711,7 @@ const fetchData = async () => {
                     <td>
                     <Form.Control
                       type="text"
+                      style={{ textAlign: "center" }}
                       value={facultyData.sub1_e42 >= 0 ? facultyData.sub1_e42 : 0}
                       readOnly
                     />
@@ -715,6 +731,7 @@ const fetchData = async () => {
                 <td>
                 <Form.Control
                   type="text"
+                  style={{ textAlign: "center" }}
                   value={facultyData.sub1_e5 >= 0 ? facultyData.sub1_e5 : 0}
                   readOnly
                 />
@@ -731,6 +748,7 @@ const fetchData = async () => {
                   <td>
                   <Form.Control
                   type="text"
+                  style={{ textAlign: "center" }}
                   value={facultyData.sub1_e6 >= 0 ? facultyData.sub1_e6 : 0}
                   readOnly
                 />
@@ -739,12 +757,13 @@ const fetchData = async () => {
 
                 <Col>*quality of notes/solution to be considered</Col>
               </td>
+
               <td className='text-center'> {facultyData.totalsub1e} </td>
               <td>
               <p className='text-center'>25</p>
               </td>
-              
               <td>{facultyData.IActe}</td>
+
               <td>
               <div className="text-center mb-3">
             <Row>
@@ -792,6 +811,7 @@ const fetchData = async () => {
                 <td>
                   <Form.Control
                   type="text"
+                  style={{ textAlign: "center" }}
                   value={facultyData.sub1_f1 >= 0 ? facultyData.sub1_f1 : 0}
                   readOnly
                 />
@@ -809,6 +829,7 @@ const fetchData = async () => {
                 <td>
                   <Form.Control
                   type="text"
+                  style={{ textAlign: "center" }}
                   value={facultyData.sub1_f2 >= 0 ? facultyData.sub1_f2 : 0}
                   readOnly
                 />
@@ -825,17 +846,20 @@ const fetchData = async () => {
                 <td>
                   <Form.Control
                   type="text"
+                  style={{ textAlign: "center" }}
                   value={facultyData.sub1_f3 >= 0 ? facultyData.sub1_f3 : 0}
                   readOnly
                 />
                 </td>
                 </tr>
               </td>
+
               <td className='text-center'> {facultyData.totalsub1f} </td>
               <td>
               <p className='text-center'>25</p>
               </td>
               <td>{facultyData.IActf}</td>
+
               <td>
               <div className="text-center mb-3">
             <Row>
@@ -846,7 +870,6 @@ const fetchData = async () => {
             <a href={facultyData.documentA6} target="_blank">
               View file here
             </a>
-
           </Form.Group>
           </Col>
           </Row>

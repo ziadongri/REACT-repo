@@ -78,18 +78,6 @@ const fetchData = async () => {
   fetchData();
   }, [facultyUID]);
 
-
-
-    useEffect(() => {
-      console.log('ResearchArticleHOD:', ResearchArticleHOD);
-   }, [ResearchArticleHOD]);
-
-   useEffect(() => {
-    console.log('ResearchProjectONHOD:', ResearchProjectONHOD);
- }, [ResearchProjectONHOD]);
-
-
-
     const handleSubmit = async (e) => {
       e.preventDefault();
       const facultyRef = doc(db, "faculty", facultyUID);
@@ -289,35 +277,6 @@ const fetchData = async () => {
   return (
     <Container fluid>
       <Row>
-      {/* <Col md={2} className="form-navigation">
-          <h3>Form Navigation</h3>
-          <ul>
-            <li>
-              <Link to="/form1bhod">Part A</Link>
-            </li>
-            <li>
-              <span className="form2-subsection">Part B</span>
-              <ul className="form2-subsection-list">
-                <li>
-                  <Link onClick={handleForm2AHODNavigation}
-                  className="form2-subsection-link">Category A</Link>
-                </li>
-                <li>
-                  <Link onClick={handleForm2BHODNavigation} className="form2-subsection-link">Category B</Link>
-                </li>
-                <li>
-                  <Link 
-                  to = "/form2chod"
-                  className="form2-subsection-link">Category C</Link>
-                </li>
-              </ul>
-            </li>
-            <li>
-            <Link onClick={handleForm3HODNavigation}>Part C</Link>
-          </li>
-           
-          </ul>
-        </Col> */}
    
   <Col md={11} className="mx-auto text-center" >
 
@@ -351,8 +310,6 @@ years score is considered for promotion as per UGC notification Feb
     </tr>
       </thead>
       
-    
-
     {facultyData.ResearchPublication.map((data, index) => (
   <tbody key={index}>
     <tr style={{ textAlign: "left" }}>
@@ -565,8 +522,7 @@ years score is considered for promotion as per UGC notification Feb
         </tr>
       </thead>
 
-      {
-        facultyData.ResearchProjectON.map((data,index) => (
+      {facultyData.ResearchProjectON.map((data,index) => (
           <tbody key={index}> 
           <tr>
               <td>{index + 1}</td>
@@ -656,8 +612,7 @@ years score is considered for promotion as per UGC notification Feb
         </tr>
       </thead>
 
-      {
-        facultyData.ResearchProjectCOMP.map((data,index) => (
+      {facultyData.ResearchProjectCOMP.map((data,index) => (
           <tbody key={index}> 
           <tr>
               <td>{index + 1}</td>
@@ -709,6 +664,7 @@ years score is considered for promotion as per UGC notification Feb
 <Col>h) Need-based projects of the college 10 points</Col>
       </td>
       </tr>
+
       </Table>
 
       <div className="text-center mb-3">
@@ -832,8 +788,8 @@ years score is considered for promotion as per UGC notification Feb
         </tr>
       </thead>
       
-      {
-        facultyData.ResearchGuidance.map((data,index) => (
+      { facultyData.ResearchGuidance.map((data,index) => (
+       
           <tbody key={index}>
            <tr>
             <td>{index + 1}</td>
@@ -913,8 +869,8 @@ years score is considered for promotion as per UGC notification Feb
       <th style={{ textAlign: "center", verticalAlign: "middle" }}>Verified API Score</th>
         </tr>
       </thead>
-      {
-        facultyData.TrainingCourse.map((data,index) => (
+      {facultyData.TrainingCourse.map((data,index) => (
+        
           <tbody key={index}>
             <tr>
               <td>{index + 1}</td>
@@ -995,8 +951,8 @@ years score is considered for promotion as per UGC notification Feb
         </tr>
       </thead>
 
-    {
-      facultyData.PaperPresentConference.map((data,index) => (
+    {facultyData.PaperPresentConference.map((data,index) => (
+      
         <tbody key={index}>
           <tr>
             <td>{index + 1}</td>
@@ -1080,8 +1036,8 @@ years score is considered for promotion as per UGC notification Feb
         </tr>
       </thead>
 
-      {
-        facultyData.InvitedLecture.map((data, index) => (
+      {facultyData.InvitedLecture.map((data, index) => (
+        
           <tbody key={index}>
             <tr>
               <td>{index + 1}</td>
@@ -1118,6 +1074,7 @@ years score is considered for promotion as per UGC notification Feb
           </tbody>
         ))
       }
+
       <tr style={{ textAlign: "left" }}>
         <td></td>
         <td colspan="6"><Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
@@ -1161,8 +1118,8 @@ years score is considered for promotion as per UGC notification Feb
         </tr>
       </thead>
 
-      {
-        facultyData.Award.map((data,index) => (
+      {facultyData.Award.map((data,index) => (
+        
           <tbody key={index}>
             <tr>
               <td>{index + 1}</td>
@@ -1226,6 +1183,7 @@ years score is considered for promotion as per UGC notification Feb
         <Col style={{ fontWeight: 'bold' }}>III(F)(iv) Post-doctoral degrees</Col>
         <Col>d.	D.Sc from an university based on post-doctoral thesis	50 /each</Col></td>
       </tr>
+      
       </Table> 
 
       <div className="text-center mb-3">

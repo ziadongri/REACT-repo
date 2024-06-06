@@ -65,24 +65,56 @@ const Form3PC = () => {
         fetchData();
       }, [facultyUID]);
   
-      const handleSubmit = async (e) => {
-        e.preventDefault();
-        const facultyRef = doc(db, "faculty", facultyUID);
-        const docRef = doc(facultyRef, "partC", "partC");
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          await updateDoc(docRef, {
-            remarksPrincipal: remarksPrincipal
-          });
+//       const handleSubmit = async (e) => {
+//         e.preventDefault();
+//         const facultyRef = doc(db, "faculty", facultyUID);
+//         const docRef = doc(facultyRef, "partC", "partC");
+//         const docSnap = await getDoc(docRef);
+
+// if(remarksPrincipal.length > 50 && remarksPrincipal.length < 500){
+//         if (docSnap.exists()) {
+//           await updateDoc(docRef, {
+//             remarksPrincipal: remarksPrincipal
+//           });
           
-        } else {
-          await setDoc(docRef, {
-                remarksPrincipal: remarksPrincipal
-  
-          });
-        }
-        navigate('/formsubmission', {state: {facultyUID: facultyUID}});
-      }
+//         } else {
+//           await setDoc(docRef, {
+//                 remarksPrincipal: remarksPrincipal
+//           });
+//         }
+
+//         navigate('/formsubmission', {state: {facultyUID: facultyUID}});
+//       } else if (remarksPrincipal.length < 50 || remarksPrincipal.length > 500){
+//         alert("Remarks should be between 50 to 500 characters");
+//       }
+//       }
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const facultyRef = doc(db, "faculty", facultyUID);
+  const docRef = doc(facultyRef, "partC", "partC");
+  const docSnap = await getDoc(docRef);
+
+  // Check if remarksPrincipal is defined and has a valid length property
+  if (typeof remarksPrincipal !== 'undefined' && remarksPrincipal.length > 50 && remarksPrincipal.length < 500) {
+    if (docSnap.exists()) {
+      await updateDoc(docRef, {
+        remarksPrincipal: remarksPrincipal
+      });
+    } else {
+      await setDoc(docRef, {
+        remarksPrincipal: remarksPrincipal
+      });
+    }
+    navigate('/formsubmission', { state: { facultyUID: facultyUID } });
+  } else if (remarksPrincipal.length < 50 || remarksPrincipal.length > 500) {
+    alert("Remarks should be between 50 to 500 characters");
+  } else {
+    alert("Remarks cannot be undefined");
+  }
+}
+
+
   
       const handleForm2APCNavigation = async (e) => {
         e.preventDefault();
@@ -104,50 +136,17 @@ const Form3PC = () => {
       if (loading) {
         return <h1>Loading...</h1>;
       }
-  
-      // if (!facultyData) {
-      //   return <p>Faculty not found!</p>;
-      // }
-  
+
     return(
       <Container>
         <Row>
-        <Col md={2} className="form-navigation">
-            <h3>Form Navigation</h3>
-            <ul>
-              <li>
-                <Link to="/form1principal">Part A</Link>
-              </li>
-              <li>
-                <span className="form2-subsection">Part B</span>
-                <ul className="form2-subsection-list">
-                  <li>
-                    <Link onClick={handleForm2APCNavigation}
-                    className="form2-subsection-link">Category A</Link>
-                  </li>
-                  <li>
-                    <Link onClick={handleForm2BPCNavigation} className="form2-subsection-link">Category B</Link>
-                  </li>
-                  <li>
-                    <Link onClick={handleForm2CPCNavigation} className="form2-subsection-link">Category C</Link>
-                  </li>
-                </ul>
-              </li>
-              <li>
-              <Link 
-              to = "/form3principal"
-              >Part C</Link>
-            </li>
-              {/* Add more form links as needed */}
-            </ul>
-          </Col>
   
-       <Col md={9}>
-       <h1>Part C: Assessment by Head of Department</h1>
-  
-          <p>(Adverse remarks as well as remarks of appreciation of any outstanding work shall be brought to the notice of the person concerned by the Principal or Head of the Department with a view to make improvement in the work, by the person concerned.)</p>
-  
-          <p style= {{fontWeight:"bold"} }>(a) Assessment by the Head of the Department of the work done under each head of activity : Assessment of Teaching, Extension and Research activities should be based on Verified API Score under respective category as mentioned in Part "A" and shall be made in the following manner.</p>
+        <Col md={11} className="mx-auto text-center">
+     <h1 className="text-center">Part C: Assessment by Head of Department</h1>
+
+        <p>(Adverse remarks as well as remarks of appreciation of any outstanding work shall be brought to the notice of the person concerned by the Principal or Head of the Department with a view to make improvement in the work, by the person concerned.)</p>
+
+        <p style= {{fontWeight:"bold"} }>(a) Assessment by the Head of the Department of the work done under each head of activity : Assessment of Teaching, Extension and Research activities should be based on Verified API Score under respective category as mentioned in Part "A" and shall be made in the following manner.</p>
   
         <Form onSubmit={handleSubmit}>
           <Table striped bordered hover>
@@ -294,7 +293,7 @@ const Form3PC = () => {
               as="textarea"
               rows={3}
               value={facultyData && facultyData.justification}
-              // onChange={(e) => setFacultyData(e.target.value)}
+              readOnly
               
             />
           </Form.Group>
@@ -311,7 +310,7 @@ const Form3PC = () => {
               as="textarea"
               rows={3}
               value={facultyData && facultyData.commentsHOD}
-              // onChange={(e) => setFacultyData(e.target.value)}
+              readOnly
               
             />
           </Form.Group>
@@ -328,7 +327,7 @@ const Form3PC = () => {
               as="textarea"
               rows={3}
               value={facultyData && facultyData.suggestion}
-              // onChange={(e) => setFacultyData(e.target.value)}
+              readOnly
               
             />
           </Form.Group>
@@ -346,6 +345,8 @@ const Form3PC = () => {
                 rows={3}
                 value={remarksPrincipal}
                 onChange={(e) => setRemarksPrincipal(e.target.value)}
+                minLength={50}
+                maxLength={500}
               />
             </Form.Group>
           

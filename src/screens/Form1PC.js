@@ -99,15 +99,15 @@ function Form1PC() {
 
     return (
       <Container fluid>
-        {/* <Row> */}
+        <Row>
           
-          <Col >
-            <h1>Part A: General Information</h1>
+          <Col md={11} className="mx-auto "  >
+            <h1 className="text-center">Part A: General Information</h1>
             <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="year">
                 <Row>
                   <Col md={3} className="form-label">
-                    <Form.Label>Year</Form.Label>
+                    <Form.Label>Year:</Form.Label>
                   </Col>
                   <Col md={9}>
                     <Form.Control
@@ -133,7 +133,7 @@ function Form1PC() {
                 <Form.Group className="mb-3" controlId="department">
                 <Row>
                     <Col md={3} className="form-label">
-                    <Form.Label>Department</Form.Label>
+                    <Form.Label>Department:</Form.Label>
                     </Col>
                     <Col md={9}>
                     <Form.Control
@@ -156,7 +156,7 @@ function Form1PC() {
                 <Form.Group className="mb-3 align-item-center" controlId="name">
                 <Row>
                   <Col md={3} className="form-label">
-                    <Form.Label>HOD Name</Form.Label>
+                    <Form.Label>HOD Name:</Form.Label>
                   </Col>
                   <Col md={9}>
                     <Form.Control
@@ -184,7 +184,7 @@ function Form1PC() {
                       <Form.Group className="mb-3" controlId="name">
                         <Row>
                           <Col md={3} className="form-label">
-                            <Form.Label>Name</Form.Label>
+                            <Form.Label>Name:</Form.Label>
                           </Col>
                           <Col md={9}>
                             <Form.Control
@@ -198,7 +198,7 @@ function Form1PC() {
                       <Form.Group className='mb-3' controlId='department'>
                         <Row>
                           <Col md={3} className="form-label">
-                            <Form.Label>Department</Form.Label>
+                            <Form.Label>Department:</Form.Label>
                           </Col>
                           <Col md={9}>
                             <Form.Control
@@ -212,7 +212,7 @@ function Form1PC() {
                       <Form.Group className='mb-3' controlId='designation'>
                         <Row>
                           <Col md={3} className="form-label">
-                            <Form.Label>Designation</Form.Label>
+                            <Form.Label>Designation:</Form.Label>
                           </Col>
                           <Col md={9}>
                             <Form.Control
@@ -226,7 +226,7 @@ function Form1PC() {
                       <Form.Group className='mb-3' controlId='DOLpromotion'>
                         <Row>
                           <Col md={3} className="form-label">
-                            <Form.Label>Date of Last Promotion</Form.Label>
+                            <Form.Label>Date of Last Promotion:</Form.Label>
                           </Col>
                           <Col md={9}>
                             <Form.Control
@@ -240,7 +240,7 @@ function Form1PC() {
                       <Form.Group className='mb-3' controlId='address'>
                         <Row>
                           <Col md={3} className="form-label">
-                            <Form.Label>Address</Form.Label>
+                            <Form.Label>Address:</Form.Label>
                           </Col>
                           <Col md={9}>
                             <Form.Control
@@ -254,7 +254,7 @@ function Form1PC() {
                       <Form.Group className='mb-3' controlId='contact'>
                         <Row>
                           <Col md={3} className="form-label">
-                            <Form.Label>Contact</Form.Label>
+                            <Form.Label>Contact:</Form.Label>
                           </Col>
                           <Col md={9}>
                             <Form.Control
@@ -268,7 +268,7 @@ function Form1PC() {
                       <Form.Group className='mb-3' controlId='email'>
                         <Row>
                           <Col md={3} className="form-label">
-                            <Form.Label>Email</Form.Label>
+                            <Form.Label>Email:</Form.Label>
                           </Col>
                           <Col md={9}>
                             <Form.Control
@@ -282,7 +282,7 @@ function Form1PC() {
                       <Form.Group className='mb-3' controlId='freshqualification'>
                         <Row>
                           <Col md={3} className="form-label">
-                            <Form.Label>Fresh Qualification</Form.Label>
+                            <Form.Label>Fresh Qualification:</Form.Label>
                           </Col>
                           <Col md={9}>
                             <Form.Control
@@ -303,7 +303,7 @@ function Form1PC() {
               <Form.Group className="mb-3 align-item-center" controlId="name">
                 <Row>
                   <Col md={3} className="form-label">
-                    <Form.Label>Faculty Name</Form.Label>
+                    <Form.Label>Faculty Name:</Form.Label>
                   </Col>
                   <Col md={9}>
                     <Form.Control
@@ -336,7 +336,7 @@ function Form1PC() {
                       <Form.Group className="mb-3" controlId="name">
                         <Row>
                           <Col md={3} className="form-label">
-                            <Form.Label>Name</Form.Label>
+                            <Form.Label>Name:</Form.Label>
                           </Col>
                           <Col md={9}>
                             <Form.Control
@@ -350,7 +350,7 @@ function Form1PC() {
                       <Form.Group className='mb-3' controlId='department'>
                         <Row>
                           <Col md={3} className="form-label">
-                            <Form.Label>Department</Form.Label>
+                            <Form.Label>Department:</Form.Label>
                           </Col>
                           <Col md={9}>
                             <Form.Control
@@ -364,7 +364,7 @@ function Form1PC() {
                       <Form.Group className='mb-3' controlId='designation'>
                         <Row>
                           <Col md={3} className="form-label">
-                            <Form.Label>Designation</Form.Label>
+                            <Form.Label>Designation:</Form.Label>
                           </Col>
                           <Col md={9}>
                             <Form.Control
@@ -378,7 +378,7 @@ function Form1PC() {
                       <Form.Group className='mb-3' controlId='DOLpromotion'>
                         <Row>
                           <Col md={3} className="form-label">
-                            <Form.Label>Date of Last Promotion</Form.Label>
+                            <Form.Label>Date of Last Promotion:</Form.Label>
                           </Col>
                           <Col md={9}>
                             <Form.Control
@@ -392,7 +392,7 @@ function Form1PC() {
                       <Form.Group className='mb-3' controlId='address'>
                         <Row>
                           <Col md={3} className="form-label">
-                            <Form.Label>Address</Form.Label>
+                            <Form.Label>Address:</Form.Label>
                           </Col>
                           <Col md={9}>
                             <Form.Control
@@ -406,7 +406,7 @@ function Form1PC() {
                       <Form.Group className='mb-3' controlId='contact'>
                         <Row>
                           <Col md={3} className="form-label">
-                            <Form.Label>Contact</Form.Label>
+                            <Form.Label>Contact:</Form.Label>
                           </Col>
                           <Col md={9}>
                             <Form.Control
@@ -420,7 +420,7 @@ function Form1PC() {
                       <Form.Group className='mb-3' controlId='email'>
                         <Row>
                           <Col md={3} className="form-label">
-                            <Form.Label>Email</Form.Label>
+                            <Form.Label>Email:</Form.Label>
                           </Col>
                           <Col md={9}>
                             <Form.Control
@@ -434,7 +434,7 @@ function Form1PC() {
                       <Form.Group className='mb-3' controlId='freshqualification'>
                         <Row>
                           <Col md={3} className="form-label">
-                            <Form.Label>Fresh Qualification</Form.Label>
+                            <Form.Label>Fresh Qualification:</Form.Label>
                           </Col>
                           <Col md={9}>
                             <Form.Control
@@ -454,15 +454,8 @@ function Form1PC() {
 
               
 
-              <div className="text-center">
-                <Row>
-                  {/* <Col>
-                    <Button variant="primary" type="submit">
-                      <Link className="text-decoration-none text-white">
-                        Save
-                      </Link>
-                    </Button>
-                  </Col> */}
+              <div className="text-center mb-4">
+                <Row>               
                   <Col>
                     <Button variant="primary" type="submit" onClick={handleSubmit}>
                       <Link className="text-decoration-none text-white">
@@ -474,7 +467,7 @@ function Form1PC() {
               </div>
             </Form>
           </Col>
-        {/* </Row> */}
+        </Row>
       </Container>
     );
   }

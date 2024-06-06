@@ -210,14 +210,15 @@ function Form2BHOD() {
                             />
                           </Form.Group>
                           </td>
+
                           <td>
                   <p className='text-center'>-</p>
                   </td>
-                     
                       <td>
               <p className='text-center'>25</p>
               </td>
                       <td>{facultyData.IIActa}</td>
+
                       <td>
               <div className="text-center mb-3">
             <Row>
@@ -522,11 +523,12 @@ function Form2BHOD() {
                       allotted are based on involvement in work.
                             
                 </td>
+
                 <td>{facultyData.totalsub2b}</td>
                           <td>  <p className='text-center'>25</p>
-                      </td>
-                    
+                      </td>                    
                           <td>{facultyData.IIActb}</td>
+
                           <td>
               <div className="text-center mb-3">
             <Row>
@@ -597,6 +599,7 @@ function Form2BHOD() {
                       <p className='text-center'>20</p>
                       </td>
                           <td>{facultyData.IIActc}</td>
+
                           <td>
               <div className="text-center mb-3">
             <Row>
@@ -748,11 +751,13 @@ function Form2BHOD() {
                   </tr>
                            
                           </td>
+
                           <td>{facultyData.totalsub2c}</td>
                           <td>
                       <p className='text-center'>20</p>
                       </td>
                           <td>{facultyData.IIActd}</td>
+
                           <td>
               <div className="text-center mb-3">
             <Row>
@@ -763,7 +768,6 @@ function Form2BHOD() {
             <a href={facultyData.documentB4} target="_blank">
               View file here
             </a>
-
           </Form.Group>
           </Col>
           </Row>
