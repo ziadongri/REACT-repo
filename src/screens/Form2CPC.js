@@ -136,7 +136,8 @@ years score is considered for promotion as per UGC notification Feb
       
       
       <td style={{ textAlign: "center" }}>{data.selfscore}</td>
-      <td style={{ textAlign: "center" }}> {data.ResearchPublicationHOD }</td>
+      {/* <td style={{ textAlign: "center" }}> {facultyData.ResearchPublicationHOD }</td> */}
+      <td style={{ textAlign: "center" }}>{facultyData.ResearchPublicationHOD[index]}</td> 
   </tr>
 
   </tbody>
@@ -209,14 +210,14 @@ years score is considered for promotion as per UGC notification Feb
       <td style={{ textAlign: "center" }}>{data.isbn}</td>
       <td style={{ textAlign: "center" }}>{data.peerreview}</td>
       <td style={{ textAlign: "center" }}><Col>{data.coauthor}</Col>
-      <Col>• First Author: {data.mainauthor}</Col></td>
-      
+      <Col>• First Author: {data.mainauthor}</Col></td> 
       <td style={{ textAlign: "center" }}>{data.selfscore}</td>
-      <td style={{ textAlign: "center" }}>{data.ResearchArticleHOD || ''}</td>
-        
+      {/* <td style={{ textAlign: "center" }}>{facultyData.ResearchArticleHOD}</td>  */}
+      <td style={{ textAlign: "center" }}>{facultyData.ResearchArticleHOD[index]}</td>   
     </tr>
   </tbody>
 ))}
+
 
 <tr style={{ textAlign: "left" }}>
             <td></td>
@@ -280,7 +281,8 @@ years score is considered for promotion as per UGC notification Feb
               <td>{data.period}</td>
               <td>{data.amount}</td>
               <td>{data.selfscore}</td>
-              <td>{data.ResearchProjectONHOD}</td>               
+              {/* <td>{data.ResearchProjectONHOD}</td>  */}
+              <td style={{ textAlign: "center" }}>{facultyData.ResearchProjectONHOD[index]}</td>               
             </tr>
           </tbody>
         ))
@@ -347,7 +349,8 @@ years score is considered for promotion as per UGC notification Feb
               <td>{data.period}</td>
               <td>{data.amount}</td>
               <td>{data.selfscore}</td>
-              <td>{data.ResearchProjectCOMPHOD}</td>                                      
+              {/* <td>{data.ResearchProjectCOMPHOD}</td>*/}
+              <td style={{ textAlign: "center" }}>{facultyData.ResearchProjectCOMPHOD[index]}</td> 
             </tr>
           </tbody>
         ))}
@@ -411,7 +414,8 @@ years score is considered for promotion as per UGC notification Feb
               <td>{data.period}</td>
               <td>{data.amount}</td>
               <td>{data.selfscore}</td>
-              <td>{data.ResearchNeedProjectHOD} </td>                                         
+              {/* <td>{data.ResearchNeedProjectHOD} </td>   */}
+              <td style={{ textAlign: "center" }}>{facultyData.ResearchNeedProjectHOD[index]}</td>
             </tr>
           </tbody>
         ))
@@ -474,7 +478,8 @@ years score is considered for promotion as per UGC notification Feb
          <td>{data.thesis}</td>
          <td>{data.degree}</td>
          <td>{data.selfscore}</td>
-         <td>{data.ResearchGuidanceHOD}</td>                   
+         {/* <td>{data.ResearchGuidanceHOD}</td>  */}
+          <td>{facultyData.ResearchGuidanceHOD[index]}</td>
        </tr>
        </tbody>
      ))     
@@ -534,7 +539,8 @@ years score is considered for promotion as per UGC notification Feb
             <td>{data.duration}</td>
             <td>{data.organizedby}</td>
             <td>{data.selfscore}</td>
-            <td>{data.TrainingCourseHOD}</td>                        
+            {/* <td>{data.TrainingCourseHOD}</td>*/}
+            <td>{facultyData.TrainingCourseHOD[index]}</td>
           </tr>
         </tbody>
       ))
@@ -594,7 +600,8 @@ years score is considered for promotion as per UGC notification Feb
           <td>{data.organisedby}</td>
           <td>{data.level}</td>
           <td>{data.selfscore}</td>
-          <td> {data.PaperPresentConferenceHOD}</td>                    
+          {/* <td> {data.PaperPresentConferenceHOD}</td>*/}
+          <td>{facultyData.PaperPresentConferenceHOD[index]}</td>
         </tr>
       </tbody>
     ))
@@ -657,7 +664,8 @@ years score is considered for promotion as per UGC notification Feb
             <td>{data.organisedby}</td>
             <td>{data.level}</td>
             <td>{data.selfscore}</td>
-            <td>{data.InvitedLectureHOD} </td>                       
+            {/* <td>{data.InvitedLectureHOD} </td> */}
+            <td>{facultyData.InvitedLectureHOD[index]}</td>
           </tr>              
         </tbody>
       ))
@@ -716,7 +724,8 @@ years score is considered for promotion as per UGC notification Feb
             <td>{data.level}</td>
             <td>{data.discipline}</td>
             <td>{data.selfscore}</td>
-            <td>{data.AwardHOD} </td>          
+            {/* <td>{data.AwardHOD} </td> */}
+            <td>{facultyData.AwardHOD[index]}</td>
           </tr>           
         </tbody>
       ))

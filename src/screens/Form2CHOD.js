@@ -68,6 +68,7 @@ const fetchData = async () => {
     setPaperPresentConferenceHOD(data.PaperPresentConferenceHOD || []);
     setInvitedLectureHOD(data.InvitedLectureHOD || []);
     setAwardHOD(data.AwardHOD || []);
+    setIIIActHODTotal(data.IIIActHODTotal || '');
   } else {
     // doc.data() will be undefined in this case
     console.log("No such document!");
@@ -119,6 +120,7 @@ const fetchData = async () => {
         PaperPresentConferenceHOD,
         InvitedLectureHOD,
         AwardHOD,
+        IIIActHODTotal
       };
     
       // Update document with data
@@ -169,6 +171,7 @@ const fetchData = async () => {
         PaperPresentConferenceHOD,
         InvitedLectureHOD,
         AwardHOD,
+        IIIActHODTotal
       };
     
       // Update document with data
