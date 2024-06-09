@@ -175,7 +175,7 @@ function Form1() {
                 as="select"
                 value={department}
                 onChange={(e) => setDepartment(e.target.value)}
-                readOnly={!isEditable}
+                disabled={!isEditable}
               >
                 <option value="">Select Department:</option>
                 <option value="Computer Engineering">Computer Engineering</option>
@@ -324,7 +324,7 @@ function Form1() {
         as="select"
         value={year}
         onChange={(e) => setYear(e.target.value)}
-        readOnly={!isEditable}
+        disabled={!isEditable}
       >
         <option value="">Select Year</option>
         <option value="2022-23">2022-23</option>
