@@ -705,13 +705,13 @@ function Form2BPC() {
                             </Link>
                           </Button>
                         </Col>
-                        <Col>
+                        {/* <Col>
                     <Button variant="primary" type="submit" onClick={handleSubmit}>
                       <Link className="text-decoration-none text-white">
                         Save
                       </Link>
                     </Button>
-                  </Col>
+                  </Col> */}
                         <Col>
                           <Button
                             variant="primary"

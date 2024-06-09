@@ -1231,24 +1231,26 @@ years score is considered for promotion as per UGC notification Feb
                 <Form.Control
                 type="date"
                 style={{ textAlign: "center"}}
-                value={researchprojecton.periodfrom}
-                onChange={(e) =>{
-                  const newResearchProjectON = [...ResearchProjectON]
-                  newResearchProjectON[index].periodfrom = e.target.value
-                  setResearchProjectON(newResearchProjectON)
-                } } disabled={!isEditable}/> 
+                value={ResearchProjectON[0].periodfrom ? ResearchProjectON[0].periodfrom.split('-').reverse().join('-') : ''}
+                onChange={(e) => {
+                  const [year, month, day] = e.target.value.split('-');
+                  const newResearchProjectON = [...ResearchProjectON];
+                  newResearchProjectON[0].periodfrom = `${day}-${month}-${year}`;
+                  setResearchProjectON(newResearchProjectON);
+                }} disabled={!isEditable}/> 
 
                 <br/>
                 To:
                 <Form.Control
                 type="date"
                 style={{ textAlign: "center"}}
-                value={researchprojecton.periodto}
-                onChange={(e) =>{
-                  const newResearchProjectON = [...ResearchProjectON]
-                  newResearchProjectON[index].periodto = e.target.value
-                  setResearchProjectON(newResearchProjectON)
-                } } disabled={!isEditable}/>
+                value={ResearchProjectON[0].periodto ? ResearchProjectON[0].periodto.split('-').reverse().join('-') : ''}
+          onChange={(e) => {
+            const [year, month, day] = e.target.value.split('-');
+            const newResearchProjectON = [...ResearchProjectON];
+            newResearchProjectON[0].periodto = `${day}-${month}-${year}`;
+            setResearchProjectON(newResearchProjectON);
+          }} disabled={!isEditable}/>
               </td>
 
               <td>            
@@ -1393,24 +1395,26 @@ years score is considered for promotion as per UGC notification Feb
                 <Form.Control
                 type="date"
                 style={{ textAlign: "center" }}
-                value={researchprojectcomp.periodfrom}
-                onChange={(e) =>{
-                  const newResearchProjectCOMP = [...ResearchProjectCOMP]
-                  newResearchProjectCOMP[index].periodfrom = e.target.value
-                  setResearchProjectCOMP(newResearchProjectCOMP)
-                } } disabled={!isEditable}/> 
+                value={ResearchProjectCOMP[0].periodfrom ? ResearchProjectCOMP[0].periodfrom.split('-').reverse().join('-') : ''}
+                onChange={(e) => {
+                  const [year, month, day] = e.target.value.split('-');
+                  const newResearchProjectCOMP = [...ResearchProjectCOMP];
+                  newResearchProjectCOMP[0].periodfrom = `${day}-${month}-${year}`;
+                  setResearchProjectCOMP(newResearchProjectCOMP);
+                }} disabled={!isEditable}/> 
 
                 <br/>
                 To:
                 <Form.Control
                 type="date"
                 style={{ textAlign: "center" }}
-                value={researchprojectcomp.periodto}
-                onChange={(e) =>{
-                  const newResearchProjectCOMP = [...ResearchProjectCOMP]
-                  newResearchProjectCOMP[index].periodto = e.target.value
-                  setResearchProjectCOMP(newResearchProjectCOMP)
-                } } disabled={!isEditable}/>
+                value={ResearchProjectCOMP[0].periodto ? ResearchProjectCOMP[0].periodto.split('-').reverse().join('-') : ''}
+          onChange={(e) => {
+            const [year, month, day] = e.target.value.split('-');
+            const newResearchProjectCOMP = [...ResearchProjectCOMP];
+            newResearchProjectCOMP[0].periodto = `${day}-${month}-${year}`;
+            setResearchProjectCOMP(newResearchProjectCOMP);
+          }} disabled={!isEditable}/>
               </td>
 
               <td>             
@@ -1558,24 +1562,26 @@ years score is considered for promotion as per UGC notification Feb
                 <Form.Control
                 type="date"
                 style={{ textAlign: "center"}}
-                value={researchneedproject.periodfrom}
-                onChange={(e) =>{
-                  const newResearchNeedProject = [...ResearchNeedProject]
-                  newResearchNeedProject[index].periodfrom = e.target.value
-                  setResearchNeedProject(newResearchNeedProject)
-                } } disabled={!isEditable}/>
+                value={ResearchNeedProject[0].periodfrom ? ResearchNeedProject[0].periodfrom.split('-').reverse().join('-') : ''}
+                onChange={(e) => {
+                  const [year, month, day] = e.target.value.split('-');
+                  const newResearchNeedProject = [...ResearchNeedProject];
+                  newResearchNeedProject[0].periodfrom = `${day}-${month}-${year}`;
+                  setResearchNeedProject(newResearchNeedProject);
+                }} disabled={!isEditable}/>
 
                 <br/>
                 To:
                 <Form.Control
                 type="date"
                 style={{ textAlign: "center"}}
-                value={researchneedproject.periodto}
-                onChange={(e) =>{
-                  const newResearchNeedProject = [...ResearchNeedProject]
-                  newResearchNeedProject[index].periodto = e.target.value
-                  setResearchNeedProject(newResearchNeedProject)
-                } } disabled={!isEditable}/>
+                value={ResearchNeedProject[0].periodto ? ResearchNeedProject[0].periodto.split('-').reverse().join('-') : ''}
+          onChange={(e) => {
+            const [year, month, day] = e.target.value.split('-');
+            const newResearchNeedProject = [...ResearchNeedProject];
+            newResearchNeedProject[0].periodto = `${day}-${month}-${year}`;
+            setResearchNeedProject(newResearchNeedProject);
+          }} disabled={!isEditable}/>
 
               </td>
               <td>
@@ -1839,24 +1845,26 @@ years score is considered for promotion as per UGC notification Feb
                 <Form.Control
                   type="date"
                   style={{ textAlign: "center"}}
-                  value={trainingcourse.durationfrom}
-                  onChange={(e) =>{
-                    const newTrainingCourse = [...TrainingCourse]
-                    newTrainingCourse[index].durationfrom = e.target.value
-                    setTrainingCourse(newTrainingCourse)
-                  } } disabled={!isEditable}/>
+                  value={TrainingCourse[0].durationfrom ? TrainingCourse[0].durationfrom.split('-').reverse().join('-') : ''}
+                  onChange={(e) => {
+                    const [year, month, day] = e.target.value.split('-');
+                    const newTrainingCourse = [...TrainingCourse];
+                    newTrainingCourse[0].durationfrom = `${day}-${month}-${year}`;
+                    setTrainingCourse(newTrainingCourse);
+                  }} disabled={!isEditable}/>
 
                   <br/>
                   To:
                   <Form.Control
                   type="date"
                   style={{ textAlign: "center"}}
-                  value={trainingcourse.durationto}
-                  onChange={(e) =>{
-                    const newTrainingCourse = [...TrainingCourse]
-                    newTrainingCourse[index].durationto = e.target.value
-                    setTrainingCourse(newTrainingCourse)
-                  } } disabled={!isEditable}/>
+                  value={TrainingCourse[0].durationto ? TrainingCourse[0].durationto.split('-').reverse().join('-') : ''}
+                  onChange={(e) => {
+                    const [year, month, day] = e.target.value.split('-');
+                    const newTrainingCourse = [...TrainingCourse];
+                    newTrainingCourse[0].durationto = `${day}-${month}-${year}`;
+                    setTrainingCourse(newTrainingCourse);
+                  }} disabled={!isEditable}/>
               </td>
               <td>
                 <Form.Control

@@ -278,7 +278,7 @@ years score is considered for promotion as per UGC notification Feb
               <td>{index + 1}</td>
               <td >{data.title}</td>
               <td>{data.agency}</td>
-              <td>{data.period}</td>
+              <td>FROM: {data.periodfrom} <br/> TO: {data.periodto}</td>
               <td>{data.amount}</td>
               <td>{data.selfscore}</td>
               {/* <td>{data.ResearchProjectONHOD}</td>  */}
@@ -346,7 +346,7 @@ years score is considered for promotion as per UGC notification Feb
               <td>{index + 1}</td>
               <td>{data.title}</td>
               <td>{data.agency}</td>
-              <td>{data.period}</td>
+              <td>FROM: {data.periodfrom} <br/> TO: {data.periodto}</td>
               <td>{data.amount}</td>
               <td>{data.selfscore}</td>
               {/* <td>{data.ResearchProjectCOMPHOD}</td>*/}
@@ -411,7 +411,7 @@ years score is considered for promotion as per UGC notification Feb
               <td>{index + 1}</td>
               <td>{data.title}</td>
               <td>{data.agency}</td>
-              <td>{data.period}</td>
+              <td>FROM: {data.periodfrom} <br/> TO: {data.periodto}</td>
               <td>{data.amount}</td>
               <td>{data.selfscore}</td>
               {/* <td>{data.ResearchNeedProjectHOD} </td>   */}
@@ -536,7 +536,7 @@ years score is considered for promotion as per UGC notification Feb
           <tr>
             <td>{index + 1}</td>
             <td>{data.programme}</td>
-            <td>{data.duration}</td>
+            <td>FROM: {data.durationfrom} <br/> TO: {data.durationto}</td>
             <td>{data.organizedby}</td>
             <td>{data.selfscore}</td>
             {/* <td>{data.TrainingCourseHOD}</td>*/}
@@ -799,13 +799,13 @@ years score is considered for promotion as per UGC notification Feb
               </Link>
             </Button>
           </Col>
-          <Col>
+          {/* <Col>
             <Button variant="primary" type="submit" onClick={handleSubmit}>
               <Link className="text-decoration-none text-white">
                 Save
               </Link>
             </Button>
-          </Col>
+          </Col> */}
 
           <Col>
             <Button variant="primary" type="submit" onClick={handleSubmit}>

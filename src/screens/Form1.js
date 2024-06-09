@@ -127,6 +127,7 @@ function Form1() {
       return;
     } else {
     await setDoc(docRef, data, { merge: true });
+    alert('Data saved successfully');
     }
   };
 
@@ -230,8 +231,12 @@ function Form1() {
               <Form.Control
                 type="date"
                 placeholder="Enter date of last promotion"
-                 value={DOLpromotion}
-              onChange={(e) =>  setDOLpromotion(e.target.value)}
+                 
+                 value={DOLpromotion ? DOLpromotion.split('-').reverse().join('-') : ''}
+                 onChange={(e) => {
+                   const [year, month, day] = e.target.value.split('-');
+                   setDOLpromotion(`${day}-${month}-${year}`);
+                 }}
               readOnly={!isEditable}
             />
               </Col>
