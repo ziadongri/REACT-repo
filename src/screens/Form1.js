@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { auth, db } from '../firebase';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, onSnapshot, collection, query, where, getDocs } from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/form.css';
+import {signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth'
 
 function Form1() {
+  const [isEditable, setIsEditable] = useState(true); // default to editable
+
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -20,13 +23,34 @@ function Form1() {
   const [year, setYear] = useState('');
   let navigate = useNavigate();
 
+  // Fetch HOD's isEditable state
+  const fetchHODState = async () => {
+    const hodDepartment = "Electronics & Telecommunication Engineering"; // Replace with actual department
+    const q = query(
+      collection(db, 'hod'),
+      where('department', '==', hodDepartment)
+    );
+
+    const querySnapshot = await getDocs(q);
+    if (!querySnapshot.empty) {
+      const hodData = querySnapshot.docs[0].data();
+      setIsEditable(hodData.isEditable);
+    }
+  };
+
+  useEffect(() => {
+    fetchHODState();
+  }, []);
+
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         setUser(user);
         await fetchData(user.uid); // Call fetchData after user is set
+
       } else {
-        navigate('/login');
+        navigate('/');
       }
     });
     setLoading(false);
@@ -57,8 +81,6 @@ function Form1() {
     }
   };
   
-  
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const docRef = doc(db, 'faculty', user.uid);
@@ -153,6 +175,7 @@ function Form1() {
                 as="select"
                 value={department}
                 onChange={(e) => setDepartment(e.target.value)}
+                readOnly={!isEditable}
               >
                 <option value="">Select Department:</option>
                 <option value="Computer Engineering">Computer Engineering</option>
@@ -172,9 +195,10 @@ function Form1() {
           <Col md={9}>
             <Form.Control
               type="text"
-              
               value={name}
               onChange={(e) => setName(e.target.value)}
+              readOnly={!isEditable}
+              
             />
           </Col>
         </Row>
@@ -191,6 +215,7 @@ function Form1() {
                 placeholder="Enter designation"
                 value={designation}
                 onChange={(e) => setDesignation(e.target.value)}
+                readOnly={!isEditable}
               />
               </Col>
               </Row>
@@ -207,6 +232,7 @@ function Form1() {
                 placeholder="Enter date of last promotion"
                  value={DOLpromotion}
               onChange={(e) =>  setDOLpromotion(e.target.value)}
+              readOnly={!isEditable}
             />
               </Col>
               </Row>
@@ -223,6 +249,7 @@ function Form1() {
                 placeholder="Enter address"
                 value={address}
               onChange={(e) => setAddress(e.target.value)}
+              readOnly={!isEditable}
             />
               </Col>
               </Row>
@@ -239,6 +266,7 @@ function Form1() {
                 placeholder="Enter contact"
                 value={contact}
                 onChange={(e) => setContact(e.target.value)}
+                readOnly={!isEditable}
                 pattern='[0-9]{10}'
                 minLength={10}
                 maxLength={10}
@@ -258,6 +286,7 @@ function Form1() {
                 placeholder="Enter email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                readOnly={!isEditable}
               />
               </Col>
               </Row>
@@ -274,6 +303,7 @@ function Form1() {
                 placeholder="Enter fresh qualification"
                 value={freshQualification}
                 onChange={(e) => setFreshQualification(e.target.value)}
+                readOnly={!isEditable}
               />
               </Col>
               </Row>
@@ -294,6 +324,7 @@ function Form1() {
         as="select"
         value={year}
         onChange={(e) => setYear(e.target.value)}
+        readOnly={!isEditable}
       >
         <option value="">Select Year</option>
         <option value="2022-23">2022-23</option>

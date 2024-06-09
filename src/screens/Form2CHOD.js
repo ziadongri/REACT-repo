@@ -4,6 +4,7 @@ import {auth, db , storage} from '../firebase';
 import {doc, collection, getDoc, setDoc, updateDoc, addDoc} from 'firebase/firestore';
 import {Link, useNavigate, useLocation} from 'react-router-dom';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import {signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth'
 
 function Form2CHOD() {
   const [user, setUser] = useState(null);
@@ -44,12 +45,14 @@ function Form2CHOD() {
         if (user) {
           setUser(user);}
         else{
-          navigate('/login');
+          navigate('/');
         }
         setLoading(false);
       });
       return unsubscribe;
     }, [navigate]);
+
+
 
 const fetchData = async () => {
   const facultyRef = doc(db, "faculty", facultyUID);

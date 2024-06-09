@@ -12,6 +12,7 @@ import { auth, db, storage } from "../firebase";
 import { doc, collection, getDoc, setDoc, updateDoc, addDoc } from "firebase/firestore";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import {signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
 
 function Form2APC() {
   const [user, setUser] = useState(null);
@@ -21,19 +22,18 @@ function Form2APC() {
   const facultyUID = location.state.facultyUID;
   let navigate = useNavigate();
  
-
-
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         setUser(user);
       } else {
-        navigate('/login');
+        navigate('/');
       }
       setLoading(false);
     });
     return unsubscribe;
   }, [navigate]);
+
 
   useEffect(() => {
     const fetchData = async () => {

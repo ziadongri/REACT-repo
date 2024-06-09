@@ -12,6 +12,7 @@ import { auth, db, storage } from "../firebase";
 import { doc, collection, getDoc, setDoc, updateDoc, addDoc } from "firebase/firestore";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { ref, uploadBytesResumable, getDownloadURL, getStorage } from "firebase/storage";
+import {signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
 
 function Form2AHOD() {
   const [user, setUser] = useState(null);
@@ -39,20 +40,20 @@ function Form2AHOD() {
   }
   , [IActaHOD, IActbHOD, IActcHOD, IActdHOD, IActeHOD, IActfHOD]);
 
-  
-
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         setUser(user);
       } else {
-        navigate('/login');
+        navigate('/');
       }
       setLoading(false);
     });
     return unsubscribe;
   }, [navigate]);
 
+
+  
 const fetchData = async () => {
   const facultyRef = doc(db, "faculty", facultyUID);
   const docRef = doc(facultyRef, "partB", "CategoryA");

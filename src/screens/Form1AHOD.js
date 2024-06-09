@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { auth, db } from '../firebase';
+import {signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth'
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/form.css';
 
 function Form1AHOD() {
+
+  
     const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -25,12 +28,13 @@ function Form1AHOD() {
       if (user) {
         setUser(user);
       } else {
-        navigate('/login');
+        navigate('/');
       }
     });
     setLoading(false);
     return unsubscribe;
   }, []);
+
 
   const fetchData = async (uid) => {
     const docRef = doc(db, 'hod', uid);
@@ -59,6 +63,25 @@ function Form1AHOD() {
       fetchData(user.uid);
     }
   }, [user]);
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+    const docRef = doc(db, 'hod', user.uid);
+    const data = {
+      role: 'hod',
+      name,
+      department,
+      designation,
+      DOLpromotion,
+      address,
+      contact,
+      email,
+      freshQualification,
+      year,
+    };
+    await setDoc(docRef, data, { merge: true });
+    //navigate('/form2');
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -121,6 +144,7 @@ function Form1AHOD() {
               placeholder="Enter Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              
             />
           </Col>
         </Row>
@@ -285,14 +309,14 @@ function Form1AHOD() {
           <div className="text-center">
             <Row>
             <Col>
-            <Button variant="primary" type="submit" onClick={handleSubmit}>
+            <Button variant="primary" type="submit" onClick={handleSave}>
               <Link className="text-decoration-none text-white">
                 Save
               </Link>
             </Button>
           </Col>
               <Col>
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" onClick={handleSubmit}>
                   <Link to="/form1bhod" className="text-decoration-none text-white">
                     Next
                   </Link>

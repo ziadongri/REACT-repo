@@ -15,6 +15,11 @@ import Wave from "react-wavify";
 import { db, storage } from "../firebase";
 import {doc, collection, getDoc, setDoc, updateDoc, addDoc } from "firebase/firestore"
 
+//jayashreek@somaiya.edu 
+//mnemade@somaiya.edu
+//radhika.kotecha@somaiya.edu
+//sarita.ambadekar@somaiya.edu
+
 function LoginHOD({ setIsAuth }) {
   const [error, setError] = useState(null);
   const [userData, setUserData] = useState(null);
@@ -22,15 +27,41 @@ function LoginHOD({ setIsAuth }) {
 
   let navigate = useNavigate();
 
+  const allowedEmails = [
+    "jayashreek@somaiya.edu",
+    "mnemade@somaiya.edu",
+    "radhika.kotecha@somaiya.edu",
+    "sarita.ambadekar@somaiya.edu"
+  ];
+
+  // const handleSignIn = () => {
+  //   signInWithPopup(auth, provider)
+  //     .then((result) => {
+  //       const credential = GoogleAuthProvider.credentialFromResult(result);
+  //       const token = credential.accessToken;
+  //       const user = result.user;
+  //       localStorage.setItem("isAuth", true);
+  //       setIsAuth(true);
+  //       navigate("/form1ahod");
+  //     })
+  //     .catch((error) => {
+  //       setError(error.message);
+  //     });
+  // };
+
   const handleSignIn = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
         const user = result.user;
-        localStorage.setItem("isAuth", true);
-        setIsAuth(true);
-        navigate("/form1ahod");
+        if (allowedEmails.includes(user.email)) {
+          localStorage.setItem("isAuth", true);
+          setIsAuth(true);
+          navigate("/form1ahod");
+        } else {
+          alert("You are not registered. Go to Faculty Login Page");
+        }
       })
       .catch((error) => {
         setError(error.message);

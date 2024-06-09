@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import { Container, Form, Button, Row, Col, Alert, Card } from 'react-bootstrap'
 import { Link, useNavigate} from 'react-router-dom'
-import {auth, provider} from '../firebase'
-import {signInWithPopup, GoogleAuthProvider} from 'firebase/auth'
+import {auth, provider } from '../firebase'
+import {signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth'
 import Wave from 'react-wavify'
 import { db, storage } from "../firebase"
 import { doc, collection, getDoc, setDoc, updateDoc, addDoc } from "firebase/firestore"
@@ -11,27 +11,48 @@ function LoginFaculty({setIsAuth}) {
     const [error, setError] = useState(null)
     const [userData, setUserData] = useState(null)
     const [user, setUser] = useState(null)
+    const [timeoutId, setTimeoutId] = useState(null)
+    const navigate = useNavigate();
     
-    let navigate = useNavigate()
+    // const handleSignIn = () => {
+    //     signInWithPopup(auth, provider)
+    //     .then((result) => {
+    //         const credential = GoogleAuthProvider.credentialFromResult(result)
+    //         const token = credential.accessToken
+    //         const user = result.user
+    //         localStorage.setItem('isAuth', true)
+    //         setIsAuth(true)
+    //         navigate('/form1')
+    //     })
+    //     .catch((error) => {
+    //         setError(error.message)
+    //     })
+    // }
 
     const handleSignIn = () => {
-        signInWithPopup(auth, provider)
-        .then((result) => {
-            const credential = GoogleAuthProvider.credentialFromResult(result)
-            const token = credential.accessToken
-            const user = result.user
-            localStorage.setItem('isAuth', true)
-            setIsAuth(true)
-            navigate('/form1')
-        })
-        .catch((error) => {
-            setError(error.message)
-        })
+     
+      signInWithPopup(auth, provider)
+      .then((result) => {
+          const credential = GoogleAuthProvider.credentialFromResult(result)
+          const token = credential.accessToken
+          const user = result.user
+          if (user.email.endsWith("@somaiya.edu")) {
+              localStorage.setItem('isAuth', true)
+              setIsAuth(true)
+              navigate('/form1');
+          } else {
+              setError("Login allowed only from Somaiya domain.");
+          }
+      })
+      .catch((error) => {
+          setError(error.message)
+      })
     }
+    
 
-    const handleAlertDismiss = () => {
-        setError(null)
-    }
+const handleAlertDismiss = () => {
+    setError(null);
+};
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {

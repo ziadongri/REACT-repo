@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Container, Row, Col, Form, Button, Alert, Table } from 'react-bootstrap'
 import {auth, db, storage } from '../firebase'
-import {doc, collection, getDoc, setDoc, updateDoc} from 'firebase/firestore'
+import {doc, getDoc, setDoc, updateDoc , onSnapshot, collection, query, where, getDocs} from 'firebase/firestore'
 import {Link, useNavigate, useLocation} from 'react-router-dom'
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import {signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth'
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 
 function Form2C(){
+  const [isEditable, setIsEditable] = useState(true); // default to editable
+
     const [user, setUser]= useState(null)
     const [loading, setLoading]= useState(true)
     const [error, setError]= useState(null)
@@ -23,7 +28,7 @@ function Form2C(){
     const [Award, setAward]= useState([])
     const [IIISelfTotal, setIIISelfTotal] = useState(0)
     const [IActTotal, setIActTotal] = useState("");
-  const [IIActTotal, setIIActTotal] = useState("");
+    const [IIActTotal, setIIActTotal] = useState("");
     const [email, setEmail]= useState('')
     const [uploadedFile, setUploadedFile] = useState(null);
     const [documentC1, setDocumentC1] = useState("");
@@ -38,6 +43,25 @@ function Form2C(){
     const [documentC10, setDocumentC10] = useState("");
     
     const navigate = useNavigate()
+
+     // Fetch HOD's isEditable state
+  const fetchHODState = async () => {
+    const hodDepartment = "Electronics & Telecommunication Engineering"; // Replace with actual department
+    const q = query(
+      collection(db, 'hod'),
+      where('department', '==', hodDepartment)
+    );
+
+    const querySnapshot = await getDocs(q);
+    if (!querySnapshot.empty) {
+      const hodData = querySnapshot.docs[0].data();
+      setIsEditable(hodData.isEditable);
+    }
+  };
+
+  useEffect(() => {
+    fetchHODState();
+  }, []);
 
     const [grandTotal, setGrandTotal] = useState(0);
 
@@ -125,7 +149,7 @@ useEffect(() => {
     if (user) {
       setUser(user);
     } else {
-      navigate('/login');
+      navigate('/');
     }
     setLoading(false);
   });
@@ -202,7 +226,7 @@ useEffect(() => {
           return;
       }
   else {await setDoc(docRef, data);
-      // navigate('/formsubmission');
+    alert("Data saved successfully!");
     }  
     };
 
@@ -275,11 +299,11 @@ useEffect(() => {
           return;
       }
   else {await setDoc(docRef, data);
+    alert("Data saved successfully!");
       navigate('/formsubmission');
+      // navigate('/download');
     }  
   };
-  
-  
 
     const fetchData = async (uid) => {
       const facultyRef = doc(db, "faculty", uid);
@@ -562,8 +586,9 @@ useEffect(() => {
 
 
     return(
-      <Container fluid>
-      <Row>
+      <div >
+              <Container fluid >
+      <Row >
       <Col md={2} className="form-navigation">
       <div className="sticky-navigation">
     <h3>Form Navigation</h3>
@@ -641,7 +666,7 @@ years score is considered for promotion as per UGC notification Feb
                     const newResearchPublication = [...ResearchPublication]
                     newResearchPublication[index].title = e.target.value
                     setResearchPublication(newResearchPublication)
-                  }}
+                  }} disabled={!isEditable}
                   required/>
 
                 <br/>
@@ -654,7 +679,7 @@ years score is considered for promotion as per UGC notification Feb
                     const newResearchPublication = [...ResearchPublication]
                     newResearchPublication[index].journal = e.target.value
                     setResearchPublication(newResearchPublication)
-                  }}
+                  }} disabled={!isEditable}
                   required/>
 
                 <br/>
@@ -667,7 +692,7 @@ years score is considered for promotion as per UGC notification Feb
                     const newResearchPublication = [...ResearchPublication]
                     newResearchPublication[index].volume = e.target.value
                     setResearchPublication(newResearchPublication)
-                  }}
+                  }} disabled={!isEditable}
                   required/>
 
                 <br/>
@@ -680,7 +705,7 @@ years score is considered for promotion as per UGC notification Feb
                     const newResearchPublication = [...ResearchPublication]
                     newResearchPublication[index].page = e.target.value
                     setResearchPublication(newResearchPublication)
-                  }}
+                  }} disabled={!isEditable}
                   required/>
 
                 <br/>
@@ -693,7 +718,7 @@ years score is considered for promotion as per UGC notification Feb
                     const newResearchPublication = [...ResearchPublication]
                     newResearchPublication[index].isbn = e.target.value
                     setResearchPublication(newResearchPublication)
-                  }}
+                  }} disabled={!isEditable}
                   required/>
               </td>
 
@@ -707,7 +732,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchPublication = [...ResearchPublication]
                   newResearchPublication[index].sci = e.target.value
                   setResearchPublication(newResearchPublication)
-                } }
+                }}  disabled={!isEditable}
                 required/>
 
                 <br/>
@@ -720,7 +745,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchPublication = [...ResearchPublication]
                   newResearchPublication[index].wos = e.target.value
                   setResearchPublication(newResearchPublication)
-                } }
+                } } disabled={!isEditable}
                 required/>
 
                 <br/>
@@ -733,7 +758,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchPublication = [...ResearchPublication]
                   newResearchPublication[index].esci = e.target.value
                   setResearchPublication(newResearchPublication)
-                } }
+                } } disabled={!isEditable}
                 required/>
 
                 <br/>
@@ -746,7 +771,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchPublication = [...ResearchPublication]
                   newResearchPublication[index].scopus = e.target.value
                   setResearchPublication(newResearchPublication)
-                } }
+                } } disabled={!isEditable}
                 required/>
 
                 <br/>
@@ -759,7 +784,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchPublication = [...ResearchPublication]
                   newResearchPublication[index].ugccare = e.target.value
                   setResearchPublication(newResearchPublication)
-                } }
+                } } disabled={!isEditable}
                 required/>
 
                 <br/>
@@ -772,7 +797,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchPublication = [...ResearchPublication]
                   newResearchPublication[index].isbnissn = e.target.value
                   setResearchPublication(newResearchPublication)
-                } }
+                } } disabled={!isEditable}
                 required/>
 
                 <br/>
@@ -785,7 +810,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchPublication = [...ResearchPublication]
                   newResearchPublication[index].proceedings = e.target.value
                   setResearchPublication(newResearchPublication)
-                } }
+                } } disabled={!isEditable}
                 required/>
 
                 <br/>
@@ -798,7 +823,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchPublication = [...ResearchPublication]
                   newResearchPublication[index].guidementor = e.target.value
                   setResearchPublication(newResearchPublication)
-                } }
+                } } disabled={!isEditable}
                 required/>
 
               </td>
@@ -812,7 +837,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchPublication = [...ResearchPublication]
                   newResearchPublication[index].selfscore = e.target.value
                   setResearchPublication(newResearchPublication)
-                } }
+                } } disabled={!isEditable}
                 required/>
 
               </td>
@@ -820,6 +845,7 @@ years score is considered for promotion as per UGC notification Feb
                 <Button
                   variant="danger"
                   onClick={() => handleRemoveResearchPublication(index)}
+                  disabled={!isEditable}
                 >
                   Remove
                 </Button>
@@ -863,7 +889,7 @@ years score is considered for promotion as per UGC notification Feb
             {!documentC1 && (
               <Form.Label>Upload supporting documents (pdf)</Form.Label>
             )}
-            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentC1')} />
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentC1')}  disabled={!isEditable}/>
             
           </Form.Group>
             </Col>
@@ -873,7 +899,7 @@ years score is considered for promotion as per UGC notification Feb
         <div className="text-center mb-3">
           <Row>
             <Col>
-              <Button variant="primary" onClick={handleAddResearchPublication}>
+              <Button variant="primary" onClick={handleAddResearchPublication} disabled={!isEditable}>
                 Add Research Publication
               </Button>
             </Col>
@@ -923,7 +949,7 @@ years score is considered for promotion as per UGC notification Feb
                     const newResearchArticle = [...ResearchArticle]
                     newResearchArticle[index].title = e.target.value
                     setResearchArticle(newResearchArticle)
-                  } }
+                  } } disabled={!isEditable}
                   required/>
               </td>
 
@@ -937,7 +963,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchArticle = [...ResearchArticle]
                   newResearchArticle[index].booktitle = e.target.value
                   setResearchArticle(newResearchArticle)
-                } }/>
+                } } disabled={!isEditable}/>
                 
                 <br/>
               Enter Editor/Editors:
@@ -949,7 +975,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchArticle = [...ResearchArticle]
                   newResearchArticle[index].editor = e.target.value
                   setResearchArticle(newResearchArticle)
-                } }/>
+                } } disabled={!isEditable}/>
 
               <br/>
               Enter Publisher:
@@ -961,7 +987,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchArticle = [...ResearchArticle]
                   newResearchArticle[index].publisher = e.target.value
                   setResearchArticle(newResearchArticle)
-                } }/>
+                } } disabled={!isEditable} />
               </td>
 
               
@@ -976,7 +1002,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchArticle = [...ResearchArticle]
                   newResearchArticle[index].isbn = e.target.value
                   setResearchArticle(newResearchArticle)
-                } }/>
+                } }  disabled={!isEditable}/>
                 
               </td>
               
@@ -997,7 +1023,7 @@ years score is considered for promotion as per UGC notification Feb
                       newResearchArticle[index].peerreview = ''
                       setResearchArticle(newResearchArticle)
                     }
-                  }}
+                  }} disabled={!isEditable}
                 />
                 <Form.Check
                   type="radio"
@@ -1014,7 +1040,7 @@ years score is considered for promotion as per UGC notification Feb
                       newResearchArticle[index].peerreview = ''
                       setResearchArticle(newResearchArticle)
                     }
-                  }}
+                  }} disabled={!isEditable}
                   />
               </td>
               <td>
@@ -1026,7 +1052,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchArticle = [...ResearchArticle]
                   newResearchArticle[index].coauthor = e.target.value
                   setResearchArticle(newResearchArticle)
-                } }/>
+                } } disabled={!isEditable}/>
                 <br/>
                 <Form.Label>First Author:</Form.Label>
 
@@ -1046,7 +1072,7 @@ years score is considered for promotion as per UGC notification Feb
                       newResearchArticle[index].mainauthor = ''
                       setResearchArticle(newResearchArticle)
                     }
-                  }}
+                  }} disabled={!isEditable}
                 />
                 <Form.Check
                   type="radio"
@@ -1063,7 +1089,7 @@ years score is considered for promotion as per UGC notification Feb
                       newResearchArticle[index].mainauthor = ''
                       setResearchArticle(newResearchArticle)
                     }
-                  }}
+                  }} disabled={!isEditable}
                   />
               </td>
 
@@ -1076,7 +1102,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchArticle = [...ResearchArticle]
                   newResearchArticle[index].selfscore = e.target.value
                   setResearchArticle(newResearchArticle)
-                } }
+                } } disabled={!isEditable}
                 required/>
 
               </td>
@@ -1084,7 +1110,7 @@ years score is considered for promotion as per UGC notification Feb
               <td>
                 <Button
                   variant="danger"
-                  onClick={() => handleRemoveResearchArticle(index)}
+                  onClick={() => handleRemoveResearchArticle(index)} disabled={!isEditable}
                 >
                   Remove
                 </Button>
@@ -1131,7 +1157,7 @@ years score is considered for promotion as per UGC notification Feb
             {!documentC2 && (
               <Form.Label>Upload supporting documents (pdf)</Form.Label>
             )}
-            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentC2')} />
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentC2')} disabled={!isEditable}/>
             
           </Form.Group>
             </Col>
@@ -1141,7 +1167,7 @@ years score is considered for promotion as per UGC notification Feb
       <div className="text-center mb-3">
             <Row>
               <Col>
-          <Button variant="primary" onClick={handleAddResearchArticle}>
+          <Button variant="primary" onClick={handleAddResearchArticle} disabled={!isEditable} >
             <Link className="text-decoration-none text-white">Add Research Article</Link>
           </Button>
           </Col>
@@ -1185,7 +1211,7 @@ years score is considered for promotion as per UGC notification Feb
                     const newResearchProjectON = [...ResearchProjectON]
                     newResearchProjectON[index].title = e.target.value
                     setResearchProjectON(newResearchProjectON)
-                  } }/>
+                  } } disabled={!isEditable}/>
               </td> 
 
               <td>
@@ -1197,7 +1223,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchProjectON = [...ResearchProjectON]
                   newResearchProjectON[index].agency = e.target.value
                   setResearchProjectON(newResearchProjectON)
-                } }/>
+                } } disabled={!isEditable}/>
               </td> 
 
               <td>   
@@ -1210,7 +1236,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchProjectON = [...ResearchProjectON]
                   newResearchProjectON[index].periodfrom = e.target.value
                   setResearchProjectON(newResearchProjectON)
-                } }/> 
+                } } disabled={!isEditable}/> 
 
                 <br/>
                 To:
@@ -1222,7 +1248,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchProjectON = [...ResearchProjectON]
                   newResearchProjectON[index].periodto = e.target.value
                   setResearchProjectON(newResearchProjectON)
-                } }/>
+                } } disabled={!isEditable}/>
               </td>
 
               <td>            
@@ -1234,7 +1260,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchProjectON = [...ResearchProjectON]
                   newResearchProjectON[index].amount = e.target.value
                   setResearchProjectON(newResearchProjectON)
-                } }/> 
+                } } disabled={!isEditable}/> 
               </td>
 
               <td>
@@ -1246,14 +1272,14 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchProjectON = [...ResearchProjectON]
                   newResearchProjectON[index].selfscore = e.target.value
                   setResearchProjectON(newResearchProjectON)
-                } }/>
+                } } disabled={!isEditable}/>
 
               </td>
 
               <td>
                 <Button
                   variant="danger"
-                  onClick={() => handleRemoveResearchProjectON(index)}
+                  onClick={() => handleRemoveResearchProjectON(index)} disabled={!isEditable}
                 >
                   Remove
                 </Button> 
@@ -1296,7 +1322,7 @@ years score is considered for promotion as per UGC notification Feb
             {!documentC3 && (
               <Form.Label>Upload supporting documents (pdf)</Form.Label>
             )}
-            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentC3')} />
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentC3')} disabled={!isEditable}/>
             
           </Form.Group>
             </Col>
@@ -1306,7 +1332,7 @@ years score is considered for promotion as per UGC notification Feb
       <div className="text-center mb-3">
             <Row>
               <Col>
-          <Button variant="primary" onClick={handleAddResearchProjectON}>
+          <Button variant="primary" onClick={handleAddResearchProjectON} disabled={!isEditable}>
             <Link className="text-decoration-none text-white">Add Research Project(Ongoing)</Link>
           </Button>
           </Col>
@@ -1349,7 +1375,7 @@ years score is considered for promotion as per UGC notification Feb
                     const newResearchProjectCOMP = [...ResearchProjectCOMP]
                     newResearchProjectCOMP[index].title = e.target.value
                     setResearchProjectCOMP(newResearchProjectCOMP)
-                  } }/>
+                  } } disabled={!isEditable}/>
               </td> 
               <td>            
                 <Form.Control
@@ -1360,7 +1386,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchProjectCOMP = [...ResearchProjectCOMP]
                   newResearchProjectCOMP[index].agency = e.target.value
                   setResearchProjectCOMP(newResearchProjectCOMP)
-                } }/>
+                } } disabled={!isEditable}/>
               </td> 
               <td>
                  From:
@@ -1372,7 +1398,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchProjectCOMP = [...ResearchProjectCOMP]
                   newResearchProjectCOMP[index].periodfrom = e.target.value
                   setResearchProjectCOMP(newResearchProjectCOMP)
-                } }/> 
+                } } disabled={!isEditable}/> 
 
                 <br/>
                 To:
@@ -1384,7 +1410,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchProjectCOMP = [...ResearchProjectCOMP]
                   newResearchProjectCOMP[index].periodto = e.target.value
                   setResearchProjectCOMP(newResearchProjectCOMP)
-                } }/>
+                } } disabled={!isEditable}/>
               </td>
 
               <td>             
@@ -1396,7 +1422,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchProjectCOMP = [...ResearchProjectCOMP]
                   newResearchProjectCOMP[index].amount = e.target.value
                   setResearchProjectCOMP(newResearchProjectCOMP)
-                } }/> 
+                } } disabled={!isEditable}/> 
               </td>
 
               <td>
@@ -1408,14 +1434,14 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchProjectCOMP = [...ResearchProjectCOMP]
                   newResearchProjectCOMP[index].selfscore = e.target.value
                   setResearchProjectCOMP(newResearchProjectCOMP)
-                } }/>
+                } } disabled={!isEditable}/>
 
               </td>
 
               <td>
                 <Button
                   variant="danger"
-                  onClick={() => handleRemoveResearchProjectCOMP(index)}
+                  onClick={() => handleRemoveResearchProjectCOMP(index)} disabled={!isEditable}
                 >
                   Remove
                 </Button> 
@@ -1457,7 +1483,7 @@ years score is considered for promotion as per UGC notification Feb
             {!documentC4 && (
               <Form.Label>Upload supporting documents (pdf)</Form.Label>
             )}
-            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentC4')} />
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentC4')} disabled={!isEditable} />
             
           </Form.Group>
             </Col>
@@ -1467,7 +1493,7 @@ years score is considered for promotion as per UGC notification Feb
       <div className="text-center mb-3">
             <Row>
               <Col>
-          <Button variant="primary" onClick={handleAddResearchProjectCOMP}>
+          <Button variant="primary" onClick={handleAddResearchProjectCOMP} disabled={!isEditable}>
             <Link className="text-decoration-none text-white">Add Research Project (Completed) </Link>
           </Button>
           </Col>
@@ -1512,7 +1538,8 @@ years score is considered for promotion as per UGC notification Feb
                     const newResearchNeedProject = [...ResearchNeedProject]
                     newResearchNeedProject[index].title = e.target.value
                     setResearchNeedProject(newResearchNeedProject)
-                  } }/>
+                  } } disabled={!isEditable}
+                  />
               </td>
               <td>
             
@@ -1524,7 +1551,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchNeedProject = [...ResearchNeedProject]
                   newResearchNeedProject[index].agency = e.target.value
                   setResearchNeedProject(newResearchNeedProject)
-                } }/>
+                } } disabled={!isEditable}/>
               </td>
               <td>
                 From:
@@ -1536,7 +1563,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchNeedProject = [...ResearchNeedProject]
                   newResearchNeedProject[index].periodfrom = e.target.value
                   setResearchNeedProject(newResearchNeedProject)
-                } }/>
+                } } disabled={!isEditable}/>
 
                 <br/>
                 To:
@@ -1548,7 +1575,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchNeedProject = [...ResearchNeedProject]
                   newResearchNeedProject[index].periodto = e.target.value
                   setResearchNeedProject(newResearchNeedProject)
-                } }/>
+                } } disabled={!isEditable}/>
 
               </td>
               <td>
@@ -1561,7 +1588,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchNeedProject = [...ResearchNeedProject]
                   newResearchNeedProject[index].amount = e.target.value
                   setResearchNeedProject(newResearchNeedProject)
-                } }/>
+                } } disabled={!isEditable}/>
               </td>
 
               <td>
@@ -1573,14 +1600,14 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchNeedProject = [...ResearchNeedProject]
                   newResearchNeedProject[index].selfscore = e.target.value
                   setResearchNeedProject(newResearchNeedProject)
-                } }/>
+                } } disabled={!isEditable}/>
 
               </td>
 
               <td>
                 <Button
                   variant="danger"
-                  onClick={() => handleRemoveResearchNeedProject(index)}
+                  onClick={() => handleRemoveResearchNeedProject(index)} disabled={!isEditable}
                 >
                   Remove
                 </Button>
@@ -1622,7 +1649,7 @@ years score is considered for promotion as per UGC notification Feb
             {!documentC5 && (
               <Form.Label>Upload supporting documents (pdf)</Form.Label>
             )}
-            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentC5')} />
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentC5')} disabled={!isEditable} />
             
           </Form.Group>
             </Col>
@@ -1632,7 +1659,7 @@ years score is considered for promotion as per UGC notification Feb
       <div className="text-center mb-3">
             <Row>
               <Col>
-          <Button variant="primary" onClick={handleAddResearchNeedProject}>
+          <Button variant="primary" onClick={handleAddResearchNeedProject} disabled={!isEditable}>
             <Link className="text-decoration-none text-white">Add Need Based Project</Link>
           </Button>
           </Col>
@@ -1674,7 +1701,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchGuidance = [...ResearchGuidance]
                   newResearchGuidance[index].enrolled = e.target.value
                   setResearchGuidance(newResearchGuidance)
-                } }/>
+                } } disabled={!isEditable}/>
             </td>
               
             <td>
@@ -1686,7 +1713,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchGuidance = [...ResearchGuidance]
                   newResearchGuidance[index].thesis = e.target.value
                   setResearchGuidance(newResearchGuidance)
-                } }/>
+                } } disabled={!isEditable}/>
             </td>
             
             <td>
@@ -1698,7 +1725,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchGuidance = [...ResearchGuidance]
                   newResearchGuidance[index].degree = e.target.value
                   setResearchGuidance(newResearchGuidance)
-                } }/>
+                } } disabled={!isEditable}/>
             </td>
 
                 <td>
@@ -1710,13 +1737,13 @@ years score is considered for promotion as per UGC notification Feb
                   const newResearchGuidance = [...ResearchGuidance]
                   newResearchGuidance[index].selfscore = e.target.value
                   setResearchGuidance(newResearchGuidance)
-                } }/>
+                } } disabled={!isEditable}/>
                 </td>
 
             <td>
               <Button
                 variant="danger"
-                onClick={() => handleRemoveResearchGuidance(index)}>
+                onClick={() => handleRemoveResearchGuidance(index)} disabled={!isEditable}>
                 Remove
               </Button>
             </td>               
@@ -1754,7 +1781,7 @@ years score is considered for promotion as per UGC notification Feb
             {!documentC6 && (
               <Form.Label>Upload supporting documents (pdf)</Form.Label>
             )}
-            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentC6')} />
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentC6')} disabled={!isEditable} />
             
           </Form.Group>
             </Col>
@@ -1764,7 +1791,7 @@ years score is considered for promotion as per UGC notification Feb
       <div className="text-center mb-3">
             <Row>
               <Col>
-          <Button variant="primary" onClick={handleAddResearchGuidance}>
+          <Button variant="primary" onClick={handleAddResearchGuidance} disabled={!isEditable}>
             <Link className="text-decoration-none text-white">Add Research Guidance</Link>
           </Button>
           </Col>
@@ -1804,7 +1831,7 @@ years score is considered for promotion as per UGC notification Feb
                     const newTrainingCourse = [...TrainingCourse]
                     newTrainingCourse[index].programme = e.target.value
                     setTrainingCourse(newTrainingCourse)
-                  } }/>
+                  } } disabled={!isEditable}/>
               </td>
 
               <td>
@@ -1817,7 +1844,7 @@ years score is considered for promotion as per UGC notification Feb
                     const newTrainingCourse = [...TrainingCourse]
                     newTrainingCourse[index].durationfrom = e.target.value
                     setTrainingCourse(newTrainingCourse)
-                  } }/>
+                  } } disabled={!isEditable}/>
 
                   <br/>
                   To:
@@ -1829,7 +1856,7 @@ years score is considered for promotion as per UGC notification Feb
                     const newTrainingCourse = [...TrainingCourse]
                     newTrainingCourse[index].durationto = e.target.value
                     setTrainingCourse(newTrainingCourse)
-                  } }/>
+                  } } disabled={!isEditable}/>
               </td>
               <td>
                 <Form.Control
@@ -1840,7 +1867,7 @@ years score is considered for promotion as per UGC notification Feb
                     const newTrainingCourse = [...TrainingCourse]
                     newTrainingCourse[index].organizedby = e.target.value
                     setTrainingCourse(newTrainingCourse)
-                  } }/>
+                  } } disabled={!isEditable}/>
               </td>
 
                   <td>
@@ -1853,14 +1880,14 @@ years score is considered for promotion as per UGC notification Feb
                     const newTrainingCourse = [...TrainingCourse]
                     newTrainingCourse[index].selfscore = e.target.value
                     setTrainingCourse(newTrainingCourse)
-                  } }/>
+                  } } disabled={!isEditable}/>
 
                   </td>
 
               <td>
                 <Button
                   variant="danger"
-                  onClick={() => handleRemoveTrainingCourse(index)}>
+                  onClick={() => handleRemoveTrainingCourse(index)} disabled={!isEditable}>
                   Remove
                 </Button>
               </td>
@@ -1897,7 +1924,7 @@ years score is considered for promotion as per UGC notification Feb
             {!documentC7 && (
               <Form.Label>Upload supporting documents (pdf)</Form.Label>
             )}
-            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentC7')} />
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentC7')} disabled={!isEditable} />
             
           </Form.Group>
             </Col>
@@ -1907,7 +1934,7 @@ years score is considered for promotion as per UGC notification Feb
       <div className="text-center mb-3">
             <Row>
               <Col>
-          <Button variant="primary" onClick={handleAddTrainingCourse}>
+          <Button variant="primary" onClick={handleAddTrainingCourse} disabled={!isEditable}>
             <Link className="text-decoration-none text-white">Add Training Course</Link>
           </Button>
           </Col>
@@ -1950,7 +1977,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newPaperPresentConference = [...PaperPresentConference]
                   newPaperPresentConference[index].titlepaper = e.target.value
                   setPaperPresentConference(newPaperPresentConference)
-                } }/>
+                } } disabled={!isEditable}/>
             </td>
             <td>
               <Form.Control
@@ -1961,7 +1988,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newPaperPresentConference = [...PaperPresentConference]
                   newPaperPresentConference[index].titleseminar = e.target.value
                   setPaperPresentConference(newPaperPresentConference)
-                } }/>
+                } } disabled={!isEditable}/>
             </td>
             <td>
               <Form.Control
@@ -1972,7 +1999,7 @@ years score is considered for promotion as per UGC notification Feb
                   const newPaperPresentConference = [...PaperPresentConference]
                   newPaperPresentConference[index].organisedby = e.target.value
                   setPaperPresentConference(newPaperPresentConference)
-                } }/>
+                } } disabled={!isEditable}/>
             </td>
             <td>
               {/* <Form.Control
@@ -1993,7 +2020,7 @@ years score is considered for promotion as per UGC notification Feb
                           const newPaperPresentConference = [...PaperPresentConference];
                           newPaperPresentConference[index].level = e.target.value;
                           setPaperPresentConference(newPaperPresentConference);
-                        }}
+                        }} disabled={!isEditable}
                       >
                         <option value="">Select Level</option>
                         <option value="International">International</option>
@@ -2013,14 +2040,14 @@ years score is considered for promotion as per UGC notification Feb
                   const newPaperPresentConference = [...PaperPresentConference]
                   newPaperPresentConference[index].selfscore = e.target.value
                   setPaperPresentConference(newPaperPresentConference)
-                } }/>
+                } } disabled={!isEditable}/>
 
                 </td>
 
             <td>
               <Button
                 variant="danger"
-                onClick={() => handleRemovePaperPresentConference(index)}>
+                onClick={() => handleRemovePaperPresentConference(index)} disabled={!isEditable}>
                 Remove
               </Button>
             </td>
@@ -2059,7 +2086,7 @@ years score is considered for promotion as per UGC notification Feb
             {!documentC8 && (
               <Form.Label>Upload supporting documents (pdf)</Form.Label>
             )}
-            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentC8')} />
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentC8')} disabled={!isEditable}/>
             
           </Form.Group>
             </Col>
@@ -2069,7 +2096,7 @@ years score is considered for promotion as per UGC notification Feb
     <div className="text-center mb-3">
             <Row>
               <Col>
-          <Button variant="primary" onClick={handleAddPaperPresentConference}>
+          <Button variant="primary" onClick={handleAddPaperPresentConference} disabled={!isEditable}>
             <Link className="text-decoration-none text-white">Add Paper Present Conference</Link>
           </Button>
           </Col>
@@ -2112,7 +2139,7 @@ years score is considered for promotion as per UGC notification Feb
                     const newInvitedLecture = [...InvitedLecture]
                     newInvitedLecture[index].titlelecture = e.target.value
                     setInvitedLecture(newInvitedLecture)
-                  } }/>
+                  } } disabled={!isEditable}/>
               </td>
               <td>
                 <Form.Control
@@ -2123,7 +2150,7 @@ years score is considered for promotion as per UGC notification Feb
                     const newInvitedLecture = [...InvitedLecture]
                     newInvitedLecture[index].titleconference = e.target.value
                     setInvitedLecture(newInvitedLecture)
-                  } }/>
+                  } } disabled={!isEditable}/>
               </td>
               <td>
                 <Form.Control
@@ -2134,7 +2161,7 @@ years score is considered for promotion as per UGC notification Feb
                     const newInvitedLecture = [...InvitedLecture]
                     newInvitedLecture[index].organisedby = e.target.value
                     setInvitedLecture(newInvitedLecture)
-                  } }/>
+                  } } disabled={!isEditable}/>
               </td>
               <td>
                   <Form.Select
@@ -2144,7 +2171,7 @@ years score is considered for promotion as per UGC notification Feb
                       const newInvitedLecture = [...InvitedLecture];
                       newInvitedLecture[index].level = e.target.value;
                       setInvitedLecture(newInvitedLecture);
-                    }}
+                    }} disabled={!isEditable}
                   >
                     <option value="">Select Level</option>
                     <option value="International">International</option>
@@ -2164,14 +2191,14 @@ years score is considered for promotion as per UGC notification Feb
                   const newInvitedLecture = [...InvitedLecture]
                   newInvitedLecture[index].selfscore = e.target.value
                   setInvitedLecture(newInvitedLecture)
-                } }/>
+                } } disabled={!isEditable}/>
 
                   </td>
 
               <td>
                 <Button
                   variant="danger"
-                  onClick={() => handleRemoveInvitedLecture(index)}>
+                  onClick={() => handleRemoveInvitedLecture(index)} disabled={!isEditable}>
                   Remove
                 </Button>
               </td>
@@ -2206,7 +2233,7 @@ years score is considered for promotion as per UGC notification Feb
             {!documentC9 && (
               <Form.Label>Upload supporting documents (pdf)</Form.Label>
             )}
-            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentC9')} />
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentC9')} disabled={!isEditable}/>
             
           </Form.Group>
             </Col>
@@ -2216,7 +2243,7 @@ years score is considered for promotion as per UGC notification Feb
       <div className="text-center mb-3">
             <Row>
               <Col>
-          <Button variant="primary" onClick={handleAddInvitedLecture}>
+          <Button variant="primary" onClick={handleAddInvitedLecture} disabled={!isEditable}>
             <Link className="text-decoration-none text-white">Add Invited Lecture</Link>
           </Button>
           </Col>
@@ -2259,7 +2286,7 @@ years score is considered for promotion as per UGC notification Feb
                     const newAward = [...Award]
                     newAward[index].award = e.target.value
                     setAward(newAward)
-                  } }/>
+                  } } disabled={!isEditable}/>
               </td>
               <td>
                 <Form.Control
@@ -2270,7 +2297,7 @@ years score is considered for promotion as per UGC notification Feb
                     const newAward = [...Award]
                     newAward[index].agencyinvolved = e.target.value
                     setAward(newAward)
-                  } }/>
+                  } } disabled={!isEditable}/>
               </td>
               <td>
                 {/* <Form.Control
@@ -2289,7 +2316,7 @@ years score is considered for promotion as per UGC notification Feb
                       const newAward = [...Award];
                       newAward[index].level = e.target.value;
                       setAward(newAward);
-                    }}
+                    }} disabled={!isEditable}
                   >
                     <option value="">Select Level</option>
                     <option value="International">International</option>
@@ -2308,7 +2335,7 @@ years score is considered for promotion as per UGC notification Feb
                     const newAward = [...Award]
                     newAward[index].discipline = e.target.value
                     setAward(newAward)
-                  } }/>
+                  } } disabled={!isEditable}/>
               </td>
 
                   <td>
@@ -2321,13 +2348,13 @@ years score is considered for promotion as per UGC notification Feb
                   newAward[index].selfscore = e.target.value
                   setAward(newAward)
                 }
-                }/>
+                } disabled={!isEditable}/>
                   </td>
 
               <td>
                 <Button
                   variant="danger"
-                  onClick={() => handleRemoveAward(index)}>
+                  onClick={() => handleRemoveAward(index)} disabled={!isEditable}>
                   Remove
                 </Button>
               </td>
@@ -2381,7 +2408,7 @@ years score is considered for promotion as per UGC notification Feb
             {!documentC10 && (
               <Form.Label>Upload supporting documents (pdf)</Form.Label>
             )}
-            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentC10')} />
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentC10')} disabled={!isEditable} />
             
           </Form.Group>
             </Col>
@@ -2391,7 +2418,7 @@ years score is considered for promotion as per UGC notification Feb
       <div className="text-center mb-3">
             <Row>
               <Col>
-              <Button variant="primary" onClick={handleAddAward}>
+              <Button variant="primary" onClick={handleAddAward} disabled={!isEditable}>
             <Link className="text-decoration-none text-white">Add Award</Link>
           </Button>
           </Col>
@@ -2403,14 +2430,12 @@ years score is considered for promotion as per UGC notification Feb
         
         <tbody>
           <tr>
-            <td>Total of Category III</td>
+            <td style={{fontSize:'17px', textAlign: 'center'}}>Total of Category III</td>
             <td>
-              <Form.Text style={{fontSize:'17px'}}>{IIISelfTotal}</Form.Text>               
+              <Form.Text style={{fontSize:'17px', textAlign: 'center'}}>{IIISelfTotal}</Form.Text>               
             </td>
           </tr>
-          <tr>
-          Grand Total: {grandTotal}
-          </tr>
+         
         </tbody>
       </Table>
 
@@ -2438,9 +2463,11 @@ years score is considered for promotion as per UGC notification Feb
 
           <Col>
             <Button variant="primary" type="submit" onClick={handleSubmit}>
-              Submit
+             Submit
             </Button>
           </Col>
+
+   
 
         </Row>
           </div>
@@ -2448,6 +2475,8 @@ years score is considered for promotion as per UGC notification Feb
         </Col>
       </Row>
     </Container>
+      </div>
+
     )
     }
     

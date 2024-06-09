@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Table } from 'react-bootstrap';
 import { auth, db } from '../firebase';
-import { doc, getDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import { doc, getDoc, collection, query, where, getDocs, updateDoc } from 'firebase/firestore';
+import {signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth'
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/form.css';
 
@@ -13,19 +14,38 @@ function Form1BHOD() {
   const [name, setName] = useState('');
   const [year, setYear] = useState('');
   const [department, setDepartment] = useState('');
+  const [isEditable, setIsEditable] = useState(true); // default to editable
+
   let navigate = useNavigate();
+
+  const toggleEditableState = async () => {
+    const newState = !isEditable;
+    setIsEditable(newState);
+  
+    // Update the state in Firestore
+    const hodDocRef = doc(db, 'hod', user.uid);
+    try {
+      await updateDoc(hodDocRef, { isEditable: newState });
+    } catch (error) {
+      console.error("Error updating document: ", error);
+    }
+  };
+  
+  
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         setUser(user);
+
       } else {
-        navigate('/login');
+        navigate('/');
       }
       setLoading(false);
     });
     return unsubscribe;
   }, [navigate]);
+
 
   const fetchHODData = async (uid) => {
     const docRef = doc(db, 'hod', uid);
@@ -34,6 +54,7 @@ function Form1BHOD() {
       if (docSnap.exists()) {
         const data = docSnap.data();
         setHODData(data);
+        setIsEditable(data.isEditable ?? true); // default to editable
       }
     } catch (error) {
       console.error(error);
@@ -109,8 +130,6 @@ function Form1BHOD() {
     navigate('/form2ahod', { state: {facultyUID: facultyData[0].uid} });
     console.log(facultyData[0].uid);
   };
-
-
   
   if (loading) {
     return <p>Loading...</p>;
@@ -195,6 +214,7 @@ function Form1BHOD() {
             </Form.Group>
             
           </Form>
+
           <Form onSubmit={handleSubmit}>
             {/* Display faculty data based on the selected name */}
             {facultyData.map((faculty, index) => {
@@ -314,11 +334,15 @@ function Form1BHOD() {
                       </Row>
                     </Form.Group>
                   </div>
+                  
                 );
               } else {
                 return null; // Don't display if the name doesn't match
               }
+              
+              
             })}
+
             <div className="text-center">
               <Row>
                 <Col>
@@ -345,6 +369,16 @@ function Form1BHOD() {
               </Row>
             </div>
           </Form>
+          <br />
+
+          <div className="text-center">
+          <Button onClick={toggleEditableState}>
+  {isEditable ? "Disable Faculty Inputs" : "Enable Faculty Inputs"}
+</Button>
+
+          </div>
+
+
         </Col>
       </Row>
     </Container>

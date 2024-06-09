@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Container,Row, Col,Form,Button, Alert, Table} from "react-bootstrap";
 import { auth, db, storage } from "../firebase";
-import { doc, collection, getDoc, setDoc, updateDoc, addDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc, addDoc , onSnapshot, collection, query, where, getDocs} from "firebase/firestore";
+import {signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth'
 import { Link, useNavigate } from "react-router-dom";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { uploadBytes } from "@firebase/storage";
 
 function Form2A() {
+  const [isEditable, setIsEditable] = useState(true); // default to editable
+
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -58,6 +61,25 @@ function Form2A() {
   const [selectedRadio, setSelectedRadio] = useState(null);
 
   const navigate = useNavigate();
+
+  // Fetch HOD's isEditable state
+  const fetchHODState = async () => {
+    const hodDepartment = "Electronics & Telecommunication Engineering"; // Replace with actual department
+    const q = query(
+      collection(db, 'hod'),
+      where('department', '==', hodDepartment)
+    );
+
+    const querySnapshot = await getDocs(q);
+    if (!querySnapshot.empty) {
+      const hodData = querySnapshot.docs[0].data();
+      setIsEditable(hodData.isEditable);
+    }
+  };
+
+  useEffect(() => {
+    fetchHODState();
+  }, []);
 
   const calculateMarks = () => {
     if (lecturesTaken > 90) {
@@ -142,19 +164,19 @@ function Form2A() {
     }
   };
 
-
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         setUser(user);
       } else {
-        navigate("/login");
+        navigate("/");
       }
       setLoading(false);
     });
 
     return unsubscribe;
   }, [navigate]);
+
 
   const Total = () => {
     setIActTotal(
@@ -441,7 +463,6 @@ function Form2A() {
     }
   };
   
-
   useEffect(() => {
     if (user) {
       fetchData(user.uid);
@@ -485,8 +506,6 @@ function Form2A() {
       ((newIEvensem[index].actualLectures / newIEvensem[index].lectures) * 100).toFixed(2);
     setIEvensem(newIEvensem);
   };
-
-
   
   useEffect(() => {
     IEvensem.map((evensem, index) => {
@@ -585,6 +604,7 @@ function Form2A() {
                       newIOddsem[index].course = e.target.value;
                       setIOddsem(newIOddsem);
                     }}
+                    readOnly={!isEditable}
                   />
                 </td>
                 <td>
@@ -598,6 +618,7 @@ function Form2A() {
                       newIOddsem[index].class = e.target.value;
                       setIOddsem(newIOddsem);
                     }}
+                    readOnly={!isEditable}
                   />
                 </td>
                 <td>
@@ -611,6 +632,7 @@ function Form2A() {
                       newIOddsem[index].lectures = e.target.value;
                       setIOddsem(newIOddsem);
                     }}
+                    readOnly={!isEditable}
                   />
                 </td>
                 <td>
@@ -624,6 +646,7 @@ function Form2A() {
                       newIOddsem[index].actualLectures = e.target.value;
                       setIOddsem(newIOddsem);
                     }}
+                    readOnly={!isEditable}
                   />
                 </td>
                 <td>
@@ -632,12 +655,13 @@ function Form2A() {
                     placeholder="Enter % of classes conducted"
                     style={{ textAlign: "center" }}
                     value={oddsem.percentage}
+                    readOnly={!isEditable}
                   />
                 </td>
                 <td>
                   <Button
                     variant="danger"
-                    onClick={() => handleRemoveIOddsem(index)}
+                    onClick={() => handleRemoveIOddsem(index)} disabled={!isEditable}
                   >
                     Remove
                   </Button>
@@ -665,16 +689,43 @@ function Form2A() {
             {!documentA7 && (
               <Form.Label>Upload supporting documents (pdf)</Form.Label>
             )}
-            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA7')} />
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA7')}
+            disabled={!isEditable} />
           </Form.Group>
         </Col>
       </Row>
     </div>
 
+{/* 
+<div className="text-center mb-3">
+              <Row>
+                <Col>
+                  <Form.Group controlId="formFile" className="mb-3">
+                    {documentA7 ? (
+                      <>
+                        <Form.Label>Document uploaded successfully</Form.Label>
+                        <br />
+                        <a href={documentA7} target="_blank" rel="noreferrer">
+                          View Document
+                        </a>
+                      </>
+                    ) : (
+                      <Form.Label>Upload supporting documents (pdf)</Form.Label>
+                    )}
+                    <Form.Control
+                      type="file"
+                      onChange={(e) => handleUpload(e, 'documentA7')}
+                      disabled={!isEditable} // Disable file input if isEditable is false
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+            </div> */}
+
         <div className="text-center mb-3">
             <Row>
               <Col>
-          <Button variant="primary" onClick={handleAddIOddsem}>
+          <Button variant="primary" onClick={handleAddIOddsem} disabled={!isEditable}>
             <Link className="text-decoration-none text-white">Add Odd Semester Lectures / Practical conducted </Link>
           </Button>
           </Col>
@@ -709,6 +760,7 @@ function Form2A() {
                       newIEvensem[index].course = e.target.value;
                       setIEvensem(newIEvensem);
                     }}
+                    readOnly={!isEditable}
                   />
                 </td>
                 <td>
@@ -722,6 +774,7 @@ function Form2A() {
                       newIEvensem[index].class = e.target.value;
                       setIEvensem(newIEvensem);
                     }}
+                    readOnly={!isEditable}
                   />
                 </td>
                 <td>
@@ -735,6 +788,7 @@ function Form2A() {
                       newIEvensem[index].lectures = e.target.value;
                       setIEvensem(newIEvensem);
                     }}
+                    readOnly={!isEditable}
                   />
                 </td>
                 <td>
@@ -748,6 +802,7 @@ function Form2A() {
                       newIEvensem[index].actualLectures = e.target.value;
                       setIEvensem(newIEvensem);
                     }}
+                    readOnly={!isEditable}
                   />
                 </td>
                 <td>
@@ -756,12 +811,13 @@ function Form2A() {
                     placeholder="Enter % of classes conducted"
                     style={{ textAlign: "center" }}
                     value={evensem.percentage}
+                    readOnly={!isEditable}
                   />
                 </td>
                 <td>
                   <Button
                     variant="danger"
-                    onClick={() => handleRemoveIEvensem(index)}
+                    onClick={() => handleRemoveIEvensem(index)} disabled={!isEditable}
                   >
                     Remove
                   </Button>
@@ -789,7 +845,8 @@ function Form2A() {
             {!documentA8 && (
               <Form.Label>Upload supporting documents (pdf)</Form.Label>
             )}
-            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA8')} />
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA8')}
+            disabled={!isEditable} />
             
           </Form.Group>
             </Col>
@@ -799,7 +856,7 @@ function Form2A() {
         <div className="text-center mb-3">
             <Row>
               <Col>
-          <Button variant="primary" onClick={handleAddIEvensem}>
+          <Button variant="primary" onClick={handleAddIEvensem} disabled={!isEditable}>
             <Link className="text-decoration-none text-white">Add Even Semester Lectures / Practical conducted</Link>
           </Button>
           </Col>
@@ -838,6 +895,7 @@ function Form2A() {
           label="Total lectures conducted > 90% score = 50"
           value={100}
           onChange={handleRadioChange}
+          disabled={!isEditable}
         />
       </Col>
       <Col>
@@ -847,6 +905,7 @@ function Form2A() {
           label="90% > Lectures taken ≥ 80% = 40"
           value={90}
           onChange={handleRadioChange}
+          disabled={!isEditable}
         />
       </Col>
       <Col>
@@ -856,6 +915,7 @@ function Form2A() {
           label="80% > Lectures taken ≥ 70% = 30"
           value={70}
           onChange={handleRadioChange}
+          disabled={!isEditable}
         />
       </Col>
       <Col>
@@ -865,6 +925,7 @@ function Form2A() {
           label="No score if number of lectures taken is less than 70%"
           value={0}
           onChange={handleRadioChange}
+          disabled={!isEditable}
         />
       </Col>
       
@@ -883,6 +944,7 @@ function Form2A() {
           style={{ textAlign: "center" }}
           value={IActa}
           readOnly
+         
         />
       </Col>
               
@@ -903,7 +965,8 @@ function Form2A() {
             {!documentA1 && (
               <Form.Label>Upload supporting documents (pdf)</Form.Label>
             )}
-            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA1')} />
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA1')} 
+            disabled={!isEditable}/>
             
           </Form.Group>
               </td>
@@ -933,6 +996,7 @@ function Form2A() {
                   type="text"
                   value={IActb}
                   onChange={(e) => setIActb(Math.min(Number(e.target.value), 5))}
+                  readOnly={!isEditable}
                   max={5}
                   style={{ textAlign: "center" }}
                 />
@@ -951,7 +1015,8 @@ function Form2A() {
                 {!documentA2 && (
                   <Form.Label>Upload supporting documents (pdf)</Form.Label>
                 )}
-                <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA2')} />
+                <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA2')}
+                disabled={!isEditable} />
               </Form.Group>
               </td>
             </tr>
@@ -978,6 +1043,7 @@ function Form2A() {
                   placeholder=""
                   value={IActc}
                   onChange={(e) => setIActc(Math.min(Number(e.target.value), 5))}
+                  readOnly={!isEditable}
                   max={5}
                   style={{ textAlign: "center" }}
                 />
@@ -996,7 +1062,8 @@ function Form2A() {
                 {!documentA3 && (
                   <Form.Label>Upload supporting documents (pdf)</Form.Label>
                 )}
-                <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA3')} />
+                <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA3')}
+                disabled={!isEditable} />
               </Form.Group>
               </td>
             </tr>
@@ -1024,6 +1091,7 @@ function Form2A() {
                       setCheck_d(check_d.filter((c) => c !== e.target.value));
                     }
                   }}
+                  disabled={!isEditable}
                 /></td>
                   <td>
                   <Form.Control
@@ -1037,7 +1105,7 @@ function Form2A() {
                   } else {
                     setSub1_d1(0);
                   }
-                  }} />
+                  }} disabled={!isEditable}/>
                   </td>
                 </tr>
 
@@ -1053,7 +1121,7 @@ function Form2A() {
                     } else {
                       setCheck_d(check_d.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
 
                   <td>
@@ -1067,7 +1135,7 @@ function Form2A() {
                     setSub1_d2(Math.max(0, value));
                   } else {
                     setSub1_d2(0);
-                  } }} />
+                  } }} disabled={!isEditable} />
                   </td>
                 </tr>
 
@@ -1083,7 +1151,7 @@ function Form2A() {
                     } else {
                       setCheck_d(check_d.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
                   <td>
                   <Form.Control
@@ -1096,7 +1164,7 @@ function Form2A() {
                     setSub1_d3(Math.max(0, value));
                   } else {
                     setSub1_d3(0);
-                  } }} />
+                  } }} disabled={!isEditable} />
                   </td>
                 </tr>
 
@@ -1112,7 +1180,7 @@ function Form2A() {
                     } else {
                       setCheck_d(check_d.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
 
                   <td>
@@ -1126,7 +1194,7 @@ function Form2A() {
                     setSub1_d4(Math.max(0, value));
                   } else {
                     setSub1_d4(0);
-                  } }} />
+                  } }} disabled={!isEditable} />
                   </td>
                 </tr>
                
@@ -1142,7 +1210,7 @@ function Form2A() {
                     } else {
                       setCheck_d(check_d.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
 
                   <td>
@@ -1156,7 +1224,7 @@ function Form2A() {
                     setSub1_d5(Math.max(0, value));
                   } else {
                     setSub1_d5(0);
-                  } }} />
+                  } }} disabled={!isEditable} />
                   </td>
                 </tr>
                 
@@ -1172,7 +1240,7 @@ function Form2A() {
                     } else {
                       setCheck_d(check_d.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
 
                   <td>
@@ -1186,7 +1254,7 @@ function Form2A() {
                     setSub1_d6(Math.max(0, value));
                   } else {
                     setSub1_d6(0);
-                  } }} />
+                  } }}  disabled={!isEditable}/>
                   </td>
                 </tr>
                 
@@ -1202,7 +1270,7 @@ function Form2A() {
                     } else {
                       setCheck_d(check_d.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
                 
                   <td>
@@ -1216,7 +1284,7 @@ function Form2A() {
                     setSub1_d7(Math.max(0, value));
                   } else {
                     setSub1_d7(0);
-                  } }} />
+                  } }} disabled={!isEditable} />
 
                   </td>
                 </tr>
@@ -1233,7 +1301,7 @@ function Form2A() {
                     } else {
                       setCheck_d(check_d.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
 
                   <td>
@@ -1247,7 +1315,7 @@ function Form2A() {
                     setSub1_d8(Math.max(0, value));
                   } else {
                     setSub1_d8(0);
-                  } }} />
+                  } }} disabled={!isEditable}/>
 
                   </td>
 
@@ -1259,6 +1327,7 @@ function Form2A() {
                       type="text"
                       style={{ textAlign: "center" }}
                       value={totalsub1d}
+                      readOnly
                     /> </td>
 
               <td>
@@ -1270,6 +1339,7 @@ function Form2A() {
                   placeholder=""
                   value={IActd}
                   onChange={(e) => setIActd(Math.min(Number(e.target.value), 40))}
+                  disabled={!isEditable}
                   max={40}
                   style={{ textAlign: "center" }}
                 />
@@ -1288,7 +1358,7 @@ function Form2A() {
                 {!documentA4 && (
                   <Form.Label>Upload supporting documents (pdf)</Form.Label>
                 )}
-                <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA4')} />
+                <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA4')} disabled={!isEditable} />
               </Form.Group>
               </td>
             </tr>
@@ -1310,7 +1380,7 @@ function Form2A() {
                     } else {
                       setCheck_e(check_e.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
 
                     <td>
@@ -1325,7 +1395,7 @@ function Form2A() {
                   } else {
                     setSub1_e1(0);
                   }
-                  }} />
+                  }} disabled={!isEditable} />
                     </td>
                   </tr>
 
@@ -1341,7 +1411,7 @@ function Form2A() {
                     } else {
                       setCheck_e(check_e.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
 
                     <td>
@@ -1356,7 +1426,7 @@ function Form2A() {
                   } else {
                     setSub1_e2(0);
                   }
-                  }} />
+                  }} disabled={!isEditable} />
                     </td>
                   </tr>
 
@@ -1372,7 +1442,7 @@ function Form2A() {
                     } else {
                       setCheck_e(check_e.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 />  </td>
                     <td>
                     <Form.Control
@@ -1386,7 +1456,7 @@ function Form2A() {
                   } else {
                     setSub1_e3(0);
                   }
-                  }} />
+                  }}  disabled={!isEditable}/>
                     </td>
                   </tr>
                 
@@ -1404,7 +1474,7 @@ function Form2A() {
                     } else {
                       setCheck_e(check_e.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
                 <td>
                 <Form.Control
@@ -1418,7 +1488,7 @@ function Form2A() {
                   } else {
                     setSub1_e41(0);
                   }
-                  }} />
+                  }} disabled={!isEditable} />
                 </td>
                </tr>
 
@@ -1434,7 +1504,7 @@ function Form2A() {
                     } else {
                       setCheck_e(check_e.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
 
                 <td>
@@ -1449,7 +1519,7 @@ function Form2A() {
                   } else {
                     setSub1_e42(0);
                   }
-                  }} />
+                  }} disabled={!isEditable}/>
                 </td>
                </tr>
                 </Col>  
@@ -1468,7 +1538,7 @@ function Form2A() {
                     } else {
                       setCheck_e(check_e.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
 
               <td>
@@ -1483,7 +1553,7 @@ function Form2A() {
                   } else {
                     setSub1_e5(0);
                   }
-                  }} />
+                  }} disabled={!isEditable}/>
               </td>
               </tr>                                                      
 
@@ -1499,7 +1569,7 @@ function Form2A() {
                     } else {
                       setCheck_e(check_e.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
                 <td>
                 <Form.Control
@@ -1513,7 +1583,7 @@ function Form2A() {
                   } else {
                     setSub1_e6(0);
                   }
-                  }} />
+                  }} disabled={!isEditable}/>
                 </td>
                 </tr>    
                 <Col>*quality of notes/solution to be considered</Col>
@@ -1524,6 +1594,7 @@ function Form2A() {
                       type="text"
                       style={{ textAlign: "center" }}
                       value={totalsub1e}
+                      readOnly
                     /> </td>
 
               <td>
@@ -1535,6 +1606,7 @@ function Form2A() {
                   placeholder=""
                   value={IActe}
                   onChange={(e) => setIActe(Math.min(Number(e.target.value), 25))}
+                  disabled={!isEditable}
                   max={25}
                   style={{ textAlign: "center" }}
                 />
@@ -1553,7 +1625,7 @@ function Form2A() {
                 {!documentA5 && (
                   <Form.Label>Upload supporting documents (pdf)</Form.Label>
                 )}
-                <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA5')} />
+                <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA5')} disabled={!isEditable} />
               </Form.Group>
               </td>
 
@@ -1578,7 +1650,7 @@ function Form2A() {
                     } else {
                       setCheck_f(check_f.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 />               
                 <Col>
                   100% compliance: 5, 80% compliance: 3, less than 80%: no score
@@ -1596,7 +1668,7 @@ function Form2A() {
                             } else {
                               setSub1_f1(0);
                             }
-                          }}
+                          }} disabled={!isEditable}
                         />
                     </td>
                   </tr>
@@ -1613,7 +1685,7 @@ function Form2A() {
                     } else {
                       setCheck_f(check_f.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 />
                 <Col>100% compliance: 5, less than 100%: no score.</Col></td>
                     <td>
@@ -1629,7 +1701,7 @@ function Form2A() {
                             } else {
                               setSub1_f2(0);
                             }
-                          }}
+                          }} disabled={!isEditable}
                         />
                     
                     </td>
@@ -1647,7 +1719,7 @@ function Form2A() {
                     } else {
                       setCheck_f(check_f.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
                   <td>
                   
@@ -1662,7 +1734,7 @@ function Form2A() {
                             } else {
                               setSub1_f3(0);
                             }
-                          }}
+                          }} disabled={!isEditable}
                         />
                     
                   </td>
@@ -1675,6 +1747,7 @@ function Form2A() {
                       type="text"
                       style={{ textAlign: "center" }}
                       value={totalsub1f}
+                      readOnly
                     /> </td>
 
               <td>
@@ -1686,6 +1759,7 @@ function Form2A() {
                   placeholder=""
                   value={IActf}
                   onChange={(e) => setIActf(Math.min(Number(e.target.value), 25))}
+                  disabled={!isEditable}
                   min={0}
                   max={25}
                   style={{ textAlign: "center" }}
@@ -1706,7 +1780,7 @@ function Form2A() {
                 {!documentA6 && (
                   <Form.Label>Upload supporting documents (pdf)</Form.Label>
                 )}
-                <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA6')} />
+                <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA6')} disabled={!isEditable}/>
               </Form.Group>
               </td>
             </tr>

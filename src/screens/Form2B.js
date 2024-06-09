@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Form, Button, Table } from 'react-bootstrap';
 import { auth, db, storage } from '../firebase';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc , onSnapshot, collection, query, where, getDocs } from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-
+import {signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
 
 function Form2B() {
+  const [isEditable, setIsEditable] = useState(true); // default to editable
+
   const [user, setUser] = useState(null);
   const [IIActaSem, setIIActaSem] = useState('');
   const [IIActbSem, setIIActbSem] = useState('');
@@ -58,6 +60,25 @@ function Form2B() {
   const [IIActTotal, setIIActTotal] = useState('');
   
   const navigate = useNavigate();
+
+  // Fetch HOD's isEditable state
+  const fetchHODState = async () => {
+    const hodDepartment = "Electronics & Telecommunication Engineering"; // Replace with actual department
+    const q = query(
+      collection(db, 'hod'),
+      where('department', '==', hodDepartment)
+    );
+
+    const querySnapshot = await getDocs(q);
+    if (!querySnapshot.empty) {
+      const hodData = querySnapshot.docs[0].data();
+      setIsEditable(hodData.isEditable);
+    }
+  };
+
+  useEffect(() => {
+    fetchHODState();
+  }, []);
 
   const handleUpload = (e, documentIdentifier) => {
     const file = e.target.files[0];
@@ -112,12 +133,13 @@ function Form2B() {
         setUser(user);
         fetchData(user.uid);
       } else {
-        navigate('/login');
+        navigate('/');
       }
     });
 
     return unsubscribe;
   }, [navigate]);
+
 
   const fetchData = async (uid) => {
     const facultyRef = doc(db, "faculty", uid);
@@ -544,6 +566,7 @@ function Form2B() {
             rows={3}
             value={responsibility}
             onChange={(e) => setResponsibility(e.target.value)}
+            disabled={!isEditable}
             minLength={50}
             maxLength={500}
           />
@@ -562,6 +585,7 @@ function Form2B() {
                       style={{ textAlign: "center" }}
                       value={IIActa}
                       onChange={(e) => setIIActa(Math.min(Number(e.target.value), 35))}
+                      disabled={!isEditable}
                       max={35}
                     />
                   </td>
@@ -580,7 +604,7 @@ function Form2B() {
             {!documentB1 && (
               <Form.Label>Upload supporting documents (pdf)</Form.Label>
             )}
-            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentB1')} />
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentB1')} disabled={!isEditable} />
             
           </Form.Group>
                   </td>
@@ -609,7 +633,7 @@ function Form2B() {
                 <Col>Max 5 per individual if a group is involved - 10 if only 1 person is involved</Col>
                       </td></tr>               
 
-                <tr>
+                <tr >
                   <td className="text-center">b.</td>
                   <td>
                     
@@ -617,7 +641,7 @@ function Form2B() {
                     <p> 
                       *Tick the applicable activities and enter the score.
                     </p>
-                    <tr>
+                    <tr >
                       <td><Form.Check
                   type="checkbox"
                   label="a) Field studies / Educational Tour (other than subject related in 1.d)"
@@ -629,7 +653,7 @@ function Form2B() {
                     } else {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
 
                     <td>
@@ -644,7 +668,7 @@ function Form2B() {
                         } else {
                           setSub2ba(0);
                         }
-                      }}
+                      }} disabled={!isEditable}
                     />
                     </td>  
                     </tr>
@@ -661,7 +685,7 @@ function Form2B() {
                     } else {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
                      <td>
                     <Form.Control
@@ -675,7 +699,7 @@ function Form2B() {
                         } else {
                           setSub2bb(0);
                         }
-                      }}
+                      }} disabled={!isEditable}
                     />
                      </td>
                      </tr>
@@ -692,7 +716,7 @@ function Form2B() {
                     } else {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
                     <td>
                       <Form.Control
@@ -706,7 +730,7 @@ function Form2B() {
                           } else {
                             setSub2bc(0);
                           }
-                        }}
+                        }} disabled={!isEditable}
                       />
                     </td>
                    </tr>
@@ -723,7 +747,7 @@ function Form2B() {
                     } else {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /> </td>
                   <td>
                     <Form.Control
@@ -737,7 +761,7 @@ function Form2B() {
                         } else {
                           setSub2bd(0);
                         }
-                      }}
+                      }}  disabled={!isEditable}
                     />
                   </td>
                 </tr>
@@ -754,7 +778,7 @@ function Form2B() {
                     } else {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /> </td>
                     <td>
                       <Form.Control
@@ -768,7 +792,7 @@ function Form2B() {
                           } else {
                             setSub2be(0);
                           }
-                        }}
+                        }}  disabled={!isEditable}
                       />
                     </td>
                   </tr>
@@ -785,7 +809,7 @@ function Form2B() {
                     } else {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
                     <td>
                       <Form.Control
@@ -799,7 +823,7 @@ function Form2B() {
                           } else {
                             setSub2bf(0);
                           }
-                        }}
+                        }}  disabled={!isEditable}
                       />
                     </td>
                   </tr>
@@ -816,7 +840,7 @@ function Form2B() {
                     } else {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
                   <td>
                     <Form.Control
@@ -830,7 +854,7 @@ function Form2B() {
                         } else {
                           setSub2bg(0);
                         }
-                      }}
+                      }} disabled={!isEditable}
                     />
                   </td>
                 </tr>
@@ -848,7 +872,7 @@ function Form2B() {
                     } else {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 />
                   </td>
                   <td>
@@ -863,7 +887,7 @@ function Form2B() {
                         } else {
                           setSub2bh(0);
                         }
-                      }}
+                      }} disabled={!isEditable}
                     />
                   </td>
                 </tr>
@@ -880,7 +904,7 @@ function Form2B() {
                     } else {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
                   <td>
                     <Form.Control
@@ -894,8 +918,7 @@ function Form2B() {
                         } else {
                           setSub2bi(0);
                         }
-                      }}
-
+                      }} disabled={!isEditable}
                     />
                   </td>
                 </tr>
@@ -912,7 +935,7 @@ function Form2B() {
                     } else {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }}  disabled={!isEditable}
                 /></td>
                   <td>
                     <Form.Control
@@ -926,7 +949,7 @@ function Form2B() {
                         } else {
                           setSub2bj(0);
                         }
-                      }}
+                      }} disabled={!isEditable}
                     />
                   </td>
                 </tr>
@@ -943,7 +966,7 @@ function Form2B() {
                     } else {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
                   <td>
                     <Form.Control
@@ -957,7 +980,7 @@ function Form2B() {
                         } else {
                           setSub2bk(0);
                         }
-                      }}
+                      }} disabled={!isEditable}
                     />
                   </td>
                 </tr>
@@ -974,7 +997,7 @@ function Form2B() {
                     } else {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
                   <td>
                     <Form.Control
@@ -988,7 +1011,7 @@ function Form2B() {
                         } else {
                           setSub2bl(0);
                         }
-                      }}
+                      }} disabled={!isEditable}
                     />
                   </td>
                 </tr>
@@ -1005,7 +1028,7 @@ function Form2B() {
                     } else {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
                   <td>
                     <Form.Control
@@ -1019,7 +1042,7 @@ function Form2B() {
                         } else {
                           setSub2bm(0);
                         }
-                      }}
+                      }} disabled={!isEditable}
                     />
                   </td>
                 </tr>
@@ -1036,7 +1059,7 @@ function Form2B() {
                     } else {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
                   <td>
                     <Form.Control
@@ -1050,7 +1073,7 @@ function Form2B() {
                         } else {
                           setSub2bn(0);
                         }
-                      }}
+                      }} disabled={!isEditable}
                     />
                   </td>
                 </tr>
@@ -1067,7 +1090,7 @@ function Form2B() {
                     } else {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
                   <td>
                     <Form.Control
@@ -1081,7 +1104,7 @@ function Form2B() {
                         } else {
                           setSub2bo(0);
                         }
-                      }}
+                      }} disabled={!isEditable}
                     />
                   </td>
                 </tr>
@@ -1098,7 +1121,7 @@ function Form2B() {
                     } else {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
                   <td>
                     <Form.Control
@@ -1112,7 +1135,7 @@ function Form2B() {
                         } else {
                           setSub2bp(0);
                         }
-                      }}
+                      }} disabled={!isEditable}
                     />
                   </td>
                 </tr>
@@ -1129,7 +1152,7 @@ function Form2B() {
                     } else {
                       setCheck_2b(check_2b.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
                   <td>
                     <Form.Control
@@ -1143,7 +1166,7 @@ function Form2B() {
                         } else {
                           setSub2bq(0);
                         }
-                      }}
+                      }} disabled={!isEditable}
                     />
                   </td>
                 </tr>
@@ -1159,6 +1182,7 @@ function Form2B() {
                       type="text"
                       style={{ textAlign: "center" }}
                       value={totalsub2b}
+                      readOnly
                     />
                   </td>
                   
@@ -1171,6 +1195,7 @@ function Form2B() {
                       style={{ textAlign: "center" }}
                       value={IIActb}
                       onChange={(e) => setIIActb(Math.min(Number(e.target.value), 25))}
+                      disabled={!isEditable}
                       max={25}
                     />
                   </td>
@@ -1189,7 +1214,7 @@ function Form2B() {
             {!documentB2 && (
               <Form.Label>Upload supporting documents (pdf)</Form.Label>
             )}
-            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentB2')} />
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentB2')} disabled={!isEditable} />
             
           </Form.Group>
                   </td>
@@ -1218,7 +1243,7 @@ function Form2B() {
                     else {
                       setCheck_2c(check_2c.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
                         <td>
                         <Form.Control
@@ -1232,7 +1257,7 @@ function Form2B() {
                             } else {
                               setSub2da(0);
                             }
-                          }}
+                          }} disabled={!isEditable}
                         />
                         </td>
                       </tr>
@@ -1250,8 +1275,7 @@ function Form2B() {
                   else {
                     setCheck_2c(check_2c.filter((c) => c !== e.target.value));
                   }
-                }
-                }
+                }} disabled={!isEditable}             
                 /></td>
                     <td>
                     <Form.Control
@@ -1265,7 +1289,7 @@ function Form2B() {
                         } else {
                           setSub2db(0);
                         }
-                      }}
+                      }} disabled={!isEditable}
                     />
                     </td>
                   </tr>
@@ -1276,6 +1300,7 @@ function Form2B() {
                       type="text"
                       style={{ textAlign: "center" }}
                       value={totalsub2d}
+                      readOnly
                     />
                   </td>
                   <td>
@@ -1287,6 +1312,7 @@ function Form2B() {
                       style={{ textAlign: "center" }}
                       value={IIActc}
                       onChange={(e) => setIIActc(Math.min(Number(e.target.value), 20))}
+                      disabled={!isEditable}
                       max={20}
                     />
                   </td>
@@ -1305,7 +1331,7 @@ function Form2B() {
             {!documentB3 && (
               <Form.Label>Upload supporting documents (pdf)</Form.Label>
             )}
-            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentB3')} />
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentB3')}  disabled={!isEditable}/>
             
           </Form.Group>
                   </td>
@@ -1331,7 +1357,7 @@ function Form2B() {
                     } else {
                       setCheck_2d(check_2d.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
                       <td>
                       <Form.Control
@@ -1345,7 +1371,7 @@ function Form2B() {
                           } else {
                             setSub2ca(0);
                           }
-                        }}
+                        }} disabled={!isEditable}
                       />
                       </td>
                     </tr>
@@ -1362,7 +1388,7 @@ function Form2B() {
                     } else {
                       setCheck_2d(check_2d.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
                       <td>
                       <Form.Control
@@ -1376,7 +1402,7 @@ function Form2B() {
                           } else {
                             setSub2cb(0);
                           }
-                        }}
+                        }} disabled={!isEditable}
                       />
                       </td>
                     </tr>
@@ -1393,7 +1419,7 @@ function Form2B() {
                     } else {
                       setCheck_2d(check_2d.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }}  disabled={!isEditable}
                 /></td>
                       <td>
                       <Form.Control
@@ -1407,7 +1433,7 @@ function Form2B() {
                           } else {
                             setSub2cc(0);
                           }
-                        }}
+                        }} disabled={!isEditable}
                       />
                       </td>
                     </tr>
@@ -1424,7 +1450,7 @@ function Form2B() {
                     } else {
                       setCheck_2d(check_2d.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
                   <td>
                     <Form.Control
@@ -1438,7 +1464,7 @@ function Form2B() {
                         } else {
                           setSub2cd(0);
                         }
-                      }}
+                      }} disabled={!isEditable}
                     />
 
                   </td>
@@ -1462,7 +1488,7 @@ function Form2B() {
                     } else {
                       setCheck_2d(check_2d.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
                       <td>
                       <Form.Control
@@ -1476,8 +1502,7 @@ function Form2B() {
                           } else {
                             setSub2ce1(0);
                           }
-                        }
-                        }
+                        }} disabled={!isEditable}      
                       />
                       </td>
                     </tr>
@@ -1494,7 +1519,7 @@ function Form2B() {
                     } else {
                       setCheck_2d(check_2d.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
                       <td>
                       <Form.Control
@@ -1509,7 +1534,7 @@ function Form2B() {
                             setSub2ce2(0);
                           }
                         }
-                        }
+                        } disabled={!isEditable}
                       />
                       </td>
                     </tr>
@@ -1526,7 +1551,7 @@ function Form2B() {
                     } else {
                       setCheck_2d(check_2d.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /> </td>
                       <td>
                       <Form.Control
@@ -1541,7 +1566,7 @@ function Form2B() {
                             setSub2ce3(0);
                           }
                         }
-                        }
+                        } disabled={!isEditable}
                       />
                       </td>
                     </tr>                                  
@@ -1559,7 +1584,7 @@ function Form2B() {
                     } else {
                       setCheck_2d(check_2d.filter((c) => c !== e.target.value));
                     }
-                  }}
+                  }} disabled={!isEditable}
                 /></td>
                       <td>
                       <Form.Control
@@ -1574,7 +1599,7 @@ function Form2B() {
                             setSub2cf(0);
                           }
                         }
-                        }
+                        } disabled={!isEditable}
                       />
                       </td>
                     </tr>
@@ -1585,6 +1610,7 @@ function Form2B() {
                       type="text"
                       style={{ textAlign: "center" }}
                       value={totalsub2c}
+                      readOnly
                     />
                   </td>
                   <td>
@@ -1597,6 +1623,7 @@ function Form2B() {
                       style={{ textAlign: "center" }}
                       value={IIActd}
                       onChange={(e) => setIIActd(Math.min(Number(e.target.value), 20))}
+                      disabled={!isEditable}
                       max={20}
                     />
                   </td>
@@ -1615,7 +1642,7 @@ function Form2B() {
             {!documentB4 && (
               <Form.Label>Upload supporting documents (pdf)</Form.Label>
             )}
-            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentB4')} />
+            <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentB4')} disabled={!isEditable} />
             
           </Form.Group>
                   </td>

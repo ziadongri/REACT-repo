@@ -9,6 +9,8 @@ import Form1 from './screens/Form1'
 import Form2A from './screens/Form2A'
 import Form2B from './screens/Form2B'
 import Form2C from './screens/Form2C'
+import DownloadPage from './downloadPage'
+
 import Wave from 'react-wavify'
 import Header from './assets/header.png'
 import FormSubmission from './screens/FormSubmission'
@@ -36,18 +38,32 @@ function App() {
   const [userData, setUserData] = useState(null)
   const [user, setUser] = useState(null)
 
+  // const handleSignOut = () => {
+  //   signOut(auth)
+  //   .then(() => {
+  //     localStorage.clear()
+  //     setIsAuth(false)
+  //     window.location.pathname = '/'
+  //   })
+  //   .catch((error) => {
+  //     console.log(error)
+  //   })
+  // }
+  
   const handleSignOut = () => {
     signOut(auth)
     .then(() => {
-      localStorage.clear()
-      setIsAuth(false)
-      window.location.pathname = '/'
+      localStorage.clear();
+      setIsAuth(false);
+      // Redirect to the home screen
+      window.location.pathname = '/'; // Assuming '/' is your home screen path
     })
     .catch((error) => {
-      console.log(error)
-    })
-  }
+      console.log(error);
+    });
+  };
   
+
   useEffect(() => {
     const storedAuth = localStorage.getItem('isAuth')
     if (storedAuth) {
@@ -161,7 +177,7 @@ function App() {
               </Nav>
             )}
           </Navbar.Collapse>
-        {/* </Container> */}
+          
       </Navbar>
       
       <Container>
@@ -174,13 +190,13 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginScreen setIsAuth={setIsAuth} />} />
         <Route path="/form1" element={<Form1 />} />
-
         <Route path="/loginfaculty" element={<LoginFaculty setIsAuth={setIsAuth} />} />
         <Route path="/loginhod" element={<LoginHOD setIsAuth={setIsAuth} />} />
         <Route path="/loginprincipal" element={<LoginPrincipal setIsAuth={setIsAuth} />} />
         <Route path="/form2a" element={<Form2A />} />
         <Route path="/form2b" element={<Form2B />} />
         <Route path="/form2c" element={<Form2C />} />
+        <Route path="/download" element={<DownloadPage />} />
         <Route path="/formsubmission" element={<FormSubmission />} />
         <Route path="/form1ahod" element={<Form1AHOD />} />
         <Route path="/form1bhod" element={<Form1BHOD />} />

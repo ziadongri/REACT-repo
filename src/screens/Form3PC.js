@@ -12,6 +12,7 @@ import { auth, db, storage } from "../firebase";
 import { doc, collection, getDoc, setDoc, updateDoc, addDoc } from "firebase/firestore";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import {signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth'
 
 const Form3PC = () => {
     
@@ -29,7 +30,6 @@ const Form3PC = () => {
         alert("Something went wrong!");
       }
       
-  
       useEffect(() => {
         const unsubscribe= auth.onAuthStateChanged (async (user) => {
           if (user) {
@@ -42,6 +42,7 @@ const Form3PC = () => {
         return unsubscribe;
       }, [navigate]);
   
+
       useEffect(() => {
         const fetchData = async () => {
          const facultyRef = doc(db, "faculty", facultyUID);
@@ -91,12 +92,23 @@ const Form3PC = () => {
 
 const handleSubmit = async (e) => {
   e.preventDefault();
+  
+  // Ensure remarksPrincipal is defined before proceeding
+  if (typeof remarksPrincipal === 'undefined' || remarksPrincipal === null) {
+    alert("Remarks cannot be undefined");
+    return;
+  }
+  
+  if (remarksPrincipal.length < 50 || remarksPrincipal.length > 500) {
+    alert("Remarks should be between 50 to 500 characters");
+    return;
+  }
+
   const facultyRef = doc(db, "faculty", facultyUID);
   const docRef = doc(facultyRef, "partC", "partC");
   const docSnap = await getDoc(docRef);
 
-  // Check if remarksPrincipal is defined and has a valid length property
-  if (typeof remarksPrincipal !== 'undefined' && remarksPrincipal.length > 50 && remarksPrincipal.length < 500) {
+  try {
     if (docSnap.exists()) {
       await updateDoc(docRef, {
         remarksPrincipal: remarksPrincipal
@@ -107,13 +119,11 @@ const handleSubmit = async (e) => {
       });
     }
     navigate('/formsubmission', { state: { facultyUID: facultyUID } });
-  } else if (remarksPrincipal.length < 50 || remarksPrincipal.length > 500) {
-    alert("Remarks should be between 50 to 500 characters");
-  } else {
-    alert("Remarks cannot be undefined");
+  } catch (error) {
+    console.error("Error updating document: ", error);
+    alert("An error occurred while submitting the form. Please try again.");
   }
 }
-
 
   
       const handleForm2APCNavigation = async (e) => {

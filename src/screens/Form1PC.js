@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { auth, db } from '../firebase';
 import { doc, getDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import {signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/form.css';
 
@@ -21,7 +22,7 @@ function Form1PC() {
         if (user) {
           setUser(user);
         } else {
-          navigate('/login');
+          navigate('/');
         }
         setLoading(false);
       });
@@ -46,6 +47,7 @@ function Form1PC() {
     //     fetchHODData(user.uid);
     //   }
     // }, [user]);
+
 
     const fetchHODData = async () => {
       const q = query(collection(db, 'hod'), where('department', '==', department));
