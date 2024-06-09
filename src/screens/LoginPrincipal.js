@@ -15,39 +15,39 @@ function LoginPrincipal({setIsAuth}) {
 
     let navigate = useNavigate()
 
-    const handleSignIn = () => {
-        signInWithPopup(auth, provider)
-        .then((result) => {
-            const credential = GoogleAuthProvider.credentialFromResult(result)
-            const token = credential.accessToken
-            const user = result.user
-            localStorage.setItem('isAuth', true)
-            setIsAuth(true)
-            navigate('/form1principal')
-        })
-        .catch((error) => {
-            setError(error.message)
-        })
-    }
+    // const handleSignIn = () => {
+    //     signInWithPopup(auth, provider)
+    //     .then((result) => {
+    //         const credential = GoogleAuthProvider.credentialFromResult(result)
+    //         const token = credential.accessToken
+    //         const user = result.user
+    //         localStorage.setItem('isAuth', true)
+    //         setIsAuth(true)
+    //         navigate('/form1principal')
+    //     })
+    //     .catch((error) => {
+    //         setError(error.message)
+    //     })
+    // }
 
-  //   const handleSignIn = () => {
-  //     signInWithPopup(auth, provider)
-  //     .then((result) => {
-  //         const credential = GoogleAuthProvider.credentialFromResult(result)
-  //         const token = credential.accessToken
-  //         const user = result.user
-  //         if (user.email === "vivek.sunnapwar@somaiya.edu") {
-  //             localStorage.setItem('isAuth', true)
-  //             setIsAuth(true)
-  //             navigate('/form1principal')
-  //         } else {
-  //             alert("You are not registered. Go to Faculty Login Page");
-  //         }
-  //     })
-  //     .catch((error) => {
-  //         setError(error.message)
-  //     })
-  // }
+    const handleSignIn = () => {
+      signInWithPopup(auth, provider)
+      .then((result) => {
+          const credential = GoogleAuthProvider.credentialFromResult(result)
+          const token = credential.accessToken
+          const user = result.user
+          if (user.email === "vivek.sunnapwar@somaiya.edu") {
+              localStorage.setItem('isAuth', true)
+              setIsAuth(true)
+              navigate('/form1principal')
+          } else {
+              alert("You are not registered. Go to Faculty Login Page");
+          }
+      })
+      .catch((error) => {
+          setError(error.message)
+      })
+  }
   
 
     const handleAlertDismiss = () => {
