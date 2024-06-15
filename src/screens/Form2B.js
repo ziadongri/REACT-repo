@@ -625,6 +625,7 @@ useEffect(() => {
                 <th style={{ verticalAlign: 'middle'}}>Upload Supporting Documents</th>
                 </tr>
               </thead>
+              
               <tbody>
                 <tr>
                   <td className="text-center">a.</td>

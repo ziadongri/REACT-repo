@@ -296,11 +296,46 @@ const fetchData = async () => {
                   Lectures, Seminars, tutorials, practical, contact hours
                   undertaken taken as percentage of lectures allocated
                 </Col>
-                <Col>- Total lectures conducted {">"} 90% score = 50</Col>
-                <Col>- 90% {">"} Lectures taken ≥ 80% = 40</Col>
-                <Col>- 80% {">"} Lectures taken ≥ 70% = 30</Col>
-                <Col>- no score if number of lectures taken is less than 70%{" "}
-                </Col>
+                <Col>
+        <Form.Check
+          type="radio"
+          name="lectures"
+          checked={facultyData.lecturesTaken === 100}
+          label="Total lectures conducted > 90% score = 50"
+          value={100}
+         readOnly
+        />
+      </Col>
+      <Col>
+        <Form.Check
+          type="radio"
+          name="lectures"
+          checked={facultyData.lecturesTaken === 90}
+          label="90% > Lectures taken ≥ 80% = 40"
+          value={90}
+          readOnly
+        />
+      </Col>
+      <Col>
+        <Form.Check
+          type="radio"
+          name="lectures"
+          checked={facultyData.lecturesTaken === 70}
+          label="80% > Lectures taken ≥ 70% = 30"
+          value={70}
+          readOnly
+        />
+      </Col>
+      <Col>
+        <Form.Check
+          type="radio"
+          name="lectures"
+          checked={facultyData.lecturesTaken === 0}
+          label="No score if number of lectures taken is less than 70%"
+          value={0}
+          readOnly
+        />
+      </Col>
               </td>
 
               <td className='text-center'> - </td>
@@ -347,6 +382,67 @@ const fetchData = async () => {
                   Prof or above 14/week for Associate Prof and Professor. Repeat
                   classes for diploma students may be given 5 marks
                 </Col>
+
+                <br/>
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="extraLectures"
+                    checked={facultyData.extraClass === 0}
+                    label="0 extra lecture/ lab"
+                    value={0}
+                   readOnly
+                  />  </Col>
+              
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="extraLectures"
+                    checked={facultyData.extraClass === 1}
+                    label="1 extra lecture/ lab"
+                    value={1}
+                   readOnly
+                  /> </Col>
+
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="extraLectures"
+                    checked={facultyData.extraClass === 2}
+                    label="2 extra lectures/ labs"
+                    value={2}
+                   readOnly
+                  /> </Col>
+
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="extraLectures"
+                    checked={facultyData.extraClass === 3}
+                    label="3 extra lectures/ labs"
+                    value={3}
+                    readOnly
+                  /> </Col>
+
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="extraLectures"
+                    checked={facultyData.extraClass === 4}
+                    label="4 extra lectures/ labs"
+                    value={4}
+                    readOnly
+                  /> </Col>
+
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="extraLectures"
+                    checked={facultyData.extraClass === 5}
+                    label="5 extra lectures/ labs or More than 5 extra lectures/ labs"
+                    value={5}
+                    readOnly
+                  /> </Col>
               </td>
 
               <td className='text-center'> - </td>
@@ -392,6 +488,67 @@ const fetchData = async () => {
                   weak students (one point for each extra class in other than
                   mentioned in 1.a)
                 </Col>
+
+                <br/>
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="remedial"
+                    checked={facultyData.remedial === 0}
+                    label="0 Remedial lecture/ Revision lecture"
+                    value={0}
+                    readOnly
+                  />  </Col>
+
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="remedial"
+                    checked={facultyData.remedial === 1}
+                    label="1 Remedial lecture/ Revision lecture"
+                    value={1}
+                    readOnly
+                  /> </Col>
+
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="remedial"
+                    checked={facultyData.remedial === 2}
+                    label="2 Remedial lectures/ Revision lectures"
+                    value={2}
+                   readOnly
+                  /> </Col>
+
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="remedial"
+                    checked={facultyData.remedial === 3}
+                    label="3 Remedial lectures/ Revision lectures"
+                    value={3}
+                   readOnly
+                  /> </Col>
+
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="remedial"
+                    checked={facultyData.remedial === 4}
+                    label="4 Remedial lectures/ Revision lectures"
+                    value={4}
+                    readOnly
+                  /> </Col>
+
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="remedial"
+                    checked={facultyData.remedial === 5}
+                    label="5 Remedial lectures/ Revision lectures or More than 5 Remedial lectures/ Revision lectures"
+                    value={5}
+                    readOnly
+                  /> </Col>
               </td>
 
               <td className='text-center'> - </td>

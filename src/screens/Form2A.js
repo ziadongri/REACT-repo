@@ -976,6 +976,7 @@ function Form2A() {
         <Form.Check
           type="radio"
           name="lectures"
+          checked={lecturesTaken === 100}
           label="Total lectures conducted > 90% score = 50"
           value={100}
           onChange={handleRadioChange}
@@ -986,6 +987,7 @@ function Form2A() {
         <Form.Check
           type="radio"
           name="lectures"
+          checked={lecturesTaken === 90}
           label="90% > Lectures taken ≥ 80% = 40"
           value={90}
           onChange={handleRadioChange}
@@ -996,6 +998,7 @@ function Form2A() {
         <Form.Check
           type="radio"
           name="lectures"
+          checked={lecturesTaken === 70}
           label="80% > Lectures taken ≥ 70% = 30"
           value={70}
           onChange={handleRadioChange}
@@ -1006,6 +1009,7 @@ function Form2A() {
         <Form.Check
           type="radio"
           name="lectures"
+          checked={lecturesTaken === 0}
           label="No score if number of lectures taken is less than 70%"
           value={0}
           onChange={handleRadioChange}
@@ -1073,6 +1077,7 @@ function Form2A() {
                   <Form.Check
                     type="radio"
                     name="extraLectures"
+                    checked={extraClass === 0}
                     label="0 extra lecture/ lab"
                     value={0}
                     onChange={handleRadioChange2}
@@ -1083,6 +1088,7 @@ function Form2A() {
                   <Form.Check
                     type="radio"
                     name="extraLectures"
+                    checked={extraClass === 1}
                     label="1 extra lecture/ lab"
                     value={1}
                     onChange={handleRadioChange2}
@@ -1093,6 +1099,7 @@ function Form2A() {
                   <Form.Check
                     type="radio"
                     name="extraLectures"
+                    checked={extraClass === 2}
                     label="2 extra lectures/ labs"
                     value={2}
                     onChange={handleRadioChange2}
@@ -1103,6 +1110,7 @@ function Form2A() {
                   <Form.Check
                     type="radio"
                     name="extraLectures"
+                    checked={extraClass === 3}
                     label="3 extra lectures/ labs"
                     value={3}
                     onChange={handleRadioChange2}
@@ -1113,6 +1121,7 @@ function Form2A() {
                   <Form.Check
                     type="radio"
                     name="extraLectures"
+                    checked={extraClass === 4}
                     label="4 extra lectures/ labs"
                     value={4}
                     onChange={handleRadioChange2}
@@ -1123,21 +1132,14 @@ function Form2A() {
                   <Form.Check
                     type="radio"
                     name="extraLectures"
-                    label="5 extra lectures/ labs"
+                    checked={extraClass === 5}
+                    label="5 extra lectures/ labs or More than 5 extra lectures/ labs"
                     value={5}
                     onChange={handleRadioChange2}
                     disabled={!isEditable}
                   /> </Col>
 
-                  <Col>
-                  <Form.Check
-                    type="radio"
-                    name="extraLectures"
-                    label="More than 5 extra lectures/ labs"
-                    value={5}
-                    onChange={handleRadioChange2}
-                    disabled={!isEditable}
-                  /> </Col>
+              
               </td>
 
               <td className='text-center'> - </td>
@@ -1188,6 +1190,7 @@ function Form2A() {
                   <Form.Check
                     type="radio"
                     name="remedial"
+                    checked={remedial === 0}
                     label="0 Remedial lecture/ Revision lecture"
                     value={0}
                     onChange={handleRadioChange3}
@@ -1198,6 +1201,7 @@ function Form2A() {
                   <Form.Check
                     type="radio"
                     name="remedial"
+                    checked={remedial === 1}
                     label="1 Remedial lecture/ Revision lecture"
                     value={1}
                     onChange={handleRadioChange3}
@@ -1208,6 +1212,7 @@ function Form2A() {
                   <Form.Check
                     type="radio"
                     name="remedial"
+                    checked={remedial === 2}
                     label="2 Remedial lectures/ Revision lectures"
                     value={2}
                     onChange={handleRadioChange3}
@@ -1218,6 +1223,7 @@ function Form2A() {
                   <Form.Check
                     type="radio"
                     name="remedial"
+                    checked={remedial === 3}
                     label="3 Remedial lectures/ Revision lectures"
                     value={3}
                     onChange={handleRadioChange3}
@@ -1228,6 +1234,7 @@ function Form2A() {
                   <Form.Check
                     type="radio"
                     name="remedial"
+                    checked={remedial === 4}
                     label="4 Remedial lectures/ Revision lectures"
                     value={4}
                     onChange={handleRadioChange3}
@@ -1238,21 +1245,13 @@ function Form2A() {
                   <Form.Check
                     type="radio"
                     name="remedial"
-                    label="5 Remedial lectures/ Revision lectures"
+                    checked={remedial === 5}
+                    label="5 Remedial lectures/ Revision lectures or More than 5 Remedial lectures/ Revision lectures"
                     value={5}
                     onChange={handleRadioChange3}
                     disabled={!isEditable}
                   /> </Col>
 
-                  <Col>
-                  <Form.Check
-                    type="radio"
-                    name="remedial"
-                    label="More than 5 Remedial lectures/ Revision lectures"
-                    value={5}
-                    onChange={handleRadioChange3}
-                    disabled={!isEditable}
-                  /> </Col>
 
               </td>
 

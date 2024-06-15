@@ -212,7 +212,7 @@ function Form2BHOD() {
                           </td>
 
                           <td>
-                  <p className='text-center'>-</p>
+                  <p className='text-center'>{facultyData.totalsub2a}</p>
                   </td>
                       <td>
               <p className='text-center'>25</p>
@@ -245,28 +245,175 @@ function Form2BHOD() {
                           </td>
                         </tr>
 
-                        <tr style={{ textAlign: "left" }}>
-                          <td></td>
-                        <td colSpan={6}>
-                          <Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
-                        <Col>a) Contribution to corporate life in colleges and universities through meetings/popular lectures/subject-related events/articles in college magazines and university volumes - 3 pts each</Col>
-                        <Col>Institutional governance responsibilities like Vice-Principal, Deans, HOD, Director, IQAC Coordinator/T&P officer, Exam cell in charge, Admission cell in charge maximum of 25 points (or any other equivalent responsibility)</Col>
-                        <p></p>
-                        <Col>b) Organized conference/workshop/seminar/FDP/STTP etc.(Max two events to be considered)</Col>
-                        <Col>1. Conference - 15 points</Col>
-                        <Col>2. Workshop FDP/STTP/certification programs</Col>
-                        <Col><Col>1. One week or more - 10 points</Col></Col>
-                        <Col><Col>2. Less than a week but greater than two days - 5 points</Col></Col>
-                        <Col><Col>3. One to two days - 3 points</Col></Col>
-                        <Col><Col>4. Committee member of ICAST - ( )</Col></Col>
-                        <Col><Col>5. Seminars - 1 point</Col></Col>
-                        <Col>3. Delivering Lecture/conducting workshop (not paper presentation)</Col>
-                        <Col><Col>1. At college level for faculty - 3 points</Col></Col>
-                        <Col><Col>2. During STTP - 10 points</Col></Col>
-                        <Col><Col>3. International - 15 points</Col></Col>
-                        <Col>Establishing labs with the help of industry/industry/another organization</Col>
-                        <Col>Max 5 per individual if a group is involved - 10 if only 1 person is involved</Col>        
-                              </td></tr>
+                        <tr style={{ textAlign: "left" }} >
+                  <td></td>
+                <td colSpan={6} >
+                  <Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
+                
+                <div>
+                  <p>a) Mention the contributions of the following:</p>
+                  <table>
+                    <tbody>
+                      <tr>
+                        <td> • Contribution to corporate life in colleges and universities through meetings/popular lectures/subject-related events/articles in college magazines and university volumes - 3 pts each </td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={facultyData.sub2a1}
+                            readOnly
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td> • Institutional governance responsibilities like Vice-Principal, Deans, HOD, Director, IQAC Coordinator/T&P officer, Exam cell in charge, Admission cell in charge maximum of 25 points (or any other equivalent responsibility)</td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={facultyData.sub2a2 }
+                            readOnly
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <br />
+                  <p>b) Organized conference/workshop/seminar/FDP/STTP etc. (Max two events to be considered):</p>
+                  <table>
+                    <tbody>
+                      <tr>
+                        <td>1. Conference - 15 points</td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={facultyData.sub2a3}
+                            readOnly
+                          />
+                        </td>
+                      </tr>
+
+                      <br/>
+                      <tr>
+                        <td>2. Workshop FDP/STTP/certification programs:</td>
+                      </tr>
+                      <tr>
+                        <td><Col><Col>1. One week or more - 10 points</Col></Col></td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={facultyData.sub2a4}
+                            readOnly
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><Col><Col>2. Less than a week but greater than two days - 5 points</Col></Col></td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={facultyData.sub2a5 }
+                            readOnly
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><Col><Col>3. One to two days - 3 points</Col></Col></td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={facultyData.sub2a6 }
+                            readOnly
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><Col><Col>4. Committee member of ICAST - 2 points</Col></Col></td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={facultyData.sub2a7}
+                            readOnly
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><Col><Col>5. Seminars - 1 point</Col></Col></td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={facultyData.sub2a8}
+                            readOnly
+                          />
+                        </td>
+                      </tr>
+
+                      <br/>
+                      <tr>
+                        <td>3. Delivering Lecture/conducting workshop (not paper presentation):</td>
+                      </tr>
+                      
+                      <tr>
+                        <td><Col><Col>1. At college level for faculty - 3 points</Col></Col></td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={facultyData.sub2a9}
+                            readOnly
+                          />
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td><Col><Col>2. During STTP - 10 points</Col></Col></td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={facultyData.sub2a10}
+                            readOnly
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><Col><Col>3. International - 15 points</Col></Col></td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={facultyData.sub2a11}
+                            readOnly
+                          />
+                        </td>
+                      </tr>
+
+                      <br/>
+                      <tr>
+                        <td> • Establishing labs with the help of industry/industry/another organization. Max 5 per individual if a group is involved - 10 if only 1 person is involved</td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={facultyData.sub2a12}
+                            
+                           readOnly
+                          />
+                        </td>
+                      </tr>
+                      <br/>
+                    </tbody>
+                  </table>
+                </div>
+
+                </td></tr> 
                         
                         <tr>
                           <td>b.</td>

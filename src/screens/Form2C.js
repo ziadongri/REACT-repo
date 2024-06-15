@@ -44,6 +44,18 @@ function Form2C(){
     
     const navigate = useNavigate()
 
+    const formatDateToInput = (dateString) => {
+      if (!dateString) return '';
+      const [dd, mm, yyyy] = dateString.split('/');
+      return `${yyyy}-${mm}-${dd}`;
+    };
+  
+    const formatDateToDisplay = (dateString) => {
+      if (!dateString) return '';
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-GB');
+    };
+
      // Fetch HOD's isEditable state
   const fetchHODState = async () => {
     const hodDepartment = "Electronics & Telecommunication Engineering"; // Replace with actual department
@@ -1108,7 +1120,7 @@ years score is considered for promotion as per UGC notification Feb
       }
             <tr>
             <td></td>
-              <td colspan="6" ><Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
+              <td colspan="3" ><Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
                 <Col>1. Refereed Journals
                 <Col>• SCI –- 40 / publication</Col>
                 <Col>• ESCI –- 30 / publication</Col>
@@ -1237,7 +1249,7 @@ years score is considered for promotion as per UGC notification Feb
       </div>              
 
                   <br/>
-                Enter Chapters:
+                If it is Chapter, Enter Chapter/Chapters:
                 <Form.Control
                   type="text"
                   style={{ textAlign: "center" }}
@@ -1607,38 +1619,45 @@ years score is considered for promotion as per UGC notification Feb
           }} disabled={!isEditable}/>
               </td> */}
             <td>
-            From:
-            <Form.Control
-              type="date"
-              style={{ textAlign: 'center' }}
-              value={
-                ResearchProjectON[0].periodfrom || ''
-              }
-              onChange={(e) => {
-                const newResearchProjectON = [...ResearchProjectON];
-                newResearchProjectON[0].periodfrom = e.target.value;
-                setResearchProjectON(newResearchProjectON);
-              }}
-              disabled={!isEditable}
-            />
+      From:
+      <Form.Control
+        type="date"
+        style={{ textAlign: 'center' }}
+        value={
+          formatDateToInput(ResearchProjectON[0].periodfrom)
+        }
+        onChange={(e) => {
+          const date = new Date(e.target.value);
+          const formattedDate = date.toLocaleDateString('en-GB');
+          const newResearchProjectON = [...ResearchProjectON];
+          newResearchProjectON[0].periodfrom = formattedDate;
+          setResearchProjectON(newResearchProjectON);
+        }}
+        disabled={!isEditable}
+      />
 
-            <br />
-            To:
-            <Form.Control
-              type="date"
-              style={{ textAlign: 'center' }}
-              value={
-                ResearchProjectON[0].periodto || ''
-              }
-              min={ResearchProjectON[0].periodfrom} // Set the min attribute
-              onChange={(e) => {
-                const newResearchProjectON = [...ResearchProjectON];
-                newResearchProjectON[0].periodto = e.target.value;
-                setResearchProjectON(newResearchProjectON);
-              }}
-              disabled={!isEditable}
-            />
-          </td>
+      <br />
+      To:
+      <Form.Control
+        type="date"
+        style={{ textAlign: 'center' }}
+        value={
+          formatDateToInput(ResearchProjectON[0].periodto)
+        }
+        min={
+          formatDateToInput(ResearchProjectON[0].periodfrom)
+        }
+        onChange={(e) => {
+          const date = new Date(e.target.value);
+          const formattedDate = date.toLocaleDateString('en-GB');
+          const newResearchProjectON = [...ResearchProjectON];
+          newResearchProjectON[0].periodto = formattedDate;
+          setResearchProjectON(newResearchProjectON);
+        }}
+        disabled={!isEditable}
+      />
+    </td>
+
 
               <td>            
                 <Form.Control
@@ -1832,34 +1851,44 @@ years score is considered for promotion as per UGC notification Feb
               </td> 
 
               <td>
-            From:
-            <Form.Control
-              type="date"
-              style={{ textAlign: 'center' }}
-              value={ResearchProjectCOMP[0].periodfrom || ''}
-              onChange={(e) => {
-                const newResearchProjectCOMP = [...ResearchProjectCOMP];
-                newResearchProjectCOMP[0].periodfrom = e.target.value;
-                setResearchProjectCOMP(newResearchProjectCOMP);
-              }}
-              disabled={!isEditable}
-            />
+      From:
+      <Form.Control
+        type="date"
+        style={{ textAlign: 'center' }}
+        value={
+          formatDateToInput(ResearchProjectCOMP[0].periodfrom)
+        }
+        onChange={(e) => {
+          const date = new Date(e.target.value);
+          const formattedDate = date.toLocaleDateString('en-GB');
+          const newResearchProjectCOMP = [...ResearchProjectCOMP];
+          newResearchProjectCOMP[0].periodfrom = formattedDate;
+          setResearchProjectCOMP(newResearchProjectCOMP);
+        }}
+        disabled={!isEditable}
+      />
 
-            <br />
-            To:
-            <Form.Control
-              type="date"
-              style={{ textAlign: 'center' }}
-              value={ResearchProjectCOMP[0].periodto || ''}
-              min={ResearchProjectCOMP[0].periodfrom}
-              onChange={(e) => {
-                const newResearchProjectCOMP = [...ResearchProjectCOMP];
-                newResearchProjectCOMP[0].periodto = e.target.value;
-                setResearchProjectCOMP(newResearchProjectCOMP);
-              }}
-              disabled={!isEditable}
-            />
-          </td>
+      <br />
+      To:
+      <Form.Control
+        type="date"
+        style={{ textAlign: 'center' }}
+        value={
+          formatDateToInput(ResearchProjectCOMP[0].periodto)
+        }
+        min={
+          formatDateToInput(ResearchProjectCOMP[0].periodfrom)
+        }
+        onChange={(e) => {
+          const date = new Date(e.target.value);
+          const formattedDate = date.toLocaleDateString('en-GB');
+          const newResearchProjectCOMP = [...ResearchProjectCOMP];
+          newResearchProjectCOMP[0].periodto = formattedDate;
+          setResearchProjectCOMP(newResearchProjectCOMP);
+        }}
+        disabled={!isEditable}
+      />
+    </td>
 
               <td>             
                 <Form.Control
@@ -2003,38 +2032,44 @@ years score is considered for promotion as per UGC notification Feb
               </td>
 
               <td>
-            From:
-            <Form.Control
-              type="date"
-              style={{ textAlign: 'center' }}
-              value={
-                ResearchNeedProject[0].periodfrom || ''
-              }
-              onChange={(e) => {
-                const newResearchNeedProject = [...ResearchNeedProject];
-                newResearchNeedProject[0].periodfrom = e.target.value;
-                setResearchNeedProject(newResearchNeedProject);
-              }}
-              disabled={!isEditable}
-            />
+      From:
+      <Form.Control
+        type="date"
+        style={{ textAlign: 'center' }}
+        value={
+          formatDateToInput(ResearchNeedProject[0].periodfrom)
+        }
+        onChange={(e) => {
+          const date = new Date(e.target.value);
+          const formattedDate = date.toLocaleDateString('en-GB');
+          const newResearchNeedProject = [...ResearchNeedProject];
+          newResearchNeedProject[0].periodfrom = formattedDate;
+          setResearchNeedProject(newResearchNeedProject);
+        }}
+        disabled={!isEditable}
+      />
 
-            <br />
-            To:
-            <Form.Control
-              type="date"
-              style={{ textAlign: 'center' }}
-              value={
-                ResearchNeedProject[0].periodto || ''
-              }
-              min={ResearchNeedProject[0].periodfrom} // Set the min attribute
-              onChange={(e) => {
-                const newResearchNeedProject = [...ResearchNeedProject];
-                newResearchNeedProject[0].periodto = e.target.value;
-                setResearchNeedProject(newResearchNeedProject);
-              }}
-              disabled={!isEditable}
-            />
-          </td>
+      <br />
+      To:
+      <Form.Control
+        type="date"
+        style={{ textAlign: 'center' }}
+        value={
+          formatDateToInput(ResearchNeedProject[0].periodto)
+        }
+        min={
+          formatDateToInput(ResearchNeedProject[0].periodfrom)
+        }
+        onChange={(e) => {
+          const date = new Date(e.target.value);
+          const formattedDate = date.toLocaleDateString('en-GB');
+          const newResearchNeedProject = [...ResearchNeedProject];
+          newResearchNeedProject[0].periodto = formattedDate;
+          setResearchNeedProject(newResearchNeedProject);
+        }}
+        disabled={!isEditable}
+      />
+    </td>
 
               <td>
 
@@ -2327,34 +2362,39 @@ years score is considered for promotion as per UGC notification Feb
               </td>
 
               <td>
-            From:
-            <Form.Control
-              type="date"
-              style={{ textAlign: 'center' }}
-              value={TrainingCourse[0].durationfrom || ''}
-              onChange={(e) => {
-                const newTrainingCourse = [...TrainingCourse];
-                newTrainingCourse[0].durationfrom = e.target.value;
-                setTrainingCourse(newTrainingCourse);
-              }}
-              disabled={!isEditable}
-            />
+  From:
+  <Form.Control
+    type="date"
+    style={{ textAlign: 'center' }}
+    value={formatDateToInput(TrainingCourse[0].durationfrom)}
+    onChange={(e) => {
+      const date = new Date(e.target.value);
+      const formattedDate = date.toLocaleDateString('en-GB');
+      const newTrainingCourse = [...TrainingCourse];
+      newTrainingCourse[0].durationfrom = formattedDate;
+      setTrainingCourse(newTrainingCourse);
+    }}
+    disabled={!isEditable}
+  />
 
-            <br />
-            To:
-            <Form.Control
-              type="date"
-              style={{ textAlign: 'center' }}
-              value={TrainingCourse[0].durationto || ''}
-              min={TrainingCourse[0].durationfrom}
-              onChange={(e) => {
-                const newTrainingCourse = [...TrainingCourse];
-                newTrainingCourse[0].durationto = e.target.value;
-                setTrainingCourse(newTrainingCourse);
-              }}
-              disabled={!isEditable}
-            />
-          </td>
+  <br />
+  To:
+  <Form.Control
+    type="date"
+    style={{ textAlign: 'center' }}
+    value={formatDateToInput(TrainingCourse[0].durationto)}
+    min={formatDateToInput(TrainingCourse[0].durationfrom)}
+    onChange={(e) => {
+      const date = new Date(e.target.value);
+      const formattedDate = date.toLocaleDateString('en-GB');
+      const newTrainingCourse = [...TrainingCourse];
+      newTrainingCourse[0].durationto = formattedDate;
+      setTrainingCourse(newTrainingCourse);
+    }}
+    disabled={!isEditable}
+  />
+</td>
+
 
               <td>
                 <Form.Control

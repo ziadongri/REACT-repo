@@ -321,18 +321,29 @@ years score is considered for promotion as per UGC notification Feb
     <tr style={{ textAlign: "left" }}>
       <td style={{ textAlign: "center" }}>{index + 1}</td>
       <td><Col>• Paper Title: {data.title}</Col>
+      <br/>
       <Col>• Enter Journal Name: {data.journal}</Col>
+      <br/>
       <Col>• Enter Volume No.: {data.volume}</Col>
+      <br/>
      <Col>• Enter Page No.: {data.page}</Col>
+      <br/>
       <Col>• Enter ISBN/ISSN No.: {data.isbn}</Col></td>
 
       <td><Col>• SCI: {data.sci || ''}</Col>
+      <br/>
       <Col>• WOS: {data.wos || ''}</Col>
+      <br/>
       <Col>• ESCI: {data.esci || ''}</Col>
+      <br/>
       <Col>• SCOPUS: {data.scopus || ''}</Col>
+      <br/>
       <Col>• UGC CARE: {data.ugccare || ''}</Col>
+      <br/>
       <Col>• Having ISBN/ISSN: {data.isbnissn || ''}</Col>
+      <br/>
       <Col>• Proceedings: {data.proceedings || ''}</Col>
+      <br/>
       <Col>• Guide/Mentor (mention serial number of paper): {data.guidementor || ''}</Col> </td>     
       
       
@@ -436,14 +447,23 @@ years score is considered for promotion as per UGC notification Feb
   <tbody key={index}>
     <tr  style={{ textAlign: "left" }}>
       <td style={{ textAlign: "center" }}>{index + 1}</td>
-      <td>• Enter title with Page No.:{data.title}</td>
+      <td>
+      <Col>• Enter title with Page No.: {data.title}</Col>
+      <br/>
+      <Col>•  Is it a Book or Chapter: {data.whatis}</Col>
+      <br/>
+      <Col>• If it is Chapter, Enter Chapter/Chapters: {data.chapters}</Col>
+      </td>
       <td>
       <Col>• Enter Book Title:{data.booktitle}</Col>
+      <br/>
       <Col>• Enter Editor/Editors: {data.editor}</Col>
+      <br/>
       <Col>• Enter Publisher: {data.publisher}</Col></td>
       <td style={{ textAlign: "center" }}>{data.isbn}</td>
       <td style={{ textAlign: "center" }}>{data.peerreview}</td>
       <td style={{ textAlign: "center" }}><Col>{data.coauthor}</Col>
+      <br/>
       <Col>• First Author: {data.mainauthor}</Col></td>
       
       <td style={{ textAlign: "center" }}>{data.selfscore}</td>
@@ -532,7 +552,10 @@ years score is considered for promotion as per UGC notification Feb
           <tbody key={index}> 
           <tr>
               <td>{index + 1}</td>
-              <td >{data.title}</td>
+              <td ><Col>Title: {data.title}</Col>
+              <br/>
+              <Col>Select: {data.whatis}</Col>
+              </td>
               <td>{data.agency}</td>
               <td>FROM: {data.periodfrom} <br/> TO: {data.periodto}</td>
               <td>{data.amount}</td>
@@ -567,17 +590,17 @@ years score is considered for promotion as per UGC notification Feb
         ))
       }
       <tr style={{ textAlign: "left"}}>
-        <td></td>
+      <td></td>
         <td colSpan="6"><Col style={{ fontWeight: 'bold' }} >Evaluation Criteria:</Col>
           <Col>a) Major Projects amount mobilized with grants above 20.0 lakhs 30 points</Col>
-<Col>a) Major Projects amount mobilized with grants above 5.0 lakhs 20 points</Col>
-<Col>b) Major Projects Amount mobilized with a minimum of Rs. 3.00 lakhs up to Rs. 5.00 lakhs 15 points</Col>
-<Col>c) Minor Projects (Amount mobilized with grants above Rs. 25,000 up to Rs. 3 lakh 10 points</Col>
-<Col>d) Consultancy Projects amount mobilized with grants above 2.0 lakhs 10 points</Col>
-<Col>e) Consultancy Projects completed-Major above 5 lakhs (Acceptance from the funding agency) 20 points</Col>
-<Col>f) Consultancy Projects completed- Minor below 3 lakhs (Acceptance from the funding agency) 20 points</Col>
-<Col>g) Projects Outcome /Outputs in the form of Patent/Technology transfer/ Product/Process 30 points at the National level and 50 at the international level</Col>
-<Col>h) Need-based projects of the college 10 points</Col>
+<Col>b) Major Projects amount mobilized with grants above 5.0 lakhs 20 points</Col>
+<Col>c) Major Projects Amount mobilized with a minimum of Rs. 3.00 lakhs up to Rs. 5.00 lakhs 15 points</Col>
+<Col>d) Minor Projects (Amount mobilized with grants above Rs. 25,000 up to Rs. 3 lakh 10 points</Col>
+<Col>e) Consultancy Projects amount mobilized with grants above 2.0 lakhs 10 points</Col>
+<Col>f) Consultancy Projects completed-Major above 5 lakhs (Acceptance from the funding agency) 20 points</Col>
+<Col>g) Consultancy Projects completed- Minor below 3 lakhs (Acceptance from the funding agency) 20 points</Col>
+<Col>h) Projects Outcome /Outputs in the form of Patent/Technology transfer/ Product/Process 30 points at the National level and 50 at the international level</Col>
+<Col>i) Need-based projects of the college 10 points</Col>
 
       </td>
       </tr>
@@ -622,7 +645,10 @@ years score is considered for promotion as per UGC notification Feb
           <tbody key={index}> 
           <tr>
               <td>{index + 1}</td>
-              <td>{data.title}</td>
+              <td>
+              <Col>Title: {data.title}</Col>
+              <br/>
+              <Col>Select: {data.whatis}</Col></td>
               <td>{data.agency}</td>
               <td>FROM: {data.periodfrom} <br/> TO: {data.periodto}</td>
               <td>{data.amount}</td>
@@ -657,17 +683,18 @@ years score is considered for promotion as per UGC notification Feb
         ))
       }
       <tr style={{ textAlign: "left"}}>
-        <td></td>
-        <td colSpan="6"><Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
+      <td></td>
+        <td colSpan="6"><Col style={{ fontWeight: 'bold' }} >Evaluation Criteria:</Col>
           <Col>a) Major Projects amount mobilized with grants above 20.0 lakhs 30 points</Col>
-<Col>a) Major Projects amount mobilized with grants above 5.0 lakhs 20 points</Col>
-<Col>b) Major Projects Amount mobilized with a minimum of Rs. 3.00 lakhs up to Rs. 5.00 lakhs 15 points</Col>
-<Col>c) Minor Projects (Amount mobilized with grants above Rs. 25,000 up to Rs. 3 lakh 10 points</Col>
-<Col>d) Consultancy Projects amount mobilized with grants above 2.0 lakhs 10 points</Col>
-<Col>e) Consultancy Projects completed-Major above 5 lakhs (Acceptance from the funding agency) 20 points</Col>
-<Col>f) Consultancy Projects completed- Minor below 3 lakhs (Acceptance from the funding agency) 20 points</Col>
-<Col>g) Projects Outcome /Outputs in the form of Patent/Technology transfer/ Product/Process 30 points at the National level and 50 at the international level</Col>
-<Col>h) Need-based projects of the college 10 points</Col>
+<Col>b) Major Projects amount mobilized with grants above 5.0 lakhs 20 points</Col>
+<Col>c) Major Projects Amount mobilized with a minimum of Rs. 3.00 lakhs up to Rs. 5.00 lakhs 15 points</Col>
+<Col>d) Minor Projects (Amount mobilized with grants above Rs. 25,000 up to Rs. 3 lakh 10 points</Col>
+<Col>e) Consultancy Projects amount mobilized with grants above 2.0 lakhs 10 points</Col>
+<Col>f) Consultancy Projects completed-Major above 5 lakhs (Acceptance from the funding agency) 20 points</Col>
+<Col>g) Consultancy Projects completed- Minor below 3 lakhs (Acceptance from the funding agency) 20 points</Col>
+<Col>h) Projects Outcome /Outputs in the form of Patent/Technology transfer/ Product/Process 30 points at the National level and 50 at the international level</Col>
+<Col>i) Need-based projects of the college 10 points</Col>
+
       </td>
       </tr>
 
@@ -711,7 +738,7 @@ years score is considered for promotion as per UGC notification Feb
           <tbody key={index}> 
           <tr>
               <td>{index + 1}</td>
-              <td>{data.title}</td>
+              <td>Title: {data.title}</td>
               <td>{data.agency}</td>
               <td>FROM: {data.periodfrom} <br/> TO: {data.periodto}</td>
               <td>{data.amount}</td>
@@ -746,17 +773,18 @@ years score is considered for promotion as per UGC notification Feb
         ))
       }
       <tr  style={{ textAlign: "left"}}>
-        <td></td>
-        <td colSpan="6"><Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
+      <td></td>
+        <td colSpan="6"><Col style={{ fontWeight: 'bold' }} >Evaluation Criteria:</Col>
           <Col>a) Major Projects amount mobilized with grants above 20.0 lakhs 30 points</Col>
-<Col>a) Major Projects amount mobilized with grants above 5.0 lakhs 20 points</Col>
-<Col>b) Major Projects Amount mobilized with a minimum of Rs. 3.00 lakhs up to Rs. 5.00 lakhs 15 points</Col>
-<Col>c) Minor Projects (Amount mobilized with grants above Rs. 25,000 up to Rs. 3 lakh 10 points</Col>
-<Col>d) Consultancy Projects amount mobilized with grants above 2.0 lakhs 10 points</Col>
-<Col>e) Consultancy Projects completed-Major above 5 lakhs (Acceptance from the funding agency) 20 points</Col>
-<Col>f) Consultancy Projects completed- Minor below 3 lakhs (Acceptance from the funding agency) 20 points</Col>
-<Col>g) Projects Outcome /Outputs in the form of Patent/Technology transfer/ Product/Process 30 points at the National level and 50 at the international level</Col>  
-<Col>h) Need-based projects of the college 10 points</Col>
+<Col>b) Major Projects amount mobilized with grants above 5.0 lakhs 20 points</Col>
+<Col>c) Major Projects Amount mobilized with a minimum of Rs. 3.00 lakhs up to Rs. 5.00 lakhs 15 points</Col>
+<Col>d) Minor Projects (Amount mobilized with grants above Rs. 25,000 up to Rs. 3 lakh 10 points</Col>
+<Col>e) Consultancy Projects amount mobilized with grants above 2.0 lakhs 10 points</Col>
+<Col>f) Consultancy Projects completed-Major above 5 lakhs (Acceptance from the funding agency) 20 points</Col>
+<Col>g) Consultancy Projects completed- Minor below 3 lakhs (Acceptance from the funding agency) 20 points</Col>
+<Col>h) Projects Outcome /Outputs in the form of Patent/Technology transfer/ Product/Process 30 points at the National level and 50 at the international level</Col>
+<Col>i) Need-based projects of the college 10 points</Col>
+
       </td>
       </tr>
       </Table> 
@@ -799,7 +827,11 @@ years score is considered for promotion as per UGC notification Feb
           <tbody key={index}>
            <tr>
             <td>{index + 1}</td>
-            <td>{data.enrolled}</td>
+            <td>
+            <Col>{data.enrolled}</Col>
+            <br/>
+            <Col>Is it M. Phil/ME or PhD: {data.cluster}</Col>
+            </td>
             <td>{data.thesis}</td>
             <td>{data.degree}</td>
             <td>{data.selfscore}</td>
@@ -869,6 +901,7 @@ years score is considered for promotion as per UGC notification Feb
       </tr>
       <tr>
       <th style={{ textAlign: "center", verticalAlign: "middle" }}>Programme</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Criteria</th>
       <th style={{ textAlign: "center", verticalAlign: "middle" }}>Duration</th>
       <th style={{ textAlign: "center", verticalAlign: "middle" }}>Organized by</th>
       <th style={{ textAlign: "center", verticalAlign: "middle" }}>Self Appraisal Score</th>
@@ -881,6 +914,7 @@ years score is considered for promotion as per UGC notification Feb
             <tr>
               <td>{index + 1}</td>
               <td>{data.programme}</td>
+              <td>{data.criteria}</td>
               <td>FROM: {data.durationfrom} <br/> TO: {data.durationto} </td>
               <td>{data.organizedby}</td>
               <td>{data.selfscore}</td>

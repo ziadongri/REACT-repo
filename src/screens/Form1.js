@@ -166,14 +166,18 @@ function Form1() {
           <h1 className="text-center" >Part A: General Information</h1>
           <Form onSubmit={handleSubmit}>
 
-            <Form.Group className="mb-3" controlId="year">
+          <div className="context-box">
+          
+                
+          <Form.Group className="mb-3" controlId="year">
   <Row>
-    <Col md={3} className="form-label">
+    <Col md={3} className="form-label" >
       <Form.Label>Year of Appraisal:</Form.Label>
     </Col>
     <Col md={9}>
       <Form.Control
         as="select"
+        
         value={year}
         onChange={(e) => setYear(e.target.value)}
         disabled={!isEditable}
@@ -200,9 +204,9 @@ function Form1() {
       </Form.Control>
     </Col>
   </Row>
-        </Form.Group>
+        </Form.Group>        
 
-          <Form.Group className="mb-3" controlId="department">
+           <Form.Group className="mb-3" controlId="department">
               <Row>
                 <Col md={3} className="form-label">
               <Form.Label>Department:</Form.Label>
@@ -222,7 +226,7 @@ function Form1() {
               </Form.Control>
               </Col>
               </Row>
-            </Form.Group>
+            </Form.Group> 
 
             <Form.Group className="mb-3 align-item-center" controlId="name">
             <Row>
@@ -349,7 +353,9 @@ function Form1() {
               </Col>
               </Row>
             </Form.Group>
-
+          </div>
+               
+            
           </Form>
           <div className="text-center">
             <Row>
