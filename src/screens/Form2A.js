@@ -15,11 +15,7 @@ function Form2A() {
   const [error, setError] = useState(null);
   const [theorysub, setTheorysub] = useState("");
   const [practicalsub, setPracticalsub] = useState("");
-  const [IActb, setIActb] = useState("");
-  const [IActc, setIActc] = useState("");
-  const [IActd, setIActd] = useState("");
-  const [IActe, setIActe] = useState("");
-  const [IActf, setIActf] = useState("");
+  
   const [IOddsem, setIOddsem] = useState([]);
   const [IEvensem, setIEvensem] = useState([]);
   const [IActTotal, setIActTotal] = useState("");
@@ -55,12 +51,31 @@ function Form2A() {
   const [sub1_f2, setSub1_f2] = useState("");
   const [sub1_f3, setSub1_f3] = useState("");
   const [totalsub1d, setTotalsub1d] = useState("");
+  const [IActd, setIActd] = useState(Math.min(totalsub1d, 40));
   const [totalsub1e, setTotalsub1e] = useState("");
+  const [IActe, setIActe] = useState(Math.min(totalsub1e, 25));
   const [totalsub1f, setTotalsub1f] = useState("");
+  const [IActf, setIActf] = useState(Math.min(totalsub1f, 25));
   const [lecturesTaken, setLecturesTaken] = useState("");
   const [selectedRadio, setSelectedRadio] = useState(null);
+  const [extraClass, setExtraClass] = useState("");
+  const [selectedRadio2, setSelectedRadio2] = useState(null);
+  const [remedial, setRemedial] = useState("");
+  const [selectedRadio3, setSelectedRadio3] = useState(null);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setIActd(Math.min(totalsub1d, 40));
+  }, [totalsub1d]);
+
+  useEffect(() => {
+    setIActe(Math.min(totalsub1e, 25));
+  }, [totalsub1e]);
+
+  useEffect(() => {
+    setIActf(Math.min(totalsub1f, 25));
+  }, [totalsub1f]);
 
   // Fetch HOD's isEditable state
   const fetchHODState = async () => {
@@ -100,6 +115,56 @@ function Form2A() {
 
   // Calculate marks initially
   const IActa = calculateMarks();
+
+  const calculateMarks2 = () => {
+    if (extraClass === 0) {
+      return 0; 
+    } else if (extraClass === 1) {
+      return 1;
+    } else if (extraClass === 2) {
+      return 2;
+    } else if (extraClass === 3) {
+      return 3;
+    } else if (extraClass === 4) {
+      return 4;
+    } else if (extraClass === 5) {
+      return 5;
+    } else if (extraClass >= 5) {
+      return 5;
+    } };
+
+    const handleRadioChange2 = (e) => {
+      const value = Number(e.target.value);
+      setExtraClass(value);
+      setSelectedRadio2(value);
+    };
+  
+    const IActb = calculateMarks2();
+
+    const calculateMarks3 = () => {
+      if (remedial === 0) {
+        return 0; 
+      } else if (remedial === 1) {
+        return 1;
+      } else if (remedial === 2) {
+        return 2;
+      } else if (remedial === 3) {
+        return 3;
+      } else if (remedial === 4) {
+        return 4;
+      } else if (remedial === 5) {
+        return 5;
+      } else if (remedial >= 5) {
+        return 5;
+      } };
+
+      const handleRadioChange3 = (e) => {
+        const value = Number(e.target.value);
+        setRemedial(value);
+        setSelectedRadio3(value);
+      }
+
+      const IActc = calculateMarks3();
 
   const handleUpload = (e, documentIdentifier) => {
     const file = e.target.files[0];
@@ -262,6 +327,8 @@ function Form2A() {
         check_e,
         check_f,
         lecturesTaken,
+        extraClass,
+        remedial,
         sub1_d1,
         sub1_d2,
         sub1_d3,
@@ -320,7 +387,6 @@ function Form2A() {
     // navigate('/form2b');
   };
 
-  
   const handleSubmit = async (e) => {
     {
       e.preventDefault();
@@ -348,6 +414,8 @@ function Form2A() {
         check_e,
         check_f,
         lecturesTaken,
+        extraClass,
+        remedial,
         sub1_d1,
         sub1_d2,
         sub1_d3,
@@ -414,8 +482,6 @@ function Form2A() {
       if (docSnap.exists()) {
         const data = docSnap.data();
         
-        setIActb(data.IActb || "");
-        setIActc(data.IActc || "");
         setIActd(data.IActd || "");
         setIActe(data.IActe || "");
         setIActf(data.IActf || "");
@@ -435,6 +501,8 @@ function Form2A() {
         setCheck_e(data.check_e || []);
         setCheck_f(data.check_f || []);
         setLecturesTaken(data.lecturesTaken || 0);
+        setExtraClass(data.extraClass || 0);
+        setRemedial(data.remedial || 0);
         setSub1_d1(data.sub1_d1 || "");
         setSub1_d2(data.sub1_d2 || "");
         setSub1_d3(data.sub1_d3 || "");
@@ -469,12 +537,20 @@ function Form2A() {
     }
   }, [user]);
 
+  //old code
+  // const calculateoddpercentage = (index) => {
+  //   const newIOddsem = [...IOddsem];
+  //   newIOddsem[index].percentage =
+  //     ((newIOddsem[index].actualLectures / newIOddsem[index].lectures) * 100).toFixed(2);
+  //   setIOddsem(newIOddsem);
+  // };
+
   const calculateoddpercentage = (index) => {
     const newIOddsem = [...IOddsem];
-    newIOddsem[index].percentage =
-      ((newIOddsem[index].actualLectures / newIOddsem[index].lectures) * 100).toFixed(2);
+    let calculatedPercentage = (newIOddsem[index].actualLectures / newIOddsem[index].lectures) * 100;
+    newIOddsem[index].percentage = Math.min(calculatedPercentage, 100).toFixed(2);
     setIOddsem(newIOddsem);
-  };
+};
 
   useEffect(() => {
   IOddsem.map((oddsem, index) => {
@@ -500,13 +576,21 @@ function Form2A() {
     setIOddsem((prevIOddsem) => prevIOddsem.filter((oddsem, i) => i !== index));
   };
 
+  //old code
+  // const calculateevenpercentage = (index) => {
+  //   const newIEvensem = [...IEvensem];
+  //   newIEvensem[index].percentage =
+  //     ((newIEvensem[index].actualLectures / newIEvensem[index].lectures) * 100).toFixed(2);
+  //   setIEvensem(newIEvensem);
+  // };
+  
   const calculateevenpercentage = (index) => {
     const newIEvensem = [...IEvensem];
-    newIEvensem[index].percentage =
-      ((newIEvensem[index].actualLectures / newIEvensem[index].lectures) * 100).toFixed(2);
+    let calculatedPercentage = (newIEvensem[index].actualLectures / newIEvensem[index].lectures) * 100;
+    newIEvensem[index].percentage = Math.min(calculatedPercentage, 100).toFixed(2);
     setIEvensem(newIEvensem);
-  };
-  
+};
+
   useEffect(() => {
     IEvensem.map((evensem, index) => {
       calculateevenpercentage(index);
@@ -984,6 +1068,76 @@ function Form2A() {
                   Prof or above 14/week for Associate Prof and Professor. Repeat
                   classes for diploma students may be given 5 marks.
                 </Col>
+
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="extraLectures"
+                    label="0 extra lecture/ lab"
+                    value={0}
+                    onChange={handleRadioChange2}
+                    disabled={!isEditable}
+                  />  </Col>
+              
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="extraLectures"
+                    label="1 extra lecture/ lab"
+                    value={1}
+                    onChange={handleRadioChange2}
+                    disabled={!isEditable}
+                  /> </Col>
+
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="extraLectures"
+                    label="2 extra lectures/ labs"
+                    value={2}
+                    onChange={handleRadioChange2}
+                    disabled={!isEditable}
+                  /> </Col>
+
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="extraLectures"
+                    label="3 extra lectures/ labs"
+                    value={3}
+                    onChange={handleRadioChange2}
+                    disabled={!isEditable}
+                  /> </Col>
+
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="extraLectures"
+                    label="4 extra lectures/ labs"
+                    value={4}
+                    onChange={handleRadioChange2}
+                    disabled={!isEditable}
+                  /> </Col>
+
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="extraLectures"
+                    label="5 extra lectures/ labs"
+                    value={5}
+                    onChange={handleRadioChange2}
+                    disabled={!isEditable}
+                  /> </Col>
+
+                  <Col>
+                  <Form.Check
+                    type="radio"
+                    name="extraLectures"
+                    label="More than 5 extra lectures/ labs"
+                    value={5}
+                    onChange={handleRadioChange2}
+                    disabled={!isEditable}
+                  /> </Col>
               </td>
 
               <td className='text-center'> - </td>
@@ -994,11 +1148,10 @@ function Form2A() {
               <td>
                 <Form.Control
                   type="text"
-                  value={IActb}
-                  onChange={(e) => setIActb(Math.min(Number(e.target.value), 5))}
-                  readOnly={!isEditable}
-                  max={5}
                   style={{ textAlign: "center" }}
+                  value={IActb}
+                  readOnly
+                  max={5} 
                 />
               </td>
               <td>
@@ -1030,6 +1183,77 @@ function Form2A() {
                   weak students (one point for each extra class in other than
                   mentioned in 1.a).
                 </Col>
+
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="remedial"
+                    label="0 Remedial lecture/ Revision lecture"
+                    value={0}
+                    onChange={handleRadioChange3}
+                    disabled={!isEditable}
+                  />  </Col>
+
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="remedial"
+                    label="1 Remedial lecture/ Revision lecture"
+                    value={1}
+                    onChange={handleRadioChange3}
+                    disabled={!isEditable}
+                  /> </Col>
+
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="remedial"
+                    label="2 Remedial lectures/ Revision lectures"
+                    value={2}
+                    onChange={handleRadioChange3}
+                    disabled={!isEditable}
+                  /> </Col>
+
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="remedial"
+                    label="3 Remedial lectures/ Revision lectures"
+                    value={3}
+                    onChange={handleRadioChange3}
+                    disabled={!isEditable}
+                  /> </Col>
+
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="remedial"
+                    label="4 Remedial lectures/ Revision lectures"
+                    value={4}
+                    onChange={handleRadioChange3}
+                    disabled={!isEditable}
+                  /> </Col>
+
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="remedial"
+                    label="5 Remedial lectures/ Revision lectures"
+                    value={5}
+                    onChange={handleRadioChange3}
+                    disabled={!isEditable}
+                  /> </Col>
+
+                  <Col>
+                  <Form.Check
+                    type="radio"
+                    name="remedial"
+                    label="More than 5 Remedial lectures/ Revision lectures"
+                    value={5}
+                    onChange={handleRadioChange3}
+                    disabled={!isEditable}
+                  /> </Col>
+
               </td>
 
               <td className='text-center'> - </td>
@@ -1042,8 +1266,7 @@ function Form2A() {
                   type="text"
                   placeholder=""
                   value={IActc}
-                  onChange={(e) => setIActc(Math.min(Number(e.target.value), 5))}
-                  readOnly={!isEditable}
+                  readOnly
                   max={5}
                   style={{ textAlign: "center" }}
                 />
@@ -1101,7 +1324,7 @@ function Form2A() {
                   onChange={(e) => {
                     const value= parseInt(e.target.value);
                   if (!isNaN(value)) {
-                    setSub1_d1(Math.max(0, value));
+                    setSub1_d1(Math.max(0, Math.min(5, value)));
                   } else {
                     setSub1_d1(0);
                   }
@@ -1132,7 +1355,7 @@ function Form2A() {
                   onChange={(e) => {
                     const value= parseInt(e.target.value);
                   if (!isNaN(value)) {
-                    setSub1_d2(Math.max(0, value));
+                    setSub1_d2(Math.max(0, Math.min(10, value)));
                   } else {
                     setSub1_d2(0);
                   } }} disabled={!isEditable} />
@@ -1161,7 +1384,7 @@ function Form2A() {
                   onChange={(e) => {
                     const value= parseInt(e.target.value);
                   if (!isNaN(value)) {
-                    setSub1_d3(Math.max(0, value));
+                    setSub1_d3(Math.max(0, Math.min(10, value)));
                   } else {
                     setSub1_d3(0);
                   } }} disabled={!isEditable} />
@@ -1191,7 +1414,7 @@ function Form2A() {
                   onChange={(e) => {
                     const value= parseInt(e.target.value);
                   if (!isNaN(value)) {
-                    setSub1_d4(Math.max(0, value));
+                    setSub1_d4(Math.max(0,Math.min(8, value)));
                   } else {
                     setSub1_d4(0);
                   } }} disabled={!isEditable} />
@@ -1221,7 +1444,7 @@ function Form2A() {
                   onChange={(e) => {
                     const value= parseInt(e.target.value);
                   if (!isNaN(value)) {
-                    setSub1_d5(Math.max(0, value));
+                    setSub1_d5(Math.max(0, Math.min(2, value)));
                   } else {
                     setSub1_d5(0);
                   } }} disabled={!isEditable} />
@@ -1251,7 +1474,7 @@ function Form2A() {
                   onChange={(e) => {
                     const value= parseInt(e.target.value);
                   if (!isNaN(value)) {
-                    setSub1_d6(Math.max(0, value));
+                    setSub1_d6(Math.max(0, Math.min(2, value)));
                   } else {
                     setSub1_d6(0);
                   } }}  disabled={!isEditable}/>
@@ -1281,7 +1504,7 @@ function Form2A() {
                   onChange={(e) => {
                     const value= parseInt(e.target.value);
                   if (!isNaN(value)) {
-                    setSub1_d7(Math.max(0, value));
+                    setSub1_d7(Math.max(0, Math.min(2, value)));
                   } else {
                     setSub1_d7(0);
                   } }} disabled={!isEditable} />
@@ -1312,7 +1535,7 @@ function Form2A() {
                   onChange={(e) => {
                     const value= parseInt(e.target.value);
                   if (!isNaN(value)) {
-                    setSub1_d8(Math.max(0, value));
+                    setSub1_d8(Math.max(0, Math.min(2, value)));
                   } else {
                     setSub1_d8(0);
                   } }} disabled={!isEditable}/>
@@ -1334,7 +1557,7 @@ function Form2A() {
               <p className='text-center'>40</p>
               </td>
               <td>
-                <Form.Control
+                {/* <Form.Control
                   type="text"
                   placeholder=""
                   value={IActd}
@@ -1342,7 +1565,20 @@ function Form2A() {
                   disabled={!isEditable}
                   max={40}
                   style={{ textAlign: "center" }}
-                />
+                /> */}
+                <Form.Control
+                type="text"
+                placeholder=""
+                value={IActd}
+                // onChange={(e) => {
+                //   const value = Math.min(Number(e.target.value), 40);
+                //   setIActd(value);
+                // }}
+                readOnly
+                disabled={!isEditable}
+                max={40}
+                style={{ textAlign: "center" }}
+              />
               </td>
               <td>
               <Form.Group controlId="formFile" className="mb-3">
@@ -1391,7 +1627,7 @@ function Form2A() {
                   onChange={(e) => {
                     const value= parseInt(e.target.value);
                   if (!isNaN(value)) {
-                    setSub1_e1(Math.max(0, value));
+                    setSub1_e1(Math.max(0, Math.min(3, value)));
                   } else {
                     setSub1_e1(0);
                   }
@@ -1422,7 +1658,7 @@ function Form2A() {
                   onChange={(e) => {
                     const value= parseInt(e.target.value);
                   if (!isNaN(value)) {
-                    setSub1_e2(Math.max(0, value));
+                    setSub1_e2(Math.max(0, Math.min(3, value)));
                   } else {
                     setSub1_e2(0);
                   }
@@ -1452,7 +1688,7 @@ function Form2A() {
                   onChange={(e) => {
                     const value= parseInt(e.target.value);
                   if (!isNaN(value)) {
-                    setSub1_e3(Math.max(0, value));
+                    setSub1_e3(Math.max(0, Math.min(2, value)));
                   } else {
                     setSub1_e3(0);
                   }
@@ -1484,7 +1720,7 @@ function Form2A() {
                   onChange={(e) => {
                     const value= parseInt(e.target.value);
                   if (!isNaN(value)) {
-                    setSub1_e41(Math.max(0, value));
+                    setSub1_e41(Math.max(0, Math.min(2, value)));
                   } else {
                     setSub1_e41(0);
                   }
@@ -1515,7 +1751,7 @@ function Form2A() {
                   onChange={(e) => {
                     const value= parseInt(e.target.value);
                   if (!isNaN(value)) {
-                    setSub1_e42(Math.max(0, value));
+                    setSub1_e42(Math.max(0, Math.min(5, value)));
                   } else {
                     setSub1_e42(0);
                   }
@@ -1549,7 +1785,7 @@ function Form2A() {
                   onChange={(e) => {
                     const value= parseInt(e.target.value);
                   if (!isNaN(value)) {
-                    setSub1_e5(Math.max(0, value));
+                    setSub1_e5(Math.max(0, Math.min(2, value)));
                   } else {
                     setSub1_e5(0);
                   }
@@ -1579,7 +1815,7 @@ function Form2A() {
                   onChange={(e) => {
                     const value= parseInt(e.target.value);
                   if (!isNaN(value)) {
-                    setSub1_e6(Math.max(0, value));
+                    setSub1_e6(Math.max(0, Math.min(10, value)));
                   } else {
                     setSub1_e6(0);
                   }
@@ -1603,9 +1839,9 @@ function Form2A() {
               <td>
                 <Form.Control
                   type="text"
-                  placeholder=""
+                  readOnly
                   value={IActe}
-                  onChange={(e) => setIActe(Math.min(Number(e.target.value), 25))}
+                  // onChange={(e) => setIActe(Math.min(Number(e.target.value), 25))}
                   disabled={!isEditable}
                   max={25}
                   style={{ textAlign: "center" }}
@@ -1664,7 +1900,7 @@ function Form2A() {
                           onChange={(e) => {
                             const value = parseInt(e.target.value);
                             if (!isNaN(value)) {
-                              setSub1_f1(Math.max(0, value));
+                              setSub1_f1(Math.max(0, Math.min(5, value)));
                             } else {
                               setSub1_f1(0);
                             }
@@ -1697,7 +1933,7 @@ function Form2A() {
                           onChange={(e) => {
                             const value = parseInt(e.target.value);
                             if (!isNaN(value)) {
-                              setSub1_f2(Math.max(0, value));
+                              setSub1_f2(Math.max(0, Math.min(10, value)));
                             } else {
                               setSub1_f2(0);
                             }
@@ -1730,7 +1966,7 @@ function Form2A() {
                           onChange={(e) => {
                             const value = parseInt(e.target.value);
                             if (!isNaN(value)) {
-                              setSub1_f3(Math.max(0, value));
+                              setSub1_f3(Math.max(0, Math.min(10, value)));
                             } else {
                               setSub1_f3(0);
                             }
@@ -1756,9 +1992,9 @@ function Form2A() {
               <td>
                 <Form.Control
                   type="text"
-                  placeholder=""
+                  readOnly
                   value={IActf}
-                  onChange={(e) => setIActf(Math.min(Number(e.target.value), 25))}
+                  // onChange={(e) => setIActf(Math.min(Number(e.target.value), 25))}
                   disabled={!isEditable}
                   min={0}
                   max={25}
@@ -1787,7 +2023,7 @@ function Form2A() {
 
             <tr>
               <td></td>
-              <td>Total of Category I</td>
+              <td style={{ textAlign: "center" }}>Total of Category I</td>
               <td></td>
               <td>
               <p className='text-center'>150</p>

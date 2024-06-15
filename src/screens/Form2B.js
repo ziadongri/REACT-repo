@@ -10,17 +10,22 @@ function Form2B() {
   const [isEditable, setIsEditable] = useState(true); // default to editable
 
   const [user, setUser] = useState(null);
-  const [IIActaSem, setIIActaSem] = useState('');
-  const [IIActbSem, setIIActbSem] = useState('');
-  const [IIActcSem, setIIActcSem] = useState('');
-  const [IIActdSem, setIIActdSem] = useState('');
-  const [IIActa, setIIActa] = useState('');
-  const [IIActb, setIIActb] = useState('');
-  const [IIActc, setIIActc] = useState('');
-  const [IIActd, setIIActd] = useState('');
+
   const [check_2b, setCheck_2b] = useState(''); 
   const [check_2c, setCheck_2c] = useState('');
   const [check_2d, setCheck_2d] = useState('');
+  const [sub2a1, setSub2a1] = useState('');
+  const [sub2a2, setSub2a2] = useState('');
+  const [sub2a3, setSub2a3] = useState('');
+  const [sub2a4, setSub2a4] = useState('');
+  const [sub2a5, setSub2a5] = useState('');
+  const [sub2a6, setSub2a6] = useState('');
+  const [sub2a7, setSub2a7] = useState('');
+  const [sub2a8, setSub2a8] = useState('');
+  const [sub2a9, setSub2a9] = useState('');
+  const [sub2a10, setSub2a10] = useState('');
+  const [sub2a11, setSub2a11] = useState('');
+  const [sub2a12, setSub2a12] = useState('');
   const [ sub2ba, setSub2ba] = useState('');
   const [ sub2bb, setSub2bb] = useState('');
   const [ sub2bc, setSub2bc] = useState('');
@@ -54,12 +59,33 @@ function Form2B() {
   const [documentB4, setDocumentB4] = useState("");
   const [uploadedFile, setUploadedFile] = useState(null);
   const [responsibility, setResponsibility] = useState('');
+  const [totalsub2a, setTotalSub2a] = useState('');
   const [totalsub2b, setTotalSub2b] = useState('');
   const [totalsub2c, setTotalSub2c] = useState('');
   const [totalsub2d, setTotalSub2d] = useState('');
+  const [IIActa, setIIActa] = useState(Math.min(totalsub2a,35));
+const [IIActb, setIIActb] = useState(Math.min(totalsub2b,25));
+ const [IIActd, setIIActd] = useState(Math.min(totalsub2d,20));
+const [IIActc, setIIActc] = useState(Math.min(totalsub2c,20));
   const [IIActTotal, setIIActTotal] = useState('');
   
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setIIActa(Math.min(totalsub2a,35));
+  }, [totalsub2a]);
+
+useEffect(() => {
+  setIIActb(Math.min(totalsub2b,25));
+}, [totalsub2b]);
+
+useEffect(() => {
+  setIIActc(Math.min(totalsub2d,20));
+}, [totalsub2d]);
+
+useEffect(() => {
+  setIIActd(Math.min(totalsub2c,20));
+}, [totalsub2c]);
 
   // Fetch HOD's isEditable state
   const fetchHODState = async () => {
@@ -140,7 +166,6 @@ function Form2B() {
     return unsubscribe;
   }, [navigate]);
 
-
   const fetchData = async (uid) => {
     const facultyRef = doc(db, "faculty", uid);
     const docRef = doc(facultyRef, "partB", "CategoryB");
@@ -148,10 +173,7 @@ function Form2B() {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         const data = docSnap.data();
-        setIIActaSem(data.IIActaSem || '');
-        setIIActbSem(data.IIActbSem || '');
-        setIIActcSem(data.IIActcSem || '');
-        setIIActdSem(data.IIActdSem || '');
+        
         setIIActa(data.IIActa || '');
         setIIActb(data.IIActb || '');
         setIIActc(data.IIActc || '');
@@ -159,6 +181,18 @@ function Form2B() {
         setCheck_2b(data.check_2b || '');
         setCheck_2c(data.check_2c || '');
         setCheck_2d(data.check_2d || '');
+        setSub2a1(data.sub2a1 || '');
+        setSub2a2(data.sub2a2 || '');
+        setSub2a3(data.sub2a3 || '');
+        setSub2a4(data.sub2a4 || '');
+        setSub2a5(data.sub2a5 || '');
+        setSub2a6(data.sub2a6 || '');
+        setSub2a7(data.sub2a7 || '');
+        setSub2a8(data.sub2a8 || '');
+        setSub2a9(data.sub2a9 || '');
+        setSub2a10(data.sub2a10 || '');
+        setSub2a11(data.sub2a11 || '');
+        setSub2a12(data.sub2a12 || '');
         setSub2ba(data.sub2ba || '');
         setSub2bb(data.sub2bb || '');
         setSub2bc(data.sub2bc || '');
@@ -191,6 +225,7 @@ function Form2B() {
         setDocumentB3(data.documentB3 || '');
         setDocumentB4(data.documentB4 || '');
         setIIActTotal(data.IIActTotal || '');
+        setTotalSub2a(data.totalsub2a || '');
         setTotalSub2b(data.totalsub2b || '');
         setTotalSub2c(data.totalsub2c || '');
         setTotalSub2d(data.totalsub2d || '');
@@ -270,10 +305,21 @@ function Form2B() {
 
   useEffect(() => {
     Total4();
-  }
-  , [sub2da, sub2db]);
+  } , [sub2da, sub2db]);
 
+  const Total5 = () => {
+    const valuesToSum = [ sub2a1, sub2a2, sub2a3, sub2a4, sub2a5, sub2a6, sub2a7, sub2a8, sub2a9, sub2a10, sub2a11, sub2a12].filter(value => !isNaN(parseFloat(value)));
 
+    const sum = valuesToSum.reduce((accumulator, currentValue) => {
+      return accumulator + parseFloat(currentValue);
+    }, 0);
+
+    setTotalSub2a(sum);
+  };
+
+  useEffect(() => {
+    Total5();
+  }, [sub2a1, sub2a2, sub2a3, sub2a4, sub2a5, sub2a6, sub2a7, sub2a8, sub2a9, sub2a10, sub2a11, sub2a12]);
 
   const handleSave = async (e) => {
     e.preventDefault();
@@ -293,6 +339,19 @@ function Form2B() {
       check_2b,
       check_2c,
       check_2d,
+      sub2a1,
+      sub2a2,
+      sub2a3,
+      sub2a4,
+      sub2a5,
+      sub2a6,
+      sub2a7,
+      sub2a8,
+      sub2a9,
+      sub2a10,
+      sub2a11,
+      sub2a12,
+      totalsub2a,
       sub2ba,
       sub2bb,
       sub2bc,
@@ -337,6 +396,7 @@ function Form2B() {
       IIActc === "" ||
       IIActd === "" ||
       responsibility === "" ||
+      totalsub2a === "" ||
       totalsub2b === "" ||
       totalsub2c === "" ||
       totalsub2d === "" ||
@@ -350,6 +410,7 @@ function Form2B() {
       IIActb < 0 ||
       IIActc < 0 ||
       IIActd < 0 ||
+      totalsub2a < 0 ||
       totalsub2b < 0 ||
       totalsub2c < 0 ||
       totalsub2d < 0
@@ -405,6 +466,19 @@ function Form2B() {
       check_2b,
       check_2c,
       check_2d,
+      sub2a1,
+      sub2a2,
+      sub2a3,
+      sub2a4,
+      sub2a5,
+      sub2a6,
+      sub2a7,
+      sub2a8,
+      sub2a9,
+      sub2a10,
+      sub2a11,
+      sub2a12,
+      totalsub2a,
       sub2ba,
       sub2bb,
       sub2bc,
@@ -449,6 +523,7 @@ function Form2B() {
       IIActc === "" ||
       IIActd === "" ||
       responsibility === "" ||
+      totalsub2a === "" ||
       totalsub2b === "" ||
       totalsub2c === "" ||
       totalsub2d === "" ||
@@ -462,6 +537,7 @@ function Form2B() {
       IIActb < 0 ||
       IIActc < 0 ||
       IIActd < 0 ||
+      totalsub2a < 0 ||
       totalsub2b < 0 ||
       totalsub2c < 0 ||
       totalsub2d < 0
@@ -574,7 +650,12 @@ function Form2B() {
                   </td>
               
                   <td>
-                  <p className='text-center'>-</p>
+                  <p className='text-center'><Form.Control
+                      type="text"
+                      style={{ textAlign: "center" }}
+                      value={totalsub2a}
+                      readOnly
+                    /></p>
                   </td>
                   <td>
               <p className='text-center'>35</p>
@@ -584,7 +665,8 @@ function Form2B() {
                       type="text"
                       style={{ textAlign: "center" }}
                       value={IIActa}
-                      onChange={(e) => setIIActa(Math.min(Number(e.target.value), 35))}
+                      readOnly
+                      // onChange={(e) => setIIActa(Math.min(Number(e.target.value), 35))}
                       disabled={!isEditable}
                       max={35}
                     />
@@ -614,33 +696,273 @@ function Form2B() {
                   <td></td>
                 <td colSpan={5} >
                   <Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
-                <Col>a) Contribution to corporate life in colleges and universities through meetings/popular lectures/subject-related events/articles in college magazines and university volumes - 3 pts each</Col>
-                <Col>Institutional governance responsibilities like Vice-Principal, Deans, HOD, Director, IQAC Coordinator/T&P officer, Exam cell in charge, Admission cell in charge maximum of 25 points (or any other equivalent responsibility)</Col>
-               <p></p>
-                <Col>b) Organized conference/workshop/seminar/FDP/STTP etc.(Max two events to be considered)</Col>
-                <Col>1. Conference - 15 points</Col>
-                <Col>2. Workshop FDP/STTP/certification programs</Col>
-                <Col><Col>1. One week or more - 10 points</Col></Col>
-                <Col><Col>2. Less than a week but greater than two days - 5 points</Col></Col>
-                <Col><Col>3. One to two days - 3 points</Col></Col>
-                <Col><Col>4. Committee member of ICAST - 2 points</Col></Col>
-                <Col><Col>5. Seminars - 1 point</Col></Col>
-                <Col>3. Delivering Lecture/conducting workshop (not paper presentation)</Col>
-                <Col><Col>1. At college level for faculty - 3 points</Col></Col>
-                <Col><Col>2. During STTP - 10 points</Col></Col>
-                <Col><Col>3. International - 15 points</Col></Col>
-                <Col>Establishing labs with the help of industry/industry/another organization</Col>
-                <Col>Max 5 per individual if a group is involved - 10 if only 1 person is involved</Col>
-                      </td></tr>               
+                
+                <div>
+                  <p>a) Mention the contributions of the following:</p>
+                  <table>
+                    <tbody>
+                      <tr>
+                        <td> • Contribution to corporate life in colleges and universities through meetings/popular lectures/subject-related events/articles in college magazines and university volumes - 3 pts each </td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={sub2a1 >= 0 ? sub2a1 : 0}
+                            onChange={(e) => {
+                              const value = parseInt(e.target.value);
+                              if (!isNaN(value)) {
+                                setSub2a1(Math.max(0, Math.min(10, value)));
+                              } else {
+                                setSub2a1(0);
+                              }
+                            }}
+                            disabled={!isEditable}
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td> • Institutional governance responsibilities like Vice-Principal, Deans, HOD, Director, IQAC Coordinator/T&P officer, Exam cell in charge, Admission cell in charge maximum of 25 points (or any other equivalent responsibility)</td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={sub2a2 >= 0 ? sub2a2 : 0}
+                            onChange={(e) => {
+                              const value = parseInt(e.target.value);
+                              if (!isNaN(value)) {
+                                setSub2a2(Math.max(0, Math.min(25, value)));
+                              } else {
+                                setSub2a2(0);
+                              }
+                            }}
+                            disabled={!isEditable}
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <br />
+                  <p>b) Organized conference/workshop/seminar/FDP/STTP etc. (Max two events to be considered):</p>
+                  <table>
+                    <tbody>
+                      <tr>
+                        <td>1. Conference - 15 points</td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={sub2a3 >= 0 ? sub2a3 : 0}
+                            onChange={(e) => {
+                              const value = parseInt(e.target.value);
+                              if (!isNaN(value)) {
+                                setSub2a3(Math.max(0, Math.min(15, value)));
+                              } else {
+                                setSub2a3(0);
+                              }
+                            }}
+                            disabled={!isEditable}
+                          />
+                        </td>
+                      </tr>
+
+                      <br/>
+                      <tr>
+                        <td>2. Workshop FDP/STTP/certification programs:</td>
+                      </tr>
+                      <tr>
+                        <td><Col><Col>1. One week or more - 10 points</Col></Col></td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={sub2a4 >= 0 ? sub2a4 : 0}
+                            onChange={(e) => {
+                              const value = parseInt(e.target.value);
+                              if (!isNaN(value)) {
+                                setSub2a4(Math.max(0, Math.min(10, value)));
+                              } else {
+                                setSub2a4(0);
+                              }
+                            }}
+                            disabled={!isEditable}
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><Col><Col>2. Less than a week but greater than two days - 5 points</Col></Col></td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={sub2a5 >= 0 ? sub2a5 : 0}
+                            onChange={(e) => {
+                              const value = parseInt(e.target.value);
+                              if (!isNaN(value)) {
+                                setSub2a5(Math.max(0, Math.min(5, value)));
+                              } else {
+                                setSub2a5(0);
+                              }
+                            }}
+                            disabled={!isEditable}
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><Col><Col>3. One to two days - 3 points</Col></Col></td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={sub2a6 >= 0 ? sub2a6 : 0}
+                            onChange={(e) => {
+                              const value = parseInt(e.target.value);
+                              if (!isNaN(value)) {
+                                setSub2a6(Math.max(0, Math.min(3, value)));
+                              } else {
+                                setSub2a6(0);
+                              }
+                            }}
+                            disabled={!isEditable}
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><Col><Col>4. Committee member of ICAST - 2 points</Col></Col></td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={sub2a7 >= 0 ? sub2a7 : 0}
+                            onChange={(e) => {
+                              const value = parseInt(e.target.value);
+                              if (!isNaN(value)) {
+                                setSub2a7(Math.max(0, Math.min(2, value)));
+                              } else {
+                                setSub2a7(0);
+                              }
+                            }}
+                            disabled={!isEditable}
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><Col><Col>5. Seminars - 1 point</Col></Col></td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={sub2a8 >= 0 ? sub2a8 : 0}
+                            onChange={(e) => {
+                              const value = parseInt(e.target.value);
+                              if (!isNaN(value)) {
+                                setSub2a8(Math.max(0, Math.min(1, value)));
+                              } else {
+                                setSub2a8(0);
+                              }
+                            }}
+                            disabled={!isEditable}
+                          />
+                        </td>
+                      </tr>
+
+                      <br/>
+                      <tr>
+                        <td>3. Delivering Lecture/conducting workshop (not paper presentation):</td>
+                      </tr>
+                      
+                      <tr>
+                        <td><Col><Col>1. At college level for faculty - 3 points</Col></Col></td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={sub2a9 >= 0 ? sub2a9 : 0}
+                            onChange={(e) => {
+                              const value = parseInt(e.target.value);
+                              if (!isNaN(value)) {
+                                setSub2a9(Math.max(0, Math.min(3, value)));
+                              } else {
+                                setSub2a9(0);
+                              }
+                            }}
+                            disabled={!isEditable}
+                          />
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td><Col><Col>2. During STTP - 10 points</Col></Col></td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={sub2a10 >= 0 ? sub2a10 : 0}
+                            onChange={(e) => {
+                              const value = parseInt(e.target.value);
+                              if (!isNaN(value)) {
+                                setSub2a10(Math.max(0, Math.min(10, value)));
+                              } else {
+                                setSub2a10(0);
+                              }
+                            }}
+                            disabled={!isEditable}
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><Col><Col>3. International - 15 points</Col></Col></td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={sub2a11 >= 0 ? sub2a11 : 0}
+                            onChange={(e) => {
+                              const value = parseInt(e.target.value);
+                              if (!isNaN(value)) {
+                                setSub2a11(Math.max(0, Math.min(15, value)));
+                              } else {
+                                setSub2a11(0);
+                              }
+                            }}
+                            disabled={!isEditable}
+                          />
+                        </td>
+                      </tr>
+
+                      <br/>
+                      <tr>
+                        <td> • Establishing labs with the help of industry/industry/another organization. Max 5 per individual if a group is involved - 10 if only 1 person is involved</td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={sub2a12 >= 0 ? sub2a12 : 0}
+                            onChange={(e) => {
+                              const value = parseInt(e.target.value);
+                              if (!isNaN(value)) {
+                                setSub2a12(Math.max(0, Math.min(10, value)));
+                              } else {
+                                setSub2a12(0);
+                              }
+                            }}
+                            disabled={!isEditable}
+                          />
+                        </td>
+                      </tr>
+                      <br/>
+                    </tbody>
+                  </table>
+                </div>
+
+                </td></tr>               
 
                 <tr >
                   <td className="text-center">b.</td>
                   <td>
-                    
                     Extension, Co-curricular and field based activities:
-                    <p> 
-                      *Tick the applicable activities and enter the score.
-                    </p>
+                    <p> *Tick the applicable activities and enter the score.</p> 
+                                        
                     <tr >
                       <td><Form.Check
                   type="checkbox"
@@ -664,7 +986,7 @@ function Form2B() {
                       onChange={(e) => {
                         const value = parseInt(e.target.value);
                         if (!isNaN(value)) {
-                          setSub2ba(Math.max(0, value));
+                          setSub2ba(Math.max(0, Math.min(10, value)));
                         } else {
                           setSub2ba(0);
                         }
@@ -695,7 +1017,7 @@ function Form2B() {
                       onChange={(e) => {
                         const value = parseInt(e.target.value);
                         if (!isNaN(value)) {
-                          setSub2bb(Math.max(0, value));
+                          setSub2bb(Math.max(0, Math.min(15, value)));
                         } else {
                           setSub2bb(0);
                         }
@@ -726,7 +1048,7 @@ function Form2B() {
                         onChange={(e) => {
                           const value = parseInt(e.target.value);
                           if (!isNaN(value)) {
-                            setSub2bc(Math.max(0, value));
+                            setSub2bc(Math.max(0, Math.min(10, value)));
                           } else {
                             setSub2bc(0);
                           }
@@ -757,7 +1079,7 @@ function Form2B() {
                       onChange={(e) => {
                         const value = parseInt(e.target.value);
                         if (!isNaN(value)) {
-                          setSub2bd(Math.max(0, value));
+                          setSub2bd(Math.max(0, Math.min(10, value)));
                         } else {
                           setSub2bd(0);
                         }
@@ -788,7 +1110,7 @@ function Form2B() {
                         onChange={(e) => {
                           const value = parseInt(e.target.value);
                           if (!isNaN(value)) {
-                            setSub2be(Math.max(0, value));
+                            setSub2be(Math.max(0, Math.min(10, value)));
                           } else {
                             setSub2be(0);
                           }
@@ -819,7 +1141,7 @@ function Form2B() {
                         onChange={(e) => {
                           const value = parseInt(e.target.value);
                           if (!isNaN(value)) {
-                            setSub2bf(Math.max(0, value));
+                            setSub2bf(Math.max(0, Math.min(10, value)));
                           } else {
                             setSub2bf(0);
                           }
@@ -850,7 +1172,7 @@ function Form2B() {
                       onChange={(e) => {
                         const value = parseInt(e.target.value);
                         if (!isNaN(value)) {
-                          setSub2bg(Math.max(0, value));
+                          setSub2bg(Math.max(0, Math.min(15, value)));
                         } else {
                           setSub2bg(0);
                         }
@@ -883,7 +1205,7 @@ function Form2B() {
                       onChange={(e) => {
                         const value = parseInt(e.target.value);
                         if (!isNaN(value)) {
-                          setSub2bh(Math.max(0, value));
+                          setSub2bh(Math.max(0, Math.min(5, value)));
                         } else {
                           setSub2bh(0);
                         }
@@ -914,7 +1236,7 @@ function Form2B() {
                       onChange={(e) => {
                         const value = parseInt(e.target.value);
                         if (!isNaN(value)) {
-                          setSub2bi(Math.max(0, value));
+                          setSub2bi(Math.max(0, Math.min(15, value)));
                         } else {
                           setSub2bi(0);
                         }
@@ -945,7 +1267,7 @@ function Form2B() {
                       onChange={(e) => {
                         const value = parseInt(e.target.value);
                         if (!isNaN(value)) {
-                          setSub2bj(Math.max(0, value));
+                          setSub2bj(Math.max(0, Math.min(10, value)));
                         } else {
                           setSub2bj(0);
                         }
@@ -976,7 +1298,7 @@ function Form2B() {
                       onChange={(e) => {
                         const value = parseInt(e.target.value);
                         if (!isNaN(value)) {
-                          setSub2bk(Math.max(0, value));
+                          setSub2bk(Math.max(0, Math.min(10, value)));
                         } else {
                           setSub2bk(0);
                         }
@@ -1007,7 +1329,7 @@ function Form2B() {
                       onChange={(e) => {
                         const value = parseInt(e.target.value);
                         if (!isNaN(value)) {
-                          setSub2bl(Math.max(0, value));
+                          setSub2bl(Math.max(0, Math.min(5, value)));
                         } else {
                           setSub2bl(0);
                         }
@@ -1038,7 +1360,7 @@ function Form2B() {
                       onChange={(e) => {
                         const value = parseInt(e.target.value);
                         if (!isNaN(value)) {
-                          setSub2bm(Math.max(0, value));
+                          setSub2bm(Math.max(0, Math.min(20, value)));
                         } else {
                           setSub2bm(0);
                         }
@@ -1069,7 +1391,7 @@ function Form2B() {
                       onChange={(e) => {
                         const value = parseInt(e.target.value);
                         if (!isNaN(value)) {
-                          setSub2bn(Math.max(0, value));
+                          setSub2bn(Math.max(0, Math.min(3, value)));
                         } else {
                           setSub2bn(0);
                         }
@@ -1100,7 +1422,7 @@ function Form2B() {
                       onChange={(e) => {
                         const value = parseInt(e.target.value);
                         if (!isNaN(value)) {
-                          setSub2bo(Math.max(0, value));
+                          setSub2bo(Math.max(0, Math.min(5, value)));
                         } else {
                           setSub2bo(0);
                         }
@@ -1131,7 +1453,7 @@ function Form2B() {
                       onChange={(e) => {
                         const value = parseInt(e.target.value);
                         if (!isNaN(value)) {
-                          setSub2bp(Math.max(0, value));
+                          setSub2bp(Math.max(0, Math.min(5, value)));
                         } else {
                           setSub2bp(0);
                         }
@@ -1162,7 +1484,7 @@ function Form2B() {
                       onChange={(e) => {
                         const value = parseInt(e.target.value);
                         if (!isNaN(value)) {
-                          setSub2bq(Math.max(0, value));
+                          setSub2bq(Math.max(0, Math.min(5, value)));
                         } else {
                           setSub2bq(0);
                         }
@@ -1194,7 +1516,8 @@ function Form2B() {
                       type="text"
                       style={{ textAlign: "center" }}
                       value={IIActb}
-                      onChange={(e) => setIIActb(Math.min(Number(e.target.value), 25))}
+                      // onChange={(e) => setIIActb(Math.min(Number(e.target.value), 25))}
+                      readOnly
                       disabled={!isEditable}
                       max={25}
                     />
@@ -1253,7 +1576,7 @@ function Form2B() {
                           onChange={(e) => {
                             const value = parseInt(e.target.value);
                             if (!isNaN(value)) {
-                              setSub2da(Math.max(0, value));
+                              setSub2da(Math.max(0, Math.min(10, value)));
                             } else {
                               setSub2da(0);
                             }
@@ -1285,7 +1608,7 @@ function Form2B() {
                       onChange={(e) => {
                         const value = parseInt(e.target.value);
                         if (!isNaN(value)) {
-                          setSub2db(Math.max(0, value));
+                          setSub2db(Math.max(0, Math.min(10, value)));
                         } else {
                           setSub2db(0);
                         }
@@ -1295,6 +1618,7 @@ function Form2B() {
                   </tr>
                     
                   </td>
+
                   <td>
                   <Form.Control
                       type="text"
@@ -1311,7 +1635,8 @@ function Form2B() {
                       type="text"
                       style={{ textAlign: "center" }}
                       value={IIActc}
-                      onChange={(e) => setIIActc(Math.min(Number(e.target.value), 20))}
+                      // onChange={(e) => setIIActc(Math.min(Number(e.target.value), 20))}
+                      readOnly
                       disabled={!isEditable}
                       max={20}
                     />
@@ -1367,7 +1692,7 @@ function Form2B() {
                         onChange={(e) => {
                           const value = parseInt(e.target.value);
                           if (!isNaN(value)) {
-                            setSub2ca(Math.max(0, value));
+                            setSub2ca(Math.max(0, Math.min(5, value)));
                           } else {
                             setSub2ca(0);
                           }
@@ -1398,7 +1723,7 @@ function Form2B() {
                         onChange={(e) => {
                           const value = parseInt(e.target.value);
                           if (!isNaN(value)) {
-                            setSub2cb(Math.max(0, value));
+                            setSub2cb(Math.max(0, Math.min(5, value)));
                           } else {
                             setSub2cb(0);
                           }
@@ -1429,7 +1754,7 @@ function Form2B() {
                         onChange={(e) => {
                           const value = parseInt(e.target.value);
                           if (!isNaN(value)) {
-                            setSub2cc(Math.max(0, value));
+                            setSub2cc(Math.max(0, Math.min(3, value)));
                           } else {
                             setSub2cc(0);
                           }
@@ -1460,7 +1785,7 @@ function Form2B() {
                       onChange={(e) => {
                         const value = parseInt(e.target.value);
                         if (!isNaN(value)) {
-                          setSub2cd(Math.max(0, value));
+                          setSub2cd(Math.max(0, Math.min(3, value)));
                         } else {
                           setSub2cd(0);
                         }
@@ -1498,7 +1823,7 @@ function Form2B() {
                         onChange={(e) => {
                           const value = parseInt(e.target.value);
                           if (!isNaN(value)) {
-                            setSub2ce1(Math.max(0, value));
+                            setSub2ce1(Math.max(0,Math.min(30, value)));
                           } else {
                             setSub2ce1(0);
                           }
@@ -1529,7 +1854,7 @@ function Form2B() {
                         onChange={(e) => {
                           const value = parseInt(e.target.value);
                           if (!isNaN(value)) {
-                            setSub2ce2(Math.max(0, value));
+                            setSub2ce2(Math.max(0, Math.min(20, value)));
                           } else {
                             setSub2ce2(0);
                           }
@@ -1561,7 +1886,7 @@ function Form2B() {
                         onChange={(e) => {
                           const value = parseInt(e.target.value);
                           if (!isNaN(value)) {
-                            setSub2ce3(Math.max(0, value));
+                            setSub2ce3(Math.max(0, Math.min(10, value)));
                           } else {
                             setSub2ce3(0);
                           }
@@ -1594,7 +1919,7 @@ function Form2B() {
                         onChange={(e) => {
                           const value = parseInt(e.target.value);
                           if (!isNaN(value)) {
-                            setSub2cf(Math.max(0, value));
+                            setSub2cf(Math.max(0, Math.min(5, value)));
                           } else {
                             setSub2cf(0);
                           }
@@ -1622,7 +1947,8 @@ function Form2B() {
                       type="text"
                       style={{ textAlign: "center" }}
                       value={IIActd}
-                      onChange={(e) => setIIActd(Math.min(Number(e.target.value), 20))}
+                      // onChange={(e) => setIIActd(Math.min(Number(e.target.value), 20))}
+                      readOnly
                       disabled={!isEditable}
                       max={20}
                     />
@@ -1651,7 +1977,7 @@ function Form2B() {
                   <td></td>
                   
                   
-                  <td>Total of Category II</td>
+                  <td style={{ textAlign: "center" }}>Total of Category II</td>
                   <td></td>
                   <td>
                       <p className='text-center'>100</p>

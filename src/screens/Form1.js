@@ -166,6 +166,42 @@ function Form1() {
           <h1 className="text-center" >Part A: General Information</h1>
           <Form onSubmit={handleSubmit}>
 
+            <Form.Group className="mb-3" controlId="year">
+  <Row>
+    <Col md={3} className="form-label">
+      <Form.Label>Year of Appraisal:</Form.Label>
+    </Col>
+    <Col md={9}>
+      <Form.Control
+        as="select"
+        value={year}
+        onChange={(e) => setYear(e.target.value)}
+        disabled={!isEditable}
+      >
+        <option value="">Select Year</option>
+        <option value="2022-23">2022-23</option>
+        <option value="2023-24">2023-24</option>
+        <option value="2024-25">2024-25</option>
+        <option value="2025-26">2025-26</option>
+        <option value="2026-27">2026-27</option>
+        <option value="2027-28">2027-28</option>
+        <option value="2028-29">2028-29</option>
+        <option value="2029-30">2029-30</option>
+        <option value="2030-31">2030-31</option>
+        <option value="2031-32">2031-32</option>
+        <option value="2032-33">2032-33</option>
+        <option value="2033-34">2033-34</option>
+        <option value="2034-35">2034-35</option>
+        <option value="2035-36">2035-36</option>
+        <option value="2036-37">2036-37</option>
+        <option value="2037-38">2037-38</option>
+        <option value="2038-39">2038-39</option>
+        <option value="2039-40">2039-40</option>
+      </Form.Control>
+    </Col>
+  </Row>
+        </Form.Group>
+
           <Form.Group className="mb-3" controlId="department">
               <Row>
                 <Col md={3} className="form-label">
@@ -208,7 +244,7 @@ function Form1() {
             <Form.Group className="mb-3" controlId="designation">
             <Row>
                 <Col md={3} className="form-label">
-              <Form.Label>Designation:</Form.Label>
+              <Form.Label>Current Designation:</Form.Label>
               </Col>
               <Col md={9}>
               <Form.Control
@@ -246,7 +282,7 @@ function Form1() {
             <Form.Group className="mb-3" controlId="address">
             <Row>
                 <Col md={3} className="form-label">
-              <Form.Label>Address:</Form.Label>
+              <Form.Label>Address for correspondence:</Form.Label>
               </Col>
               <Col md={9}>
               <Form.Control
@@ -283,7 +319,7 @@ function Form1() {
             <Form.Group className="mb-3" controlId="email">
             <Row>
                 <Col md={3} className="form-label">
-              <Form.Label>Email:</Form.Label>
+              <Form.Label>Email Address:</Form.Label>
               </Col>
               <Col md={9}>
               <Form.Control
@@ -300,7 +336,7 @@ function Form1() {
             <Form.Group className="mb-3" controlId="freshQualification">
             <Row>
                 <Col md={3} className="form-label">
-              <Form.Label>Fresh Qualification:</Form.Label>
+              <Form.Label>Whether acquired any degrees or fresh qulifications during the year: (Yes/No)</Form.Label>
               </Col>
               <Col md={9}>
               <Form.Control
@@ -313,38 +349,6 @@ function Form1() {
               </Col>
               </Row>
             </Form.Group>
-
-            {/* <Button variant="primary" type="submit">
-              <Link to="/form2a" className="text-decoration-none text-white">
-                Next
-              </Link>
-            </Button> */}
-            <Form.Group className="mb-3" controlId="year">
-  <Row>
-    <Col md={3} className="form-label">
-      <Form.Label>Year:</Form.Label>
-    </Col>
-    <Col md={9}>
-      <Form.Control
-        as="select"
-        value={year}
-        onChange={(e) => setYear(e.target.value)}
-        disabled={!isEditable}
-      >
-        <option value="">Select Year</option>
-        <option value="2022-23">2022-23</option>
-        <option value="2023-24">2023-24</option>
-        <option value="2024-25">2024-25</option>
-        <option value="2025-26">2025-26</option>
-        <option value="2026-27">2026-27</option>
-        <option value="2027-28">2027-28</option>
-        <option value="2028-29">2028-29</option>
-        <option value="2029-30">2029-30</option>
-      </Form.Control>
-    </Col>
-  </Row>
-        </Form.Group>
-
 
           </Form>
           <div className="text-center">

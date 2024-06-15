@@ -146,7 +146,7 @@ function Form1BHOD() {
           <Form.Group className="mb-3" controlId="year">
               <Row>
                 <Col md={3} className="form-label">
-                  <Form.Label>Year: </Form.Label>
+                  <Form.Label>Year of Appraisal: </Form.Label>
                 </Col>
                 <Col md={9}>
                   <Form.Control
@@ -252,7 +252,7 @@ function Form1BHOD() {
                     <Form.Group className='mb-3' controlId='designation'>
                       <Row>
                         <Col md={3} className="form-label">
-                          <Form.Label>Designation:</Form.Label>
+                          <Form.Label> Current Designation:</Form.Label>
                         </Col>
                         <Col md={9}>
                           <Form.Control
@@ -280,7 +280,7 @@ function Form1BHOD() {
                     <Form.Group className='mb-3' controlId='address'>
                       <Row>
                         <Col md={3} className="form-label">
-                          <Form.Label>Address:</Form.Label>
+                          <Form.Label>Address for correspondence:</Form.Label>
                         </Col>
                         <Col md={9}>
                           <Form.Control
@@ -308,7 +308,7 @@ function Form1BHOD() {
                     <Form.Group className='mb-3' controlId='email'>
                       <Row>
                         <Col md={3} className="form-label">
-                          <Form.Label>Email:</Form.Label>
+                          <Form.Label>Email Address:</Form.Label>
                         </Col>
                         <Col md={9}>
                           <Form.Control
@@ -322,7 +322,7 @@ function Form1BHOD() {
                     <Form.Group className='mb-3' controlId='freshqualification'>
                       <Row>
                         <Col md={3} className="form-label">
-                          <Form.Label>Fresh Qualification:</Form.Label>
+                          <Form.Label>Whether acquired any degrees or fresh qulifications during the year: (Yes/No)</Form.Label>
                         </Col>
                         <Col md={9}>
                           <Form.Control
@@ -334,13 +334,10 @@ function Form1BHOD() {
                       </Row>
                     </Form.Group>
                   </div>
-                  
                 );
               } else {
                 return null; // Don't display if the name doesn't match
               }
-              
-              
             })}
 
             <div className="text-center">

@@ -388,7 +388,7 @@ useEffect(() => {
 
 
     const handleAddResearchArticle = () => {
-      if (ResearchArticle.some((item) => item.title === '' || item.booktitle === '' || item.editor=== '' || item.publisher=== '' || item.isbn === '' || item.peerreview === '' || item.coauthor === '' || item.mainauthor==='' || item.selfscore === '')) {
+      if (ResearchArticle.some((item) => item.title === '' || item.whatis === '' || item.chapters ==='' || item.booktitle === '' || item.editor=== '' || item.publisher=== '' || item.isbn === '' || item.peerreview === '' || item.coauthor === '' || item.mainauthor==='' || item.selfscore === '')) {
         alert('Please fill all the fields in the research article!');
         return;
       } 
@@ -399,7 +399,7 @@ useEffect(() => {
       else {
       setResearchArticle((prevResearchArticle) => [
         ...prevResearchArticle,
-        { title: '', booktitle: '', editor:'', publisher:'', isbn: '', peerreview: '', coauthor: '', mainauthor: '', selfscore: '' },
+        { title: '', whatis: '', chapters: '', booktitle: '', editor:'', publisher:'', isbn: '', peerreview: '', coauthor: '', mainauthor: '', selfscore: '' },
       ]);
     }
     };
@@ -411,7 +411,7 @@ useEffect(() => {
     };
 
     const handleAddResearchProjectON = () => {
-      if (ResearchProjectON.some((item) => item.title === '' || item.agency === '' || item.periodfrom === '' || item.periodto=== '' || item.amount === '' || item.selfscore === '')) {
+      if (ResearchProjectON.some((item) => item.title === '' || item.whatis === '' || item.agency === '' || item.periodfrom === '' || item.periodto=== '' || item.amount === '' || item.selfscore === '')) {
         alert('Please fill all the fields in the research project!');
         return;      } 
       //   else if (ResearchProjectON.some((item) => item.selfscore < 0)) {
@@ -421,7 +421,7 @@ useEffect(() => {
       else {
       setResearchProjectON((prevResearchProjectON) => [
         ...prevResearchProjectON,
-        { title: '', agency: '', periodfrom: '', periodto:'', amount:'', selfscore: '' , ResearchProjectONHOD:'' },
+        { title: '', whatis: '' ,agency: '', periodfrom: '', periodto:'', amount:'', selfscore: '' , ResearchProjectONHOD:'' },
       ]);
     }
     }
@@ -433,7 +433,7 @@ useEffect(() => {
     }
 
     const handleAddResearchProjectCOMP = () => {
-      if (ResearchProjectCOMP.some((item) => item.title === '' || item.agency === '' || item.periodfrom === '' || item.periodto=== ''|| item.amount === '' || item.selfscore === '')) {
+      if (ResearchProjectCOMP.some((item) => item.title === '' || item.whatis === '' || item.agency === '' || item.periodfrom === '' || item.periodto=== ''|| item.amount === '' || item.selfscore === '')) {
         alert('Please fill all the fields in the research project!');
         return;      } 
       //   else if (ResearchProjectCOMP.some((item) => item.selfscore < 0)) {
@@ -443,7 +443,7 @@ useEffect(() => {
       else {
       setResearchProjectCOMP((prevResearchProjectCOMP) => [
         ...prevResearchProjectCOMP,
-        { title: '', agency: '', periodfrom: '', periodto:'', amount: '', selfscore: '' },
+        { title: '', whatis: '',agency: '', periodfrom: '', periodto:'', amount: '', selfscore: '' },
       ]);
     }
     }
@@ -455,7 +455,7 @@ useEffect(() => {
     }
 
     const handleAddResearchNeedProject = () => {
-      if (ResearchNeedProject.some((item) => item.title === '' || item.agency === '' || item.periodfrom === '' || item.periodto=== '' || item.amount === '' || item.selfscore === '')) {
+      if (ResearchNeedProject.some((item) => item.title === '' || item.whatis === '' ||item.agency === '' || item.periodfrom === '' || item.periodto=== '' || item.amount === '' || item.selfscore === '')) {
         alert('Please fill all the fields in the research project!');
         return;      }
       // else if (ResearchNeedProject.some((item) => item.selfscore < 0)) {
@@ -466,7 +466,7 @@ useEffect(() => {
 
       setResearchNeedProject((prevResearchNeedProject) => [
         ...prevResearchNeedProject,
-        { title: '', agency: '', periodfrom: '', periodto:'', amount: '', selfscore: '' },
+        { title: '', whatis: '',agency: '', periodfrom: '', periodto:'', amount: '', selfscore: '' },
       ]);
     }
     }
@@ -478,7 +478,7 @@ useEffect(() => {
     }    
 
     const handleAddResearchGuidance = () => {
-      if (ResearchGuidance.some((item) => item.enrolled === '' || item.thesis === '' || item.degree === '' || item.selfscore === '')) {
+      if (ResearchGuidance.some((item) => item.enrolled === '' || item.cluster === '' || item.thesis === '' || item.degree === '' || item.selfscore === '')) {
         alert('Please fill all the fields in the research guidance!');
         return;      }
       // else if (ResearchGuidance.some((item) => item.selfscore < 0)) {
@@ -489,7 +489,7 @@ useEffect(() => {
 
       setResearchGuidance((prevResearchGuidance) => [
         ...prevResearchGuidance,
-        { enrolled: '', thesis: '', degree: '', selfscore: '' },
+        { enrolled: '', cluster: '', thesis: '', degree: '', selfscore: '' },
       ])}
     }
 
@@ -500,7 +500,7 @@ useEffect(() => {
     }
 
     const handleAddTrainingCourse = () => {
-      if (TrainingCourse.some((item) => item.programme === '' || item.durationfrom === '' || item.durationto=== '' || item.organizedby === '' || item.selfscore === '')) {
+      if (TrainingCourse.some((item) => item.programme === '' || item.criteria=== '' || item.durationfrom === '' || item.durationto=== '' || item.organizedby === '' || item.selfscore === '')) {
         alert('Please fill all the fields in the training course!');
         return;      }
       // else if (TrainingCourse.some((item) => item.selfscore < 0)) {
@@ -510,7 +510,7 @@ useEffect(() => {
       else {
       setTrainingCourse((prevTrainingCourse) => [
         ...prevTrainingCourse,
-        { programme: '', durationfrom: '', durationto:'',organizedby: '', selfscore: '' },
+        { programme: '',criteria:'', durationfrom: '', durationto:'',organizedby: '', selfscore: '' },
       ]);}
     }
 
@@ -684,7 +684,7 @@ years score is considered for promotion as per UGC notification Feb
 
                 <br/>
                 Enter Volume No.:
-                <Form.Control
+                {/* <Form.Control
                   type="text"
                   style={{ textAlign: "center" }}
                   value={researchpublication.volume}
@@ -693,8 +693,24 @@ years score is considered for promotion as per UGC notification Feb
                     newResearchPublication[index].volume = e.target.value
                     setResearchPublication(newResearchPublication)
                   }} disabled={!isEditable}
-                  required/>
+                  required/> */}
+                <Form.Control
+                type="text"
+                style={{ textAlign: "center" }}
+                value={researchpublication.volume}
+                onChange={(e) => {
+                  const inputValue = e.target.value;
+                  
+                  const newValue = /^\d*$/.test(inputValue) ? inputValue : '0';
 
+                  const newResearchPublication = [...ResearchPublication];
+                  newResearchPublication[index].volume = newValue; 
+                  setResearchPublication(newResearchPublication);
+                }}
+                disabled={!isEditable}
+                required
+              />
+                 
                 <br/>
                 Enter Page No.:
                 <Form.Control
@@ -702,9 +718,11 @@ years score is considered for promotion as per UGC notification Feb
                   style={{ textAlign: "center" }}
                   value={researchpublication.page}
                   onChange={(e) => {
-                    const newResearchPublication = [...ResearchPublication]
-                    newResearchPublication[index].page = e.target.value
-                    setResearchPublication(newResearchPublication)
+                    const inputValue = e.target.value;
+                    const newValue = /^\d*$/.test(inputValue) ? inputValue : '0';
+                    const newResearchPublication = [...ResearchPublication];
+                    newResearchPublication[index].page = newValue;
+                    setResearchPublication(newResearchPublication);
                   }} disabled={!isEditable}
                   required/>
 
@@ -723,108 +741,342 @@ years score is considered for promotion as per UGC notification Feb
               </td>
 
               <td>
-                Enter SCI:
-                <Form.Control
-                type="text"
-                style={{ textAlign: "center" }}
-                value={researchpublication.sci || ''}
-                onChange={(e) => {
-                  const newResearchPublication = [...ResearchPublication]
-                  newResearchPublication[index].sci = e.target.value
-                  setResearchPublication(newResearchPublication)
-                }}  disabled={!isEditable}
-                required/>
+                SCI:
+                <tr>
+                  <td><Form.Check
+                  type="radio"
+                  label="Yes"
+                  value="Yes"
+                  checked={researchpublication.sci === 'Yes'}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].sci = e.target.value
+                      setResearchPublication(newResearchPublication)
+                    } else {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].sci = ''
+                      setResearchPublication(newResearchPublication)
+                    }
+                  }} disabled={!isEditable}
+                /></td>
+                  <td><Form.Check
+                  type="radio"
+                  label="No"
+                  value="No"
+                  checked={researchpublication.sci === 'No'}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].sci = e.target.value
+                      setResearchPublication(newResearchPublication)
+                    } else {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].sci = ''
+                      setResearchPublication(newResearchPublication)
+                    } }}
+                  disabled={!isEditable}
+                  /></td>
+                </tr>
+                
+                <br/>
+                WOS:
+               <tr>
+                <td>
+                <Form.Check
+                  type="radio"
+                  label="Yes"
+                  value="Yes"
+                  checked={researchpublication.wos === 'Yes'}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].wos = e.target.value
+                      setResearchPublication(newResearchPublication)
+                    } else {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].wos = ''
+                      setResearchPublication(newResearchPublication)
+                    }
+                  }} disabled={!isEditable}
+                />
+                </td>
+                <td>
+                <Form.Check
+                  type="radio"
+                  label="No"
+                  value="No"
+                  checked={researchpublication.wos === 'No'}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].wos = e.target.value
+                      setResearchPublication(newResearchPublication)
+                    } else {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].wos = ''
+                      setResearchPublication(newResearchPublication)
+                    }
+                  }} disabled={!isEditable}
+                />
+                </td>
+               </tr>
 
                 <br/>
-                Enter WOS:
-                <Form.Control
-                type="text"
-                style={{ textAlign: "center" }}
-                value={researchpublication.wos || ''}
-                onChange={(e) => {
-                  const newResearchPublication = [...ResearchPublication]
-                  newResearchPublication[index].wos = e.target.value
-                  setResearchPublication(newResearchPublication)
-                } } disabled={!isEditable}
-                required/>
+                ESCI:
+                <tr>
+                  <td>
+                  <Form.Check
+                  type="radio"
+                  label="Yes"
+                  value="Yes"
+                  checked={researchpublication.esci === 'Yes'}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].esci = e.target.value
+                      setResearchPublication(newResearchPublication)
+                    } else {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].esci = ''
+                      setResearchPublication(newResearchPublication)
+                    }
+                  }} disabled={!isEditable}
+                />
+                  </td>
+                  <td>
+                  <Form.Check
+                  type="radio"
+                  label="No"
+                  value="No"
+                  checked={researchpublication.esci === 'No'}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].esci = e.target.value
+                      setResearchPublication(newResearchPublication)
+                    } else {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].esci = ''
+                      setResearchPublication(newResearchPublication)
+                    }
+                  }} disabled={!isEditable}
+                />
+                  </td>
+                </tr>
 
                 <br/>
-                Enter ESCI:
-                <Form.Control
-                type="text"
-                style={{ textAlign: "center" }}
-                value={researchpublication.esci || ''}
-                onChange={(e) => {
-                  const newResearchPublication = [...ResearchPublication]
-                  newResearchPublication[index].esci = e.target.value
-                  setResearchPublication(newResearchPublication)
-                } } disabled={!isEditable}
-                required/>
+                SCOPUS:
+                <tr>
+                  <td>
+                  <Form.Check
+                  type="radio"
+                  label="Yes"
+                  value="Yes"
+                  checked={researchpublication.scopus === 'Yes'}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].scopus = e.target.value
+                      setResearchPublication(newResearchPublication)
+                    } else {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].scopus = ''
+                      setResearchPublication(newResearchPublication)
+                    }
+                  }} disabled={!isEditable}
+                />
+                  </td>
+                  <td>
+                  <Form.Check
+                  type="radio"
+                  label="No"
+                  value="No"
+                  checked={researchpublication.scopus === 'No'}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].scopus = e.target.value
+                      setResearchPublication(newResearchPublication)
+                    } else {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].scopus = ''
+                      setResearchPublication(newResearchPublication)
+                    }
+                  }} disabled={!isEditable}
+                />
+
+                  </td> </tr>
 
                 <br/>
-                Enter SCOPUS:
-                <Form.Control
-                type="text"
-                style={{ textAlign: "center" }}
-                value={researchpublication.scopus || ''}
-                onChange={(e) => {
-                  const newResearchPublication = [...ResearchPublication]
-                  newResearchPublication[index].scopus = e.target.value
-                  setResearchPublication(newResearchPublication)
-                } } disabled={!isEditable}
-                required/>
+                 UGC CARE:
+                <tr>
+                  <td>
+                  <Form.Check
+                  type="radio"
+                  label="Yes"
+                  value="Yes"
+                  checked={researchpublication.ugccare === 'Yes'}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].ugccare = e.target.value
+                      setResearchPublication(newResearchPublication)
+                    } else {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].ugccare = ''
+                      setResearchPublication(newResearchPublication)
+                    }
+                  }} disabled={!isEditable} />
+                  </td>
+                  <td>
+                  <Form.Check
+                  type="radio"
+                  label="No"
+                  value="No"
+                  checked={researchpublication.ugccare === 'No'}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].ugccare = e.target.value
+                      setResearchPublication(newResearchPublication)
+                    } else {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].ugccare = ''
+                      setResearchPublication(newResearchPublication)
+                    }
+                  }} disabled={!isEditable} />
+                  </td>
+                </tr>
 
                 <br/>
-                Enter UGC CARE:
-                <Form.Control
-                type="text"
-                style={{ textAlign: "center" }}
-                value={researchpublication.ugccare || ''}
-                onChange={(e) => {
-                  const newResearchPublication = [...ResearchPublication]
-                  newResearchPublication[index].ugccare = e.target.value
-                  setResearchPublication(newResearchPublication)
-                } } disabled={!isEditable}
-                required/>
+               ISBN/ISSN:
+                <tr>
+                  <td>
+                  <Form.Check
+                  type="radio"
+                  label="Yes"
+                  value="Yes"
+                  checked={researchpublication.isbnissn === 'Yes'}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].isbnissn = e.target.value
+                      setResearchPublication(newResearchPublication)
+                    } else {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].isbnissn = ''
+                      setResearchPublication(newResearchPublication)
+                    }
+                  }} disabled={!isEditable} />
+
+                  </td>
+                  <td>
+                  <Form.Check
+                  type="radio"
+                  label="No"
+                  value="No"
+                  checked={researchpublication.isbnissn === 'No'}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].isbnissn = e.target.value
+                      setResearchPublication(newResearchPublication)
+                    } else {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].isbnissn = ''
+                      setResearchPublication(newResearchPublication)
+                    }
+                  }} disabled={!isEditable} />
+
+                  </td>
+                </tr>
 
                 <br/>
-                Having ISBN/ISSN:
-                <Form.Control
-                type="text"
-                style={{ textAlign: "center" }}
-                value={researchpublication.isbnissn || ''}
-                onChange={(e) => {
-                  const newResearchPublication = [...ResearchPublication]
-                  newResearchPublication[index].isbnissn = e.target.value
-                  setResearchPublication(newResearchPublication)
-                } } disabled={!isEditable}
-                required/>
+                Proceedings:
+                <tr>
+                  <td>
+                  <Form.Check
+                  type="radio"
+                  label="Yes"
+                  value="Yes"
+                  checked={researchpublication.proceedings === 'Yes'}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].proceedings = e.target.value
+                      setResearchPublication(newResearchPublication)
+                    } else {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].proceedings = ''
+                      setResearchPublication(newResearchPublication)
+                    }
+                  }} disabled={!isEditable} />
+
+                  </td>
+                  <td>
+                  <Form.Check
+                  type="radio"
+                  label="No"
+                  value="No"
+                  checked={researchpublication.proceedings === 'No'}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].proceedings = e.target.value
+                      setResearchPublication(newResearchPublication)
+                    } else {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].proceedings = ''
+                      setResearchPublication(newResearchPublication)
+                    }
+                  }} disabled={!isEditable} />
+
+                  </td>
+                </tr>
 
                 <br/>
-                Enter Proceedings:
-                <Form.Control
-                type="text"
-                style={{ textAlign: "center" }}
-                value={researchpublication.proceedings || ''}
-                onChange={(e) => {
-                  const newResearchPublication = [...ResearchPublication]
-                  newResearchPublication[index].proceedings = e.target.value
-                  setResearchPublication(newResearchPublication)
-                } } disabled={!isEditable}
-                required/>
+                Guide/Mentor :
+                <tr>
+                  <td>
+                  <Form.Check
+                  type="radio"
+                  label="Yes"
+                  value="Yes"
+                  checked={researchpublication.guidementor === 'Yes'}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].guidementor = e.target.value
+                      setResearchPublication(newResearchPublication)
+                    } else {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].guidementor = ''
+                      setResearchPublication(newResearchPublication)
+                    }
+                  }} disabled={!isEditable} />
 
-                <br/>
-                Enter Guide/Mentor (mention serial no. of paper):
-                <Form.Control
-                type="text"
-                style={{ textAlign: "center" }}
-                value={researchpublication.guidementor || ''  }
-                onChange={(e) => {
-                  const newResearchPublication = [...ResearchPublication]
-                  newResearchPublication[index].guidementor = e.target.value
-                  setResearchPublication(newResearchPublication)
-                } } disabled={!isEditable}
-                required/>
+                  </td>
+                  <td>
+                  <Form.Check
+                  type="radio"
+                  label="No"
+                  value="No"
+                  checked={researchpublication.guidementor === 'No'}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].guidementor = e.target.value
+                      setResearchPublication(newResearchPublication)
+                    } else {
+                      const newResearchPublication = [...ResearchPublication]
+                      newResearchPublication[index].guidementor = ''
+                      setResearchPublication(newResearchPublication)
+                    }
+                  }} disabled={!isEditable} />
+                
+                  </td>
+                </tr>
 
               </td>
 
@@ -951,6 +1203,51 @@ years score is considered for promotion as per UGC notification Feb
                     setResearchArticle(newResearchArticle)
                   } } disabled={!isEditable}
                   required/>
+
+<br />
+      <div>
+        Is it a Book or Chapter:
+        <Form.Check
+          type="radio"
+          label="Book"
+          name={`article-${index}`}
+          value="Book"
+          checked={ResearchArticle[index].whatis === 'Book'}
+          onChange={(e) => {
+            const newResearchArticle = [...ResearchArticle];
+            newResearchArticle[index].whatis = e.target.value;
+            setResearchArticle(newResearchArticle);
+          }}
+          disabled={!isEditable}
+        />
+
+        <Form.Check
+          type="radio"
+          label="Chapter"
+          name={`article-${index}`}
+          value="Chapter"
+          checked={ResearchArticle[index].whatis === 'Chapter'}
+          onChange={(e) => {
+            const newResearchArticle = [...ResearchArticle];
+            newResearchArticle[index].whatis = e.target.value;
+            setResearchArticle(newResearchArticle);
+          }}
+          disabled={!isEditable}
+        />
+      </div>              
+
+                  <br/>
+                Enter Chapters:
+                <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={researcharticle.chapters}
+                  onChange={(e) =>{
+                    const newResearchArticle = [...ResearchArticle]
+                    newResearchArticle[index].chapters = e.target.value
+                    setResearchArticle(newResearchArticle)
+                  } } disabled={!isEditable}
+                  required/>
               </td>
 
               <td>
@@ -989,8 +1286,6 @@ years score is considered for promotion as per UGC notification Feb
                   setResearchArticle(newResearchArticle)
                 } } disabled={!isEditable} />
               </td>
-
-              
 
               <td>
               
@@ -1212,6 +1507,64 @@ years score is considered for promotion as per UGC notification Feb
                     newResearchProjectON[index].title = e.target.value
                     setResearchProjectON(newResearchProjectON)
                   } } disabled={!isEditable}/>
+
+                  <br/>
+                  <div>
+                    Select:
+                     <Form.Check
+                  type="radio"
+                  label="Major/Minor Projects"
+                  name={`ongoing-${index}`}
+                  value="Major/Minor Projects"
+                  checked={researchprojecton.whatis === 'Major/Minor Projects'}
+                  onChange={(e) => {
+                    const newResearchProjectON = [...ResearchProjectON];
+                    newResearchProjectON[index].whatis = e.target.value;
+                    setResearchProjectON(newResearchProjectON);
+                  }}
+                  disabled={!isEditable}
+                />
+
+                <Form.Check
+                  type="radio"
+                  label="Consultancy Projects"
+                  name={`ongoing-${index}`}
+                  value="Consultancy Projects"
+                  checked={researchprojecton.whatis === 'Consultancy Projects'}
+                  onChange={(e) => {
+                    const newResearchProjectON = [...ResearchProjectON];
+                    newResearchProjectON[index].whatis = e.target.value;
+                    setResearchProjectON(newResearchProjectON);
+                  }}
+                  disabled={!isEditable} />
+
+                  <Form.Check
+                  type="radio"
+                  label="Project Outcome/Outputs"
+                  name={`ongoing-${index}`}
+                  value="Project Outcome/Outputs"
+                  checked={researchprojecton.whatis === 'Project Outcome/Outputs'}
+                  onChange={(e) => {
+                    const newResearchProjectON = [...ResearchProjectON];
+                    newResearchProjectON[index].whatis = e.target.value;
+                    setResearchProjectON(newResearchProjectON);
+                  }}
+                  disabled={!isEditable} />
+
+                <Form.Check
+                  type="radio"
+                  label="Need-based projects"
+                  name={`ongoing-${index}`}
+                  value="Need-based projects"
+                  checked={researchprojecton.whatis === 'Need-based projects'}
+                  onChange={(e) => {
+                    const newResearchProjectON = [...ResearchProjectON];
+                    newResearchProjectON[index].whatis = e.target.value;
+                    setResearchProjectON(newResearchProjectON);
+                  }}
+                  disabled={!isEditable} />
+                  </div>
+                                  
               </td> 
 
               <td>
@@ -1226,7 +1579,7 @@ years score is considered for promotion as per UGC notification Feb
                 } } disabled={!isEditable}/>
               </td> 
 
-              <td>   
+              {/* <td>   
                 From:          
                 <Form.Control
                 type="date"
@@ -1245,13 +1598,47 @@ years score is considered for promotion as per UGC notification Feb
                 type="date"
                 style={{ textAlign: "center"}}
                 value={ResearchProjectON[0].periodto ? ResearchProjectON[0].periodto.split('-').reverse().join('-') : ''}
+                min={ResearchProjectON[0].periodfrom}
           onChange={(e) => {
             const [year, month, day] = e.target.value.split('-');
             const newResearchProjectON = [...ResearchProjectON];
             newResearchProjectON[0].periodto = `${day}-${month}-${year}`;
             setResearchProjectON(newResearchProjectON);
           }} disabled={!isEditable}/>
-              </td>
+              </td> */}
+            <td>
+            From:
+            <Form.Control
+              type="date"
+              style={{ textAlign: 'center' }}
+              value={
+                ResearchProjectON[0].periodfrom || ''
+              }
+              onChange={(e) => {
+                const newResearchProjectON = [...ResearchProjectON];
+                newResearchProjectON[0].periodfrom = e.target.value;
+                setResearchProjectON(newResearchProjectON);
+              }}
+              disabled={!isEditable}
+            />
+
+            <br />
+            To:
+            <Form.Control
+              type="date"
+              style={{ textAlign: 'center' }}
+              value={
+                ResearchProjectON[0].periodto || ''
+              }
+              min={ResearchProjectON[0].periodfrom} // Set the min attribute
+              onChange={(e) => {
+                const newResearchProjectON = [...ResearchProjectON];
+                newResearchProjectON[0].periodto = e.target.value;
+                setResearchProjectON(newResearchProjectON);
+              }}
+              disabled={!isEditable}
+            />
+          </td>
 
               <td>            
                 <Form.Control
@@ -1294,14 +1681,14 @@ years score is considered for promotion as per UGC notification Feb
         <td></td>
         <td colSpan="5"><Col style={{ fontWeight: 'bold' }} >Evaluation Criteria:</Col>
           <Col>a) Major Projects amount mobilized with grants above 20.0 lakhs 30 points</Col>
-<Col>a) Major Projects amount mobilized with grants above 5.0 lakhs 20 points</Col>
-<Col>b) Major Projects Amount mobilized with a minimum of Rs. 3.00 lakhs up to Rs. 5.00 lakhs 15 points</Col>
-<Col>c) Minor Projects (Amount mobilized with grants above Rs. 25,000 up to Rs. 3 lakh 10 points</Col>
-<Col>d) Consultancy Projects amount mobilized with grants above 2.0 lakhs 10 points</Col>
-<Col>e) Consultancy Projects completed-Major above 5 lakhs (Acceptance from the funding agency) 20 points</Col>
-<Col>f) Consultancy Projects completed- Minor below 3 lakhs (Acceptance from the funding agency) 20 points</Col>
-<Col>g) Projects Outcome /Outputs in the form of Patent/Technology transfer/ Product/Process 30 points at the National level and 50 at the international level</Col>
-<Col>h) Need-based projects of the college 10 points</Col>
+<Col>b) Major Projects amount mobilized with grants above 5.0 lakhs 20 points</Col>
+<Col>c) Major Projects Amount mobilized with a minimum of Rs. 3.00 lakhs up to Rs. 5.00 lakhs 15 points</Col>
+<Col>d) Minor Projects (Amount mobilized with grants above Rs. 25,000 up to Rs. 3 lakh 10 points</Col>
+<Col>e) Consultancy Projects amount mobilized with grants above 2.0 lakhs 10 points</Col>
+<Col>f) Consultancy Projects completed-Major above 5 lakhs (Acceptance from the funding agency) 20 points</Col>
+<Col>g) Consultancy Projects completed- Minor below 3 lakhs (Acceptance from the funding agency) 20 points</Col>
+<Col>h) Projects Outcome /Outputs in the form of Patent/Technology transfer/ Product/Process 30 points at the National level and 50 at the international level</Col>
+<Col>i) Need-based projects of the college 10 points</Col>
 
       </td>
       </tr>
@@ -1378,6 +1765,59 @@ years score is considered for promotion as per UGC notification Feb
                     newResearchProjectCOMP[index].title = e.target.value
                     setResearchProjectCOMP(newResearchProjectCOMP)
                   } } disabled={!isEditable}/>
+
+                  <br/>
+                  <div>
+                    Select:
+                    <Form.Check
+                  type="radio"
+                  label="Major/Minor Projects"
+                  name={`comp-${index}`}
+                  value="Major/Minor Projects"
+                  checked={researchprojectcomp.whatis === 'Major/Minor Projects'}
+                  onChange={(e) => {
+                    const newResearchProjectCOMP = [...ResearchProjectCOMP];
+                    newResearchProjectCOMP[index].whatis = e.target.value;
+                    setResearchProjectCOMP(newResearchProjectCOMP);
+                  }} disabled={!isEditable} />
+
+                  <Form.Check
+                  type="radio"
+                  label="Consultancy Projects"
+                  name={`comp-${index}`}
+                  value="Consultancy Projects"
+                  checked={researchprojectcomp.whatis === 'Consultancy Projects'}
+                  onChange={(e) => {
+                    const newResearchProjectCOMP = [...ResearchProjectCOMP];
+                    newResearchProjectCOMP[index].whatis = e.target.value;
+                    setResearchProjectCOMP(newResearchProjectCOMP);
+                  } } disabled={!isEditable} />
+
+                  <Form.Check
+                  type="radio"
+                  label="Project Outcome/Outputs"
+                  name={`comp-${index}`}
+                  value="Project Outcome/Outputs"
+                  checked={researchprojectcomp.whatis === 'Project Outcome/Outputs'}
+                  onChange={(e) => {
+                    const newResearchProjectCOMP = [...ResearchProjectCOMP];
+                    newResearchProjectCOMP[index].whatis = e.target.value;
+                    setResearchProjectCOMP(newResearchProjectCOMP);
+                  }} disabled={!isEditable} />
+
+                  <Form.Check
+                  type="radio"
+                  label="Need-based projects"
+                  name={`comp-${index}`}
+                  value="Need-based projects"
+                  checked={researchprojectcomp.whatis === 'Need-based projects'}
+                  onChange={(e) => {
+                    const newResearchProjectCOMP = [...ResearchProjectCOMP];
+                    newResearchProjectCOMP[index].whatis = e.target.value;
+                    setResearchProjectCOMP(newResearchProjectCOMP);
+                  }} disabled={!isEditable} />
+                  
+                  </div>
               </td> 
               <td>            
                 <Form.Control
@@ -1390,32 +1830,36 @@ years score is considered for promotion as per UGC notification Feb
                   setResearchProjectCOMP(newResearchProjectCOMP)
                 } } disabled={!isEditable}/>
               </td> 
-              <td>
-                 From:
-                <Form.Control
-                type="date"
-                style={{ textAlign: "center" }}
-                value={ResearchProjectCOMP[0].periodfrom ? ResearchProjectCOMP[0].periodfrom.split('-').reverse().join('-') : ''}
-                onChange={(e) => {
-                  const [year, month, day] = e.target.value.split('-');
-                  const newResearchProjectCOMP = [...ResearchProjectCOMP];
-                  newResearchProjectCOMP[0].periodfrom = `${day}-${month}-${year}`;
-                  setResearchProjectCOMP(newResearchProjectCOMP);
-                }} disabled={!isEditable}/> 
 
-                <br/>
-                To:
-                <Form.Control
-                type="date"
-                style={{ textAlign: "center" }}
-                value={ResearchProjectCOMP[0].periodto ? ResearchProjectCOMP[0].periodto.split('-').reverse().join('-') : ''}
-          onChange={(e) => {
-            const [year, month, day] = e.target.value.split('-');
-            const newResearchProjectCOMP = [...ResearchProjectCOMP];
-            newResearchProjectCOMP[0].periodto = `${day}-${month}-${year}`;
-            setResearchProjectCOMP(newResearchProjectCOMP);
-          }} disabled={!isEditable}/>
-              </td>
+              <td>
+            From:
+            <Form.Control
+              type="date"
+              style={{ textAlign: 'center' }}
+              value={ResearchProjectCOMP[0].periodfrom || ''}
+              onChange={(e) => {
+                const newResearchProjectCOMP = [...ResearchProjectCOMP];
+                newResearchProjectCOMP[0].periodfrom = e.target.value;
+                setResearchProjectCOMP(newResearchProjectCOMP);
+              }}
+              disabled={!isEditable}
+            />
+
+            <br />
+            To:
+            <Form.Control
+              type="date"
+              style={{ textAlign: 'center' }}
+              value={ResearchProjectCOMP[0].periodto || ''}
+              min={ResearchProjectCOMP[0].periodfrom}
+              onChange={(e) => {
+                const newResearchProjectCOMP = [...ResearchProjectCOMP];
+                newResearchProjectCOMP[0].periodto = e.target.value;
+                setResearchProjectCOMP(newResearchProjectCOMP);
+              }}
+              disabled={!isEditable}
+            />
+          </td>
 
               <td>             
                 <Form.Control
@@ -1457,15 +1901,15 @@ years score is considered for promotion as per UGC notification Feb
       <tr>
         <td></td>
         <td colSpan="5"><Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
-          <Col>a) Major Projects amount mobilized with grants above 20.0 lakhs 30 points</Col>
-<Col>a) Major Projects amount mobilized with grants above 5.0 lakhs 20 points</Col>
-<Col>b) Major Projects Amount mobilized with a minimum of Rs. 3.00 lakhs up to Rs. 5.00 lakhs 15 points</Col>
-<Col>c) Minor Projects (Amount mobilized with grants above Rs. 25,000 up to Rs. 3 lakh 10 points</Col>
-<Col>d) Consultancy Projects amount mobilized with grants above 2.0 lakhs 10 points</Col>
-<Col>e) Consultancy Projects completed-Major above 5 lakhs (Acceptance from the funding agency) 20 points</Col>
-<Col>f) Consultancy Projects completed- Minor below 3 lakhs (Acceptance from the funding agency) 20 points</Col>
-<Col>g) Projects Outcome /Outputs in the form of Patent/Technology transfer/ Product/Process 30 points at the National level and 50 at the international level</Col>
-<Col>h) Need-based projects of the college 10 points</Col>
+        <Col>a) Major Projects amount mobilized with grants above 20.0 lakhs 30 points</Col>
+<Col>b) Major Projects amount mobilized with grants above 5.0 lakhs 20 points</Col>
+<Col>c) Major Projects Amount mobilized with a minimum of Rs. 3.00 lakhs up to Rs. 5.00 lakhs 15 points</Col>
+<Col>d) Minor Projects (Amount mobilized with grants above Rs. 25,000 up to Rs. 3 lakh 10 points</Col>
+<Col>e) Consultancy Projects amount mobilized with grants above 2.0 lakhs 10 points</Col>
+<Col>f) Consultancy Projects completed-Major above 5 lakhs (Acceptance from the funding agency) 20 points</Col>
+<Col>g) Consultancy Projects completed- Minor below 3 lakhs (Acceptance from the funding agency) 20 points</Col>
+<Col>h) Projects Outcome /Outputs in the form of Patent/Technology transfer/ Product/Process 30 points at the National level and 50 at the international level</Col>
+<Col>i) Need-based projects of the college 10 points</Col>
       </td>
       </tr>
       </Table>
@@ -1557,33 +2001,41 @@ years score is considered for promotion as per UGC notification Feb
                   setResearchNeedProject(newResearchNeedProject)
                 } } disabled={!isEditable}/>
               </td>
+
               <td>
-                From:
-                <Form.Control
-                type="date"
-                style={{ textAlign: "center"}}
-                value={ResearchNeedProject[0].periodfrom ? ResearchNeedProject[0].periodfrom.split('-').reverse().join('-') : ''}
-                onChange={(e) => {
-                  const [year, month, day] = e.target.value.split('-');
-                  const newResearchNeedProject = [...ResearchNeedProject];
-                  newResearchNeedProject[0].periodfrom = `${day}-${month}-${year}`;
-                  setResearchNeedProject(newResearchNeedProject);
-                }} disabled={!isEditable}/>
+            From:
+            <Form.Control
+              type="date"
+              style={{ textAlign: 'center' }}
+              value={
+                ResearchNeedProject[0].periodfrom || ''
+              }
+              onChange={(e) => {
+                const newResearchNeedProject = [...ResearchNeedProject];
+                newResearchNeedProject[0].periodfrom = e.target.value;
+                setResearchNeedProject(newResearchNeedProject);
+              }}
+              disabled={!isEditable}
+            />
 
-                <br/>
-                To:
-                <Form.Control
-                type="date"
-                style={{ textAlign: "center"}}
-                value={ResearchNeedProject[0].periodto ? ResearchNeedProject[0].periodto.split('-').reverse().join('-') : ''}
-          onChange={(e) => {
-            const [year, month, day] = e.target.value.split('-');
-            const newResearchNeedProject = [...ResearchNeedProject];
-            newResearchNeedProject[0].periodto = `${day}-${month}-${year}`;
-            setResearchNeedProject(newResearchNeedProject);
-          }} disabled={!isEditable}/>
+            <br />
+            To:
+            <Form.Control
+              type="date"
+              style={{ textAlign: 'center' }}
+              value={
+                ResearchNeedProject[0].periodto || ''
+              }
+              min={ResearchNeedProject[0].periodfrom} // Set the min attribute
+              onChange={(e) => {
+                const newResearchNeedProject = [...ResearchNeedProject];
+                newResearchNeedProject[0].periodto = e.target.value;
+                setResearchNeedProject(newResearchNeedProject);
+              }}
+              disabled={!isEditable}
+            />
+          </td>
 
-              </td>
               <td>
 
                 <Form.Control
@@ -1625,15 +2077,16 @@ years score is considered for promotion as per UGC notification Feb
       <tr>
         <td></td>
         <td colSpan="5"><Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
-          <Col>a) Major Projects amount mobilized with grants above 20.0 lakhs 30 points</Col>
-<Col>a) Major Projects amount mobilized with grants above 5.0 lakhs 20 points</Col>
-<Col>b) Major Projects Amount mobilized with a minimum of Rs. 3.00 lakhs up to Rs. 5.00 lakhs 15 points</Col>
-<Col>c) Minor Projects (Amount mobilized with grants above Rs. 25,000 up to Rs. 3 lakh 10 points</Col>
-<Col>d) Consultancy Projects amount mobilized with grants above 2.0 lakhs 10 points</Col>
-<Col>e) Consultancy Projects completed-Major above 5 lakhs (Acceptance from the funding agency) 20 points</Col>
-<Col>f) Consultancy Projects completed- Minor below 3 lakhs (Acceptance from the funding agency) 20 points</Col>
-<Col>g) Projects Outcome /Outputs in the form of Patent/Technology transfer/ Product/Process 30 points at the National level and 50 at the international level</Col>  
-<Col>h) Need-based projects of the college 10 points</Col>
+        <Col>a) Major Projects amount mobilized with grants above 20.0 lakhs 30 points</Col>
+<Col>b) Major Projects amount mobilized with grants above 5.0 lakhs 20 points</Col>
+<Col>c) Major Projects Amount mobilized with a minimum of Rs. 3.00 lakhs up to Rs. 5.00 lakhs 15 points</Col>
+<Col>d) Minor Projects (Amount mobilized with grants above Rs. 25,000 up to Rs. 3 lakh 10 points</Col>
+<Col>e) Consultancy Projects amount mobilized with grants above 2.0 lakhs 10 points</Col>
+<Col>f) Consultancy Projects completed-Major above 5 lakhs (Acceptance from the funding agency) 20 points</Col>
+<Col>g) Consultancy Projects completed- Minor below 3 lakhs (Acceptance from the funding agency) 20 points</Col>
+<Col>h) Projects Outcome /Outputs in the form of Patent/Technology transfer/ Product/Process 30 points at the National level and 50 at the international level</Col>
+<Col>i) Need-based projects of the college 10 points</Col>
+
       </td>
       </tr>
       </Table>
@@ -1708,6 +2161,19 @@ years score is considered for promotion as per UGC notification Feb
                   newResearchGuidance[index].enrolled = e.target.value
                   setResearchGuidance(newResearchGuidance)
                 } } disabled={!isEditable}/>
+
+                <br/>
+                Is it M. Phil/ME or PhD:
+                <Form.Control
+                type="text"
+                style={{ textAlign: "center" }}
+                value={researchguidance.cluster}
+                onChange={(e) =>{
+                  const newResearchGuidance = [...ResearchGuidance]
+                  newResearchGuidance[index].cluster = e.target.value
+                  setResearchGuidance(newResearchGuidance)
+                } } disabled={!isEditable}/>
+
             </td>
               
             <td>
@@ -1816,6 +2282,8 @@ years score is considered for promotion as per UGC notification Feb
       <tr>
       <th style={{ textAlign: "center", verticalAlign: "middle" }}>Programme</th>
 
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Criteria</th>
+
       <th style={{ textAlign: "center", verticalAlign: "middle" }}>Duration</th>
 
       <th style={{ textAlign: "center", verticalAlign: "middle" }}>Organized by</th>
@@ -1841,31 +2309,53 @@ years score is considered for promotion as per UGC notification Feb
               </td>
 
               <td>
-                From:
-                <Form.Control
-                  type="date"
-                  style={{ textAlign: "center"}}
-                  value={TrainingCourse[0].durationfrom ? TrainingCourse[0].durationfrom.split('-').reverse().join('-') : ''}
-                  onChange={(e) => {
-                    const [year, month, day] = e.target.value.split('-');
-                    const newTrainingCourse = [...TrainingCourse];
-                    newTrainingCourse[0].durationfrom = `${day}-${month}-${year}`;
-                    setTrainingCourse(newTrainingCourse);
-                  }} disabled={!isEditable}/>
-
-                  <br/>
-                  To:
-                  <Form.Control
-                  type="date"
-                  style={{ textAlign: "center"}}
-                  value={TrainingCourse[0].durationto ? TrainingCourse[0].durationto.split('-').reverse().join('-') : ''}
-                  onChange={(e) => {
-                    const [year, month, day] = e.target.value.split('-');
-                    const newTrainingCourse = [...TrainingCourse];
-                    newTrainingCourse[0].durationto = `${day}-${month}-${year}`;
-                    setTrainingCourse(newTrainingCourse);
-                  }} disabled={!isEditable}/>
+                <Form.Select
+                style={{ textAlign: "center"}}
+                value={trainingcourse.criteria}
+                onChange={(e) =>{
+                  const newTrainingCourse = [...TrainingCourse]
+                  newTrainingCourse[index].criteria = e.target.value
+                  setTrainingCourse(newTrainingCourse)
+                } } disabled={!isEditable}> 
+                <option value="">Select</option>
+                <option value="Courses (not less than three Weeks)/Workshops of not less than one week">Courses (not less than three Weeks)/Workshops of not less than one week</option>
+                <option value="International conference/Seminar / Symposia">International conference/Seminar / Symposia</option>
+                <option value="National conference/Seminar / Symposia">National conference/Seminar / Symposia</option>
+                <option value="State/University/College level conference/Seminar / Symposia">State level / university / college level conference/Seminar / Symposia</option>
+                <option value="Online courses of a four weeks duration or more">Online courses of a four weeks duration or more</option>
+                </Form.Select>
               </td>
+
+              <td>
+            From:
+            <Form.Control
+              type="date"
+              style={{ textAlign: 'center' }}
+              value={TrainingCourse[0].durationfrom || ''}
+              onChange={(e) => {
+                const newTrainingCourse = [...TrainingCourse];
+                newTrainingCourse[0].durationfrom = e.target.value;
+                setTrainingCourse(newTrainingCourse);
+              }}
+              disabled={!isEditable}
+            />
+
+            <br />
+            To:
+            <Form.Control
+              type="date"
+              style={{ textAlign: 'center' }}
+              value={TrainingCourse[0].durationto || ''}
+              min={TrainingCourse[0].durationfrom}
+              onChange={(e) => {
+                const newTrainingCourse = [...TrainingCourse];
+                newTrainingCourse[0].durationto = e.target.value;
+                setTrainingCourse(newTrainingCourse);
+              }}
+              disabled={!isEditable}
+            />
+          </td>
+
               <td>
                 <Form.Control
                   type="text"
@@ -2033,8 +2523,8 @@ years score is considered for promotion as per UGC notification Feb
                         <option value="">Select Level</option>
                         <option value="International">International</option>
                         <option value="National">National</option>
-                        <option value="State">State/Regional</option>
-                        <option value="Local">Local - University/College</option>
+                        <option value="State/Regional">State/Regional</option>
+                        <option value="Local - University/College">Local - University/College</option>
                       </Form.Select>
 
             </td>
@@ -2182,10 +2672,10 @@ years score is considered for promotion as per UGC notification Feb
                     }} disabled={!isEditable}
                   >
                     <option value="">Select Level</option>
-                    <option value="International">International</option>
-                    <option value="National">National</option>
-                    <option value="State">State/Regional</option>
-                    <option value="Local">Local - University/College</option>
+                        <option value="International">International</option>
+                        <option value="National">National</option>
+                        <option value="State/Regional">State/Regional</option>
+                        <option value="Local - University/College">Local - University/College</option>
                   </Form.Select>
 
               </td>
@@ -2327,10 +2817,10 @@ years score is considered for promotion as per UGC notification Feb
                     }} disabled={!isEditable}
                   >
                     <option value="">Select Level</option>
-                    <option value="International">International</option>
-                    <option value="National">National</option>
-                    <option value="State">State/Regional</option>
-                    <option value="Local">Local - University/College</option>
+                        <option value="International">International</option>
+                        <option value="National">National</option>
+                        <option value="State/Regional">State/Regional</option>
+                        <option value="Local - University/College">Local - University/College</option>
                   </Form.Select>
 
               </td>
