@@ -432,7 +432,7 @@ useEffect(() => {
       else {
       setResearchProjectON((prevResearchProjectON) => [
         ...prevResearchProjectON,
-        { title: '', whatis: '' ,agency: '', periodfrom: '', periodto:'', amount:'', selfscore: '' , ResearchProjectONHOD:'' },
+        { title: '', whatis: '' ,agency: '', periodfrom: '', periodto:'', amount:'', selfscore: ''  },
       ]);
     }
     }
