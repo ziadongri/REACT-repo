@@ -204,8 +204,8 @@ useEffect(() => {
       const requiredArrays = [
           { name: 'ResearchPublication', data: ResearchPublication },
           { name: 'ResearchArticle', data: ResearchArticle },
-          { name: 'ResearchProjectON', data: ResearchProjectON },
-          { name: 'ResearchProjectCOMP', data: ResearchProjectCOMP },
+          { name: 'ResearchProjectOngoing', data: ResearchProjectON },
+          { name: 'ResearchProjectCompleted', data: ResearchProjectCOMP },
           { name: 'ResearchNeedProject', data: ResearchNeedProject },
           { name: 'ResearchGuidance', data: ResearchGuidance },
           { name: 'TrainingCourse', data: TrainingCourse },
@@ -277,8 +277,8 @@ useEffect(() => {
       const requiredArrays = [
           { name: 'ResearchPublication', data: ResearchPublication },
           { name: 'ResearchArticle', data: ResearchArticle },
-          { name: 'ResearchProjectON', data: ResearchProjectON },
-          { name: 'ResearchProjectCOMP', data: ResearchProjectCOMP },
+          { name: 'ResearchProjectOngoing', data: ResearchProjectON },
+          { name: 'ResearchProjectCompleted', data: ResearchProjectCOMP },
           { name: 'ResearchNeedProject', data: ResearchNeedProject },
           { name: 'ResearchGuidance', data: ResearchGuidance },
           { name: 'TrainingCourse', data: TrainingCourse },
@@ -398,7 +398,6 @@ useEffect(() => {
       ]);
     };
 
-
     const handleAddResearchArticle = () => {
       if (ResearchArticle.some((item) => item.title === '' || item.whatis === '' || item.chapters ==='' || item.booktitle === '' || item.editor=== '' || item.publisher=== '' || item.isbn === '' || item.peerreview === '' || item.coauthor === '' || item.mainauthor==='' || item.selfscore === '')) {
         alert('Please fill all the fields in the research article!');
@@ -424,7 +423,7 @@ useEffect(() => {
 
     const handleAddResearchProjectON = () => {
       if (ResearchProjectON.some((item) => item.title === '' || item.whatis === '' || item.agency === '' || item.periodfrom === '' || item.periodto=== '' || item.amount === '' || item.selfscore === '')) {
-        alert('Please fill all the fields in the research project!');
+        alert('Please fill all the fields in the research project ongoing!');
         return;      } 
       //   else if (ResearchProjectON.some((item) => item.selfscore < 0)) {
       //   alert('Please fill all the fields with positive values only!');
@@ -446,7 +445,7 @@ useEffect(() => {
 
     const handleAddResearchProjectCOMP = () => {
       if (ResearchProjectCOMP.some((item) => item.title === '' || item.whatis === '' || item.agency === '' || item.periodfrom === '' || item.periodto=== ''|| item.amount === '' || item.selfscore === '')) {
-        alert('Please fill all the fields in the research project!');
+        alert('Please fill all the fields in the research project completed!');
         return;      } 
       //   else if (ResearchProjectCOMP.some((item) => item.selfscore < 0)) {
       //   alert('Please fill all the fields with positive values only!');
@@ -468,7 +467,7 @@ useEffect(() => {
 
     const handleAddResearchNeedProject = () => {
       if (ResearchNeedProject.some((item) => item.title === '' || item.whatis === '' ||item.agency === '' || item.periodfrom === '' || item.periodto=== '' || item.amount === '' || item.selfscore === '')) {
-        alert('Please fill all the fields in the research project!');
+        alert('Please fill all the fields in the need-based research project!');
         return;      }
       // else if (ResearchNeedProject.some((item) => item.selfscore < 0)) {
       //   alert('Please fill all the fields with positive values only!');
@@ -1092,7 +1091,7 @@ years score is considered for promotion as per UGC notification Feb
 
               </td>
 
-              <td>
+              {/* <td>
                 <Form.Control
                 type="text"
                 style={{ textAlign: "center" }}
@@ -1104,7 +1103,31 @@ years score is considered for promotion as per UGC notification Feb
                 } } disabled={!isEditable}
                 required/>
 
-              </td>
+              </td> */}
+
+<td>
+  <Form.Control
+    type="text"
+    style={{ textAlign: "center" }}
+    value={researchpublication.selfscore}
+    onChange={(e) => {
+      let value = e.target.value;
+      if (isNaN(value)) {
+        value = 0;
+      } else {
+        value = Math.max(0, Math.min(40, Number(value)));
+      }
+
+      const newResearchPublication = [...ResearchPublication];
+      newResearchPublication[index].selfscore = value;
+      setResearchPublication(newResearchPublication);
+    }}
+    disabled={!isEditable}
+    required
+  />
+</td>
+
+
               <td>
                 <Button
                   variant="danger"
@@ -1178,7 +1201,7 @@ years score is considered for promotion as per UGC notification Feb
         <tr>
         <th rowSpan="2" style={{ textAlign: "center", verticalAlign: "middle" }}>III (b)</th>
 
-      <th colSpan="3" style={{ textAlign: "center", verticalAlign: "middle" }}>Books/Articles/ Chapters published in books</th>
+      <th colSpan="3" style={{ textAlign: "center", verticalAlign: "middle" }}>Books/ Articles/ Chapters published in books</th>
 
       <th colSpan="3" style={{ textAlign: "center", verticalAlign: "middle" }}>Max API Score allotted</th>
     </tr>
@@ -1249,7 +1272,7 @@ years score is considered for promotion as per UGC notification Feb
       </div>              
 
                   <br/>
-                If it is Chapter, Enter Chapter/Chapters:
+                If it is Chapter, Enter no. of Chapter/Chapters:
                 <Form.Control
                   type="text"
                   style={{ textAlign: "center" }}
@@ -1311,8 +1334,7 @@ years score is considered for promotion as per UGC notification Feb
                   setResearchArticle(newResearchArticle)
                 } }  disabled={!isEditable}/>
                 
-              </td>
-              
+              </td>            
               
               <td>
                 <Form.Check
@@ -1401,18 +1423,29 @@ years score is considered for promotion as per UGC notification Feb
               </td>
 
               <td>
-                <Form.Control
-                type="text"
-                style={{ textAlign: "center" }}
-                value={researcharticle.selfscore}
-                onChange={(e) =>{
-                  const newResearchArticle = [...ResearchArticle]
-                  newResearchArticle[index].selfscore = e.target.value
-                  setResearchArticle(newResearchArticle)
-                } } disabled={!isEditable}
-                required/>
+  <Form.Control
+    type="text"
+    style={{ textAlign: "center" }}
+    value={researcharticle.selfscore}
+    onChange={(e) => {
+      let value = e.target.value;
 
-              </td>
+      // Ensure the value is a number and within the specified range
+      if (isNaN(value)) {
+        value = 0;
+      } else {
+        value = Math.max(0, Math.min(50, Number(value)));
+      }
+
+      const newResearchArticle = [...ResearchArticle];
+      newResearchArticle[index].selfscore = value;
+      setResearchArticle(newResearchArticle);
+    }}
+    disabled={!isEditable}
+    required
+  />
+</td>
+
               
               <td>
                 <Button
@@ -1677,10 +1710,19 @@ years score is considered for promotion as per UGC notification Feb
                 style={{ textAlign: "center"}}
                 value={researchprojecton.selfscore}
                 onChange={(e) =>{
+                  let value = e.target.value;
+
+                  // Ensure the value is a number and within the specified range
+                  if (isNaN(value)) {
+                    value = 0;
+                  } else {
+                    value = Math.max(0, Math.min(30, Number(value)));
+                  }
+
                   const newResearchProjectON = [...ResearchProjectON]
-                  newResearchProjectON[index].selfscore = e.target.value
+                  newResearchProjectON[index].selfscore = value;
                   setResearchProjectON(newResearchProjectON)
-                } } disabled={!isEditable}/>
+                } } disabled={!isEditable} required/>
 
               </td>
 
@@ -1908,8 +1950,17 @@ years score is considered for promotion as per UGC notification Feb
                 style={{ textAlign: "center"}}
                 value={researchprojectcomp.selfscore}
                 onChange={(e) =>{
+                  let value = e.target.value;
+
+                  // Ensure the value is a number and within the specified range
+                  if (isNaN(value)) {
+                    value = 0;
+                  } else {
+                    value = Math.max(0, Math.min(30, Number(value)));
+                  }
+
                   const newResearchProjectCOMP = [...ResearchProjectCOMP]
-                  newResearchProjectCOMP[index].selfscore = e.target.value
+                  newResearchProjectCOMP[index].selfscore = value
                   setResearchProjectCOMP(newResearchProjectCOMP)
                 } } disabled={!isEditable}/>
 
@@ -2090,8 +2141,17 @@ years score is considered for promotion as per UGC notification Feb
                 style={{ textAlign: "center"}}
                 value={researchneedproject.selfscore}
                 onChange={(e) =>{
+                  let value = e.target.value;
+
+                  // Ensure the value is a number and within the specified range
+                  if (isNaN(value)) {
+                    value = 0;
+                  } else {
+                    value = Math.max(0, Math.min(10, Number(value)));
+                  }
+
                   const newResearchNeedProject = [...ResearchNeedProject]
-                  newResearchNeedProject[index].selfscore = e.target.value
+                  newResearchNeedProject[index].selfscore = value
                   setResearchNeedProject(newResearchNeedProject)
                 } } disabled={!isEditable}/>
 
@@ -2241,8 +2301,17 @@ years score is considered for promotion as per UGC notification Feb
                 style={{ textAlign: "center"}}
                 value={researchguidance.selfscore}
                 onChange={(e) =>{
+                  let value = e.target.value;
+
+                  // Ensure the value is a number and within the specified range
+                  if (isNaN(value)) {
+                    value = 0;
+                  } else {
+                    value = Math.max(0, Math.min(50, Number(value)));
+                  }
+
                   const newResearchGuidance = [...ResearchGuidance]
-                  newResearchGuidance[index].selfscore = e.target.value
+                  newResearchGuidance[index].selfscore = value
                   setResearchGuidance(newResearchGuidance)
                 } } disabled={!isEditable}/>
                 </td>
@@ -2353,11 +2422,11 @@ years score is considered for promotion as per UGC notification Feb
                   setTrainingCourse(newTrainingCourse)
                 } } disabled={!isEditable}> 
                 <option value="">Select</option>
-                <option value="Courses (not less than three Weeks)/Workshops of not less than one week">Courses (not less than three Weeks)/Workshops of not less than one week</option>
-                <option value="International conference/Seminar / Symposia">International conference/Seminar / Symposia</option>
-                <option value="National conference/Seminar / Symposia">National conference/Seminar / Symposia</option>
-                <option value="State/University/College level conference/Seminar / Symposia">State level / university / college level conference/Seminar / Symposia</option>
-                <option value="Online courses of a four weeks duration or more">Online courses of a four weeks duration or more</option>
+                <option value="Evaluation Criteria: (a)">Evaluation Criteria: (a)</option>
+                <option value="Evaluation Criteria: (b)">Evaluation Criteria: (b)</option>
+                <option value="Evaluation Criteria: (c)">Evaluation Criteria: (c)</option>
+                <option value="Evaluation Criteria: (d)">Evaluation Criteria: (d)</option>
+                <option value="Evaluation Criteria: (e)">Evaluation Criteria: (e)</option>
                 </Form.Select>
               </td>
 
@@ -2415,8 +2484,17 @@ years score is considered for promotion as per UGC notification Feb
                   style={{ textAlign: "center"}}
                   value={trainingcourse.selfscore}
                   onChange={(e) =>{
+                    let value = e.target.value;
+
+                    // Ensure the value is a number and within the specified range
+                    if (isNaN(value)) {
+                      value = 0;
+                    } else {
+                      value = Math.max(0, Math.min(20, Number(value)));
+                    }
+
                     const newTrainingCourse = [...TrainingCourse]
-                    newTrainingCourse[index].selfscore = e.target.value
+                    newTrainingCourse[index].selfscore = value
                     setTrainingCourse(newTrainingCourse)
                   } } disabled={!isEditable}/>
 
@@ -2575,8 +2653,17 @@ years score is considered for promotion as per UGC notification Feb
                 style={{ textAlign: "center"}}
                 value={paperpresentconference.selfscore}
                 onChange={(e) =>{
+                  let value = e.target.value;
+
+                  // Ensure the value is a number and within the specified range
+                  if (isNaN(value)) {
+                    value = 0;
+                  } else {
+                    value = Math.max(0, Math.min(10, Number(value)));
+                  }
+
                   const newPaperPresentConference = [...PaperPresentConference]
-                  newPaperPresentConference[index].selfscore = e.target.value
+                  newPaperPresentConference[index].selfscore = value
                   setPaperPresentConference(newPaperPresentConference)
                 } } disabled={!isEditable}/>
 
@@ -2726,8 +2813,17 @@ years score is considered for promotion as per UGC notification Feb
                 style={{ textAlign: "center"}}
                 value={invitedlecture.selfscore}
                 onChange={(e) =>{
+                  let value = e.target.value;
+
+                  // Ensure the value is a number and within the specified range
+                  if (isNaN(value)) {
+                    value = 0;
+                  } else {
+                    value = Math.max(0, Math.min(10, Number(value)));
+                  }
+
                   const newInvitedLecture = [...InvitedLecture]
-                  newInvitedLecture[index].selfscore = e.target.value
+                  newInvitedLecture[index].selfscore = value
                   setInvitedLecture(newInvitedLecture)
                 } } disabled={!isEditable}/>
 
@@ -2882,8 +2978,16 @@ years score is considered for promotion as per UGC notification Feb
                 style={{ textAlign: "center"}}
                 value={award.selfscore}
                 onChange={(e) =>{
+                  let value = e.target.value;
+
+                  // Ensure the value is a number and within the specified range
+                  if (isNaN(value)) {
+                    value = 0;
+                  } else {
+                    value = Math.max(0, Math.min(50, Number(value)));
+                  }
                   const newAward = [...Award]
-                  newAward[index].selfscore = e.target.value
+                  newAward[index].selfscore = value
                   setAward(newAward)
                 }
                 } disabled={!isEditable}/>
@@ -2976,11 +3080,7 @@ years score is considered for promotion as per UGC notification Feb
          
         </tbody>
       </Table>
-
-
-          
-         
-       
+  
       <div className='text-center mb-4'>
         <Row>
           

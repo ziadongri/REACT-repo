@@ -452,7 +452,7 @@ years score is considered for promotion as per UGC notification Feb
       <br/>
       <Col>•  Is it a Book or Chapter: {data.whatis}</Col>
       <br/>
-      <Col>• If it is Chapter, Enter Chapter/Chapters: {data.chapters}</Col>
+      <Col>• If it is Chapter, Enter No. of Chapter/Chapters: {data.chapters}</Col>
       </td>
       <td>
       <Col>• Enter Book Title:{data.booktitle}</Col>
