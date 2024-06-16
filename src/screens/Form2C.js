@@ -169,7 +169,6 @@ useEffect(() => {
   return unsubscribe;
 }, [navigate]);
 
-
     const handleSave = async (e) => {
       e.preventDefault();
   
@@ -242,6 +241,88 @@ useEffect(() => {
     }  
     };
 
+  // const handleSave = async (e) => {
+  //   e.preventDefault();
+  
+  //   // Define docRef and data variables
+  //   const facultyRef = doc(db, "faculty", user.uid);
+  //   const docRef = doc(facultyRef, "partB", "CategoryC");
+  //   const data = {
+  //     ResearchPublication,
+  //     ResearchArticle,
+  //     ResearchProjectON,
+  //     ResearchProjectCOMP,
+  //     ResearchNeedProject,
+  //     ResearchGuidance,
+  //     TrainingCourse,
+  //     PaperPresentConference,
+  //     InvitedLecture,
+  //     Award,
+  //     IIISelfTotal,
+  //     documentC1,
+  //     documentC2,
+  //     documentC3,
+  //     documentC4,
+  //     documentC5,
+  //     documentC6,
+  //     documentC7,
+  //     documentC8,
+  //     documentC9,
+  //     documentC10
+  //   };
+  
+  //   // Check if any required array field is empty or contains empty values
+  //   const requiredArrays = [
+  //     { name: 'ResearchPublication', data: ResearchPublication },
+  //     { name: 'ResearchArticle', data: ResearchArticle },
+  //     { name: 'ResearchProjectOngoing', data: ResearchProjectON },
+  //     { name: 'ResearchProjectCompleted', data: ResearchProjectCOMP },
+  //     { name: 'ResearchNeedProject', data: ResearchNeedProject },
+  //     { name: 'ResearchGuidance', data: ResearchGuidance },
+  //     { name: 'TrainingCourse', data: TrainingCourse },
+  //     { name: 'PaperPresentConference', data: PaperPresentConference },
+  //     { name: 'InvitedLecture', data: InvitedLecture },
+  //     { name: 'Award', data: Award }
+  //   ];
+  
+  //   for (const requiredArray of requiredArrays) {
+  //     if (requiredArray.data.length === 0) {
+  //       alert(`Please fill all the fields in the ${requiredArray.name} section!`);
+  //       return;
+  //     }
+  
+  //     for (const item of requiredArray.data) {
+  //       for (const [key, value] of Object.entries(item)) {
+  //         if (value === '') {
+  //           alert(`Please fill all the fields in the ${requiredArray.name} section!`);
+  //           console.log(`Empty value found in ${requiredArray.name} at key ${key}`);
+  //           return;
+  //         }
+  //       }
+  //     }
+  //   }
+  
+  //   // Additional validation checks
+  //   if (ResearchPublication.some(item => item.selfscore < 0) ||
+  //       ResearchArticle.some(item => item.selfscore < 0) ||
+  //       ResearchProjectON.some(item => item.selfscore < 0) ||
+  //       ResearchProjectCOMP.some(item => item.selfscore < 0) ||
+  //       ResearchNeedProject.some(item => item.selfscore < 0) ||
+  //       TrainingCourse.some(item => item.selfscore < 0) ||
+  //       PaperPresentConference.some(item => item.selfscore < 0) ||
+  //       InvitedLecture.some(item => item.selfscore < 0) ||
+  //       Award.some(item => item.selfscore < 0) ||
+  //       IIISelfTotal < 0 ||
+  //       isNaN(IIISelfTotal)
+  //   ) {
+  //       alert('Please fill all the numeric fields with positive values only!');
+  //       return;
+  //   }
+  
+  //   await setDoc(docRef, data);
+  //   alert("Data saved successfully!");
+  // };
+  
  
     const handleSubmit = async (e) => {
       e.preventDefault();
@@ -466,7 +547,7 @@ useEffect(() => {
     }
 
     const handleAddResearchNeedProject = () => {
-      if (ResearchNeedProject.some((item) => item.title === '' || item.whatis === '' ||item.agency === '' || item.periodfrom === '' || item.periodto=== '' || item.amount === '' || item.selfscore === '')) {
+      if (ResearchNeedProject.some((item) => item.title === '' || item.agency === '' || item.periodfrom === '' || item.periodto=== '' || item.amount === '' || item.selfscore === '')) {
         alert('Please fill all the fields in the need-based research project!');
         return;      }
       // else if (ResearchNeedProject.some((item) => item.selfscore < 0)) {
@@ -477,7 +558,7 @@ useEffect(() => {
 
       setResearchNeedProject((prevResearchNeedProject) => [
         ...prevResearchNeedProject,
-        { title: '', whatis: '',agency: '', periodfrom: '', periodto:'', amount: '', selfscore: '' },
+        { title: '',agency: '', periodfrom: '', periodto:'', amount: '', selfscore: '' },
       ]);
     }
     }
@@ -1194,7 +1275,6 @@ years score is considered for promotion as per UGC notification Feb
         </div>
       </div>
 
-
         <div className="content-box">
         <Table striped bordered hover>
         <thead>
@@ -1698,8 +1778,17 @@ years score is considered for promotion as per UGC notification Feb
                 style={{ textAlign: "center"}}
                 value={researchprojecton.amount}
                 onChange={(e) =>{
+                  let value = e.target.value;
+
+                  const parsedValue = parseFloat(value);
+                if (!isNaN(parsedValue) && parsedValue >= 0) {
+                  value = parsedValue;
+                } else {
+                  value = 0;
+                }
+
                   const newResearchProjectON = [...ResearchProjectON]
-                  newResearchProjectON[index].amount = e.target.value
+                  newResearchProjectON[index].amount = value
                   setResearchProjectON(newResearchProjectON)
                 } } disabled={!isEditable}/> 
               </td>
@@ -1711,13 +1800,14 @@ years score is considered for promotion as per UGC notification Feb
                 value={researchprojecton.selfscore}
                 onChange={(e) =>{
                   let value = e.target.value;
-
-                  // Ensure the value is a number and within the specified range
-                  if (isNaN(value)) {
-                    value = 0;
-                  } else {
-                    value = Math.max(0, Math.min(30, Number(value)));
-                  }
+                 
+                // Check if the input is a valid positive number
+                const parsedValue = parseFloat(value);
+                if (!isNaN(parsedValue) && parsedValue >= 0) {
+                  value = parsedValue;
+                } else {
+                  value = 0;
+                }
 
                   const newResearchProjectON = [...ResearchProjectON]
                   newResearchProjectON[index].selfscore = value;
@@ -1938,8 +2028,17 @@ years score is considered for promotion as per UGC notification Feb
                 style={{ textAlign: "center"}}
                 value={researchprojectcomp.amount}
                 onChange={(e) =>{
+                  let value = e.target.value;
+
+                  const parsedValue = parseFloat(value);
+                if (!isNaN(parsedValue) && parsedValue >= 0) {
+                  value = parsedValue;
+                } else {
+                  value = 0;
+                }
+
                   const newResearchProjectCOMP = [...ResearchProjectCOMP]
-                  newResearchProjectCOMP[index].amount = e.target.value
+                  newResearchProjectCOMP[index].amount = value
                   setResearchProjectCOMP(newResearchProjectCOMP)
                 } } disabled={!isEditable}/> 
               </td>
@@ -2129,8 +2228,17 @@ years score is considered for promotion as per UGC notification Feb
                 style={{ textAlign: "center"}}
                 value={researchneedproject.amount}
                 onChange={(e) =>{
+                  let value = e.target.value;
+
+                  const parsedValue = parseFloat(value);
+                if (!isNaN(parsedValue) && parsedValue >= 0) {
+                  value = parsedValue;
+                } else {
+                  value = 0;
+                }
+
                   const newResearchNeedProject = [...ResearchNeedProject]
-                  newResearchNeedProject[index].amount = e.target.value
+                  newResearchNeedProject[index].amount = value
                   setResearchNeedProject(newResearchNeedProject)
                 } } disabled={!isEditable}/>
               </td>
@@ -2381,7 +2489,7 @@ years score is considered for promotion as per UGC notification Feb
         <tr>
         <th rowSpan="2" style={{ textAlign: "center", verticalAlign: "middle" }}>III (e-i)</th>
 
-      <th colSpan="4" style={{ textAlign: "center", verticalAlign: "middle" }}>TRAINING COURSES AND Faculty Development Programs (not less than one week) max 30pts</th>
+      <th colSpan="5" style={{ textAlign: "center", verticalAlign: "middle" }}>TRAINING COURSES AND Faculty Development Programs (not less than one week) max 30pts</th>
       </tr>
       <tr>
       <th style={{ textAlign: "center", verticalAlign: "middle" }}>Programme</th>
@@ -2513,7 +2621,7 @@ years score is considered for promotion as per UGC notification Feb
       }
       <tr>
         <td></td>
-        <td colspan="4"><Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
+        <td colspan="5"><Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
           <Col>a. courses (not less than three Weeks)/Workshops of not less than one week 20 / each event</Col>
 <Col>b. International conference/Seminar / Symposia 20 / each event</Col>
 <Col>c. National conference/Seminar / Symposia	10 / each event</Col>

@@ -30,6 +30,7 @@ import Form2CPC from './screens/Form2CPC'
 import Form3PC from './screens/Form3PC'
 import AboutUs from './screens/aboutus'
 
+
 import { db, storage } from "./firebase";
 import { doc, collection, getDoc, setDoc, updateDoc, addDoc } from "firebase/firestore";
 
@@ -160,7 +161,7 @@ function App() {
                     ABOUT US
                   </Link>
                 </Nav.Link>
-                <Nav.Link onClick={handleSignOut}>Sign Out</Nav.Link>
+                <Nav.Link onClick={handleSignOut}>SIGN OUT</Nav.Link>
               </Nav>
             ) : (
               <Nav className="ml-auto" >
@@ -179,6 +180,7 @@ function App() {
           </Navbar.Collapse>
           
       </Navbar>
+
       
       <Container>
       <Row>

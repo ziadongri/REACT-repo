@@ -185,6 +185,7 @@ function Form1AHOD() {
                 onChange={(e) => setDepartment(e.target.value)}
               >
                 <option value="">Select Department</option>
+                <option value="Basic Sciences & Humanities">Basic Sciences & Humanities</option>
                 <option value="Computer Engineering">Computer Engineering</option>
                 <option value="Artificial Intelligence & Data Science">Artificial Intelligence & Data Science</option>
                 <option value="Information Technology">Information Technology</option>
