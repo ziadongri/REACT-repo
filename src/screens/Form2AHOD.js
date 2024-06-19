@@ -13,6 +13,7 @@ import { doc, collection, getDoc, setDoc, updateDoc, addDoc } from "firebase/fir
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { ref, uploadBytesResumable, getDownloadURL, getStorage } from "firebase/storage";
 import {signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
+import Footer from './Footer';
 
 function Form2AHOD() {
   const [user, setUser] = useState(null);
@@ -1085,6 +1086,7 @@ const fetchData = async () => {
           </Row>
           </div>
       </Col>
+      {/* <Footer /> */}
       </Row>
     </Container>
   )

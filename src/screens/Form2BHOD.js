@@ -122,13 +122,16 @@ function Form2BHOD() {
             
             if (IIActaHOD === '' || IIActbHOD === '' || IIActcHOD === '' || IIActdHOD === '') {
               alert("Please fill all the fields!");
+              await updateDoc(docRef, data);
               return;
             }
            else if (IIActaHOD < 0 || IIActbHOD < 0 || IIActcHOD < 0 || IIActdHOD < 0) {
+            await updateDoc(docRef, data);
               alert("Please enter valid values!");
               return;
             }
             else if (isNaN(IIActTotalHOD)) {
+              await updateDoc(docRef, data);
               alert("Please enter valid values!");
               return;
             }

@@ -6,22 +6,22 @@ import {Link, useNavigate, useLocation} from 'react-router-dom';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import {signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth'
 
-function Form2CHOD() {
+function Form2CPCH() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [facultyData, setFacultyData] = useState(null);
 
-  const [ ResearchPublicationHOD, setResearchPublicationHOD]= useState([])
-    const [ ResearchArticleHOD, setResearchArticleHOD]= useState([])
-    const [ ResearchProjectONHOD, setResearchProjectONHOD]= useState([])
-    const [ ResearchProjectCOMPHOD, setResearchProjectCOMPHOD]= useState([])
-    const [ResearchNeedProjectHOD, setResearchNeedProjectHOD]= useState([])
-    const [ ResearchGuidanceHOD, setResearchGuidanceHOD]= useState([])
-    const [ TrainingCourseHOD, setTrainingCourseHOD]= useState([])
-    const [PaperPresentConferenceHOD, setPaperPresentConferenceHOD]= useState([])
-    const[ InvitedLectureHOD, setInvitedLectureHOD]= useState([])
-    const [AwardHOD, setAwardHOD]= useState([])
-    const [IIIActHODTotal, setIIIActHODTotal]= useState('') 
+  const [ ResearchPublicationPhod, setResearchPublicationPhod] = useState([]);
+  const [ ResearchArticlePhod, setResearchArticlePhod] = useState([]);
+  const [ ResearchProjectONPhod, setResearchProjectONPhod] = useState([]);
+  const [ ResearchProjectCOMPPhod, setResearchProjectCOMPPhod] = useState([]);
+  const [ ResearchNeedProjectPhod, setResearchNeedProjectPhod] = useState([]);
+  const [ ResearchGuidancePhod, setResearchGuidancePhod] = useState([]);
+  const [ TrainingCoursePhod, setTrainingCoursePhod] = useState([]);
+  const [ PaperPresentConferencePhod, setPaperPresentConferencePhod] = useState([]);
+  const [ InvitedLecturePhod, setInvitedLecturePhod] = useState([]);
+  const [ AwardPhod, setAwardPhod] = useState([]);
+  const [ IIIActPhodTotal, setIIIActPhodTotal] = useState('');
     const location = useLocation();
     const facultyUID = location.state.facultyUID;
     console.log(facultyUID);
@@ -32,13 +32,13 @@ function Form2CHOD() {
     }
     
     const Total = () => {
-      let IIIActHODTotal = parseInt(ResearchPublicationHOD) + parseInt(ResearchArticleHOD) + parseInt(ResearchProjectONHOD) + parseInt(ResearchProjectCOMPHOD) + parseInt(ResearchNeedProjectHOD)+ parseInt(ResearchGuidanceHOD) + parseInt(TrainingCourseHOD) + parseInt(PaperPresentConferenceHOD) + parseInt(InvitedLectureHOD) + parseInt(AwardHOD);
-      setIIIActHODTotal(IIIActHODTotal);
+      let IIIActPhodTotal = parseInt(ResearchPublicationPhod) + parseInt(ResearchArticlePhod) + parseInt(ResearchProjectONPhod) + parseInt(ResearchProjectCOMPPhod) + parseInt(ResearchNeedProjectPhod) + parseInt(ResearchGuidancePhod) + parseInt(TrainingCoursePhod) + parseInt(PaperPresentConferencePhod) + parseInt(InvitedLecturePhod) + parseInt(AwardPhod);
+      setIIIActPhodTotal(IIIActPhodTotal);
     }
 
     useEffect(() => {
       Total();
-    }, [ResearchPublicationHOD, ResearchNeedProjectHOD, ResearchArticleHOD, ResearchProjectONHOD, ResearchProjectCOMPHOD, ResearchGuidanceHOD, TrainingCourseHOD, PaperPresentConferenceHOD, InvitedLectureHOD, AwardHOD]);
+    }, [ResearchPublicationPhod, ResearchArticlePhod, ResearchProjectONPhod, ResearchProjectCOMPPhod, ResearchNeedProjectPhod, ResearchGuidancePhod, TrainingCoursePhod, PaperPresentConferencePhod, InvitedLecturePhod, AwardPhod]);
 
     useEffect(() => {
       const unsubscribe= auth.onAuthStateChanged (async (user) => {
@@ -61,17 +61,18 @@ const fetchData = async () => {
   if (docSnap.exists()) {
     setFacultyData(docSnap.data());
     const data = docSnap.data();
-    setResearchPublicationHOD(data.ResearchPublicationHOD || []);
-    setResearchNeedProjectHOD(data.ResearchNeedProjectHOD || []);
-    setResearchArticleHOD(data.ResearchArticleHOD || []);
-    setResearchProjectONHOD(data.ResearchProjectONHOD || []);
-    setResearchProjectCOMPHOD(data.ResearchProjectCOMPHOD || []);
-    setResearchGuidanceHOD(data.ResearchGuidanceHOD || []);
-    setTrainingCourseHOD(data.TrainingCourseHOD || []);
-    setPaperPresentConferenceHOD(data.PaperPresentConferenceHOD || []);
-    setInvitedLectureHOD(data.InvitedLectureHOD || []);
-    setAwardHOD(data.AwardHOD || []);
-    setIIIActHODTotal(data.IIIActHODTotal || '');
+    setResearchPublicationPhod(data.ResearchPublicationPhod || []);
+    setResearchArticlePhod(data.ResearchArticlePhod || []);
+    setResearchProjectONPhod(data.ResearchProjectONPhod || []);
+    setResearchProjectCOMPPhod(data.ResearchProjectCOMPPhod || []);
+    setResearchNeedProjectPhod(data.ResearchNeedProjectPhod || []);
+    setResearchGuidancePhod(data.ResearchGuidancePhod || []);
+    setTrainingCoursePhod(data.TrainingCoursePhod || []);
+    setPaperPresentConferencePhod(data.PaperPresentConferencePhod || []);
+    setInvitedLecturePhod(data.InvitedLecturePhod || []);
+    setAwardPhod(data.AwardPhod || []);
+    setIIIActPhodTotal(data.IIIActPhodTotal || '');
+
   } else {
     // doc.data() will be undefined in this case
     console.log("No such document!");
@@ -91,45 +92,45 @@ const fetchData = async () => {
     
       // Check for empty, null, or undefined values
       if (
-        ResearchPublicationHOD < 0 ||
-        ResearchArticleHOD < 0 ||
-        ResearchProjectONHOD < 0 ||
-        ResearchProjectCOMPHOD < 0 ||
-        ResearchNeedProjectHOD < 0 ||
-        ResearchGuidanceHOD < 0 ||
-        TrainingCourseHOD < 0 ||
-        PaperPresentConferenceHOD < 0 ||
-        InvitedLectureHOD < 0 ||
-        AwardHOD < 0 ||
-        IIIActHODTotal < 0
+        ResearchPublicationPhod < 0 ||
+        ResearchArticlePhod < 0 ||
+        ResearchProjectONPhod < 0 ||
+        ResearchProjectCOMPPhod < 0 ||
+        ResearchNeedProjectPhod < 0 ||
+        ResearchGuidancePhod < 0 ||
+        TrainingCoursePhod < 0 ||
+        PaperPresentConferencePhod < 0 ||
+        InvitedLecturePhod < 0 ||
+        AwardPhod < 0 ||
+        IIIActPhodTotal < 0
       ) {
         alert("Please fill in all the required fields.");
         return;
       } 
-      else if (isNaN(IIIActHODTotal)) {
+      else if (isNaN(IIIActPhodTotal)) {
         alert("Please fill numbers only");
         return;
       } 
     
       // Construct data object
       const data = {
-        ResearchPublicationHOD,
-        ResearchArticleHOD,
-        ResearchProjectONHOD,
-        ResearchProjectCOMPHOD,
-        ResearchNeedProjectHOD,
-        ResearchGuidanceHOD,
-        TrainingCourseHOD,
-        PaperPresentConferenceHOD,
-        InvitedLectureHOD,
-        AwardHOD,
-        IIIActHODTotal
+        ResearchPublicationPhod,
+        ResearchArticlePhod,
+        ResearchProjectONPhod,
+        ResearchProjectCOMPPhod,
+        ResearchNeedProjectPhod,
+        ResearchGuidancePhod,
+        TrainingCoursePhod,
+        PaperPresentConferencePhod,
+        InvitedLecturePhod,
+        AwardPhod,
+        IIIActPhodTotal
       };
     
       // Update document with data
       await updateDoc(docRef, data);
       alert("Data saved successfully!");
-      navigate('/form3HOD', {state: {facultyUID: facultyUID}});
+      navigate('/form3pch', {state: {facultyUID: facultyUID}});
     }
 
     
@@ -142,23 +143,23 @@ const fetchData = async () => {
     
       // Check for empty, null, or undefined values
       if (
-        ResearchPublicationHOD < 0 ||
-        ResearchArticleHOD < 0 ||
-        ResearchProjectONHOD < 0 ||
-        ResearchProjectCOMPHOD < 0 ||
-        ResearchNeedProjectHOD < 0 ||
-        ResearchGuidanceHOD < 0 ||
-        TrainingCourseHOD < 0 ||
-        PaperPresentConferenceHOD < 0 ||
-        InvitedLectureHOD < 0 ||
-        AwardHOD < 0 ||
-        IIIActHODTotal < 0
+        ResearchPublicationPhod < 0 ||
+        ResearchArticlePhod < 0 ||
+        ResearchProjectONPhod < 0 ||
+        ResearchProjectCOMPPhod < 0 ||
+        ResearchNeedProjectPhod < 0 ||
+        ResearchGuidancePhod < 0 ||
+        TrainingCoursePhod < 0 ||
+        PaperPresentConferencePhod < 0 ||
+        InvitedLecturePhod < 0 ||
+        AwardPhod < 0 ||
+        IIIActPhodTotal < 0
       ) {
         alert("Please fill in all the required fields.");
         await updateDoc(docRef, data);
         return;
       } 
-      else if (isNaN(IIIActHODTotal)) {
+      else if (isNaN(IIIActPhodTotal)) {
         alert("Please fill numbers only");
         await updateDoc(docRef, data);
         return;
@@ -166,17 +167,17 @@ const fetchData = async () => {
     
       // Construct data object
       const data = {
-        ResearchPublicationHOD,
-        ResearchArticleHOD,
-        ResearchProjectONHOD,
-        ResearchProjectCOMPHOD,
-        ResearchNeedProjectHOD,
-        ResearchGuidanceHOD,
-        TrainingCourseHOD,
-        PaperPresentConferenceHOD,
-        InvitedLectureHOD,
-        AwardHOD,
-        IIIActHODTotal
+        ResearchPublicationPhod,
+        ResearchArticlePhod,
+        ResearchProjectONPhod,
+        ResearchProjectCOMPPhod,
+        ResearchNeedProjectPhod,
+        ResearchGuidancePhod,
+        TrainingCoursePhod,
+        PaperPresentConferencePhod,
+        InvitedLecturePhod,
+        AwardPhod,
+        IIIActPhodTotal
       };
     
       // Update document with data
@@ -184,93 +185,89 @@ const fetchData = async () => {
       alert("Data saved successfully!");
     }
     
-        
-      
-
-    const handleForm2AHODNavigation = async (e) => {
+    const handleForm2AHODPCNavigation = async (e) => {
       e.preventDefault();
-      navigate('/form2ahod', { state: { facultyUID: facultyUID } });
+      navigate('/form2apch', { state: { facultyUID: facultyUID } });
     }
 
-    const handleForm2BHODNavigation = async (e) => {
+    const handleForm2BHODPCNavigation = async (e) => {
       e.preventDefault();
-      navigate('/form2bhod', { state: { facultyUID: facultyUID } });
+      navigate('/form2bpch', { state: { facultyUID: facultyUID } });
     }
 
-    const handleForm3HODNavigation = async (e) => {
+    const handleForm3HODPCNavigation = async (e) => {
       e.preventDefault();
-      navigate('/form3hod', { state: { facultyUID: facultyUID } });
+      navigate('/form3pch', { state: { facultyUID: facultyUID } });
     }
 
 
   const handleResearchPublicationInputChange = (value, index) => {
   
-    const updatedHODArray = [...ResearchPublicationHOD];
-    updatedHODArray[index] = value;
-    setResearchPublicationHOD(updatedHODArray);
+    const updatedPhodArray = [...ResearchPublicationPhod];
+    updatedPhodArray[index] = value;
+    setResearchPublicationPhod(updatedPhodArray);
   };
 
   const handleResearchArticleInputChange = (value, index) => {
-    const updatedHODArray = [...ResearchArticleHOD];
-
-    updatedHODArray[index] = value;
-    setResearchArticleHOD(updatedHODArray);
+    const updatedPhodArray = [...ResearchArticlePhod];
+    updatedPhodArray[index] = value;
+    setResearchArticlePhod(updatedPhodArray);
   };
 
   const handleResearchProjectONInputChange = (value, index) => {
-    const updatedHODArray = [...ResearchProjectONHOD];
-    updatedHODArray[index] = value;
-    setResearchProjectONHOD(updatedHODArray);
+    const updatedPhodArray = [...ResearchProjectONPhod];
+    updatedPhodArray[index] = value;
+    setResearchProjectONPhod(updatedPhodArray);
   };
 
 
     const handleResearchProjectCOMPInputChange = (value, index) => {
       // Create a copy of the array to avoid mutating the state directly
-      const updatedHODArray = [...ResearchProjectCOMPHOD];
-      updatedHODArray[index] = value;
-      setResearchProjectCOMPHOD(updatedHODArray);
+      const updatedPhodArray = [...ResearchProjectCOMPPhod];
+      updatedPhodArray[index] = value;
+      setResearchProjectCOMPPhod(updatedPhodArray);
     };
 
     const handleResearchNeedProjectInputChange = (value, index) => {
       // Create a copy of the array to avoid mutating the state directly  
-      const updatedHODArray = [...ResearchNeedProjectHOD];
-      updatedHODArray[index] = value;
-      setResearchNeedProjectHOD(updatedHODArray);
+      const updatedPhodArray = [...ResearchNeedProjectPhod];
+      updatedPhodArray[index] = value;
+      setResearchNeedProjectPhod(updatedPhodArray);
     };
 
     const handleResearchGuidanceInputChange = (value, index) => {
       // Create a copy of the array to avoid mutating the state directly
-      const updatedHODArray = [...ResearchGuidanceHOD];
-      updatedHODArray[index] = value;
-      setResearchGuidanceHOD(updatedHODArray);
+      const updatedPhodArray = [...ResearchGuidancePhod]; 
+      updatedPhodArray[index] = value;
+      setResearchGuidancePhod(updatedPhodArray);
     };
 
     const handleTrainingCourseInputChange = (value, index) => {
       // Create a copy of the array to avoid mutating the state directly
-      const updatedHODArray = [...TrainingCourseHOD];
-      updatedHODArray[index] = value;
-      setTrainingCourseHOD(updatedHODArray);
+      const updatedPhodArray = [...TrainingCoursePhod];
+      updatedPhodArray[index] = value;
+      setTrainingCoursePhod(updatedPhodArray);
     };
 
     const handlePaperPresentConferenceInputChange = (value, index) => {
       // Create a copy of the array to avoid mutating the state directly
-      const updatedHODArray = [...PaperPresentConferenceHOD];
-      updatedHODArray[index] = value;
-      setPaperPresentConferenceHOD(updatedHODArray);
+      const updatedPhodArray = [...PaperPresentConferencePhod];
+      updatedPhodArray[index] = value;
+      setPaperPresentConferencePhod(updatedPhodArray);
     };
 
     const handleInvitedLectureInputChange = (value, index) => {
       // Create a copy of the array to avoid mutating the state directly
-      const updatedHODArray = [...InvitedLectureHOD];
-      updatedHODArray[index] = value;
-      setInvitedLectureHOD(updatedHODArray);
+      const updatedPhodArray = [...InvitedLecturePhod];
+      updatedPhodArray[index] = value;
+      setInvitedLecturePhod(updatedPhodArray);
     };
 
     const handleAwardInputChange = (value, index) => {
       // Create a copy of the array to avoid mutating the state directly
-      const updatedHODArray = [...AwardHOD];
-      updatedHODArray[index] = value;
-      setAwardHOD(updatedHODArray);
+      const updatedPhodArray = [...AwardPhod];
+      updatedPhodArray[index] = value;
+      setAwardPhod(updatedPhodArray);
     };
 
     if (loading) {
@@ -365,10 +362,10 @@ years score is considered for promotion as per UGC notification Feb
   type="text" // Changed back to "text" to remove the arrows
   placeholder=""
   style={{ textAlign: "center" }}
-  value={(ResearchPublicationHOD && ResearchPublicationHOD[index]) || '0'}
+  value={(ResearchPublicationPhod && ResearchPublicationPhod[index]) || '0'}
   onChange={(e) => {
     const value = e.target.value;
-    const updatedValues = [...ResearchPublicationHOD];
+    const updatedValues = [...ResearchPublicationPhod];
     
     if (value === '') {
       updatedValues[index] = 0; 
@@ -382,7 +379,7 @@ years score is considered for promotion as per UGC notification Feb
         updatedValues[index] = 0;
       }
     }
-    setResearchPublicationHOD(updatedValues);
+    setResearchPublicationPhod(updatedValues);
   }}
   pattern="\d*" // Ensure that only numeric input is allowed
   min={0} 
@@ -481,10 +478,10 @@ years score is considered for promotion as per UGC notification Feb
          key={index}
           type="text"
           style={{ textAlign: "center" }}
-          value={(ResearchArticleHOD && ResearchArticleHOD[index]) || '0'}
+          value={(ResearchArticlePhod && ResearchArticlePhod[index]) || '0'}
           onChange={(e) => {
             const value = e.target.value;
-            const updatedValues = [...ResearchArticleHOD];
+            const updatedValues = [...ResearchArticlePhod];
             
             if (value === '') {
               updatedValues[index] = 0; 
@@ -498,7 +495,7 @@ years score is considered for promotion as per UGC notification Feb
                 updatedValues[index] = 0;
               } 
             } 
-            setResearchArticleHOD(updatedValues);
+            setResearchArticlePhod(updatedValues);
           }}
           pattern="\d*" 
           min={0}
@@ -580,10 +577,10 @@ years score is considered for promotion as per UGC notification Feb
                 key={index}
                   type="text"
                   style={{ textAlign: "center"}}
-                  value={(ResearchProjectONHOD && ResearchProjectONHOD[index]) || '0'}
+                  value={(ResearchProjectONPhod && ResearchProjectONPhod[index]) || '0'}
                   onChange={(e) => {
                     const value = e.target.value;
-                    const updatedValues = [...ResearchProjectONHOD];
+                    const updatedValues = [...ResearchProjectONPhod];
                     
                     if (value === '') {
                       updatedValues[index] = 0; 
@@ -597,7 +594,7 @@ years score is considered for promotion as per UGC notification Feb
                         updatedValues[index] = 0;
                       }
                     }
-                    setResearchProjectONHOD(updatedValues); 
+                    setResearchProjectONPhod(updatedValues);
                   }}
                   pattern="\d*"
                   min={0}
@@ -677,10 +674,10 @@ years score is considered for promotion as per UGC notification Feb
                 key={index}
                   type="text"
                   style={{ textAlign: "center"}}
-                 value= {(ResearchProjectCOMPHOD && ResearchProjectCOMPHOD[index]) || '0'}
+                 value= {(ResearchProjectCOMPPhod && ResearchProjectCOMPPhod[index]) || '0'}
                   onChange= {(e) => {
                     const value = e.target.value;
-                    const updatedValues = [...ResearchProjectCOMPHOD];
+                    const updatedValues = [...ResearchProjectCOMPPhod];
                     
                     if (value === '') {
                       updatedValues[index] = 0; 
@@ -694,7 +691,7 @@ years score is considered for promotion as per UGC notification Feb
                         updatedValues[index] = 0;
                       }
                     }
-                    setResearchProjectCOMPHOD(updatedValues);
+                    setResearchProjectCOMPPhod(updatedValues);
                   }}
                   pattern="\d*"
                   min={0}
@@ -772,10 +769,10 @@ years score is considered for promotion as per UGC notification Feb
                 key={index}
                   type="text"
                   style={{ textAlign: "center"}}
-                  value={(ResearchNeedProjectHOD && ResearchNeedProjectHOD[index]) || '0'}
+                  value={(ResearchNeedProjectPhod && ResearchNeedProjectPhod[index]) || '0'}
                   onChange={(e) => {
                     const value = e.target.value;
-                    const updatedValues = [...ResearchNeedProjectHOD];
+                    const updatedValues = [...ResearchNeedProjectPhod];
                     
                     if (value === '') {
                       updatedValues[index] = 0; 
@@ -789,7 +786,7 @@ years score is considered for promotion as per UGC notification Feb
                         updatedValues[index] = 0;
                       }
                     }
-                    setResearchNeedProjectHOD(updatedValues);
+                    setResearchNeedProjectPhod(updatedValues);
                   }}
                  pattern="\d*"
                   min={0}
@@ -869,10 +866,10 @@ years score is considered for promotion as per UGC notification Feb
               key={index}
                 type="text"
                 style={{ textAlign: "center"}}
-                value={(ResearchGuidanceHOD && ResearchGuidanceHOD[index]) || '0'}
+                value={(ResearchGuidancePhod && ResearchGuidancePhod[index]) || '0'}
                 onChange={(e) => {
                   const value = e.target.value;
-                  const updatedValues = [...ResearchGuidanceHOD];
+                  const updatedValues = [...ResearchGuidancePhod];
                   
                   if (value === '') {
                     updatedValues[index] = 0; 
@@ -886,7 +883,7 @@ years score is considered for promotion as per UGC notification Feb
                       updatedValues[index] = 0;
                     }
                   }
-                  setResearchGuidanceHOD(updatedValues);
+                  setResearchGuidancePhod(updatedValues);
                 }}
                 max={50}
                 pattern="\d*"
@@ -957,10 +954,10 @@ years score is considered for promotion as per UGC notification Feb
                 key={index}
                   type="text"
                   style={{ textAlign: "center"}}
-                  value={(TrainingCourseHOD && TrainingCourseHOD[index]) || '0'}
+                  value={(TrainingCoursePhod && TrainingCoursePhod[index]) || '0'}
                   onChange={(e) => {
                     const value = e.target.value;
-                    const updatedValues = [...TrainingCourseHOD];
+                    const updatedValues = [...TrainingCoursePhod];
                     
                     if (value === '') {
                       updatedValues[index] = 0; 
@@ -974,7 +971,7 @@ years score is considered for promotion as per UGC notification Feb
                         updatedValues[index] = 0;
                       }
                     }
-                    setTrainingCourseHOD(updatedValues);
+                    setTrainingCoursePhod(updatedValues);
                   }}
                   max={20}
                   pattern="\d*"
@@ -1045,10 +1042,10 @@ years score is considered for promotion as per UGC notification Feb
               key={index}
                 type="text"
                 style={{ textAlign: "center"}}
-                value={(PaperPresentConferenceHOD && PaperPresentConferenceHOD[index]) || '0'}
+                value={(PaperPresentConferencePhod  && PaperPresentConferencePhod[index]) || '0'}
                 onChange={(e) => {
                   const value = e.target.value;
-                  const updatedValues = [...PaperPresentConferenceHOD];
+                  const updatedValues = [...PaperPresentConferencePhod];
                   
                   if (value === '') {
                     updatedValues[index] = 0; 
@@ -1062,7 +1059,7 @@ years score is considered for promotion as per UGC notification Feb
                       updatedValues[index] = 0;
                     }
                   }
-                  setPaperPresentConferenceHOD(updatedValues);
+                  setPaperPresentConferencePhod(updatedValues);
                 }}
                 max={10}
                 pattern="\d*"
@@ -1135,10 +1132,10 @@ years score is considered for promotion as per UGC notification Feb
                 key={index}
                   type="text"
                   style={{ textAlign: "center" }}
-                  value={(InvitedLectureHOD && InvitedLectureHOD[index]) || '0'}
+                  value={(InvitedLecturePhod && InvitedLecturePhod[index]) || '0'}
                   onChange={(e) => {
                     const value = e.target.value;
-                    const updatedValues = [...InvitedLectureHOD];
+                    const updatedValues = [...InvitedLecturePhod];
                     
                     if (value === '') {
                       updatedValues[index] = 0; 
@@ -1153,7 +1150,7 @@ years score is considered for promotion as per UGC notification Feb
                         updatedValues[index] = 0;
                       }
                     }
-                    setInvitedLectureHOD(updatedValues);
+                    setInvitedLecturePhod(updatedValues);
                   }}
                   max={10}
                   pattern="\d*"
@@ -1223,10 +1220,10 @@ years score is considered for promotion as per UGC notification Feb
                 key={index}
                   type="text"
                   style={{ textAlign: "center" }}
-                  value={(AwardHOD && AwardHOD[index]) || '0'}
+                  value={(AwardPhod && AwardPhod[index]) || '0'}
                   onChange={(e) => {
                     const value = e.target.value;
-                    const updatedValues = [...AwardHOD];
+                    const updatedValues = [...AwardPhod];
                     
                     if (value === '') {
                       updatedValues[index] = 0; 
@@ -1240,7 +1237,7 @@ years score is considered for promotion as per UGC notification Feb
                         updatedValues[index] = 0;
                       } 
                     }
-                    setAwardHOD(updatedValues);
+                    setAwardPhod(updatedValues);
                   }}
                   max={50}
                   pattern="\d*"
@@ -1304,7 +1301,7 @@ years score is considered for promotion as per UGC notification Feb
             <td>{facultyData.IIISelfTotal}</td>
             <td>
               <Form.Text style={{fontSize:'17px'}}>
-                {IIIActHODTotal}
+                {IIIActPhodTotal}
                 </Form.Text>
             </td>
           </tr>
@@ -1312,11 +1309,15 @@ years score is considered for promotion as per UGC notification Feb
       </Table>
        
       <div className='text-center mb-4'>
+
+        <Row>
+          
+        </Row>
         <Row>
           
           <Col>
             <Button variant="primary"  >
-            <Link onClick={handleForm2BHODNavigation} className="text-decoration-none text-white">
+            <Link onClick={handleForm2BHODPCNavigation} className="text-decoration-none text-white">
                 Previous
               </Link>
             </Button>
@@ -1331,7 +1332,7 @@ years score is considered for promotion as per UGC notification Feb
 
           <Col>
             <Button variant="primary" type="submit" onClick={handleSubmit} >
-              <Link onClick= {handleForm3HODNavigation} className="text-decoration-none text-white">
+              <Link onClick= {handleForm3HODPCNavigation} className="text-decoration-none text-white">
                 Next
               </Link>
             </Button>
@@ -1347,4 +1348,4 @@ years score is considered for promotion as per UGC notification Feb
   )
 }
 
-export default Form2CHOD
+export default Form2CPCH;

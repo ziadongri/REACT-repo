@@ -5,6 +5,7 @@ import { doc, getDoc, setDoc , onSnapshot, collection, query, where, getDocs } f
 import { Link, useNavigate } from 'react-router-dom';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import {signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
+import Footer from './Footer';
 
 function Form2B() {
   const [isEditable, setIsEditable] = useState(true); // default to editable
@@ -2033,7 +2034,7 @@ useEffect(() => {
           </Form>
         </Col>
 
-
+{/* <Footer/> */}
       </Row>
     </Container>
   );

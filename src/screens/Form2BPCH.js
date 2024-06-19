@@ -6,11 +6,16 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import {signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
 
-function Form2BPC() {
+function Form2BPCH() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [facultyData, setFacultyData] = useState(null);
-const [comments2, setComments2] = useState("");
+    const [IIActaPhod, setIIActaPhod] = useState('');
+    const [IIActbPhod, setIIActbPhod] = useState('');
+    const [IIActcPhod, setIIActcPhod] = useState('');
+    const [IIActdPhod, setIIActdPhod] = useState('');
+    const [IIActTotalPhod, setIIActTotalPhod] = useState('');
+
     const location = useLocation();
     const facultyUID = location.state.facultyUID;
     console.log(facultyUID);
@@ -19,6 +24,15 @@ const [comments2, setComments2] = useState("");
     if (!facultyUID) {
         alert("Something went wrong!");
     }
+
+    const Total = () => {
+        setIIActTotalPhod(Number(IIActaPhod) + Number(IIActbPhod) + Number(IIActcPhod) + Number(IIActdPhod));
+    }
+
+    useEffect(() => {
+        Total();
+    }
+        , [IIActaPhod, IIActbPhod, IIActcPhod, IIActdPhod]);
 
     useEffect(() => {   
         const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -31,101 +45,111 @@ const [comments2, setComments2] = useState("");
             });
             return unsubscribe;
           }, [navigate]);
-
-
-    
-    //       useEffect(() => {
-    //         const fetchData = async () => {
-    //           const facultyRef = doc(db, "faculty", facultyUID);
-    //           const docRef = doc(facultyRef, "partB", "CategoryB");
-    //           const docSnap = await getDoc(docRef);
-    //           if (docSnap.exists()) {
-    //             setFacultyData(docSnap.data());
-    //             setComments2(docSnap.data().comments2);
-    //             console.log("Document data:", docSnap.data());
-    //           } else {
-    //             console.log("No such document!");
-    //           }
-        
-    //         }
-    //         fetchData();
-    //       } , [facultyUID]);  
           
-    //  const handleSubmit = async () => {
+            const fetchData = async () => {
+              const facultyRef = doc(db, "faculty", facultyUID);
+              const docRef = doc(facultyRef, "partB", "CategoryB");
+              const docSnap = await getDoc(docRef);
+              if (docSnap.exists()) {
+                setFacultyData(docSnap.data());
+             
+                setIIActaPhod(docSnap.data().IIActaPhod);
+                setIIActbPhod(docSnap.data().IIActbPhod);
+                setIIActcPhod(docSnap.data().IIActcPhod);
+                setIIActdPhod(docSnap.data().IIActdPhod);
+                setIIActTotalPhod(docSnap.data().IIActTotalPhod);
+              } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+              }
+            };
 
-    //         navigate('/form2cprincipal', { state: { facultyUID: facultyUID } });
-    //         // console.log("Document written with ID: ", facultyUID);
-    //       }
-
-
-    useEffect(() => {
-      const fetchData = async () => {
-        const facultyRef = doc(db, "faculty", facultyUID);
-          const docRef = doc(facultyRef, "partB", "CategoryB");
-          const docSnap = await getDoc(docRef);
+          useEffect(() => {
+            fetchData();
+          } , [facultyUID]);  
           
-          if (docSnap.exists()) {
-            setFacultyData(docSnap.data());
-           //  console.log("Document data:", docSnap.data());
-           console.log("Document data:", facultyData);
-          } else {
-            // doc.data() will be undefined in this case
-            console.log("No such document!");
+     const handleSubmit = async (e) => {
+            e.preventDefault();
+            const facultyRef = doc(db, "faculty", facultyUID);
+            const docRef = doc(facultyRef, "partB", "CategoryB");
+            const docSnap = await getDoc(docRef);
+            const existingData = docSnap.data() ? docSnap.data() : {};
+            const data ={
+              IIActaPhod: IIActaPhod,
+              IIActbPhod: IIActbPhod,
+              IIActcPhod: IIActcPhod,
+              IIActdPhod: IIActdPhod,
+              IIActTotalPhod: IIActTotalPhod
+            };
+            
+            if (IIActaPhod === '' || IIActbPhod === '' || IIActcPhod === '' || IIActdPhod === '') {
+              alert("Please fill all the fields!");
+              return;
+            }
+           else if (IIActaPhod < 0 || IIActbPhod < 0 || IIActcPhod < 0 || IIActdPhod < 0) {
+              alert("Please enter positive values only!");
+              return;
+            }
+            else if (isNaN(IIActTotalPhod)) {
+              alert("Please enter valid values!");
+              return;
+            }
+            await setDoc(docRef, data, {merge:true});
+            alert("Data Saved!");
+            navigate('/form2cpch', { state: { facultyUID: facultyUID } });
+            // console.log("Document written with ID: ", facultyUID);
           }
-  
-          if (docSnap.exists()) {
-           setComments2(docSnap.data().comments2);
-           }
-           console.log("Document data:", docSnap.data());
-         }
-         fetchData();
-       }, [facultyUID]);
-  
-       const handleSubmit = async (e) => {
-        e.preventDefault();
-        
-        // Ensure remarksPrincipal is defined before proceeding
-        if (typeof comments2 === 'undefined' ||comments2 === "") {
-          alert("Remarks cannot be undefined");
-          return;
-        }
-      
-        const facultyRef = doc(db, "faculty", facultyUID);
-        const docRef = doc(facultyRef, "partB", "CategoryB");
-        const docSnap = await getDoc(docRef);
-      
-        try {
-          if (docSnap.exists()) {
-            await updateDoc(docRef, {
-             comments2: comments2
-            });
-          } else {
-            await setDoc(docRef, {
-              comments2: comments2
-            });
+
+          const handleSave = async (e) => {
+            e.preventDefault();
+            const facultyRef = doc(db, "faculty", facultyUID);
+            const docRef = doc(facultyRef, "partB", "CategoryB");
+            const docSnap = await getDoc(docRef);
+            const existingData = docSnap.data() ? docSnap.data() : {};
+            const data ={
+              
+              IIActaPhod: IIActaPhod,
+              IIActbPhod: IIActbPhod,
+              IIActcPhod: IIActcPhod,
+              IIActdPhod: IIActdPhod,
+              IIActTotalPhod: IIActTotalPhod
+            }
+            
+            if (IIActaPhod === '' || IIActbPhod === '' || IIActcPhod === '' || IIActdPhod === '') {
+              alert("Please fill all the fields!");
+              await updateDoc(docRef, data);
+              return;
+            }
+           else if (IIActaPhod < 0 || IIActbPhod < 0 || IIActcPhod < 0 || IIActdPhod < 0) {
+            await updateDoc(docRef, data);
+              alert("Please enter valid values!");
+              return;
+            }
+            else if (isNaN(IIActTotalPhod)) {
+              await updateDoc(docRef, data);
+              alert("Please enter valid values!");
+              return;
+            }
+            await updateDoc(docRef, data);
+            alert("Data Saved!");
+           
           }
-          navigate('/form2cprincipal', { state: { facultyUID: facultyUID } });
-        } catch (error) {
-          console.error("Error updating document: ", error);
-          alert("An error occurred while submitting the form. Please try again.");
-        }
-      }
 
+          const handleForm2AHODPCNavigation = async (e) => {
+            e.preventDefault();
+            navigate('/form2apch', { state: { facultyUID: facultyUID } });
+          }
 
-    const handleForm2APCNavigation = async (e) => {
-        e.preventDefault();
-        navigate('/form2aprincipal', { state: { facultyUID: facultyUID } });
-      }
+          const handleForm2CHODPCNavigation = async (e) => {
+            e.preventDefault();
+            navigate('/form2cpch', { state: { facultyUID: facultyUID } });
+          }
 
-      const handleForm2CPCNavigation = async (e) => {
-        e.preventDefault();
-        navigate('/form2cprincipal', { state: { facultyUID: facultyUID } });
-      }
-    
-      const handleForm3PCNavigation = async (e) => {
-        e.preventDefault();
-        navigate('/form3principal', { state: { facultyUID: facultyUID } });
-      }     
+          const handleForm3HODPCNavigation = async (e) => {
+            e.preventDefault();
+            navigate('/form3pch', { state: { facultyUID: facultyUID } });
+          }
+
 
           if (loading) {
             return <p>Loading...</p>;
@@ -139,8 +163,8 @@ const [comments2, setComments2] = useState("");
           return (
             <Container fluid>
               <Row>
-
-              <Col md={11} className="mx-auto text-center" >
+              
+                <Col md={11} className="mx-auto text-center" >
                 <h1 className="text-center">Part B: Academic Performance Indicators</h1>
                   
                   <h4 style={{fontSize: 20}} className="text-center">Category II: Co-Curricular, Extension and Profession related activities</h4>
@@ -151,22 +175,21 @@ const [comments2, setComments2] = useState("");
         
                   <Form onSubmit={handleSubmit}>
                     <Table striped bordered hover>
-                    <thead>
+                      <thead>
                         <tr className="text-center">
                         <th style={{ verticalAlign: 'middle'}}>Sr. No.</th>
                         <th style={{ verticalAlign: 'middle'}}>Natural of Activity</th>
                         <th style={{ verticalAlign: 'middle'}}>Spilt-Up Marks Total</th>
                         <th style={{ verticalAlign: 'middle'}}>MAX API Score alloted</th>
-                        <th style={{ verticalAlign: 'middle'}}>Self apprasial Score</th>                      
+                        <th style={{ verticalAlign: 'middle'}}>Self apprasial Score</th>
+                        <th style={{ verticalAlign: 'middle'}}>Supporting Documents</th>
                         <th style={{ verticalAlign: 'middle'}}>Verified API Score</th>
-                         <th style={{ verticalAlign: 'middle'}}>Supporting Documents</th>
                         </tr>
-                        
                       </thead>
 
                       <tbody>
                         <tr>
-                        <td className="text-center">a.</td>
+                          <td className="text-center">a.</td>
                           <td style={{ textAlign: "left" }}>
                             Contribution to Corporate life and management of Institution - 
                             <p>List yearly or semester-wise responsibilities</p>
@@ -187,17 +210,14 @@ const [comments2, setComments2] = useState("");
                           </td>
 
                           <td>
-                  <p className='text-center'>-</p>
+                  <p className='text-center'>{facultyData.totalsub2a}</p>
                   </td>
                       <td>
               <p className='text-center'>25</p>
               </td>
                       <td>{facultyData.IIActa}</td>
-                          <td>
-                            {facultyData.IIActaHOD}
-                          </td>
 
-                          <td>
+                      <td>
               <div className="text-center mb-3">
             <Row>
               <Col>
@@ -207,36 +227,192 @@ const [comments2, setComments2] = useState("");
             <a href={facultyData.documentB1} target="_blank">
               View file here
             </a>
+
           </Form.Group>
           </Col>
           </Row>
           </div>
-              </td> 
+              </td>
+                          <td>
+                            <Form.Control
+                              type="text" style={{ textAlign: "center" }}
+                              value={IIActaPhod}
+                              onChange={(e) => setIIActaPhod(Math.min(Number(e.target.value), 35))}
+                      max={35}
+                            />
+                          </td>
                         </tr>
 
-                        <tr style={{ textAlign: "left" }}>
-                          <td></td>
-                        <td colSpan={6}>
-                          <Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
-                        <Col>a) Contribution to corporate life in colleges and universities through meetings/popular lectures/subject-related events/articles in college magazines and university volumes - 3 pts each</Col>
-                        <Col>Institutional governance responsibilities like Vice-Principal, Deans, HOD, Director, IQAC Coordinator/T&P officer, Exam cell in charge, Admission cell in charge maximum of 25 points (or any other equivalent responsibility)</Col>
-                        <p></p>
-                        <Col>b) Organized conference/workshop/seminar/FDP/STTP etc.(Max two events to be considered)</Col>
-                        <Col>1. Conference - 15 points</Col>
-                        <Col>2. Workshop FDP/STTP/certification programs</Col>
-                        <Col><Col>1. One week or more - 10 points</Col></Col>
-                        <Col><Col>2. Less than a week but greater than two days - 5 points</Col></Col>
-                        <Col><Col>3. One to two days - 3 points</Col></Col>
-                        <Col><Col>4. Committee member of ICAST - ( )</Col></Col>
-                        <Col><Col>5. Seminars - 1 point</Col></Col>
-                        <Col>3. Delivering Lecture/conducting workshop (not paper presentation)</Col>
-                        <Col><Col>1. At college level for faculty - 3 points</Col></Col>
-                        <Col><Col>2. During STTP - 10 points</Col></Col>
-                        <Col><Col>3. International - 15 points</Col></Col>
-                        <Col>Establishing labs with the help of industry/industry/another organization</Col>
-                        <Col>Max 5 per individual if a group is involved - 10 if only 1 person is involved</Col>        
-                              </td></tr>
+                        <tr style={{ textAlign: "left" }} >
+                  <td></td>
+                <td colSpan={6} >
+                  <Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
+                
+                <div>
+                  <p>a) Mention the contributions of the following:</p>
+                  <table>
+                    <tbody>
+                      <tr>
+                        <td> • Contribution to corporate life in colleges and universities through meetings/popular lectures/subject-related events/articles in college magazines and university volumes - 3 pts each </td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={facultyData.sub2a1}
+                            readOnly
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td> • Institutional governance responsibilities like Vice-Principal, Deans, HOD, Director, IQAC Coordinator/T&P officer, Exam cell in charge, Admission cell in charge maximum of 25 points (or any other equivalent responsibility)</td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={facultyData.sub2a2 }
+                            readOnly
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
 
+                  <br />
+                  <p>b) Organized conference/workshop/seminar/FDP/STTP etc. (Max two events to be considered):</p>
+                  <table>
+                    <tbody>
+                      <tr>
+                        <td>1. Conference - 15 points</td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={facultyData.sub2a3}
+                            readOnly
+                          />
+                        </td>
+                      </tr>
+
+                      <br/>
+                      <tr>
+                        <td>2. Workshop FDP/STTP/certification programs:</td>
+                      </tr>
+                      <tr>
+                        <td><Col><Col>1. One week or more - 10 points</Col></Col></td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={facultyData.sub2a4}
+                            readOnly
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><Col><Col>2. Less than a week but greater than two days - 5 points</Col></Col></td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={facultyData.sub2a5 }
+                            readOnly
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><Col><Col>3. One to two days - 3 points</Col></Col></td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={facultyData.sub2a6 }
+                            readOnly
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><Col><Col>4. Committee member of ICAST - 2 points</Col></Col></td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={facultyData.sub2a7}
+                            readOnly
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><Col><Col>5. Seminars - 1 point</Col></Col></td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={facultyData.sub2a8}
+                            readOnly
+                          />
+                        </td>
+                      </tr>
+
+                      <br/>
+                      <tr>
+                        <td>3. Delivering Lecture/conducting workshop (not paper presentation):</td>
+                      </tr>
+                      
+                      <tr>
+                        <td><Col><Col>1. At college level for faculty - 3 points</Col></Col></td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={facultyData.sub2a9}
+                            readOnly
+                          />
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td><Col><Col>2. During STTP - 10 points</Col></Col></td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={facultyData.sub2a10}
+                            readOnly
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><Col><Col>3. International - 15 points</Col></Col></td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={facultyData.sub2a11}
+                            readOnly
+                          />
+                        </td>
+                      </tr>
+
+                      <br/>
+                      <tr>
+                        <td> • Establishing labs with the help of industry/industry/another organization. Max 5 per individual if a group is involved - 10 if only 1 person is involved</td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            style={{ textAlign: "center" }}
+                            value={facultyData.sub2a12}
+                            
+                           readOnly
+                          />
+                        </td>
+                      </tr>
+                      <br/>
+                    </tbody>
+                  </table>
+                </div>
+
+                </td></tr> 
+                        
                         <tr>
                           <td>b.</td>
                           <td style={{ textAlign: "left" }}>
@@ -497,9 +673,6 @@ const [comments2, setComments2] = useState("");
                           <td>  <p className='text-center'>25</p>
                       </td>                    
                           <td>{facultyData.IIActb}</td>
-                          <td>
-                            {facultyData.IIActbHOD}
-                          </td>
 
                           <td>
               <div className="text-center mb-3">
@@ -511,11 +684,21 @@ const [comments2, setComments2] = useState("");
             <a href={facultyData.documentB2} target="_blank">
               View file here
             </a>
+
           </Form.Group>
           </Col>
           </Row>
           </div>
-              </td> 
+              </td>
+                          <td>
+                            <Form.Control
+                              type="text"
+                              style={{ textAlign: "center" }}
+                              value={IIActbPhod}
+                              onChange={(e) => setIIActbPhod(Math.min(Number(e.target.value), 25))}
+                      max={25}
+                            />
+                          </td>
                         </tr>
 
                         <tr>
@@ -555,15 +738,12 @@ const [comments2, setComments2] = useState("");
                     />
                   </td>
                   </tr> </td>
-
-                  <td>{facultyData.totalsub2d}</td>
+                         
+                          <td>{facultyData.totalsub2d}</td>
                           <td>
                       <p className='text-center'>20</p>
                       </td>
                           <td>{facultyData.IIActc}</td>
-                          <td>
-                            {facultyData.IIActcHOD}
-                          </td>
 
                           <td>
               <div className="text-center mb-3">
@@ -575,11 +755,21 @@ const [comments2, setComments2] = useState("");
             <a href={facultyData.documentB3} target="_blank">
               View file here
             </a>
+
           </Form.Group>
           </Col>
           </Row>
           </div>
               </td>
+                          <td>
+                            <Form.Control
+                              type="text"
+                              style={{ textAlign: "center" }}
+                              value={IIActcPhod}
+                              onChange={(e) => setIIActcPhod(Math.min(Number(e.target.value), 20))}
+                      max={20}
+                            />
+                          </td>
                         </tr>
 
                         <tr>
@@ -712,9 +902,6 @@ const [comments2, setComments2] = useState("");
                       <p className='text-center'>20</p>
                       </td>
                           <td>{facultyData.IIActd}</td>
-                          <td>
-                            {facultyData.IIActdHOD}
-                          </td>
 
                           <td>
               <div className="text-center mb-3">
@@ -730,7 +917,17 @@ const [comments2, setComments2] = useState("");
           </Col>
           </Row>
           </div>
-              </td> 
+              </td>
+                          <td>
+                            <Form.Control
+                              type="text"
+                              style={{ textAlign: "center" }}
+                              value={IIActdPhod}
+                              onChange={(e) => setIIActdPhod(Math.min(Number(e.target.value), 20))}
+                              max={20}
+                              pattern="\d*"
+                            />
+                          </td>
                         </tr>
 
                         <tr>
@@ -741,52 +938,33 @@ const [comments2, setComments2] = useState("");
                       <p className='text-center'>100</p>
                       </td>
                           <td>{facultyData.IIActTotal}</td>
+                          <td></td>
                           <td>
-                            {facultyData.IIActTotalHOD}
+                            {IIActTotalPhod}
                           </td>
                         </tr>
                       </tbody>
                     </Table>
-
-                  
+                    
                     <div className="text-center mb-4" >
-
-                    <Row>
-      <Form.Group className="mb-3 align-item-center" >
-            <Row>
-          <Col md={3} className="form-label">
-            <Form.Label>Comments:</Form.Label>
-          </Col>
-          <Col md={9}>
-            <Form.Control
-              type="text"
-              value={comments2}
-              onChange={(e) => setComments2(e.target.value)}
-                           
-            />
-          </Col>
-        </Row>
-            </Form.Group>
-      </Row>
-
                       <Row>
                         <Col>
                           <Button variant="primary">
                             <Link
-                              onClick={handleForm2APCNavigation}
+                              onClick={handleForm2AHODPCNavigation}
                               className="text-decoration-none text-white"
                             >
                               Previous
                             </Link>
                           </Button>
                         </Col>
-                        {/* <Col>
-                    <Button variant="primary" type="submit" onClick={handleSubmit}>
-                      <Link className="text-decoration-none text-white">
-                        Save
-                      </Link>
-                    </Button>
-                  </Col> */}
+                        <Col>
+            <Button variant="primary" onClick={handleSave}>
+              {/* <Link className="text-decoration-none text-white"> */}
+                Save
+              {/* </Link> */}
+            </Button>
+          </Col>
                         <Col>
                           <Button
                             variant="primary"
@@ -794,7 +972,7 @@ const [comments2, setComments2] = useState("");
                             onClick={handleSubmit}
                           >
                             <Link
-                              to="/form2cprincipal"
+                             onClick={handleForm2CHODPCNavigation}
                               className="text-decoration-none text-white"
                             >
                               Next
@@ -809,5 +987,6 @@ const [comments2, setComments2] = useState("");
             </Container>
           );
         }
-
-export default Form2BPC;
+        
+        export default Form2BPCH;
+        

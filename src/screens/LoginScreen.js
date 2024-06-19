@@ -4,6 +4,7 @@ import { Link, useNavigate} from 'react-router-dom'
 import {auth, provider} from '../firebase'
 import {signInWithPopup, GoogleAuthProvider} from 'firebase/auth'
 import Wave from 'react-wavify'
+// import Footer from './Footer'
 
 function LoginScreen({setIsAuth}) {
     const [error, setError] = useState(null)
@@ -61,6 +62,7 @@ function LoginScreen({setIsAuth}) {
         }}
             
       />
+      {/* <Footer /> */}
     </Container>
     
   )

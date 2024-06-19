@@ -10,6 +10,7 @@ function Form2CPC() {
     const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [facultyData, setFacultyData] = useState(null);
+  const [comments3, setComments3] = useState('');
 
     const location = useLocation();
     const facultyUID = location.state.facultyUID;
@@ -33,27 +34,84 @@ function Form2CPC() {
     }, [navigate]);
 
 
-    useEffect(() => {
-      const fetchData = async () => {
-       const facultyRef = doc(db, "faculty", facultyUID);
-       const docRef = doc(facultyRef, "partB", "CategoryC");
-       const docSnap = await getDoc(docRef);
-       if (docSnap.exists()) {
-         setFacultyData(docSnap.data());
-         console.log("Document data:", docSnap.data());
-       } else {
-         // doc.data() will be undefined in this case
-         console.log("No such document!");
-       }
+    // useEffect(() => {
+    //   const fetchData = async () => {
+    //    const facultyRef = doc(db, "faculty", facultyUID);
+    //    const docRef = doc(facultyRef, "partB", "CategoryC");
+    //    const docSnap = await getDoc(docRef);
+    //    if (docSnap.exists()) {
+    //      setFacultyData(docSnap.data());
+    //      setComments3(docSnap.data().comments3);
+    //      console.log("Document data:", docSnap.data());
+    //    } else {
+    //      // doc.data() will be undefined in this case
+    //      console.log("No such document!");
+    //    }
         
 
-      }
-      fetchData();
-    }, [facultyUID]);
+    //   }
+    //   fetchData();
+    // }, [facultyUID]);
 
-    const handleSubmit = async () => {
-      navigate('/form3principal', {state: {facultyUID: facultyUID}});
-    }
+    // const handleSubmit = async () => {
+
+    //   navigate('/form3principal', {state: {facultyUID: facultyUID}});
+    // }
+
+    useEffect(() => {
+      const fetchData = async () => {
+        const facultyRef = doc(db, "faculty", facultyUID);
+          const docRef = doc(facultyRef, "partB", "CategoryC");
+          const docSnap = await getDoc(docRef);
+          
+          if (docSnap.exists()) {
+            setFacultyData(docSnap.data());
+           //  console.log("Document data:", docSnap.data());
+           console.log("Document data:", facultyData);
+          } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+          }
+  
+          if (docSnap.exists()) {
+           setComments3(docSnap.data().comments3);
+           }
+           console.log("Document data:", docSnap.data());
+         }
+         fetchData();
+       }, [facultyUID]);
+  
+       const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        // Ensure remarksPrincipal is defined before proceeding
+        if (typeof comments3 === 'undefined' ||comments3 === "") {
+          alert("Remarks cannot be undefined");
+          return;
+        }
+      
+        const facultyRef = doc(db, "faculty", facultyUID);
+        const docRef = doc(facultyRef, "partB", "CategoryC");
+        const docSnap = await getDoc(docRef);
+      
+        try {
+          if (docSnap.exists()) {
+            await updateDoc(docRef, {
+             comments3: comments3
+            });
+          } else {
+            await setDoc(docRef, {
+              comments3: comments3
+            });
+          }
+          navigate('/form3principal', { state: { facultyUID: facultyUID } });
+        } catch (error) {
+          console.error("Error updating document: ", error);
+          alert("An error occurred while submitting the form. Please try again.");
+        }
+      }
+
+
 
     const handleForm2APCNavigation = async (e) => {
       e.preventDefault();
@@ -790,11 +848,31 @@ years score is considered for promotion as per UGC notification Feb
       </Table>
        
       <div className='text-center mb-4'>
+
+      <Row>
+      <Form.Group className="mb-3 align-item-center" >
+            <Row>
+          <Col md={3} className="form-label">
+            <Form.Label>Comments:</Form.Label>
+          </Col>
+          <Col md={9}>
+            <Form.Control
+              type="text"
+              value={comments3}
+              onChange={(e) => setComments3(e.target.value)}
+                           
+            />
+          </Col>
+        </Row>
+            </Form.Group>
+      </Row>
+
+
         <Row>
           
           <Col>
             <Button variant="primary" >
-            <Link to="/form2bprincipal" className="text-decoration-none text-white">
+            <Link onClick={handleForm2BPCNavigation} className="text-decoration-none text-white">
                 Previous
               </Link>
             </Button>

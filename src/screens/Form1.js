@@ -5,6 +5,7 @@ import { doc, getDoc, setDoc, onSnapshot, collection, query, where, getDocs } fr
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/form.css';
 import {signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth'
+import Footer from './Footer';
 
 function Form1() {
   const [isEditable, setIsEditable] = useState(true); // default to editable
@@ -23,6 +24,8 @@ function Form1() {
   const [year, setYear] = useState('');
   let navigate = useNavigate();
 
+
+  
   // Fetch HOD's isEditable state
   const fetchHODState = async () => {
     const hodDepartment = "Electronics & Telecommunication Engineering"; // Replace with actual department
@@ -358,11 +361,11 @@ function Form1() {
                
             
           </Form>
-          <div className="text-center">
+          <div className="text-center mb-4">
             <Row>
             <Col >
             <Button variant="primary" type="submit" onClick={handleSave}>
-              <Link className="text-decoration-none text-white">
+              <Link className="text-decoration-none text-white" >
                 Save
               </Link>
             </Button>
@@ -376,11 +379,16 @@ function Form1() {
               </Col>
             </Row>
             </div>
-        </Col>
 
+            
+        </Col>
+{/* <Footer /> */}
       </Row>
     </Container>
   );
 }
 
 export default Form1;
+
+
+

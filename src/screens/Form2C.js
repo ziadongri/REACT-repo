@@ -7,6 +7,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import {signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth'
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import Footer from './Footer';
 
 
 function Form2C(){
@@ -216,6 +217,7 @@ useEffect(() => {
       for (const requiredArray of requiredArrays) {
           if (requiredArray.data.length === 0 || requiredArray.data.some(item => Object.values(item).some(value => value === ''))) {
               alert(`Please fill all the fields in the ${requiredArray.name} section!`);
+              await setDoc(docRef, data);
               return;
           }
       }
@@ -234,6 +236,7 @@ useEffect(() => {
           isNaN(IIISelfTotal)
       ) {
           alert('Please fill all the numeric fields with positive values only!');
+          await setDoc(docRef, data);
           return;
       }
   else {await setDoc(docRef, data);
@@ -392,7 +395,8 @@ useEffect(() => {
           return;
       }
   else {await setDoc(docRef, data);
-    alert("Data saved successfully!");
+   
+    alert("Are you sure you want to submit the form?");
       navigate('/formsubmission');
       // navigate('/download');
     }  
@@ -1358,8 +1362,13 @@ years score is considered for promotion as per UGC notification Feb
                   style={{ textAlign: "center" }}
                   value={researcharticle.chapters}
                   onChange={(e) =>{
+                    const inputValue = e.target.value;
+                  
+                  const newValue = /^\d*$/.test(inputValue) ? inputValue : '0';
+
+
                     const newResearchArticle = [...ResearchArticle]
-                    newResearchArticle[index].chapters = e.target.value
+                    newResearchArticle[index].chapters = newValue
                     setResearchArticle(newResearchArticle)
                   } } disabled={!isEditable}
                   required/>
@@ -1458,8 +1467,12 @@ years score is considered for promotion as per UGC notification Feb
                 style={{ textAlign: "center" }}
                 value={researcharticle.coauthor}
                 onChange={(e) =>{
+                  const inputValue = e.target.value;
+                  
+                  const newValue = /^\d*$/.test(inputValue) ? inputValue : '0';
+
                   const newResearchArticle = [...ResearchArticle]
-                  newResearchArticle[index].coauthor = e.target.value
+                  newResearchArticle[index].coauthor = newValue
                   setResearchArticle(newResearchArticle)
                 } } disabled={!isEditable}/>
                 <br/>
@@ -1771,7 +1784,6 @@ years score is considered for promotion as per UGC notification Feb
       />
     </td>
 
-
               <td>            
                 <Form.Control
                 type="text"
@@ -1800,14 +1812,13 @@ years score is considered for promotion as per UGC notification Feb
                 value={researchprojecton.selfscore}
                 onChange={(e) =>{
                   let value = e.target.value;
-                 
-                // Check if the input is a valid positive number
-                const parsedValue = parseFloat(value);
-                if (!isNaN(parsedValue) && parsedValue >= 0) {
-                  value = parsedValue;
-                } else {
-                  value = 0;
-                }
+
+                  // Ensure the value is a number and within the specified range
+                  if (isNaN(value)) {
+                    value = 0;
+                  } else {
+                    value = Math.max(0, Math.min(30, Number(value)));
+                  }
 
                   const newResearchProjectON = [...ResearchProjectON]
                   newResearchProjectON[index].selfscore = value;
@@ -2360,22 +2371,49 @@ years score is considered for promotion as per UGC notification Feb
                 style={{ textAlign: "center" }}
                 value={researchguidance.enrolled}
                 onChange={(e) =>{
+                  const inputValue = e.target.value;
+                  
+                  const newValue = /^\d*$/.test(inputValue) ? inputValue : '0';
+
                   const newResearchGuidance = [...ResearchGuidance]
-                  newResearchGuidance[index].enrolled = e.target.value
+                  newResearchGuidance[index].enrolled = newValue
                   setResearchGuidance(newResearchGuidance)
                 } } disabled={!isEditable}/>
 
                 <br/>
-                Is it M. Phil/ME or PhD:
-                <Form.Control
-                type="text"
-                style={{ textAlign: "center" }}
-                value={researchguidance.cluster}
-                onChange={(e) =>{
-                  const newResearchGuidance = [...ResearchGuidance]
-                  newResearchGuidance[index].cluster = e.target.value
-                  setResearchGuidance(newResearchGuidance)
-                } } disabled={!isEditable}/>
+                <div>
+  Is it M. Phil/ME or PhD:
+  <Form.Check
+    type="radio"
+    label="M. Phil/ME"
+    name={`whatcluster-${index}`}
+    style={{ textAlign: "left" }}
+    value="M. Phil/ME" // Set the actual value
+    checked={researchguidance.cluster === 'M. Phil/ME'} // Use checked for comparison
+    onChange={(e) => {
+      const newResearchGuidance = [...ResearchGuidance];
+      newResearchGuidance[index].cluster = e.target.value;
+      setResearchGuidance(newResearchGuidance);
+    }}
+    disabled={!isEditable}
+  />
+
+  <Form.Check
+    type="radio"
+    label="PhD"
+    name={`whatcluster-${index}`}
+    style={{ textAlign: "left" }}
+    value="PhD" // Set the actual value
+    checked={researchguidance.cluster === 'PhD'} // Use checked for comparison
+    onChange={(e) => {
+      const newResearchGuidance = [...ResearchGuidance];
+      newResearchGuidance[index].cluster = e.target.value;
+      setResearchGuidance(newResearchGuidance);
+    }}
+    disabled={!isEditable}
+  />
+</div>
+
 
             </td>
               
@@ -3219,7 +3257,9 @@ years score is considered for promotion as per UGC notification Feb
           </div>
           {/* <Link to="/form2" className="btn btn-primary ms-2">Next</Link> */}
         </Col>
+{/*   <Footer/> */}
       </Row>
+
     </Container>
       </div>
 

@@ -5,6 +5,7 @@ import {signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth'
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/form.css';
+import Footer from './Footer';
 
 function Form1AHOD() {
 
@@ -212,7 +213,7 @@ function Form1AHOD() {
         </Row>
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="designation">
+            {/* <Form.Group className="mb-3" controlId="designation">
             <Row>
                 <Col md={3} className="form-label">
               <Form.Label>Current Designation: </Form.Label>
@@ -261,7 +262,7 @@ function Form1AHOD() {
               />
               </Col>
               </Row>
-            </Form.Group>
+            </Form.Group> */}
 
             <Form.Group className="mb-3" controlId="contact">
             <Row>
@@ -298,7 +299,7 @@ function Form1AHOD() {
               </Row>
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="freshQualification">
+            {/* <Form.Group className="mb-3" controlId="freshQualification">
             <Row>
                 <Col md={3} className="form-label">
               <Form.Label>Whether acquired any degrees or fresh qulifications during the year: (Yes/No)</Form.Label>
@@ -312,7 +313,7 @@ function Form1AHOD() {
               />
               </Col>
               </Row>
-            </Form.Group>
+            </Form.Group> */}
 
           
 
@@ -336,6 +337,7 @@ function Form1AHOD() {
             </Row>
             </div>
         </Col>
+        {/* <Footer/> */}
       </Row>
     </Container>
   

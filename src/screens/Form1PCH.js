@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../styles/form.css';
 import Footer from './Footer';
 
-function Form1PC() {
+function Form1PCH() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [facultyData, setFacultyData] = useState([]);
@@ -29,64 +29,72 @@ function Form1PC() {
       });
       return unsubscribe;
     }, [navigate]);
-  
-    // const fetchHODData = async (uid) => {
-    //   const docRef = doc(db, 'hod', uid);
-    //   try {
-    //     const docSnap = await getDoc(docRef);
-    //     if (docSnap.exists()) {
-    //       const data = docSnap.data();
-    //       setHODData(data);
-    //     }
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // };
-  
+
+    // const fetchFacultyData = async () => {
+    //   const q = query(collection(db, 'faculty'), where('department', '==', department));
+    //   const querySnapshot = await getDocs(q);
+    //   const facultyDoc = [];
+    //   querySnapshot.forEach((doc) => {
+    //     facultyDoc.push({ ...doc.data(), id: doc.id });
+    //   });
+    //   setFacultyData(facultyDoc);
+    //   console.log(facultyDoc);
+
+    // }
+
     // useEffect(() => {
-    //   if (user) {
-    //     fetchHODData(user.uid);
-    //   }
-    // }, [user]);
+    //   fetchFacultyData();
+    // }
+    // , [department]);
 
-
-    const fetchHODData = async () => {
-      const q = query(collection(db, 'hod'), where('department', '==', department));
-      const querySnapshot = await getDocs(q);
-      const tempDoc = [];
-      querySnapshot.forEach((doc) => {
-        tempDoc.push({ ...doc.data(), id: doc.id });
-      });
-      setHODData(tempDoc);
-    }
-
+    const fetchFacultyData = async () => {
+      try {
+        console.log("Fetching faculty data for department:", department);
+        const q = query(collection(db, 'faculty'), where('department', '==', department));
+        const querySnapshot = await getDocs(q);
+        const facultyDoc = [];
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          console.log("Checking email:", data.email);
+          if (isAllowedEmail(data.email)) { // Check if email is in allowed list
+            console.log("Allowed email found:", data.email);
+            facultyDoc.push({ ...data, id: doc.id });
+          }
+        });
+        console.log("Fetched faculty data:", facultyDoc);
+        setFacultyData(facultyDoc);
+      } catch (error) {
+        console.error("Error fetching faculty data:", error);
+      }
+    };
+  
+    const isAllowedEmail = (email) => {
+      const allowedEmails = [
+        'jayashreek@somaiya.edu',
+        'mnemade@somaiya.edu',
+        'radhika.kotecha@somaiya.edu',
+        'sarita.ambadekar@somaiya.edu',
+        'harsham@somaiya.edu',
+        'vice_principal@somaiya.edu'
+      ];
+      // Check if email exists in the allowed list (case insensitive)
+      return allowedEmails.some(allowedEmail => allowedEmail.toLowerCase() === email.toLowerCase());
+    };
+  
     useEffect(() => {
-      fetchHODData();
-    }
-    , [department]);
+      if (department) {
+        fetchFacultyData();
+      }
+    }, [department]);
+  
+
 
     const handleSubmit = async (e) => {
       e.preventDefault();
-      navigate('/form2aprincipal', { state: {facultyUID: facultyData[0].uid} });
+      navigate('/form2apch', { state: {facultyUID: facultyData[0].uid} });
       console.log(facultyData[0].id);
     };
 
-    const fetchFacultyData = async () => {
-      const q = query(collection(db, 'faculty'), where('department', '==', department));
-      const querySnapshot = await getDocs(q);
-      const facultyDoc = [];
-      querySnapshot.forEach((doc) => {
-        facultyDoc.push({ ...doc.data(), id: doc.id });
-      });
-      setFacultyData(facultyDoc);
-      console.log(facultyDoc);
-
-    }
-
-    useEffect(() => {
-      fetchFacultyData();
-    }
-    , [department]);
 
     if (loading) {
       return (
@@ -102,18 +110,6 @@ function Form1PC() {
           
           <Col md={11} className="mx-auto "  >
             <h1 className="text-center">Part A: General Information</h1>
-
-            <div className="text-center mb-4">
-                <Row>               
-                  <Col>
-                    <Button variant="primary" type="submit" >
-                    <Link to="/form1pch"style={{ color: 'white'}}>
-                      Go to HOD Forms
-                      </Link>
-                    </Button>
-                  </Col>
-                </Row>
-              </div>
 
             <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="year">
@@ -174,153 +170,6 @@ function Form1PC() {
                     </Col>
                 </Row>
                 </Form.Group>
-
-                <Form.Group className="mb-3 align-item-center" controlId="name">
-                <Row>
-                  <Col md={3} className="form-label">
-                    <Form.Label>HOD Name:</Form.Label>
-                  </Col>
-                  <Col md={9}>
-                    <Form.Control
-                      as="select"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    >
-                      <option value="">Select Name</option>
-                      {HODData.map((hod, index) => {
-                        return (
-                          <option key={index} value={hod.name}>
-                            {hod.name}
-                          </option>
-                        );
-                      })}
-                    </Form.Control>               
-                  </Col>
-                </Row>
-              </Form.Group>
-
-              {HODData.map((hod, index) => {
-                if ((hod.name === name) & (hod.year === year)) {
-                  return (
-                    <div key={index}>
-                      <Form.Group className="mb-3" controlId="name">
-                        <Row>
-                          <Col md={3} className="form-label">
-                            <Form.Label>Name:</Form.Label>
-                          </Col>
-                          <Col md={9}>
-                            <Form.Control
-                              type="text"
-                              placeholder={hod.name}
-                              readOnly
-                            />
-                          </Col>
-                        </Row>
-                      </Form.Group>
-                      <Form.Group className='mb-3' controlId='department'>
-                        <Row>
-                          <Col md={3} className="form-label">
-                            <Form.Label>Department:</Form.Label>
-                          </Col>
-                          <Col md={9}>
-                            <Form.Control
-                              type="text"
-                              placeholder={hod.department}
-                              readOnly
-                            />
-                          </Col>
-                        </Row>
-                      </Form.Group>
-                      {/* <Form.Group className='mb-3' controlId='designation'>
-                        <Row>
-                          <Col md={3} className="form-label">
-                            <Form.Label>Current Designation:</Form.Label>
-                          </Col>
-                          <Col md={9}>
-                            <Form.Control
-                              type="text"
-                              placeholder={hod.designation}
-                              readOnly
-                            />
-                          </Col>
-                        </Row>
-                      </Form.Group>
-                      <Form.Group className='mb-3' controlId='DOLpromotion'>
-                        <Row>
-                          <Col md={3} className="form-label">
-                            <Form.Label>Date of Last Promotion:</Form.Label>
-                          </Col>
-                          <Col md={9}>
-                            <Form.Control
-                              type="text"
-                              placeholder={hod.DOLpromotion}
-                              readOnly
-                            />
-                          </Col>
-                        </Row>
-                      </Form.Group>
-                      <Form.Group className='mb-3' controlId='address'>
-                        <Row>
-                          <Col md={3} className="form-label">
-                            <Form.Label>Address for correspondence:</Form.Label>
-                          </Col>
-                          <Col md={9}>
-                            <Form.Control
-                              type="text"
-                              placeholder={hod.address}
-                              readOnly
-                            />
-                          </Col>
-                        </Row>
-                      </Form.Group> */}
-                      <Form.Group className='mb-3' controlId='contact'>
-                        <Row>
-                          <Col md={3} className="form-label">
-                            <Form.Label>Contact:</Form.Label>
-                          </Col>
-                          <Col md={9}>
-                            <Form.Control
-                              type="tel"
-                              placeholder={hod.contact}
-                              readOnly
-                            />
-                          </Col>
-                        </Row>
-                      </Form.Group>
-                      <Form.Group className='mb-3' controlId='email'>
-                        <Row>
-                          <Col md={3} className="form-label">
-                            <Form.Label>Email Address:</Form.Label>
-                          </Col>
-                          <Col md={9}>
-                            <Form.Control
-                              type="email"
-                              placeholder={hod.email}
-                              readOnly
-                            />
-                          </Col>
-                        </Row>
-                      </Form.Group>
-                      {/* <Form.Group className='mb-3' controlId='freshqualification'>
-                        <Row>
-                          <Col md={3} className="form-label">
-                            <Form.Label>Whether acquired any degrees or fresh qulifications during the year: (Yes/No)</Form.Label>
-                          </Col>
-                          <Col md={9}>
-                            <Form.Control
-                              type="text"
-                              placeholder={hod.freshQualification}
-                              readOnly
-                            />
-                          </Col>
-                        </Row>
-                      </Form.Group> */}
-                    </div>
-                  );
-                } else {
-                  return null; // Don't display if the name doesn't match
-                }
-              })}
 
               <Form.Group className="mb-3 align-item-center" controlId="name">
                 <Row>
@@ -495,4 +344,4 @@ function Form1PC() {
     );
   }
   
-  export default Form1PC;
+  export default Form1PCH;

@@ -6,6 +6,7 @@ import {signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth'
 import { Link, useNavigate } from "react-router-dom";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { uploadBytes } from "@firebase/storage";
+import Footer from './Footer';
 
 function Form2A() {
   const [isEditable, setIsEditable] = useState(true); // default to editable
@@ -705,7 +706,7 @@ function Form2A() {
                     readOnly={!isEditable}
                   />
                 </td>
-                <td>
+                {/* <td>
                   <Form.Control
                     type="text"
                     placeholder="Enter lectures"
@@ -732,7 +733,41 @@ function Form2A() {
                     }}
                     readOnly={!isEditable}
                   />
-                </td>
+                </td> */}
+
+                <td>
+  <Form.Control
+    type="text"
+    placeholder="Enter lectures"
+    style={{ textAlign: "center" }}
+    value={oddsem.lectures}
+    onChange={(e) => {
+      const newIOddsem = [...IOddsem];
+      // Parse input value to integer and ensure it's not NaN
+      const newValue = parseInt(e.target.value);
+      newIOddsem[index].lectures = isNaN(newValue) ? '' : Math.max(0, newValue);
+      setIOddsem(newIOddsem);
+    }}
+    readOnly={!isEditable}
+  />
+</td>
+<td>
+  <Form.Control
+    type="text"
+    placeholder="Enter actual lectures"
+    style={{ textAlign: "center" }}
+    value={oddsem.actualLectures}
+    onChange={(e) => {
+      const newIOddsem = [...IOddsem];
+      // Parse input value to integer and ensure it's not NaN
+      const newValue = parseInt(e.target.value);
+      newIOddsem[index].actualLectures = isNaN(newValue) ? '' : Math.max(0, newValue);
+      setIOddsem(newIOddsem);
+    }}
+    readOnly={!isEditable}
+  />
+</td>
+
                 <td>
                   <Form.Control
                     type="text"
@@ -780,31 +815,6 @@ function Form2A() {
       </Row>
     </div>
 
-{/* 
-<div className="text-center mb-3">
-              <Row>
-                <Col>
-                  <Form.Group controlId="formFile" className="mb-3">
-                    {documentA7 ? (
-                      <>
-                        <Form.Label>Document uploaded successfully</Form.Label>
-                        <br />
-                        <a href={documentA7} target="_blank" rel="noreferrer">
-                          View Document
-                        </a>
-                      </>
-                    ) : (
-                      <Form.Label>Upload supporting documents (pdf)</Form.Label>
-                    )}
-                    <Form.Control
-                      type="file"
-                      onChange={(e) => handleUpload(e, 'documentA7')}
-                      disabled={!isEditable} // Disable file input if isEditable is false
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
-            </div> */}
 
         <div className="text-center mb-3">
             <Row>
@@ -861,7 +871,7 @@ function Form2A() {
                     readOnly={!isEditable}
                   />
                 </td>
-                <td>
+                {/* <td>
                   <Form.Control
                     type="text"
                     placeholder="Enter lectures"
@@ -888,7 +898,41 @@ function Form2A() {
                     }}
                     readOnly={!isEditable}
                   />
-                </td>
+                </td> */}
+
+<td>
+  <Form.Control
+    type="text"
+    placeholder="Enter lectures"
+    style={{ textAlign: "center" }}
+    value={evensem.lectures}
+    onChange={(e) => {
+      const newIEvensem = [...IEvensem];
+      // Parse input value to integer and ensure it's not NaN
+      const newValue = parseInt(e.target.value);
+      newIEvensem[index].lectures = isNaN(newValue) ? '' : Math.max(0, newValue);
+      setIEvensem(newIEvensem);
+    }}
+    readOnly={!isEditable}
+  />
+</td>
+<td>
+  <Form.Control
+    type="text"
+    placeholder="Enter actual lectures"
+    style={{ textAlign: "center" }}
+    value={evensem.actualLectures}
+    onChange={(e) => {
+      const newIEvensem = [...IEvensem];
+      // Parse input value to integer and ensure it's not NaN
+      const newValue = parseInt(e.target.value);
+      newIEvensem[index].actualLectures = isNaN(newValue) ? '' : Math.max(0, newValue);
+      setIEvensem(newIEvensem);
+    }}
+    readOnly={!isEditable}
+  />
+</td>
+
                 <td>
                   <Form.Control
                     type="text"
@@ -2070,9 +2114,7 @@ function Form2A() {
           </Row>
           </div>
       </Col>
-
-
-
+{/* <Footer /> */}
       </Row>
       </Container>
   );

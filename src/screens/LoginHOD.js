@@ -31,7 +31,9 @@ function LoginHOD({ setIsAuth }) {
   //   "jayashreek@somaiya.edu",
   //   "mnemade@somaiya.edu",
   //   "radhika.kotecha@somaiya.edu",
-  //   "sarita.ambadekar@somaiya.edu"
+  //   "sarita.ambadekar@somaiya.edu",
+  //  "harsham@somaiya.edu",
+  //  "vice_principal@somaiya.edu"
   // ];
 
   // const handleSignIn = () => {

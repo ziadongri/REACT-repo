@@ -29,6 +29,13 @@ import Form2BPC from './screens/Form2BPC'
 import Form2CPC from './screens/Form2CPC'
 import Form3PC from './screens/Form3PC'
 import AboutUs from './screens/aboutus'
+import Form1PCH from './screens/Form1PCH'
+import Form2APCH from './screens/Form2APCH'
+import Form2BPCH from './screens/Form2BPCH'
+import Form2CPCH from './screens/Form2CPCH'
+import Form3PCH from './screens/Form3PCH'
+// import Footer from './screens/Footer'
+// import GrandTotal from './screens/grandtotal'
 
 
 import { db, storage } from "./firebase";
@@ -212,9 +219,16 @@ function App() {
         <Route path="/form2cprincipal" element={<Form2CPC />} />
         <Route path="/form3principal" element={<Form3PC />} />
         <Route path="/aboutus" element={<AboutUs />} />
-        
+        <Route path="/form1pch" element={<Form1PCH />} />
+        <Route path="/form2apch" element={<Form2APCH />} />
+        <Route path="/form2bpch" element={<Form2BPCH />} />
+        <Route path="/form2cpch" element={<Form2CPCH />} />
+        <Route path="/form3pch" element={<Form3PCH />} />
+
+        {/* <Route path="/grandtotal" element={<GrandTotal />} /> */}
         
       </Routes>
+      {/* <Footer /> */}
     </Router>
 
   )

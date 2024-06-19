@@ -9,13 +9,16 @@ import {
     Table,
     Card
   } from "react-bootstrap";
+  import Footer2 from './Footer2';
 
 function AboutUs() {
 
   return (
-    <Container style={{ padding: '20px' }}>
-        <Row>
-            <Col md={12}>
+    <div >
+  <Container fluid style={{ padding: 0 }}>
+        <Row noGutter>
+          <Col md={{ span: 8, offset: 2 }} style={{ padding: 0 }}>
+
             {/* <h1>About Us</h1> */}
             <Card>
                 <Card.Body>
@@ -147,9 +150,14 @@ function AboutUs() {
 
             </Card>
             </Col>
+            
+
+            
         </Row>
-        
+        <Footer2/>
         </Container>
+      </div>
+    
   )
 }
 

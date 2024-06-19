@@ -85,7 +85,7 @@ function Form3HOD() {
       const docRef = doc(facultyRef, "partC", "partC");
       const docSnap = await getDoc(docRef);
 
-      if((justification.length > 100 && justification.length < 500) && (commentshod.length > 100 && commentshod.length < 500) && (suggestion.length > 50 && suggestion.length < 500)){
+      if((justification.length > 50 && justification.length < 500) && (commentshod.length > 50 && commentshod.length < 500) && (suggestion.length > 50 && suggestion.length < 500)){
       if (docSnap.exists()) {
         await updateDoc(docRef, {
           teaching: teachingData,
@@ -112,10 +112,10 @@ function Form3HOD() {
 
       
       navigate('/formsubmission', {state: {facultyUID: facultyUID}});
-    } else if(justification.length < 100 || justification.length > 500){
-      alert("Justification should be between 100 and 500 characters");
-    } else if(commentshod.length < 100 || commentshod.length > 500){
-      alert("Comments should be between 100 and 500 characters");
+    } else if(justification.length < 50 || justification.length > 500){
+      alert("Justification should be between 50 and 500 characters");
+    } else if(commentshod.length < 50 || commentshod.length > 500){
+      alert("Comments should be between 50 and 500 characters");
     } else if(suggestion.length < 50 || suggestion.length > 500){
       alert("Suggestions should be between 50 and 500 characters");
     }
@@ -127,7 +127,7 @@ function Form3HOD() {
       const docRef = doc(facultyRef, "partC", "partC");
       const docSnap = await getDoc(docRef);
 
-      if((justification.length > 100 && justification.length < 500) && (commentshod.length > 100 && commentshod.length < 500) && (suggestion.length > 50 && suggestion.length < 500)){
+      if((justification.length > 50 && justification.length < 500) && (commentshod.length > 50 && commentshod.length < 500) && (suggestion.length > 50 && suggestion.length < 500)){
       if (docSnap.exists()) {
         await updateDoc(docRef, {
           teaching: teachingData,
@@ -154,10 +154,10 @@ function Form3HOD() {
 
       
       alert("Data saved successfully!");
-    } else if(justification.length < 100 || justification.length > 500){
-      alert("Justification should be between 100 and 500 characters");
-    } else if(commentshod.length < 100 || commentshod.length > 500){
-      alert("Comments should be between 100 and 500 characters");
+    } else if(justification.length < 50 || justification.length > 500){
+      alert("Justification should be between 50 and 500 characters");
+    } else if(commentshod.length < 50 || commentshod.length > 500){
+      alert("Comments should be between 50 and 500 characters");
     } else if(suggestion.length < 50 || suggestion.length > 500){
       alert("Suggestions should be between 50 and 500 characters");
     }
@@ -309,7 +309,14 @@ function Form3HOD() {
                 type="text"
                 style={{ textAlign: "center"}}
                 value={teachingData}
-                onChange={(e) => setTeachingData(e.target.value)}
+                onChange={(e) => {
+                  const value = parseInt(e.target.value);
+                  if (!isNaN(value)) {
+                    setTeachingData(Math.max(0, Math.min(150, value)));
+                  } else {
+                    setTeachingData(0);
+                  }
+                } }
               />
             </td>
           </tr>
@@ -321,7 +328,14 @@ function Form3HOD() {
                 type="text"
                 style={{ textAlign: "center"}}
                 value={extensionData}
-                onChange={(e) => setExtensionData(e.target.value)}
+                onChange={(e) => {
+                  const value = parseInt(e.target.value);
+                  if (!isNaN(value)) {
+                    setExtensionData(Math.max(0, Math.min(100, value)));
+                  } else {
+                    setExtensionData(0);
+                  }
+                } }
               />
             </td>
           </tr>
@@ -333,7 +347,14 @@ function Form3HOD() {
                 type="text"
                 style={{ textAlign: "center"}}
                 value={researchData}
-                onChange={(e) => setResearchData(e.target.value)}
+                onChange={(e) => {
+                  const value = parseInt(e.target.value);
+                  if (!isNaN(value)) {
+                    setResearchData(Math.max(0, value));
+                  } else {
+                    setResearchData(0);
+                  }
+                } }
               />
             </td>
           </tr>
@@ -345,7 +366,14 @@ function Form3HOD() {
                 type="text"
                 style={{ textAlign: "center"}}
                 value={administrationData}
-                onChange={(e) => setAdministrationData(e.target.value)}
+                onChange={(e) => {
+                  const value = parseInt(e.target.value);
+                  if (!isNaN(value)) {
+                    setAdministrationData(Math.max(0, value));
+                  } else {
+                    setAdministrationData(0);
+                  }
+                } }
               />
             </td>
           </tr>
@@ -359,14 +387,14 @@ function Form3HOD() {
         <p style= {{fontWeight:"bold"} }>(c) Justification of assessment of work as outstanding/below average :</p>
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
           <Form.Text className="text-muted">
-            (Minimum characters: 100, Maximum characters: 500)
+            (Minimum characters: 50, Maximum characters: 500)
           </Form.Text>
           <Form.Control
             as="textarea"
             rows={3}
             value={justification}
             onChange={(e) => setJustification(e.target.value)}
-            minLength={100}
+            minLength={50}
             maxLength={500}
           />
         </Form.Group>
@@ -377,14 +405,14 @@ function Form3HOD() {
         <p style= {{fontWeight:"bold"} }>Comments of the Head of the Department on (b) and (c) :</p>
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
           <Form.Text className="text-muted">
-            (Minimum characters: 100, Maximum characters: 500)
+            (Minimum characters: 50, Maximum characters: 500)
           </Form.Text>
           <Form.Control
             as="textarea"
             rows={3}
             value={commentshod}
             onChange={(e) => setCommentsHOD(e.target.value)}
-            minLength={100}
+            minLength={50}
             maxLength={500}
           />
         </Form.Group>

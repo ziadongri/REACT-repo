@@ -297,7 +297,7 @@ const handleSubmit = async (e) => {
           <p style= {{fontWeight:"bold"} }>(c) Justification of assessment of work as outstanding/below average :</p>
           <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
             <Form.Text className="text-muted">
-              (Minimum characters: 100, Maximum characters: 500)
+              (Minimum characters: 50, Maximum characters: 500)
             </Form.Text>
             <Form.Control
               as="textarea"
@@ -314,7 +314,7 @@ const handleSubmit = async (e) => {
           <p style= {{fontWeight:"bold"} }>Comments of the Head of the Department on (b) and (c) :</p>
           <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
             <Form.Text className="text-muted">
-              (Minimum characters: 100, Maximum characters: 500)
+              (Minimum characters: 50, Maximum characters: 500)
             </Form.Text>
             <Form.Control
               as="textarea"
@@ -366,7 +366,10 @@ const handleSubmit = async (e) => {
           <Row>
             <Col>
               <Button variant="primary" type="submit">
-                <Link onClick={handleForm2CPCNavigation}  className="text-decoration-none text-white">
+                <Link 
+                              onClick={handleForm2CPCNavigation}
+                              className="text-decoration-none text-white"
+                            >
                   Previous
                 </Link>
               </Button>

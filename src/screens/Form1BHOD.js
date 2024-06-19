@@ -5,6 +5,7 @@ import { doc, getDoc, collection, query, where, getDocs, updateDoc } from 'fireb
 import {signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth'
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/form.css';
+import Footer from './Footer';
 
 function Form1BHOD() {
   const [user, setUser] = useState(null);
@@ -136,12 +137,14 @@ function Form1BHOD() {
   }
 
   return (
-  <div className="container">
+  // <div className="container">
     <Container fluid>
       <Row>
       
         <Col md={11} className="mx-auto ">
           <h1 className="text-center">Part A: General Information</h1>
+
+
           <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="year">
               <Row>
@@ -386,9 +389,10 @@ function Form1BHOD() {
 
 
         </Col>
+        {/* <Footer/> */}
       </Row>
     </Container>
-  </div>
+  // </div>
   );
 }
 

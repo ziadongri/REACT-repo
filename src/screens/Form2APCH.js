@@ -11,165 +11,195 @@ import {
 import { auth, db, storage } from "../firebase";
 import { doc, collection, getDoc, setDoc, updateDoc, addDoc } from "firebase/firestore";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL, getStorage } from "firebase/storage";
 import {signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
+import Footer from './Footer';
 
-function Form2APC() {
+function Form2APCH() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [facultyData, setFacultyData] = useState(null);
-  const [comments1, setComments1] = useState("");
+  const [IActaPhod, setIActaPhod] = useState("");
+  const [IActbPhod, setIActbPhod] = useState("");
+  const [IActcPhod, setIActcPhod] = useState("");
+  const [IActdPhod, setIActdPhod] = useState("");
+  const [IActePhod, setIActePhod] = useState("");
+  const [IActfPhod, setIActfPhod] = useState("");
+  const [IActTotalPhod, setIActTotalPhod] = useState("");
+
   const location = useLocation();
   const facultyUID = location.state.facultyUID;
-  const navigate = useNavigate();
+  console.log(facultyUID);
+  let navigate = useNavigate();
+ 
+  const Total = () => {
+    let IActTotalPhod = parseInt(IActaPhod) + parseInt(IActbPhod) + parseInt(IActcPhod) + parseInt(IActdPhod) + parseInt(IActePhod) + parseInt(IActfPhod);
+    setIActTotalPhod(IActTotalPhod);
+
+  }
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    Total();
+  }
+  , [IActaPhod, IActbPhod, IActcPhod, IActdPhod, IActePhod, IActfPhod]);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         setUser(user);
       } else {
-        navigate("/");
+        navigate('/');
       }
       setLoading(false);
     });
     return unsubscribe;
   }, [navigate]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const facultyRef = doc(db, "faculty", facultyUID);
-  //     const docRef = doc(facultyRef, "partB", "CategoryA");
-  //     try {
-  //       const docSnap = await getDoc(docRef);
-  //       if (docSnap.exists()) {
-  //         setFacultyData(docSnap.data());
-  //         setComments1(docSnap.data().comments1);
-  //         console.log("Document data:", docSnap.data());
-  //       } else {
-  //         console.log("No such document!");
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching document:", error);
-  //     }
-  //   };
-  //   fetchData();
-  // }, [facultyUID]);
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   // Ensure remarksPrincipal is defined before proceeding
-  //   if (comments1 === "") {
-  //     alert("Remarks cannot be undefined");
-  //     return;
-  //   }
-
-  //   // Check if facultyUID is defined
-  //   if (!facultyUID) {
-  //     alert("Faculty UID is not defined");
-  //     return;
-  //   }
-
-  //   const facultyRef = doc(db, "faculty", facultyUID);
-  //   const docRef = doc(facultyRef, "partB", "CategoryA");
-  //   const docSnap = await getDoc(docRef);
-
-  //   try {
-  //     if (docSnap.exists()) {
-  //       await docRef.update({
-  //         comments1: comments1,
-  //       });
-  //     } else {
-  //       await docRef.set({
-  //         comments1: comments1,
-  //       });
-  //     }
-  //     navigate("/form2bprincipal", { state: { facultyUID: facultyUID } });
-  //   } catch (error) {
-  //     console.error("Error updating document: ", error);
-  //     alert(
-  //       "An error occurred while submitting the form. Please try again."
-  //     );
-  //   }
-  // };
   
+const fetchData = async () => {
+  const facultyRef = doc(db, "faculty", facultyUID);
+  const docRef = doc(facultyRef, "partB", "CategoryA");
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    setFacultyData(docSnap.data());
+    const data = docSnap.data();
+    setIActaPhod(data.IActaPhod);
+    setIActbPhod(data.IActbPhod);
+    setIActcPhod(data.IActcPhod);
+    setIActdPhod(data.IActdPhod);
+    setIActePhod(data.IActePhod);
+    setIActfPhod(data.IActfPhod);
+    setIActTotalPhod(data.IActTotalPhod);
+  } else {
+    console.log("No such document!");
+  }
+}
+
+
   useEffect(() => {
-    const fetchData = async () => {
-      const facultyRef = doc(db, "faculty", facultyUID);
-      const docRef = doc(facultyRef, "partB", "CategoryA");
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        setFacultyData(docSnap.data());
-       
-        console.log("Document data:", docSnap.data());
-      } else {
-        console.log("No such document!");
-      }
-    }
+    
     fetchData();
   } , [facultyUID]);
 
-  const handleSubmit = () => {
-    navigate('/form2bprincipal', { state: { facultyUID: facultyUID } });
-    // console.log(facultyAUID)
-  }
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (!facultyData) {
-    return <p>Faculty data not found.</p>;
-  }
-
-  const handleForm2BPCNavigation = async (e) => {  
+  const handleSave = async (e) => {
     e.preventDefault();
-    navigate('/form2bprincipal', { state: { facultyUID: facultyUID } });
-  }
+    const facultyRef = doc(db, "faculty", facultyUID);
+    const docRef = doc(facultyRef, "partB", "CategoryA");
+    const docSnap = await getDoc(docRef);
+    const existingData = docSnap.exists() ? docSnap.data() : {};
+    const data = {
+      IActaPhod: IActaPhod,
+      IActbPhod: IActbPhod,
+      IActcPhod: IActcPhod,
+      IActdPhod: IActdPhod,
+      IActePhod: IActePhod,
+      IActfPhod: IActfPhod,
+      IActTotalPhod: IActTotalPhod,
 
-  const handleForm2CPCNavigation = async (e) => {
-    e.preventDefault();
-    navigate('/form2cprincipal', { state: { facultyUID: facultyUID } });
-  }
+    };
+    
+    if (IActaPhod === "" || IActbPhod === "" || IActcPhod === "" || IActdPhod === "" || IActePhod === "" || IActfPhod === "") {
+      alert("Please fill all the fields");
+      return;
+    } else if ( IActaPhod < 0 || IActbPhod < 0 || IActcPhod < 0 || IActdPhod < 0 || IActePhod < 0 || IActfPhod < 0) {
+      alert("Please enter positive values only");
+      return;
+    } else if (isNaN(IActTotalPhod)) {
+      alert("Please fill numbers only");
+      return;
+    } 
+    await setDoc(docRef, data, { merge: true });
 
-  const handleForm3PCNavigation = async (e) => {
-    e.preventDefault();
-    navigate('/form3principal', { state: { facultyUID: facultyUID } });
-  }
-
-
+    alert("Data Saved");
+  } 
   
-  //  const handleSubmit = async (e) => {
-    //   e.preventDefault();
-      
-    //   // Ensure remarksPrincipal is defined before proceeding
-    //   if (typeof comments1 === 'undefined' ||comments1 === "") {
-    //     alert("Remarks cannot be undefined");
-    //     return;
-    //   }
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const facultyRef = doc(db, "faculty", facultyUID);
+  //   const docRef = doc(facultyRef, "partB", "CategoryA");
+  //   const docSnap = await getDoc(docRef);
+  //   const existingData = docSnap.exists() ? docSnap.data() : {};
+  //   const data = {
+  //     IActaHOD: IActaHOD,
+  //     IActbHOD: IActbHOD,
+  //     IActcHOD: IActcHOD,
+  //     IActdHOD: IActdHOD,
+  //     IActeHOD: IActeHOD,
+  //     IActfHOD: IActfHOD,
+  //     IActTotalHOD: IActTotalHOD,
+  //   };
     
-    //   const facultyRef = doc(db, "faculty", facultyUID);
-    //   const docRef = doc(facultyRef, "partB", "CategoryA");
-    //   const docSnap = await getDoc(docRef);
+  //   if (IActaHOD === "" || IActbHOD === "" || IActcHOD === "" || IActdHOD === "" || IActeHOD === "" || IActfHOD === "") {
+  //     alert("Please fill all the fields");
+  //     return;
+  //   } 
+  //   else if ( IActaHOD < 0 || IActbHOD < 0 || IActcHOD < 0 || IActdHOD < 0 || IActeHOD < 0 || IActfHOD < 0) {
+  //     alert("Please enter positive values only");
+  //     return;
+  //   } 
+  //   else if (isNaN(IActTotalHOD)) {
+  //     alert("Please fill numbers only");
+  //     return;
+  //   } 
+  //   await setDoc(docRef, data, { merge: true });
+
+  //   alert("Data Saved");
+  //   navigate('/form2bhod', { state: { facultyUID: facultyUID } });
+  //   // console.log(facultyAUID)
+  // }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const facultyRef = doc(db, "faculty", facultyUID);
+    const docRef = doc(facultyRef, "partB", "CategoryA");
+    const docSnap = await getDoc(docRef);
+    const existingData = docSnap.exists() ? docSnap.data() : {};
+    const data = {
+      IActaPhod: IActaPhod,
+      IActbPhod: IActbPhod,
+      IActcPhod: IActcPhod,
+      IActdPhod: IActdPhod,
+      IActePhod: IActePhod,
+      IActfPhod: IActfPhod,
+      IActTotalPhod: IActTotalPhod,
+
+    };
     
-    //   try {
-    //     if (docSnap.exists()) {
-    //       await updateDoc(docRef, {
-    //        comments1: comments1
-    //       });
-    //     } else {
-    //       await setDoc(docRef, {
-    //         comments1: comments1
-    //       });
-    //     }
-    //     navigate('/form2bprincipal', { state: { facultyUID: facultyUID } });
-    //   } catch (error) {
-    //     console.error("Error updating document: ", error);
-    //     alert("An error occurred while submitting the form. Please try again.");
-    //   }
-    // }
+    if (IActaPhod === "" || IActbPhod === "" || IActcPhod === "" || IActdPhod === "" || IActePhod === "" || IActfPhod === "") {
+      alert("Please fill all the fields");
+      return;
+    } else if ( IActaPhod < 0 || IActbPhod < 0 || IActcPhod < 0 || IActdPhod < 0 || IActePhod < 0 || IActfPhod < 0) {
+      alert("Please enter positive values only");
+      return;
+    } else if (isNaN(IActTotalPhod)) {
+      alert("Please fill numbers only");
+      return;
+    } 
+    await setDoc(docRef, data, { merge: true });
+    alert("Data Saved");
+    navigate('/form2bpch', { state: { facultyUID: facultyUID } });
+  } 
 
+  const handleForm2BHODPCNavigation = async (e) => {
+    e.preventDefault();
+    navigate('/form2bpch', { state: { facultyUID: facultyUID } });
+  }
 
+  // const handleForm1BHODNavigation = async (e) => {
+  //   e.preventDefault();
+  //   navigate('/form1bhod', { state: { facultyUID: facultyUID } });
+  // }
+
+  const handleForm2CHODPCNavigation = async (e) => {
+    e.preventDefault();
+    navigate('/form2cpch', { state: { facultyUID: facultyUID } });
+  }
+
+  const handleForm3HODPCNavigation = async (e) => {
+    e.preventDefault();
+    navigate('/form3pch', { state: { facultyUID: facultyUID } });
+  }
   
   if (loading) {
     return <p>Loading...</p>;
@@ -182,9 +212,9 @@ function Form2APC() {
   return (
     <Container fluid >
       <Row>
-
-        <Col md={11} className="mx-auto text-center">
-        <h1 className="text-center">Part B: Academic Performance Indicators</h1>
+ 
+        <Col md={11} className="mx-auto text-center" >
+      <h1 className="text-center">Part B: Academic Performance Indicators</h1>
       <h4 style={{fontSize: 20}} className="text-center">Category I: Teaching, Learning and Evaluation related activities</h4>
 
       <p className='text-center' >
@@ -195,8 +225,8 @@ function Form2APC() {
       </p>
 
       <div className="content-box">
-        <Table striped bordered hover>
-        <thead>
+               <Table striped bordered hover>
+          <thead>
             <tr className="text-center">
             <th style={{ verticalAlign: 'middle'}}>Sr. No.</th>
             <th style={{ verticalAlign: 'middle'}}>Courses Taught code and name</th>
@@ -210,8 +240,8 @@ function Form2APC() {
           {facultyData.IOddsem.map((data, index) => (
             <tbody key={index}>
               <tr className="text-center">
-                <td>{index + 1}</td>
-                <td>{data.course}</td>
+                <td >{index + 1}</td>
+                <td >{data.course}</td>
                 <td>{data.class}</td>
                 <td>{data.lectures}</td>
                 <td>{data.actualLectures}</td>
@@ -230,18 +260,19 @@ function Form2APC() {
             <a href={facultyData.documentA7} target="_blank">
               View file here
             </a>
+
           </Form.Group>
           </Col>
           </Row>
           </div> 
       </div>
-
+      
       <div className="content-box">
-                <Table striped bordered hover>
-        <thead>
+               <Table striped bordered hover>
+          <thead>
             <tr className="text-center">
             <th style={{ verticalAlign: 'middle'}}>Sr. No.</th>
-            <th style={{ verticalAlign: 'middle'}}>Courses Taught code and name </th>
+            <th style={{ verticalAlign: 'middle'}}>Courses Taught code and name</th>
             <th style={{ verticalAlign: 'middle'}}>Class for which conducted</th>
             <th style={{ verticalAlign: 'middle'}}>Target Lectures/ Practical</th>
             <th style={{ verticalAlign: 'middle'}}>Lectures/ Practical Actually conducted</th>
@@ -272,47 +303,80 @@ function Form2APC() {
             <a href={facultyData.documentA8} target="_blank">
               View file here
             </a>
+
           </Form.Group>
           </Col>
           </Row>
-          </div>  
-
-        </div>
+          </div> 
+      </div>
 
         <Table striped bordered hover>
-        <thead>
+          <thead>
             <tr className="text-center">
             <th style={{ verticalAlign: 'middle'}}>Sr. No.</th>
             <th style={{ verticalAlign: 'middle'}}>Natural of Activity</th>
             <th style={{ verticalAlign: 'middle'}}>Spilt-Up Marks Total</th>
             <th style={{ verticalAlign: 'middle'}}>MAX API Score alloted</th>
-            <th style={{ verticalAlign: 'middle'}}>Self appraisal Score</th>           
-            <th style={{ verticalAlign: 'middle'}}>Verified API Score</th>
+            <th style={{ verticalAlign: 'middle'}}>Self appraisal Score</th>
             <th style={{ verticalAlign: 'middle'}}>Supporting Documents</th>
+            <th style={{ verticalAlign: 'middle'}}>Verified API Score</th>
             </tr>
           </thead>
 
-          <tbody>
-            <tr>
+          <tbody >
+            <tr >
               <td>a.</td>
               <td style={{ textAlign: "left" }}>
                 <Col >
                   Lectures, Seminars, tutorials, practical, contact hours
                   undertaken taken as percentage of lectures allocated
                 </Col>
-                <Col>- Total lectures conducted {">"} 90% score = 50</Col>
-                <Col>- 90% {">"} Lectures taken ≥ 80% = 40</Col>
-                <Col>- 80% {">"} Lectures taken ≥ 70% = 30</Col>
-                <Col>- no score if number of lectures taken is less than 70%{" "}
-                </Col>
+                <Col>
+        <Form.Check
+          type="radio"
+          name="lectures"
+          checked={facultyData.lecturesTaken === 100}
+          label="Total lectures conducted > 90% score = 50"
+          value={100}
+         readOnly
+        />
+      </Col>
+      <Col>
+        <Form.Check
+          type="radio"
+          name="lectures"
+          checked={facultyData.lecturesTaken === 90}
+          label="90% > Lectures taken ≥ 80% = 40"
+          value={90}
+          readOnly
+        />
+      </Col>
+      <Col>
+        <Form.Check
+          type="radio"
+          name="lectures"
+          checked={facultyData.lecturesTaken === 70}
+          label="80% > Lectures taken ≥ 70% = 30"
+          value={70}
+          readOnly
+        />
+      </Col>
+      <Col>
+        <Form.Check
+          type="radio"
+          name="lectures"
+          checked={facultyData.lecturesTaken === 0}
+          label="No score if number of lectures taken is less than 70%"
+          value={0}
+          readOnly
+        />
+      </Col>
               </td>
 
               <td className='text-center'> - </td>
+
               <td><p className='text-center'>50</p></td>
               <td><p className='text-center'>{facultyData.IActa}</p></td>
-              <td>
-                {facultyData.IActaHOD}
-              </td>
 
               <td>
               <div className="text-center mb-3">
@@ -330,9 +394,19 @@ function Form2APC() {
           </Row>
           </div>
               </td>
+
+              <td >
+                <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={IActaPhod}
+                  onChange={(e) => setIActaPhod(Math.min(Number(e.target.value), 50))}
+                  max={50}
+                />
+              </td>
             </tr>
 
-            <tr>
+            <tr >
               <td>b.</td>
               <td style={{ textAlign: "left" }}>
                 <Col> Lectures or lab in excess of UGC norms </Col>
@@ -343,16 +417,75 @@ function Form2APC() {
                   Prof or above 14/week for Associate Prof and Professor. Repeat
                   classes for diploma students may be given 5 marks
                 </Col>
+
+                <br/>
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="extraLectures"
+                    checked={facultyData.extraClass === 0}
+                    label="0 extra lecture/ lab"
+                    value={0}
+                   readOnly
+                  />  </Col>
+              
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="extraLectures"
+                    checked={facultyData.extraClass === 1}
+                    label="1 extra lecture/ lab"
+                    value={1}
+                   readOnly
+                  /> </Col>
+
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="extraLectures"
+                    checked={facultyData.extraClass === 2}
+                    label="2 extra lectures/ labs"
+                    value={2}
+                   readOnly
+                  /> </Col>
+
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="extraLectures"
+                    checked={facultyData.extraClass === 3}
+                    label="3 extra lectures/ labs"
+                    value={3}
+                    readOnly
+                  /> </Col>
+
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="extraLectures"
+                    checked={facultyData.extraClass === 4}
+                    label="4 extra lectures/ labs"
+                    value={4}
+                    readOnly
+                  /> </Col>
+
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="extraLectures"
+                    checked={facultyData.extraClass === 5}
+                    label="5 extra lectures/ labs or More than 5 extra lectures/ labs"
+                    value={5}
+                    readOnly
+                  /> </Col>
               </td>
 
               <td className='text-center'> - </td>
+
               <td>
               <p className='text-center'>5</p>
               </td>
               <td><p className='text-center'>{facultyData.IActb}</p></td>
-              <td>
-                {facultyData.IActbHOD}
-              </td>
 
               <td>
               <div className="text-center mb-3">
@@ -364,10 +497,20 @@ function Form2APC() {
             <a href={facultyData.documentA2} target="_blank">
               View file here
             </a>
+
           </Form.Group>
           </Col>
           </Row>
           </div>
+              </td>
+              <td>
+                <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={IActbPhod}
+                  onChange={(e) => setIActbPhod(Math.min(Number(e.target.value), 5))}
+                  max={5}
+                />
               </td>
             </tr>
 
@@ -380,6 +523,67 @@ function Form2APC() {
                   weak students (one point for each extra class in other than
                   mentioned in 1.a)
                 </Col>
+
+                <br/>
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="remedial"
+                    checked={facultyData.remedial === 0}
+                    label="0 Remedial lecture/ Revision lecture"
+                    value={0}
+                    readOnly
+                  />  </Col>
+
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="remedial"
+                    checked={facultyData.remedial === 1}
+                    label="1 Remedial lecture/ Revision lecture"
+                    value={1}
+                    readOnly
+                  /> </Col>
+
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="remedial"
+                    checked={facultyData.remedial === 2}
+                    label="2 Remedial lectures/ Revision lectures"
+                    value={2}
+                   readOnly
+                  /> </Col>
+
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="remedial"
+                    checked={facultyData.remedial === 3}
+                    label="3 Remedial lectures/ Revision lectures"
+                    value={3}
+                   readOnly
+                  /> </Col>
+
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="remedial"
+                    checked={facultyData.remedial === 4}
+                    label="4 Remedial lectures/ Revision lectures"
+                    value={4}
+                    readOnly
+                  /> </Col>
+
+                <Col>
+                  <Form.Check
+                    type="radio"
+                    name="remedial"
+                    checked={facultyData.remedial === 5}
+                    label="5 Remedial lectures/ Revision lectures or More than 5 Remedial lectures/ Revision lectures"
+                    value={5}
+                    readOnly
+                  /> </Col>
               </td>
 
               <td className='text-center'> - </td>
@@ -388,10 +592,6 @@ function Form2APC() {
               </td>
               <td>
               <p className='text-center'>{facultyData.IActc}</p>
-              </td>
-
-              <td>
-                {facultyData.IActcHOD}
               </td>
 
               <td>
@@ -404,10 +604,20 @@ function Form2APC() {
             <a href={facultyData.documentA3} target="_blank">
               View file here
             </a>
+
           </Form.Group>
           </Col>
           </Row>
           </div>
+              </td>
+              <td>
+                <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={IActcPhod} 
+                  onChange={(e) => setIActcPhod(Math.min(Number(e.target.value), 5))}
+                  max={5}
+                />
               </td>
             </tr>
 
@@ -430,7 +640,7 @@ function Form2APC() {
                   readOnly
                  
                 /></td>
-                
+
                       <td>
                       <Form.Control
                       type="text"
@@ -581,10 +791,6 @@ function Form2APC() {
               </td>
 
               <td>
-                {facultyData.IActdHOD}
-              </td>
-
-              <td>
               <div className="text-center mb-3">
             <Row>
               <Col>
@@ -594,10 +800,21 @@ function Form2APC() {
             <a href={facultyData.documentA4} target="_blank">
               View file here
             </a>
+
           </Form.Group>
           </Col>
           </Row>
           </div>
+              </td>
+
+              <td>
+                <Form.Control
+                  type="text"
+                  style={{ textAlign: "center" }}
+                  value={IActdPhod}
+                  onChange={(e) => setIActdPhod(Math.min(Number(e.target.value), 40))}
+                  max={40}
+                />
               </td>
             </tr>
 
@@ -739,9 +956,6 @@ function Form2APC() {
               <p className='text-center'>25</p>
               </td>
               <td>{facultyData.IActe}</td>
-              <td>
-                {facultyData.IActeHOD}
-              </td>
 
               <td>
               <div className="text-center mb-3">
@@ -753,10 +967,20 @@ function Form2APC() {
             <a href={facultyData.documentA5} target="_blank">
               View file here
             </a>
+
           </Form.Group>
           </Col>
           </Row>
           </div>
+              </td>
+              <td>
+                <Form.Control
+                  type="text"
+                  value={IActePhod}
+                  style={{ textAlign: "center" }}
+                  onChange={(e) => setIActePhod(Math.min(Number(e.target.value), 25))}
+                  max={25}
+                />
               </td>
             </tr>
 
@@ -828,9 +1052,6 @@ function Form2APC() {
               <p className='text-center'>25</p>
               </td>
               <td>{facultyData.IActf}</td>
-              <td>
-                {facultyData.IActfHOD}
-              </td>
 
               <td>
               <div className="text-center mb-3">
@@ -847,6 +1068,15 @@ function Form2APC() {
           </Row>
           </div>
               </td>
+              <td>
+                <Form.Control
+                  type="text"
+                  value={IActfPhod}
+                  style={{ textAlign: "center" }}
+                  onChange={(e) => setIActfPhod(Math.min(Number(e.target.value), 25))}
+                  max={25}
+                />
+              </td>
             </tr>
 
             <tr>
@@ -857,53 +1087,43 @@ function Form2APC() {
               <p className='text-center'>150</p>
               </td>
               <td>{facultyData.IActTotal}</td>
-              <td>{facultyData.IActTotalHOD}</td>
+              <td></td>
+              <td>{IActTotalPhod}</td>
             </tr>
           </tbody>
         </Table>
 
-        <div className="text-center mb-4" >
-      <Row>
-      <Form.Group className="mb-3 align-item-center" >
-            <Row>
-          <Col md={3} className="form-label">
-            <Form.Label>Comments:</Form.Label>
-          </Col>
-          <Col md={9}>
-            <Form.Control
-              type="text"
-              value={comments1}
-              onChange={(e) => setComments1(e.target.value)}
-                           
-            />
-          </Col>
-        </Row>
-            </Form.Group>
-      </Row>
-       
 
+        <div className="text-center mb-4" >
         <Row>
           <Col>
             <Button variant="primary" type="submit">
-              <Link to="/form1principal" className="text-decoration-none text-white">
+              <Link to="/form1pch" className="text-decoration-none text-white">
                 Previous
               </Link>
             </Button>
           </Col>
-        
+          <Col>
+            <Button variant="primary" onClick={handleSave}>
+              {/* <Link className="text-decoration-none text-white"> */}
+                Save
+              {/* </Link> */}
+            </Button>
+          </Col>
           <Col>
             <Button variant="primary" type="submit" onClick={handleSubmit}>
-              <Link  className="text-decoration-none text-white">
+              {/* <Link className="text-decoration-none text-white"> */}
                 Next
-              </Link>
+              {/* </Link> */}
             </Button>
           </Col>
           </Row>
           </div>
       </Col>
+      {/* <Footer /> */}
       </Row>
     </Container>
   )
 }
 
-export default Form2APC
+export default Form2APCH;
