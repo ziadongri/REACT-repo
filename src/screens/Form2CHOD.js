@@ -5,6 +5,7 @@ import {doc, collection, getDoc, setDoc, updateDoc, addDoc} from 'firebase/fires
 import {Link, useNavigate, useLocation} from 'react-router-dom';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import {signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth'
+import '../styles/form.css'
 
 function Form2CHOD() {
   const [user, setUser] = useState(null);
@@ -300,8 +301,8 @@ const fetchData = async () => {
         <Form onSubmit={handleSubmit}></Form>
 
         <div className="content-box">
-        <Table striped bordered hover>
-        <thead>
+        <Table striped bordered hover >
+        <thead >
         <tr>
         <th rowSpan="2" style={{ textAlign: "center", verticalAlign: "middle" }}>III (a)</th>
       <th colSpan="1" style={{ textAlign: "center", verticalAlign: "middle" }}>Research Publications (Journals)</th>
@@ -311,7 +312,7 @@ years score is considered for promotion as per UGC notification Feb
     </tr>
 
     <tr>
-      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Title with Journal name , Volume No., page No., ISS/ISBN No.</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Title with Journal name , Volume No., Page No., ISS/ISBN No.</th>
       <th style={{ textAlign: "center", verticalAlign: "middle" }}>Index (indicate serial numbers against applicable)</th>
       <th style={{ textAlign: "center", verticalAlign: "middle" }}>Self Appraisal Score</th>
       <th style={{ textAlign: "center", verticalAlign: "middle" }}>Verified API Score</th>
@@ -319,7 +320,7 @@ years score is considered for promotion as per UGC notification Feb
       </thead>
       
     {facultyData.ResearchPublication.map((data, index) => (
-  <tbody key={index}>
+  <tbody key={index} className='text-wrap'>
     <tr style={{ textAlign: "left" }}>
       <td style={{ textAlign: "center" }}>{index + 1}</td>
       <td><Col>• Paper Title: {data.title}</Col>
@@ -843,9 +844,9 @@ years score is considered for promotion as per UGC notification Feb
       
     </tr>
     <tr>
-      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Enrolled</th>
-      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Thesis Submitted</th>
-      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Degree Awarded</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}> No. of Enrolled Candidate</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>No. of Thesis Submitted</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>No. of Degree Awarded</th>
       <th style={{ textAlign: "center", verticalAlign: "middle" }}>Self Appraisal Score</th>
       <th style={{ textAlign: "center", verticalAlign: "middle" }}>Verified API Score</th>
         </tr>

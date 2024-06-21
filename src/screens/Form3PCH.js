@@ -363,7 +363,8 @@ function Form3PCH() {
               <thead>
                 <tr>
                   <th>Activity</th>
-                  <th>Grade</th>
+                  
+                  <th>Grade </th>
                 </tr>
               </thead>
               <tbody>
@@ -374,16 +375,10 @@ function Form3PCH() {
                       type="text"
                       style={{ textAlign: "center"}}
                       value={teachingDataPC}
-                      onChange={(e) => {
-                        const value = parseInt(e.target.value);
-                        if (!isNaN(value)) {
-                          setTeachingDataPC(Math.max(0, Math.min(150, value)));
-                        } else {
-                          setTeachingDataPC(0);
-                        }
-                      } }
+                      onChange={(e) => setTeachingDataPC(e.target.value)}
                     />
                   </td>
+                 
                 </tr>
                 <tr>
                   <td>Extension</td>
@@ -392,16 +387,10 @@ function Form3PCH() {
                       type="text"
                       style={{ textAlign: "center"}}
                       value={extensionDataPC}
-                      onChange={(e) => {
-                        const value = parseInt(e.target.value);
-                        if (!isNaN(value)) {
-                          setExtensionDataPC(Math.max(0, Math.min(100, value)));
-                        } else {
-                          setExtensionDataPC(0);
-                        }
-                      } }
+                      onChange={(e) => setExtensionDataPC(e.target.value)}
                     />
                   </td>
+                  
                 </tr>
                 <tr>
                   <td>Research</td>
@@ -410,17 +399,11 @@ function Form3PCH() {
                       type="text"
                       style={{ textAlign: "center"}}
                       value={researchDataPC}
-                      onChange={(e) => {
-                        const value = parseInt(e.target.value);
-                        if (!isNaN(value)) {
-                          setResearchDataPC(Math.max(0, value));
-                        } else {
-                          setResearchDataPC(0);
-                        }
-                      } }
+                      onChange={(e) => setResearchDataPC(e.target.value)}
                     />
                   </td>
                 </tr>
+
                 <tr>
                   <td>Administration</td>
                   <td>
@@ -428,14 +411,7 @@ function Form3PCH() {
                       type="text"
                       style={{ textAlign: "center"}}
                       value={administrationDataPC}
-                      onChange={(e) => {
-                        const value = parseInt(e.target.value);
-                        if (!isNaN(value)) {
-                          setAdministrationDataPC(Math.max(0, value));
-                        } else {
-                          setAdministrationDataPC(0);
-                        }
-                      } }
+                      onChange={(e) => setAdministrationDataPC(e.target.value)}
                     />
                   </td>
                 </tr>

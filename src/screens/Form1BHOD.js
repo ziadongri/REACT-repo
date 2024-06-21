@@ -31,8 +31,6 @@ function Form1BHOD() {
       console.error("Error updating document: ", error);
     }
   };
-  
-  
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {

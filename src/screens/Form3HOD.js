@@ -35,6 +35,15 @@ function Form3HOD() {
     if(!facultyUID){  
       alert("Something went wrong!");
     }
+
+  const grades = [
+    { label: 'Outstanding (A+)', value: 'A+' },
+    { label: 'Very Good (A)', value: 'A' },
+    { label: 'Positively Good (B+)', value: 'B+' },
+    { label: 'Good (B)', value: 'B' },
+    { label: 'Average (B-)', value: 'B-' },
+    { label: 'Below Average (C)', value: 'C' }
+  ];
     
     useEffect(() => {
       const unsubscribe= auth.onAuthStateChanged (async (user) => {
@@ -303,39 +312,27 @@ function Form3HOD() {
           </thead>
           <tbody>
           <tr style={{ textAlign: "center", verticalAlign: "middle" }}>
-            <td>Teaching</td>
+            <td style={{ textAlign: "center", verticalAlign: "middle" }}>Teaching</td>
             <td>
-              <Form.Control
+            <Form.Control
                 type="text"
                 style={{ textAlign: "center"}}
                 value={teachingData}
-                onChange={(e) => {
-                  const value = parseInt(e.target.value);
-                  if (!isNaN(value)) {
-                    setTeachingData(Math.max(0, Math.min(150, value)));
-                  } else {
-                    setTeachingData(0);
-                  }
-                } }
+                onChange= {(e) => setTeachingData(e.target.value)}
+               
               />
+        
             </td>
           </tr>
 
           <tr>
-            <td>Extension</td>
+            <td style={{ textAlign: "center", verticalAlign: "middle" }}>Extension</td>
             <td>
               <Form.Control
                 type="text"
                 style={{ textAlign: "center"}}
                 value={extensionData}
-                onChange={(e) => {
-                  const value = parseInt(e.target.value);
-                  if (!isNaN(value)) {
-                    setExtensionData(Math.max(0, Math.min(100, value)));
-                  } else {
-                    setExtensionData(0);
-                  }
-                } }
+                onChange= {(e) => setExtensionData(e.target.value)} 
               />
             </td>
           </tr>
@@ -347,14 +344,7 @@ function Form3HOD() {
                 type="text"
                 style={{ textAlign: "center"}}
                 value={researchData}
-                onChange={(e) => {
-                  const value = parseInt(e.target.value);
-                  if (!isNaN(value)) {
-                    setResearchData(Math.max(0, value));
-                  } else {
-                    setResearchData(0);
-                  }
-                } }
+                onChange={(e) => setResearchData(e.target.value)}
               />
             </td>
           </tr>
@@ -366,14 +356,7 @@ function Form3HOD() {
                 type="text"
                 style={{ textAlign: "center"}}
                 value={administrationData}
-                onChange={(e) => {
-                  const value = parseInt(e.target.value);
-                  if (!isNaN(value)) {
-                    setAdministrationData(Math.max(0, value));
-                  } else {
-                    setAdministrationData(0);
-                  }
-                } }
+                onChange={(e) => setAdministrationData(e.target.value)}
               />
             </td>
           </tr>

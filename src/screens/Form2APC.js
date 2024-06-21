@@ -36,6 +36,11 @@ function Form2APC() {
   }, [navigate]);
 
   // useEffect(() => {
+  //   if (!facultyUID) {
+  //     console.error("facultyUID is not defined");
+  //     return;
+  //   }
+
   //   const fetchData = async () => {
   //     const facultyRef = doc(db, "faculty", facultyUID);
   //     const docRef = doc(facultyRef, "partB", "CategoryA");
@@ -76,23 +81,21 @@ function Form2APC() {
 
   //   try {
   //     if (docSnap.exists()) {
-  //       await docRef.update({
+  //       await updateDoc(docRef, {
   //         comments1: comments1,
   //       });
   //     } else {
-  //       await docRef.set({
+  //       await setDoc(docRef, {
   //         comments1: comments1,
   //       });
   //     }
   //     navigate("/form2bprincipal", { state: { facultyUID: facultyUID } });
   //   } catch (error) {
   //     console.error("Error updating document: ", error);
-  //     alert(
-  //       "An error occurred while submitting the form. Please try again."
-  //     );
+  //     alert("An error occurred while submitting the form. Please try again.");
   //   }
   // };
-  
+
   useEffect(() => {
     const fetchData = async () => {
       const facultyRef = doc(db, "faculty", facultyUID);
@@ -118,9 +121,9 @@ function Form2APC() {
     return <p>Loading...</p>;
   }
 
-  if (!facultyData) {
-    return <p>Faculty data not found.</p>;
-  }
+  // if (!facultyData) {
+  //   return <p>Faculty data not found.</p>;
+  // }
 
   const handleForm2BPCNavigation = async (e) => {  
     e.preventDefault();
@@ -138,39 +141,6 @@ function Form2APC() {
   }
 
 
-  
-  //  const handleSubmit = async (e) => {
-    //   e.preventDefault();
-      
-    //   // Ensure remarksPrincipal is defined before proceeding
-    //   if (typeof comments1 === 'undefined' ||comments1 === "") {
-    //     alert("Remarks cannot be undefined");
-    //     return;
-    //   }
-    
-    //   const facultyRef = doc(db, "faculty", facultyUID);
-    //   const docRef = doc(facultyRef, "partB", "CategoryA");
-    //   const docSnap = await getDoc(docRef);
-    
-    //   try {
-    //     if (docSnap.exists()) {
-    //       await updateDoc(docRef, {
-    //        comments1: comments1
-    //       });
-    //     } else {
-    //       await setDoc(docRef, {
-    //         comments1: comments1
-    //       });
-    //     }
-    //     navigate('/form2bprincipal', { state: { facultyUID: facultyUID } });
-    //   } catch (error) {
-    //     console.error("Error updating document: ", error);
-    //     alert("An error occurred while submitting the form. Please try again.");
-    //   }
-    // }
-
-
-  
   if (loading) {
     return <p>Loading...</p>;
   }

@@ -169,8 +169,14 @@ function Form2A() {
 
   const handleUpload = (e, documentIdentifier) => {
     const file = e.target.files[0];
+    const maxSize = 1 * 1024 * 1024; // 1MB in bytes
 
     if (file) {
+      if (file.size > maxSize) {
+        alert("File size exceeds the 1MB limit. Please upload a smaller file.");
+        return;
+      }
+
       const storageRef = ref(storage, `documents/${file.name}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
 
@@ -810,6 +816,7 @@ function Form2A() {
             )}
             <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA7')}
             disabled={!isEditable} />
+            
           </Form.Group>
         </Col>
       </Row>
@@ -1099,6 +1106,7 @@ function Form2A() {
             )}
             <Form.Control type="file" onChange={(e) => handleUpload(e, 'documentA1')} 
             disabled={!isEditable}/>
+
             
           </Form.Group>
               </td>

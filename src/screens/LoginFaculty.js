@@ -14,42 +14,41 @@ function LoginFaculty({setIsAuth}) {
     const [timeoutId, setTimeoutId] = useState(null)
     const navigate = useNavigate();
     
-    const handleSignIn = () => {
-        signInWithPopup(auth, provider)
-        .then((result) => {
-            const credential = GoogleAuthProvider.credentialFromResult(result)
-            const token = credential.accessToken
-            const user = result.user
-            localStorage.setItem('isAuth', true)
-            setIsAuth(true)
-            navigate('/form1')
-        })
-        .catch((error) => {
-            setError(error.message)
-        })
-    }
-
     // const handleSignIn = () => {
-     
-    //   signInWithPopup(auth, provider)
-    //   .then((result) => {
-    //       const credential = GoogleAuthProvider.credentialFromResult(result)
-    //       const token = credential.accessToken
-    //       const user = result.user
-    //       if (user.email.endsWith("@somaiya.edu")) {
-    //           localStorage.setItem('isAuth', true)
-    //           setIsAuth(true)
-    //           navigate('/form1');
-    //       } else {
-    //           setError("Login allowed only from Somaiya domain.");
-    //       }
-    //   })
-    //   .catch((error) => {
-    //       setError(error.message)
-    //   })
+    //     signInWithPopup(auth, provider)
+    //     .then((result) => {
+    //         const credential = GoogleAuthProvider.credentialFromResult(result)
+    //         const token = credential.accessToken
+    //         const user = result.user
+    //         localStorage.setItem('isAuth', true)
+    //         setIsAuth(true)
+    //         navigate('/form1')
+    //     })
+    //     .catch((error) => {
+    //         setError(error.message)
+    //     })
     // }
-    
 
+    const handleSignIn = () => {
+     
+      signInWithPopup(auth, provider)
+      .then((result) => {
+          const credential = GoogleAuthProvider.credentialFromResult(result)
+          const token = credential.accessToken
+          const user = result.user
+          if (user.email.endsWith("@somaiya.edu")) {
+              localStorage.setItem('isAuth', true)
+              setIsAuth(true)
+              navigate('/form1');
+          } else {
+              setError("Login allowed only from Somaiya domain.");
+          }
+      })
+      .catch((error) => {
+          setError(error.message)
+      })
+    }
+    
 const handleAlertDismiss = () => {
     setError(null);
 };
@@ -137,9 +136,6 @@ const handleAlertDismiss = () => {
                     <Form>
                         <Button variant="primary" onClick={handleSignIn} className="w-100 mt-3">Sign In with Google</Button>
                     </Form>
-                    {/* <p className="mt-3">
-                        Don't have an account? <Link to="/register">Register</Link>
-                    </p> */}
                 </Card>
             </Col>
         </Row>
@@ -157,8 +153,6 @@ const handleAlertDismiss = () => {
           zIndex: 1,
           bottom: 0,
           left: 0,
-          // height: '100vh',
-          // width: '100vw'
         }}
       />
     </Container>

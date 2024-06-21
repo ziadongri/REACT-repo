@@ -89,8 +89,14 @@ function Form2C(){
 
     const handleUpload = (e, documentIdentifier) => {
       const file = e.target.files[0];
-    
+      const maxSize = 5 * 1024 * 1024; // 1MB in bytes
+
       if (file) {
+        if (file.size > maxSize) {
+          alert("File size exceeds the 5MB limit. Please upload a smaller file.");
+          return;
+        }
+    
         const storageRef = ref(storage, `documents/${file.name}`);
         const uploadTask = uploadBytesResumable(storageRef, file);
     
@@ -2350,11 +2356,11 @@ years score is considered for promotion as per UGC notification Feb
       
     </tr>
     <tr>
-      <th style={{ textAlign: "center", verticalAlign: "middle" }}> No: Enrolled</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}> No. of  Enrolled Candidate</th>
 
-      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Thesis Submitted</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>No. of Thesis Submitted</th>
 
-      <th style={{ textAlign: "center", verticalAlign: "middle" }}>Degree Awarded</th>
+      <th style={{ textAlign: "center", verticalAlign: "middle" }}>No. of Degree Awarded</th>
 
       <th style={{ textAlign: "center", verticalAlign: "middle" }}>Self appraisal Score</th>
         </tr>
@@ -2423,10 +2429,15 @@ years score is considered for promotion as per UGC notification Feb
                 style={{ textAlign: "center" }}
                 value={researchguidance.thesis}
                 onChange={(e) =>{
+                  const inputValue = e.target.value;
+                  
+                  const newValue = /^\d*$/.test(inputValue) ? inputValue : '0';
+
                   const newResearchGuidance = [...ResearchGuidance]
-                  newResearchGuidance[index].thesis = e.target.value
-                  setResearchGuidance(newResearchGuidance)
-                } } disabled={!isEditable}/>
+                  newResearchGuidance[index].thesis = newValue
+                  setResearchGuidance(newResearchGuidance) } }
+                disabled={!isEditable}
+                />
             </td>
             
             <td>
@@ -2435,10 +2446,14 @@ years score is considered for promotion as per UGC notification Feb
                 style={{ textAlign: "center" }}
                 value={researchguidance.degree}
                 onChange={(e) =>{
+                  const inputValue = e.target.value;
+                  
+                  const newValue = /^\d*$/.test(inputValue) ? inputValue : '0';
                   const newResearchGuidance = [...ResearchGuidance]
-                  newResearchGuidance[index].degree = e.target.value
-                  setResearchGuidance(newResearchGuidance)
-                } } disabled={!isEditable}/>
+                  newResearchGuidance[index].degree = newValue
+                  setResearchGuidance(newResearchGuidance) } }
+                disabled={!isEditable}
+                />
             </td>
 
                 <td>
@@ -2568,6 +2583,7 @@ years score is considered for promotion as per UGC notification Feb
                   setTrainingCourse(newTrainingCourse)
                 } } disabled={!isEditable}> 
                 <option value="">Select</option>
+                <option value="No Criteria">No Criteria</option>
                 <option value="Evaluation Criteria: (a)">Evaluation Criteria: (a)</option>
                 <option value="Evaluation Criteria: (b)">Evaluation Criteria: (b)</option>
                 <option value="Evaluation Criteria: (c)">Evaluation Criteria: (c)</option>
@@ -2785,6 +2801,7 @@ years score is considered for promotion as per UGC notification Feb
                         }} disabled={!isEditable}
                       >
                         <option value="">Select Level</option>
+                        <option value="No level">No Level</option>
                         <option value="International">International</option>
                         <option value="National">National</option>
                         <option value="State/Regional">State/Regional</option>
@@ -2945,6 +2962,7 @@ years score is considered for promotion as per UGC notification Feb
                     }} disabled={!isEditable}
                   >
                     <option value="">Select Level</option>
+                    <option value="No level">No Level</option>
                         <option value="International">International</option>
                         <option value="National">National</option>
                         <option value="State/Regional">State/Regional</option>
@@ -3099,6 +3117,7 @@ years score is considered for promotion as per UGC notification Feb
                     }} disabled={!isEditable}
                   >
                     <option value="">Select Level</option>
+                    <option value="No level">No Level</option>
                         <option value="International">International</option>
                         <option value="National">National</option>
                         <option value="State/Regional">State/Regional</option>

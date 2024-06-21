@@ -75,7 +75,8 @@ function Form1PCH() {
         'radhika.kotecha@somaiya.edu',
         'sarita.ambadekar@somaiya.edu',
         'harsham@somaiya.edu',
-        'vice_principal@somaiya.edu'
+        'vice_principal@somaiya.edu',
+        'khurshiddongrk@gmail.com'
       ];
       // Check if email exists in the allowed list (case insensitive)
       return allowedEmails.some(allowedEmail => allowedEmail.toLowerCase() === email.toLowerCase());
@@ -86,7 +87,6 @@ function Form1PCH() {
         fetchFacultyData();
       }
     }, [department]);
-  
 
 
     const handleSubmit = async (e) => {

@@ -29,26 +29,6 @@ function Form1PC() {
       });
       return unsubscribe;
     }, [navigate]);
-  
-    // const fetchHODData = async (uid) => {
-    //   const docRef = doc(db, 'hod', uid);
-    //   try {
-    //     const docSnap = await getDoc(docRef);
-    //     if (docSnap.exists()) {
-    //       const data = docSnap.data();
-    //       setHODData(data);
-    //     }
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // };
-  
-    // useEffect(() => {
-    //   if (user) {
-    //     fetchHODData(user.uid);
-    //   }
-    // }, [user]);
-
 
     const fetchHODData = async () => {
       const q = query(collection(db, 'hod'), where('department', '==', department));
@@ -87,6 +67,10 @@ function Form1PC() {
       fetchFacultyData();
     }
     , [department]);
+
+    const filteredHODData = HODData.filter((hod) => hod.year === year && hod.department === department);
+    const filteredFacultyData = facultyData.filter((faculty) => faculty.year === year && faculty.department === department);
+  
 
     if (loading) {
       return (
@@ -187,7 +171,7 @@ function Form1PC() {
                       onChange={(e) => setName(e.target.value)}
                     >
                       <option value="">Select Name</option>
-                      {HODData.map((hod, index) => {
+                      {filteredHODData.map((hod, index) => {
                         return (
                           <option key={index} value={hod.name}>
                             {hod.name}
@@ -199,8 +183,8 @@ function Form1PC() {
                 </Row>
               </Form.Group>
 
-              {HODData.map((hod, index) => {
-                if ((hod.name === name) & (hod.year === year)) {
+              {filteredHODData.map((hod, index) => {
+                if ((hod.name === name) && (hod.year === year)) {
                   return (
                     <div key={index}>
                       <Form.Group className="mb-3" controlId="name">
@@ -334,7 +318,7 @@ function Form1PC() {
                       onChange={(e) => setFacultyName(e.target.value)}
                     >
                       <option value="">Select Name</option>
-                      {facultyData.map((faculty, index) => {
+                      {filteredFacultyData.map((faculty, index) => {
                         return (
                           <option key={index} value={faculty.name}>
                             {faculty.name}
@@ -346,13 +330,8 @@ function Form1PC() {
                 </Row>
               </Form.Group>
 
-              
-            </Form>
-
-            <Form onSubmit={handleSubmit}>
-              {/* Display faculty data based on the selected name */}
               {facultyData.map((faculty, index) => {
-                if ((faculty.name === facultyName) & (faculty.year === year)) {
+                if ((faculty.name === facultyName) && (faculty.year === year)) {
                   return (
                     <div key={index}>
                       <Form.Group className="mb-3" controlId="name">
@@ -473,9 +452,6 @@ function Form1PC() {
                   return null; // Don't display if the name doesn't match
                 }
               })}
-
-              
-
               <div className="text-center mb-4">
                 <Row>               
                   <Col>
@@ -487,6 +463,15 @@ function Form1PC() {
                   </Col>
                 </Row>
               </div>
+            </Form>
+
+            <Form onSubmit={handleSubmit}>
+              {/* Display faculty data based on the selected name */}
+              
+
+              
+
+              
             </Form>
           </Col>
           {/* <Footer/> */}

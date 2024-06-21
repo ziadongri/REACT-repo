@@ -109,9 +109,15 @@ useEffect(() => {
 
   const handleUpload = (e, documentIdentifier) => {
     const file = e.target.files[0];
+    const maxSize = 1 * 1024 * 1024; // 1MB in bytes
 
+      if (file) {
   
-    if (file) {
+    if (file.size > maxSize) {
+        alert("File size exceeds the 1MB limit. Please upload a smaller file.");
+        return;
+      }
+
       const storageRef = ref(storage, `documents/${file.name}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
   
