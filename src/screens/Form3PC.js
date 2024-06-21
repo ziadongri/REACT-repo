@@ -240,52 +240,26 @@ const handleSubmit = async (e) => {
             <tbody>
             <tr>
               <td>Teaching</td>
-              <td>{facultyData && facultyData.teaching}</td>
-              {/* <td>
-                <Form.Control
-                  type="text"
-                  value={facultyData.teaching}
-                  // onChange={(e) => setFacultyData(e.target.value)}                 
-                />
-              </td> */}
+              <td>{facultyData && facultyData.teachingData}</td>
+             
             </tr>
   
             <tr>
               <td>Extension</td>
-              <td>{facultyData && facultyData.extension}</td>
-              {/* <td>
-                <Form.Control
-                  type="text"
-                  value={facultyData.extension || ""}
-                  // onChange={(e) => setFacultyData(e.target.value)}
-                  
-                />
-              </td> */}
+              <td>{facultyData && facultyData.extensionData}</td>
+             
             </tr>
   
             <tr>
               <td>Research</td>
-              <td>{facultyData && facultyData.research}</td>
-              {/* <td>
-                <Form.Control
-                  type="text"
-                  value={facultyData.research || ""}
-                  // onChange={(e) => setFacultyData(e.target.value)}                  
-                />
-              </td> */}
+              <td>{facultyData && facultyData.researchData}</td>
+             
             </tr>
   
             <tr>
               <td>Administration</td>
-              <td>{facultyData && facultyData.administration}</td>
-              {/* <td>
-                <Form.Control
-                  type="text"
-                  value={facultyData && facultyData.administration}
-                  // onChange={(e) => setFacultyData(e.target.value)}
-                  
-                />
-              </td> */}
+              <td>{facultyData && facultyData.administrationData}</td>
+              
             </tr>
   
             </tbody>
@@ -302,7 +276,7 @@ const handleSubmit = async (e) => {
             <Form.Control
               as="textarea"
               rows={3}
-              value={facultyData && facultyData.justification}
+              value={facultyData && facultyData.justificationhod}
               readOnly
               
             />
@@ -319,7 +293,7 @@ const handleSubmit = async (e) => {
             <Form.Control
               as="textarea"
               rows={3}
-              value={facultyData && facultyData.commentsHOD}
+              value={facultyData && facultyData.commentshod}
               readOnly
               
             />
@@ -336,7 +310,7 @@ const handleSubmit = async (e) => {
             <Form.Control
               as="textarea"
               rows={3}
-              value={facultyData && facultyData.suggestion}
+              value={facultyData && facultyData.suggestionhod}
               readOnly
               
             />

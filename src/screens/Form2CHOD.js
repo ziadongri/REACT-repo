@@ -130,7 +130,7 @@ const fetchData = async () => {
       // Update document with data
       await updateDoc(docRef, data);
       alert("Data saved successfully!");
-      navigate('/form3HOD', {state: {facultyUID: facultyUID}});
+      navigate('/form3hod', {state: {facultyUID: facultyUID}});
     }
 
     

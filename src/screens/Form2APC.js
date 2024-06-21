@@ -9,7 +9,7 @@ import {
   Table,
 } from "react-bootstrap";
 import { auth, db, storage } from "../firebase";
-import { doc, collection, getDoc, setDoc, updateDoc, addDoc } from "firebase/firestore";
+import { doc, collection, getDoc, getDocs, query, where, setDoc, updateDoc, addDoc } from "firebase/firestore";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import {signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
@@ -20,7 +20,10 @@ function Form2APC() {
   const [facultyData, setFacultyData] = useState(null);
   const [comments1, setComments1] = useState("");
   const location = useLocation();
+  const department = location.state.department;
+  const [HODData, setHODData] = useState([]);
   const facultyUID = location.state.facultyUID;
+  console.log(facultyUID);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -96,6 +99,40 @@ function Form2APC() {
   //   }
   // };
 
+  const fetchHODData = async () => {
+    const q = query(collection(db, 'hod'), where('department', '==', department));
+    const querySnapshot = await getDocs(q);
+    const tempDoc = [];
+    querySnapshot.forEach((doc) => {
+      tempDoc.push({ ...doc.data(), id: doc.id });
+    });
+    setHODData(tempDoc);
+  }
+
+  useEffect(() => {
+    fetchHODData();
+  }
+  , [department]);
+
+
+  const fetchFacultyData = async () => {
+    const q = query(collection(db, 'faculty'), where('department', '==', department));
+    const querySnapshot = await getDocs(q);
+    const facultyDoc = [];
+    querySnapshot.forEach((doc) => {
+      facultyDoc.push({ ...doc.data(), id: doc.id });
+    });
+    setFacultyData(facultyDoc);
+    console.log(facultyDoc);
+
+  }
+
+  useEffect(() => {
+    fetchFacultyData();
+  }
+  , [department]);
+
+
   useEffect(() => {
     const fetchData = async () => {
       const facultyRef = doc(db, "faculty", facultyUID);
@@ -121,9 +158,6 @@ function Form2APC() {
     return <p>Loading...</p>;
   }
 
-  // if (!facultyData) {
-  //   return <p>Faculty data not found.</p>;
-  // }
 
   const handleForm2BPCNavigation = async (e) => {  
     e.preventDefault();

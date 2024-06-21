@@ -45,11 +45,7 @@ function Form1PC() {
     }
     , [department]);
 
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      navigate('/form2aprincipal', { state: {facultyUID: facultyData[0].uid} });
-      console.log(facultyData[0].id);
-    };
+ 
 
     const fetchFacultyData = async () => {
       const q = query(collection(db, 'faculty'), where('department', '==', department));
@@ -70,7 +66,12 @@ function Form1PC() {
 
     const filteredHODData = HODData.filter((hod) => hod.year === year && hod.department === department);
     const filteredFacultyData = facultyData.filter((faculty) => faculty.year === year && faculty.department === department);
-  
+    
+     const handleSubmit = async (e) => {
+      e.preventDefault();
+      navigate('/form2aprincipal', { state: {facultyUID: facultyData[0].uid} });
+      console.log(facultyData[0].id);
+    };
 
     if (loading) {
       return (

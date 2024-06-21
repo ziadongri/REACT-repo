@@ -24,7 +24,7 @@ function Form3PCH() {
   const [researchDataPC, setResearchDataPC] = useState("");
   const [administrationDataPC, setAdministrationDataPC] = useState("");
   const [justificationPC, setJustificationPC] = useState("");
-  const [commentshodPC, setCommentsHODPC] = useState("");
+  const [commentsPC, setCommentsPC] = useState("");
   const [suggestionPC, setSuggestionPC] = useState("");
 
   const location = useLocation();
@@ -63,99 +63,19 @@ function Form3PCH() {
      }
 
      if (docSnap.exists()) {
-      setTeachingDataPC(docSnap.data().teaching || "");
-      setExtensionDataPC(docSnap.data().extension || "");
-      setResearchDataPC(docSnap.data().research || "");
-      setAdministrationDataPC(docSnap.data().administration || "");
-      setJustificationPC(docSnap.data().justification || "");
-      setCommentsHODPC(docSnap.data().commentsHOD || "");
-      setSuggestionPC(docSnap.data().suggestion || "");
+      setTeachingDataPC(docSnap.data().teachingDataPC || "");
+      setExtensionDataPC(docSnap.data().extensionDataPC || "");
+      setResearchDataPC(docSnap.data().researchDataPC || "");
+      setAdministrationDataPC(docSnap.data().administrationDataPC || "");
+      setJustificationPC(docSnap.data().justificationPC || "");
+      setCommentsPC(docSnap.data().commentsPC || "");
+      setSuggestionPC(docSnap.data().suggestionPC || "");
       }
       console.log("Document data:", docSnap.data());
 
     }
     fetchData();
   }, [facultyUID]);
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   const facultyRef = doc(db, "faculty", facultyUID);
-  //   const docRef = doc(facultyRef, "partC", "partC");
-  //   const docSnap = await getDoc(docRef);
-
-  //   if((justificationPC.length > 50 && justificationPC.length < 500) && (commentshodPC.length > 50 && commentshodPC.length < 500) && (suggestionPC.length > 50 && suggestionPC.length < 500)){
-  //     if (docSnap.exists()) {
-  //       await updateDoc(docRef, {
-  //         teaching: teachingDataPC,
-  //         extension: extensionDataPC,
-  //         research: researchDataPC,
-  //         administration: administrationDataPC,
-  //         justification: justificationPC,
-  //         commentsHOD: commentshodPC,
-  //         suggestion: suggestionPC,
-  //       });
-        
-  //     } else {
-  //       await setDoc(docRef, {
-  //         teaching: teachingDataPC,
-  //         extension: extensionDataPC,
-  //         research: researchDataPC,
-  //         administration: administrationDataPC,
-  //         justification: justificationPC,
-  //         commentsHOD: commentshodPC,
-  //         suggestion: suggestionPC,
-
-  //       });
-  //     }
-  //     navigate('/formsubmission', {state: {facultyUID: facultyUID}});
-  //   } else if(justificationPC.length < 50 || justificationPC.length > 500){
-  //     alert("Justification should be between 50 and 500 characters");
-  //    } else if(commentshodPC.length < 50 || commentshodPC.length > 500){  
-  //       alert("Comments should be between 50 and 500 characters");
-  //     } else if(suggestionPC.length < 50 || suggestionPC.length > 500){
-  //       alert("Suggestions should be between 50 and 500 characters");
-  //     }
-  // }
-
-  // const handleSave = async (e) => {
-  //   e.preventDefault();
-  //   const facultyRef = doc(db, "faculty", facultyUID);
-  //   const docRef = doc(facultyRef, "partC", "partC");
-  //   const docSnap = await getDoc(docRef);
-
-  //   if((justificationPC.length > 50 && justificationPC.length < 500) && (commentshodPC.length > 50 && commentshodPC.length < 500) && (suggestionPC.length > 50 && suggestionPC.length < 500)){
-  //     if (docSnap.exists()) {
-  //       await updateDoc(docRef, {
-  //         teachingpc: teachingDataPC,
-  //         extensionpc: extensionDataPC,
-  //         researchpc: researchDataPC,
-  //         administrationpc: administrationDataPC,
-  //         justificationpc: justificationPC,
-  //         commentsHODpc: commentshodPC,
-  //         suggestionpc: suggestionPC,
-  //       });
-        
-  //     } else {
-  //       await setDoc(docRef, {
-  //         teachingpc: teachingDataPC,
-  //         extensionpc: extensionDataPC,
-  //         researchpc: researchDataPC,
-  //         administrationpc: administrationDataPC,
-  //         justificationpc: justificationPC,
-  //         commentsHODpc: commentshodPC,
-  //         suggestionpc: suggestionPC,
-
-  //       });
-  //     }
-  //   alert("Data saved successfully!");
-  // } else if(justificationPC.length < 50 || justificationPC.length > 500){
-  //   alert("Justification should be between 50 and 500 characters");
-  //   } else if(commentshodPC.length < 50 || commentshodPC.length > 500){  
-  //     alert("Comments should be between 50 and 500 characters");
-  //   } else if(suggestionPC.length < 50 || suggestionPC.length > 500){
-  //     alert("Suggestions should be between 50 and 500 characters");
-  //   }
-  // }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -179,8 +99,8 @@ function Form3PCH() {
       if (
         justificationPC.length < 50 ||
         justificationPC.length > 500 ||
-        commentshodPC.length < 50 ||
-        commentshodPC.length > 500 ||
+        commentsPC.length < 50 ||
+        commentsPC.length > 500 ||
         suggestionPC.length < 50 ||
         suggestionPC.length > 500
       ) {
@@ -189,13 +109,13 @@ function Form3PCH() {
       }
   
       const data = {
-        teaching: teachingDataPC,
-        extension: extensionDataPC,
-        research: researchDataPC,
-        administration: administrationDataPC,
-        justification: justificationPC,
-        commentsHOD: commentshodPC,
-        suggestion: suggestionPC,
+        teachingDataPC: teachingDataPC,
+        extensionDataPC: extensionDataPC,
+        researchDataPC: researchDataPC,
+        administrationDataPC: administrationDataPC,
+        justificationPC: justificationPC,
+        commentsPC: commentsPC,
+        suggestionPC: suggestionPC,
       };
   
       if (docSnap.exists()) {
@@ -235,8 +155,8 @@ function Form3PCH() {
       if (
         justificationPC.length < 50 ||
         justificationPC.length > 500 ||
-        commentshodPC.length < 50 ||
-        commentshodPC.length > 500 ||
+        commentsPC.length < 50 ||
+        commentsPC.length > 500 ||
         suggestionPC.length < 50 ||
         suggestionPC.length > 500
       ) {
@@ -245,13 +165,13 @@ function Form3PCH() {
       }
   
       const data = {
-        teaching: teachingDataPC,
-        extension: extensionDataPC,
-        research: researchDataPC,
-        administration: administrationDataPC,
-        justification: justificationPC,
-        commentsHOD: commentshodPC,
-        suggestion: suggestionPC,
+        teachingDataPC: teachingDataPC,
+        extensionDataPC: extensionDataPC,
+        researchDataPC: researchDataPC,
+        administrationDataPC: administrationDataPC,
+        justificationPC: justificationPC,
+        commentsPC: commentsPC,
+        suggestionPC: suggestionPC,
       };
   
       if (docSnap.exists()) {
@@ -443,8 +363,8 @@ function Form3PCH() {
               <Form.Control
                 as="textarea"
                 rows={3}
-                value={commentshodPC}
-                onChange={(e) => setCommentsHODPC(e.target.value)}
+                value={commentsPC}
+                onChange={(e) => setCommentsPC(e.target.value)}
                 minLength={50}
                 maxLength={500}
               />

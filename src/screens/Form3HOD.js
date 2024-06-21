@@ -23,9 +23,9 @@ function Form3HOD() {
   const [extensionData, setExtensionData] = useState(null);
   const [researchData, setResearchData] = useState(null);
   const [administrationData, setAdministrationData] = useState(null);
-  const [justification, setJustification] = useState(null);
+  const [justificationhod, setJustificationHOD] = useState(null);
   const [commentshod, setCommentsHOD] = useState(null);
-  const [suggestion, setSuggestion] = useState(null);
+  const [suggestionhod, setSuggestionHOD] = useState(null);
 
     const location = useLocation();
     const facultyUID = location.state.facultyUID;
@@ -36,14 +36,6 @@ function Form3HOD() {
       alert("Something went wrong!");
     }
 
-  const grades = [
-    { label: 'Outstanding (A+)', value: 'A+' },
-    { label: 'Very Good (A)', value: 'A' },
-    { label: 'Positively Good (B+)', value: 'B+' },
-    { label: 'Good (B)', value: 'B' },
-    { label: 'Average (B-)', value: 'B-' },
-    { label: 'Below Average (C)', value: 'C' }
-  ];
     
     useEffect(() => {
       const unsubscribe= auth.onAuthStateChanged (async (user) => {
@@ -73,13 +65,13 @@ function Form3HOD() {
 
        if (docSnap.exists()) {
         
-        setTeachingData(docSnap.data().teaching);
-        setExtensionData(docSnap.data().extension);
-        setResearchData(docSnap.data().research);
-        setAdministrationData(docSnap.data().administration);
-         setJustification(docSnap.data().justification);
-         setCommentsHOD(docSnap.data().commentsHOD);
-         setSuggestion(docSnap.data().suggestion);
+        setTeachingData(docSnap.data().teachingData);
+        setExtensionData(docSnap.data().extensionData);
+        setResearchData(docSnap.data().researchData);
+        setAdministrationData(docSnap.data().administrationData);
+        setJustificationHOD(docSnap.data().justification);
+        setCommentsHOD(docSnap.data().commentsHOD);
+        setSuggestionHOD(docSnap.data().suggestion);
 
         }
         console.log("Document data:", docSnap.data());
@@ -92,85 +84,112 @@ function Form3HOD() {
       e.preventDefault();
       const facultyRef = doc(db, "faculty", facultyUID);
       const docRef = doc(facultyRef, "partC", "partC");
-      const docSnap = await getDoc(docRef);
-
-      if((justification.length > 50 && justification.length < 500) && (commentshod.length > 50 && commentshod.length < 500) && (suggestion.length > 50 && suggestion.length < 500)){
-      if (docSnap.exists()) {
-        await updateDoc(docRef, {
-          teaching: teachingData,
-          extension: extensionData,
-          research: researchData,
-          administration: administrationData,
-          justification: justification,
-          commentsHOD: commentshod,
-          suggestion: suggestion,
-        });
-        
-      } else {
-        await setDoc(docRef, {
-          teaching: teachingData,
-          extension: extensionData,
-          research: researchData,
-          administration: administrationData,
-          justification: justification,
-          commentsHOD: commentshod,
-          suggestion: suggestion,
-
-        });
-      }
-
       
-      navigate('/formsubmission', {state: {facultyUID: facultyUID}});
-    } else if(justification.length < 50 || justification.length > 500){
-      alert("Justification should be between 50 and 500 characters");
-    } else if(commentshod.length < 50 || commentshod.length > 500){
-      alert("Comments should be between 50 and 500 characters");
-    } else if(suggestion.length < 50 || suggestion.length > 500){
-      alert("Suggestions should be between 50 and 500 characters");
-    }
-    }
+      try {
+        const docSnap = await getDoc(docRef);
+        console.log('Document Snapshot:', docSnap);
+    
+        if (
+          teachingData === "" ||
+          extensionData === "" ||
+          researchData === "" ||
+          administrationData === ""
+        ) {
+          alert("Please fill in all the required fields (Teaching, Extension, Research, Administration).");
+          return;
+        }
+    
+        if (
+          justificationhod.length < 50 ||
+          justificationhod.length > 500 ||
+          commentshod.length < 50 ||
+          commentshod.length > 500 ||
+          suggestionhod.length < 50 ||
+          suggestionhod.length > 500
+        ) {
+          alert("Justification, Comments, and Suggestions should each be between 50 and 500 characters.");
+          return;
+        }
+    
+        const data = {
+          teachingData: teachingData,
+          extensionData: extensionData,
+          researchData: researchData,
+          administrationData: administrationData,
+          justificationhod: justificationhod,
+          commentshod: commentshod,
+          suggestionhod: suggestionhod,
+        };
+    
+        if (docSnap.exists()) {
+          console.log('Updating document...');
+          await updateDoc(docRef, data);
+        } else {
+          console.log('Setting new document...');
+          await setDoc(docRef, data);
+        }
+    
+        alert("Form submitted successfully!");
+        navigate('/formsubmission', { state: { facultyUID: facultyUID } });
+      } catch (error) {
+        console.error('Error submitting form:', error);
+      }
+    };
 
     const handleSave = async (e) => {
       e.preventDefault();
       const facultyRef = doc(db, "faculty", facultyUID);
       const docRef = doc(facultyRef, "partC", "partC");
-      const docSnap = await getDoc(docRef);
-
-      if((justification.length > 50 && justification.length < 500) && (commentshod.length > 50 && commentshod.length < 500) && (suggestion.length > 50 && suggestion.length < 500)){
-      if (docSnap.exists()) {
-        await updateDoc(docRef, {
-          teaching: teachingData,
-          extension: extensionData,
-          research: researchData,
-          administration: administrationData,
-          justification: justification,
-          commentsHOD: commentshod,
-          suggestion: suggestion,
-        });
-        
-      } else {
-        await setDoc(docRef, {
-          teaching: teachingData,
-          extension: extensionData,
-          research: researchData,
-          administration: administrationData,
-          justification: justification,
-          commentsHOD: commentshod,
-          suggestion: suggestion,
-
-        });
-      }
-
       
-      alert("Data saved successfully!");
-    } else if(justification.length < 50 || justification.length > 500){
-      alert("Justification should be between 50 and 500 characters");
-    } else if(commentshod.length < 50 || commentshod.length > 500){
-      alert("Comments should be between 50 and 500 characters");
-    } else if(suggestion.length < 50 || suggestion.length > 500){
-      alert("Suggestions should be between 50 and 500 characters");
-    }
-    }
+      try {
+        const docSnap = await getDoc(docRef);
+        console.log('Document Snapshot:', docSnap);
+    
+        if (
+          teachingData === "" ||
+          extensionData === "" ||
+          researchData === "" ||
+          administrationData === ""
+        ) {
+          alert("Please fill in all the required fields (Teaching, Extension, Research, Administration).");
+          return;
+        }
+    
+        if (
+          justificationhod.length < 50 ||
+          justificationhod.length > 500 ||
+          commentshod.length < 50 ||
+          commentshod.length > 500 ||
+          suggestionhod.length < 50 ||
+          suggestionhod.length > 500
+        ) {
+          alert("Justification, Comments, and Suggestions should each be between 50 and 500 characters.");
+          return;
+        }
+    
+        const data = {
+          teachingData: teachingData,
+          extensionData: extensionData,
+          researchData: researchData,
+          administrationData: administrationData,
+          justificationhod: justificationhod,
+          commentshod: commentshod,
+          suggestionhod: suggestionhod,
+        };
+    
+        if (docSnap.exists()) {
+          console.log('Updating document...');
+          await updateDoc(docRef, data);
+        } else {
+          console.log('Setting new document...');
+          await setDoc(docRef, data);
+        }
+    
+        alert("Data saved successfully!");
+      } catch (error) {
+        console.error('Error saving data:', error);
+      }
+    };
 
     const handleForm2AHODNavigation = async (e) => {
       e.preventDefault();
@@ -375,8 +394,8 @@ function Form3HOD() {
           <Form.Control
             as="textarea"
             rows={3}
-            value={justification}
-            onChange={(e) => setJustification(e.target.value)}
+            value={justificationhod}
+            onChange={(e) => setJustificationHOD(e.target.value)}
             minLength={50}
             maxLength={500}
           />
@@ -411,8 +430,8 @@ function Form3HOD() {
           <Form.Control
             as="textarea"
             rows={3}
-            value={suggestion}
-            onChange={(e) => setSuggestion(e.target.value)}
+            value={suggestionhod}
+            onChange={(e) => setSuggestionHOD(e.target.value)}
             minLength={50}
             maxLength={500}
           />
