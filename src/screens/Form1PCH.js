@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { auth, db } from '../firebase';
-import { doc, getDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import { doc, getDoc, collection, query, where, getDocs, updateDoc, setDoc} from 'firebase/firestore';
 import {signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/form.css';
@@ -16,6 +16,7 @@ function Form1PCH() {
     const [facultyName, setFacultyName] = useState('');
     const [year, setYear] = useState('');
     const [department, setDepartment] = useState('');
+    // const [isEditablePrincipal, setIsEditablePrincipal] = useState(true);
     let navigate = useNavigate();
   
     useEffect(() => {
@@ -87,6 +88,39 @@ function Form1PCH() {
         fetchFacultyData();
       }
     }, [department]);
+
+
+    // const toggleEditableStatePrincipal = async () => {
+    //   const newState = !isEditablePrincipal;
+    //   setIsEditablePrincipal(newState);
+  
+     
+    //   const principalDocRef = doc(db, 'principal', user.uid);
+    //   try {
+    //     await updateDoc(principalDocRef, { isEditablePC: newState });
+    //   } catch (error) {
+    //     console.error("Error updating document: ", error);
+    //   }
+    // };
+
+    // const fetchPrincipalData = async (uid) => {
+    //   const docRef = doc(db, 'principal', uid);
+    //   try {
+    //     const docSnap = await getDoc(docRef);
+    //     if (docSnap.exists()) {
+    //       const data = docSnap.data();
+    //       setIsEditablePrincipal(data.isEditablePC ?? true); // default to editable
+    //     }
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // };
+  
+    // useEffect(() => {
+    //   if (user) {
+    //     fetchPrincipalData(user.uid);
+    //   }
+    // }, [user]);
 
 
     const handleSubmit = async (e) => {
@@ -185,9 +219,11 @@ function Form1PCH() {
                       <option value="">Select Name</option>
                       {facultyData.map((faculty, index) => {
                         return (
+                          (faculty.year === year) ? (
                           <option key={index} value={faculty.name}>
                             {faculty.name}
                           </option>
+                          ) : null
                         );
                       })}
                     </Form.Control>               
@@ -336,6 +372,15 @@ function Form1PCH() {
                   </Col>
                 </Row>
               </div>
+
+              {/* <br/>
+              <div className="text-center">
+      
+        <Button onClick={toggleEditableStatePrincipal}>
+          {isEditablePrincipal ? "Disable Faculty Inputs" : "Enable Faculty Inputs"}
+        </Button>
+      
+    </div> */}
             </Form>
           </Col>
           {/* <Footer/> */}
