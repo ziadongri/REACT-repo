@@ -69,9 +69,9 @@ function Form3HOD() {
         setExtensionData(docSnap.data().extensionData);
         setResearchData(docSnap.data().researchData);
         setAdministrationData(docSnap.data().administrationData);
-        setJustificationHOD(docSnap.data().justification);
-        setCommentsHOD(docSnap.data().commentsHOD);
-        setSuggestionHOD(docSnap.data().suggestion);
+        setJustificationHOD(docSnap.data().justificationhod);
+        setCommentsHOD(docSnap.data().commentshod);
+        setSuggestionHOD(docSnap.data().suggestionhod);
 
         }
         console.log("Document data:", docSnap.data());

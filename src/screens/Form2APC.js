@@ -9,7 +9,7 @@ import {
   Table,
 } from "react-bootstrap";
 import { auth, db, storage } from "../firebase";
-import { doc, collection, getDoc, getDocs, query, where, setDoc, updateDoc, addDoc } from "firebase/firestore";
+import { doc, collection, getDoc, setDoc, updateDoc, addDoc } from "firebase/firestore";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import {signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
@@ -18,119 +18,23 @@ function Form2APC() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [facultyData, setFacultyData] = useState(null);
-  const [comments1, setComments1] = useState("");
   const location = useLocation();
-  const department = location.state.department;
-  const [HODData, setHODData] = useState([]);
   const facultyUID = location.state.facultyUID;
-  console.log(facultyUID);
-  const navigate = useNavigate();
+  let navigate = useNavigate();
+ 
+
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         setUser(user);
       } else {
-        navigate("/");
+        navigate('/');
       }
       setLoading(false);
     });
     return unsubscribe;
   }, [navigate]);
-
-  // useEffect(() => {
-  //   if (!facultyUID) {
-  //     console.error("facultyUID is not defined");
-  //     return;
-  //   }
-
-  //   const fetchData = async () => {
-  //     const facultyRef = doc(db, "faculty", facultyUID);
-  //     const docRef = doc(facultyRef, "partB", "CategoryA");
-  //     try {
-  //       const docSnap = await getDoc(docRef);
-  //       if (docSnap.exists()) {
-  //         setFacultyData(docSnap.data());
-  //         setComments1(docSnap.data().comments1);
-  //         console.log("Document data:", docSnap.data());
-  //       } else {
-  //         console.log("No such document!");
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching document:", error);
-  //     }
-  //   };
-  //   fetchData();
-  // }, [facultyUID]);
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   // Ensure remarksPrincipal is defined before proceeding
-  //   if (comments1 === "") {
-  //     alert("Remarks cannot be undefined");
-  //     return;
-  //   }
-
-  //   // Check if facultyUID is defined
-  //   if (!facultyUID) {
-  //     alert("Faculty UID is not defined");
-  //     return;
-  //   }
-
-  //   const facultyRef = doc(db, "faculty", facultyUID);
-  //   const docRef = doc(facultyRef, "partB", "CategoryA");
-  //   const docSnap = await getDoc(docRef);
-
-  //   try {
-  //     if (docSnap.exists()) {
-  //       await updateDoc(docRef, {
-  //         comments1: comments1,
-  //       });
-  //     } else {
-  //       await setDoc(docRef, {
-  //         comments1: comments1,
-  //       });
-  //     }
-  //     navigate("/form2bprincipal", { state: { facultyUID: facultyUID } });
-  //   } catch (error) {
-  //     console.error("Error updating document: ", error);
-  //     alert("An error occurred while submitting the form. Please try again.");
-  //   }
-  // };
-
-  const fetchHODData = async () => {
-    const q = query(collection(db, 'hod'), where('department', '==', department));
-    const querySnapshot = await getDocs(q);
-    const tempDoc = [];
-    querySnapshot.forEach((doc) => {
-      tempDoc.push({ ...doc.data(), id: doc.id });
-    });
-    setHODData(tempDoc);
-  }
-
-  useEffect(() => {
-    fetchHODData();
-  }
-  , [department]);
-
-
-  const fetchFacultyData = async () => {
-    const q = query(collection(db, 'faculty'), where('department', '==', department));
-    const querySnapshot = await getDocs(q);
-    const facultyDoc = [];
-    querySnapshot.forEach((doc) => {
-      facultyDoc.push({ ...doc.data(), id: doc.id });
-    });
-    setFacultyData(facultyDoc);
-    console.log(facultyDoc);
-
-  }
-
-  useEffect(() => {
-    fetchFacultyData();
-  }
-  , [department]);
 
 
   useEffect(() => {
@@ -140,7 +44,6 @@ function Form2APC() {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         setFacultyData(docSnap.data());
-       
         console.log("Document data:", docSnap.data());
       } else {
         console.log("No such document!");
@@ -153,11 +56,6 @@ function Form2APC() {
     navigate('/form2bprincipal', { state: { facultyUID: facultyUID } });
     // console.log(facultyAUID)
   }
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
 
   const handleForm2BPCNavigation = async (e) => {  
     e.preventDefault();
@@ -175,6 +73,7 @@ function Form2APC() {
   }
 
 
+  
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -245,7 +144,7 @@ function Form2APC() {
         <thead>
             <tr className="text-center">
             <th style={{ verticalAlign: 'middle'}}>Sr. No.</th>
-            <th style={{ verticalAlign: 'middle'}}>Courses Taught code and name </th>
+            <th style={{ verticalAlign: 'middle'}}>Courses Taught code and name</th>
             <th style={{ verticalAlign: 'middle'}}>Class for which conducted</th>
             <th style={{ verticalAlign: 'middle'}}>Target Lectures/ Practical</th>
             <th style={{ verticalAlign: 'middle'}}>Lectures/ Practical Actually conducted</th>
@@ -867,25 +766,6 @@ function Form2APC() {
         </Table>
 
         <div className="text-center mb-4" >
-      <Row>
-      <Form.Group className="mb-3 align-item-center" >
-            <Row>
-          <Col md={3} className="form-label">
-            <Form.Label>Comments:</Form.Label>
-          </Col>
-          <Col md={9}>
-            <Form.Control
-              type="text"
-              value={comments1}
-              onChange={(e) => setComments1(e.target.value)}
-                           
-            />
-          </Col>
-        </Row>
-            </Form.Group>
-      </Row>
-       
-
         <Row>
           <Col>
             <Button variant="primary" type="submit">
@@ -894,7 +774,13 @@ function Form2APC() {
               </Link>
             </Button>
           </Col>
-        
+          {/* <Col>
+            <Button variant="primary" type="submit" onClick={handleSubmit}>
+              <Link className="text-decoration-none text-white">
+                Save
+              </Link>
+            </Button>
+          </Col> */}
           <Col>
             <Button variant="primary" type="submit" onClick={handleSubmit}>
               <Link  className="text-decoration-none text-white">

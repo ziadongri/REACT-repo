@@ -16,7 +16,6 @@ function Form1BHOD() {
   const [year, setYear] = useState('');
   const [department, setDepartment] = useState('');
   const [isEditable, setIsEditable] = useState(true); // default to editable
-
   let navigate = useNavigate();
 
   const toggleEditableState = async () => {
@@ -44,7 +43,6 @@ function Form1BHOD() {
     });
     return unsubscribe;
   }, [navigate]);
-
 
   const fetchHODData = async (uid) => {
     const docRef = doc(db, 'hod', uid);

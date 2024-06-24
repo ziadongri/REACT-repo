@@ -111,7 +111,6 @@ const fetchData = async () => {
     alert("Data Saved");
   } 
   
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const facultyRef = doc(db, "faculty", facultyUID);

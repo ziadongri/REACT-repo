@@ -339,11 +339,8 @@ const handleSubmit = async (e) => {
           <div className="text-center mb-4" >
           <Row>
             <Col>
-              <Button variant="primary" type="submit">
-                <Link 
-                              onClick={handleForm2CPCNavigation}
-                              className="text-decoration-none text-white"
-                            >
+              <Button variant="primary" type="submit" onClick={handleForm2CPCNavigation}>
+                <Link  className="text-decoration-none text-white" >        
                   Previous
                 </Link>
               </Button>

@@ -472,8 +472,9 @@ years score is considered for promotion as per UGC notification Feb
       <Col>• Enter Publisher: {data.publisher}</Col></td>
       <td style={{ textAlign: "center" }}>{data.isbn}</td>
       <td style={{ textAlign: "center" }}>{data.peerreview}</td>
-      <td style={{ textAlign: "center" }}><Col>{data.coauthor}</Col>
-      <br/>
+      <td style={{ textAlign: "center" }}> <br/>
+        <Col>{data.coauthor}</Col>
+      <br/> <br/>
       <Col>• First Author: {data.mainauthor}</Col></td>
       
       <td style={{ textAlign: "center" }}>{data.selfscore}</td>
@@ -932,7 +933,7 @@ years score is considered for promotion as per UGC notification Feb
         <thead>
         <tr>
         <th rowSpan="2" style={{ textAlign: "center", verticalAlign: "middle" }}>III (e-i)</th>
-      <th colSpan="5" style={{ textAlign: "center", verticalAlign: "middle" }}>TRAINING COURSES AND Faculty Development Programs (not less than one week) max 30pts</th>
+      <th colSpan="6" style={{ textAlign: "center", verticalAlign: "middle" }}>TRAINING COURSES AND Faculty Development Programs (not less than one week) max 30pts</th>
       </tr>
       <tr>
       <th style={{ textAlign: "center", verticalAlign: "middle" }}>Programme</th>
@@ -988,7 +989,7 @@ years score is considered for promotion as per UGC notification Feb
       }
       <tr  style={{ textAlign: "left"}}>
         <td></td>
-        <td colspan="5"><Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
+        <td colspan="6"><Col style={{ fontWeight: 'bold' }}>Evaluation Criteria:</Col>
           <Col>a. courses (not less than three Weeks)/Workshops of not less than one week 20 / each event</Col>
 <Col>b. International conference/Seminar / Symposia 20 / each event</Col>
 <Col>c. National conference/Seminar / Symposia	10 / each event</Col>

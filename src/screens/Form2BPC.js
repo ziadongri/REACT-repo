@@ -10,7 +10,7 @@ function Form2BPC() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [facultyData, setFacultyData] = useState(null);
-const [comments2, setComments2] = useState("");
+
     const location = useLocation();
     const facultyUID = location.state.facultyUID;
     console.log(facultyUID);
@@ -19,6 +19,7 @@ const [comments2, setComments2] = useState("");
     if (!facultyUID) {
         alert("Something went wrong!");
     }
+
 
     useEffect(() => {   
         const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -34,83 +35,27 @@ const [comments2, setComments2] = useState("");
 
 
     
-    //       useEffect(() => {
-    //         const fetchData = async () => {
-    //           const facultyRef = doc(db, "faculty", facultyUID);
-    //           const docRef = doc(facultyRef, "partB", "CategoryB");
-    //           const docSnap = await getDoc(docRef);
-    //           if (docSnap.exists()) {
-    //             setFacultyData(docSnap.data());
-    //             setComments2(docSnap.data().comments2);
-    //             console.log("Document data:", docSnap.data());
-    //           } else {
-    //             console.log("No such document!");
-    //           }
+          useEffect(() => {
+            const fetchData = async () => {
+              const facultyRef = doc(db, "faculty", facultyUID);
+              const docRef = doc(facultyRef, "partB", "CategoryB");
+              const docSnap = await getDoc(docRef);
+              if (docSnap.exists()) {
+                setFacultyData(docSnap.data());
+                console.log("Document data:", docSnap.data());
+              } else {
+                console.log("No such document!");
+              }
         
-    //         }
-    //         fetchData();
-    //       } , [facultyUID]);  
+            }
+            fetchData();
+          } , [facultyUID]);  
           
-    //  const handleSubmit = async () => {
+     const handleSubmit = async () => {
 
-    //         navigate('/form2cprincipal', { state: { facultyUID: facultyUID } });
-    //         // console.log("Document written with ID: ", facultyUID);
-    //       }
-
-
-    useEffect(() => {
-      const fetchData = async () => {
-        const facultyRef = doc(db, "faculty", facultyUID);
-          const docRef = doc(facultyRef, "partB", "CategoryB");
-          const docSnap = await getDoc(docRef);
-          
-          if (docSnap.exists()) {
-            setFacultyData(docSnap.data());
-           //  console.log("Document data:", docSnap.data());
-           console.log("Document data:", facultyData);
-          } else {
-            // doc.data() will be undefined in this case
-            console.log("No such document!");
+            navigate('/form2cprincipal', { state: { facultyUID: facultyUID } });
+            // console.log("Document written with ID: ", facultyUID);
           }
-  
-          if (docSnap.exists()) {
-           setComments2(docSnap.data().comments2);
-           }
-           console.log("Document data:", docSnap.data());
-         }
-         fetchData();
-       }, [facultyUID]);
-  
-       const handleSubmit = async (e) => {
-        e.preventDefault();
-        
-        // Ensure remarksPrincipal is defined before proceeding
-        if (typeof comments2 === 'undefined' ||comments2 === "") {
-          alert("Remarks cannot be undefined");
-          return;
-        }
-      
-        const facultyRef = doc(db, "faculty", facultyUID);
-        const docRef = doc(facultyRef, "partB", "CategoryB");
-        const docSnap = await getDoc(docRef);
-      
-        try {
-          if (docSnap.exists()) {
-            await updateDoc(docRef, {
-             comments2: comments2
-            });
-          } else {
-            await setDoc(docRef, {
-              comments2: comments2
-            });
-          }
-          navigate('/form2cprincipal', { state: { facultyUID: facultyUID } });
-        } catch (error) {
-          console.error("Error updating document: ", error);
-          alert("An error occurred while submitting the form. Please try again.");
-        }
-      }
-
 
     const handleForm2APCNavigation = async (e) => {
         e.preventDefault();
@@ -750,30 +695,11 @@ const [comments2, setComments2] = useState("");
 
                   
                     <div className="text-center mb-4" >
-
-                    <Row>
-      <Form.Group className="mb-3 align-item-center" >
-            <Row>
-          <Col md={3} className="form-label">
-            <Form.Label>Comments:</Form.Label>
-          </Col>
-          <Col md={9}>
-            <Form.Control
-              type="text"
-              value={comments2}
-              onChange={(e) => setComments2(e.target.value)}
-                           
-            />
-          </Col>
-        </Row>
-            </Form.Group>
-      </Row>
-
                       <Row>
                         <Col>
-                          <Button variant="primary">
+                          <Button variant="primary" onClick={handleForm2APCNavigation}>
                             <Link
-                              onClick={handleForm2APCNavigation}
+                             
                               className="text-decoration-none text-white"
                             >
                               Previous
@@ -794,7 +720,7 @@ const [comments2, setComments2] = useState("");
                             onClick={handleSubmit}
                           >
                             <Link
-                              to="/form2cprincipal"
+                              
                               className="text-decoration-none text-white"
                             >
                               Next
