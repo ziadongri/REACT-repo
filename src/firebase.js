@@ -10,13 +10,15 @@ import {getStorage} from "firebase/storage";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
+
 const firebaseConfig = {
-  apiKey: "AIzaSyAf6MhhUc-_3QyZ9pUtSWu7l8T_A7mAOj4",
-  authDomain: "faculty-form-e409f.firebaseapp.com",
-  projectId: "faculty-form-e409f",
-  storageBucket: "faculty-form-e409f.appspot.com",
-  messagingSenderId: "986149598459",
-  appId: "1:986149598459:web:ec4bb407a5f963d7822c5e"
+  apiKey: "AIzaSyCn-TMsjSYcfoLfe93_pze0b9fWNw6eHtc",
+  authDomain: "faculty-form-1021d.firebaseapp.com",
+  projectId: "faculty-form-1021d",
+  storageBucket: "faculty-form-1021d.appspot.com",
+  messagingSenderId: "211567450129",
+  appId: "1:211567450129:web:20d9729db65197c351f9b0",
+  measurementId: "G-96682750DE"
 };
 
 // Initialize Firebase
