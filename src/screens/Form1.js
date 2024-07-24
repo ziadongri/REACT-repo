@@ -100,7 +100,7 @@ function Form1() {
       year,
       uid: user.uid,
     };
-    if (name === '' || department === '' || designation === '' || DOLpromotion === '' || address === '' || contact === '' || email === '' || freshQualification === '' || year === '') {
+    if (name === '' || department === '' || designation === '' || address === '' || contact === '' || email === '' || freshQualification === '' || year === '') {
       alert('Please fill all the fields');
       return;
     } else {
@@ -125,7 +125,7 @@ function Form1() {
       year,
       uid: user.uid,
     };
-    if (name === '' || department === '' || designation === '' || DOLpromotion === '' || address === '' || contact === '' || email === '' || freshQualification === '' || year === '') {
+    if (name === '' || department === '' || designation === '' || address === '' || contact === '' || email === '' || freshQualification === '' || year === '') {
       alert('Please fill all the fields');
       return;
     } else {
