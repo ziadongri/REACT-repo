@@ -109,12 +109,12 @@ useEffect(() => {
 
   const handleUpload = (e, documentIdentifier) => {
     const file = e.target.files[0];
-    const maxSize = 1 * 1024 * 1024; // 1MB in bytes
+    const maxSize = 10 * 1024 * 1024; // 10MB in bytes
 
       if (file) {
   
     if (file.size > maxSize) {
-        alert("File size exceeds the 1MB limit. Please upload a smaller file.");
+        alert("File size exceeds the 10MB limit. Please upload a smaller file.");
         return;
       }
 
